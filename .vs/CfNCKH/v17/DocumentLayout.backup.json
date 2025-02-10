@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{76ED9959-D02E-43E5-92E5-B8C132B66825}|CfNCKH.Core\\CfNCKH.Core.csproj|d:\\huykhoi\\net_cs\\cfnckh\\cfnckh.core\\service\\account\\iaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{76ED9959-D02E-43E5-92E5-B8C132B66825}|CfNCKH.Core\\CfNCKH.Core.csproj|solutionrelative:cfnckh.core\\service\\account\\iaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76ED9959-D02E-43E5-92E5-B8C132B66825}|CfNCKH.Core\\CfNCKH.Core.csproj|d:\\huykhoi\\net_cs\\cfnckh\\cfnckh.core\\service\\account\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{76ED9959-D02E-43E5-92E5-B8C132B66825}|CfNCKH.Core\\CfNCKH.Core.csproj|solutionrelative:cfnckh.core\\service\\account\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76ED9959-D02E-43E5-92E5-B8C132B66825}|CfNCKH.Core\\CfNCKH.Core.csproj|d:\\huykhoi\\net_cs\\cfnckh\\cfnckh.core\\service\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{76ED9959-D02E-43E5-92E5-B8C132B66825}|CfNCKH.Core\\CfNCKH.Core.csproj|solutionrelative:cfnckh.core\\service\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F14F11E0-D63A-4ACD-9C57-417DB7D4C33A}|CfNCKH.Data\\CfNCKH.Data.csproj|d:\\huykhoi\\net_cs\\cfnckh\\cfnckh.data\\modeldto\\accountdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F14F11E0-D63A-4ACD-9C57-417DB7D4C33A}|CfNCKH.Data\\CfNCKH.Data.csproj|solutionrelative:cfnckh.data\\modeldto\\accountdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F14F11E0-D63A-4ACD-9C57-417DB7D4C33A}|CfNCKH.Data\\CfNCKH.Data.csproj|d:\\huykhoi\\net_cs\\cfnckh\\cfnckh.data\\utils\\currentuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F14F11E0-D63A-4ACD-9C57-417DB7D4C33A}|CfNCKH.Data\\CfNCKH.Data.csproj|solutionrelative:cfnckh.data\\utils\\currentuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AccountService.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Core\\Service\\Account\\AccountService.cs",
+              "RelativeDocumentMoniker": "CfNCKH.Core\\Service\\Account\\AccountService.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Core\\Service\\Account\\AccountService.cs",
+              "RelativeToolTip": "CfNCKH.Core\\Service\\Account\\AccountService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T08:48:26.051Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IAccountService.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Core\\Service\\Account\\IAccountService.cs",
+              "RelativeDocumentMoniker": "CfNCKH.Core\\Service\\Account\\IAccountService.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Core\\Service\\Account\\IAccountService.cs",
+              "RelativeToolTip": "CfNCKH.Core\\Service\\Account\\IAccountService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T08:48:20.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AccountDto.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Data\\ModelDTO\\AccountDto.cs",
+              "RelativeDocumentMoniker": "CfNCKH.Data\\ModelDTO\\AccountDto.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Data\\ModelDTO\\AccountDto.cs",
+              "RelativeToolTip": "CfNCKH.Data\\ModelDTO\\AccountDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T08:40:29.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CurrentUser.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Data\\Utils\\CurrentUser.cs",
+              "RelativeDocumentMoniker": "CfNCKH.Data\\Utils\\CurrentUser.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Data\\Utils\\CurrentUser.cs",
+              "RelativeToolTip": "CfNCKH.Data\\Utils\\CurrentUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-04T03:19:10.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BaseService.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Core\\Service\\BaseService.cs",
+              "RelativeDocumentMoniker": "CfNCKH.Core\\Service\\BaseService.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\CfNCKH\\CfNCKH.Core\\Service\\BaseService.cs",
+              "RelativeToolTip": "CfNCKH.Core\\Service\\BaseService.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAwwGQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-04T03:05:20.053Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
