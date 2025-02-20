@@ -1,0 +1,51 @@
+﻿.layer {
+    width: 397px;
+    box-shadow: 0 0 5mm rgba(0, 0, 0, 0.1);
+    margin: 10mm auto;
+    flex-wrap: wrap;
+    background-color: grey;
+    gap: 12px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.tool-bar-container {
+    position: relative;
+    background: #f3f3f3;
+    padding: 15px;
+    border-radius: 5px;
+}
+.print-item {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+}
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        visibility:hidden;
+    }
+    .layer, .layer * {
+        visibility: visible;
+    }
+    .print-item {
+        page-break-after: always;
+        width: 104mm;
+        height: 22mm;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .print-barcode {
+        width: 100%;
+        height: 100%;
+    }
+}

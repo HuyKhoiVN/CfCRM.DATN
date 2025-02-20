@@ -1,0 +1,114 @@
+﻿.footer {
+    background-image: url('../../img/footer/bg.svg');
+    padding: 100px 0 70px !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+}
+.doc_about_widget ul {
+    margin-top: 20px;
+    margin-bottom: 20px !important;
+}
+
+.footerTop {
+    border-top: 0px !important;
+}
+.footer-logo {
+    display: flex;
+    gap: 8px;
+}
+.text {
+    text-align: justify;
+    color: white;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    white-space: pre-line;
+}
+
+.doc_service_list_widget a {
+    color: white !important;
+    font-size: 16px !important;
+}
+
+.doc_footer_bottom p {
+    color: white !important;
+}
+
+.icon {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+doc_footer_menu a {
+    background-color: none;
+    color: white !important;
+}
+
+.f_title_two {
+    color: white !important;
+}
+
+.list {
+    color: white !important;
+}
+
+.doc_service_list_widget {
+    padding-top: 45px;
+}
+
+.doc_service_list_widget h3 {
+        font-size: 24px !important;
+        white-space: nowrap;
+    }
+@media (max-width: 600px) {
+    .footer {
+        background-image: url('../../img/footer/bg-mobile.svg');
+        background-position: center;
+    }
+    .f_widget {
+        margin-bottom: 0px;
+    }
+}
+@media(min-width: 576px) and (max-width: 600px) {
+    .list-unstyled {
+        margin-top: 16px !important;
+    }
+    .menu-none {
+        display: none !important;
+    }
+    .doc_service_list_widget {
+        padding-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 991px) {
+    .footer {
+        background-image: url('../../img/footer/bg-mobile.svg');
+        background-position: unset;
+    }
+    .doc_service_list_widget {
+        padding-top: 0px !important;
+    }
+    .list-unstyled {
+        margin-top: 16px !important;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .footer {
+        background-image: url('../../img/footer/bg-mobile.svg');
+        background-position: unset;
+    }
+    .footer-logo {
+        flex-direction: column;
+    }
+
+        .footer-logo img {
+            width: 250px;
+        }
+    .doc_footer_top .col-lg-3 {
+        max-width: 50%;
+    }
+}

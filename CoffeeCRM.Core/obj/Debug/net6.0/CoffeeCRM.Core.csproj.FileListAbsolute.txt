@@ -1,0 +1,14 @@
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\bin\Debug\net6.0\CoffeeCRM.Core.deps.json
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\bin\Debug\net6.0\CoffeeCRM.Core.runtimeconfig.json
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\bin\Debug\net6.0\CoffeeCRM.Core.dll
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\bin\Debug\net6.0\CoffeeCRM.Core.pdb
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\CoffeeCRM.Core.csproj.AssemblyReference.cache
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\CoffeeCRM.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\CoffeeCRM.Core.AssemblyInfoInputs.cache
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\CoffeeCRM.Core.AssemblyInfo.cs
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\CoffeeCRM.Core.csproj.CoreCompileInputs.cache
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\CoffeeCRM.Core.dll
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\refint\CoffeeCRM.Core.dll
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\CoffeeCRM.Core.pdb
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\CoffeeCRM.Core.genruntimeconfig.cache
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Core\obj\Debug\net6.0\ref\CoffeeCRM.Core.dll

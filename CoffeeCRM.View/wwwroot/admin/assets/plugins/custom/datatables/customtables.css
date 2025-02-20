@@ -1,0 +1,22 @@
+﻿.search-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+}
+.search-control .mb-1 {
+    margin-bottom:0px !important;
+}
+
+#tableData thead tr th:nth-last-child(1), #tableData tbody tr td:nth-last-child(1), #tableData tfoot tr th:nth-last-child(1) {
+    width: 50px !important;
+    white-space: nowrap !important;
+}
+#tableData thead tr th:nth-last-child(2), #tableData tbody tr td:nth-last-child(2), #tableData tfoot tr th:nth-last-child(2) {
+    width: 170px !important;
+    text-align: center !important;
+    white-space: nowrap;
+    min-width: 170px;
+    max-width: 175px;
+}

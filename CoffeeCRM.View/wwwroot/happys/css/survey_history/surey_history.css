@@ -1,0 +1,303 @@
+﻿.card-history {
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.10);
+    border-radius: 25px;
+    border: 1px #E8F1FD solid;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.item {
+    width: 100%;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.img {
+    width: 150px;
+    height: 150px;
+    margin-right: 32px;
+}
+
+
+.info {
+    width: 100%;
+}
+
+.name-survey-history {
+    color: #000;
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.text-survey-history {
+    color: #000 !important;
+    text-align: left;
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+a {
+    color: #000 !important;
+}
+
+    .content {
+        color: black;
+        font-size: 16px;
+        font-family: SF Pro Display;
+        font-weight: 400;
+        line-height: 20px;
+        width: auto;
+    }
+
+.tags {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.des {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    width: 100%;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.title-small {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.text-history {
+    color: black;
+    font-size: 24px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    word-wrap: break-word
+}
+
+.button-booking {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+    border-radius: 33px;
+    background: var(--Blue-sky, #1470F5);
+    box-shadow: 0px 4px 20px 0px rgba(20, 112, 245, 0.50);
+    height: 54px;
+    cursor: pointer;
+}
+
+.button-survey-history {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+    margin: 20px 15px 15px 16px;
+    border-radius: 33px;
+    border: 1px solid #1470F5;
+    background: #FFF;
+    box-shadow: 0px 4px 20px 0px rgba(20, 112, 245, 0.50);
+    height: 54px;
+    cursor: pointer;
+}
+
+.share-survey-history {
+    width: 54px;
+    height: 54px;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+    border-radius: 33px;
+    background: var(--Blue-sky, #1470F5);
+    box-shadow: 0px 4px 20px 0px rgba(20, 112, 245, 0.50);
+}
+
+.review-survey-text {
+    color: var(--Blue, #1470F5);
+    text-align: center;
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.tag-survey-history {
+    margin-top: 16px;
+}
+
+.booking-counselor {
+    color: var(--White, #FFF);
+    text-align: center;
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor: pointer;
+}
+@media (max-width: 600px) {
+    .item {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+
+    .forum_body_area {
+        padding: 10px;
+    }
+
+    .img img {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    .content {
+        font-size: 12px !important;
+
+    }
+    .tag {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    .item {
+        padding: 16px;
+        padding-right: 25px;
+        width: 100%;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .img {
+        margin-right: 8px !important;
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    .info {
+        margin-left: 0px !important;
+    }
+
+    .tags {
+        margin-left: 0px !important;
+    }
+
+    .tag-survey-history {
+        margin-top: 0px !important;
+        text-align: justify;
+    }
+
+    .text-survey-history {
+        color: #000 !important;
+        font-family: Lexend;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+        .text-survey-history a {
+            color: #000 !important;
+        }
+
+    .name-survey-history {
+        color: #000;
+        font-family: Lexend;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 125% */
+    }
+
+    .button_booking_parent {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 16px;
+        display: flex
+    }
+
+    .share-survey-history {
+        width: 40px;
+        height: 40px;
+    }
+
+    .button-booking {
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        display: inline-flex;
+        border-radius: 33px;
+        background: var(--Blue-sky, #1470F5);
+        box-shadow: 0px 4px 20px 0px rgba(20, 112, 245, 0.50);
+        height: 42px;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .button-survey-history {
+        margin: 0px;
+        height: 40px;
+        white-space: nowrap;
+        width: 65%;
+        cursor: pointer;
+    }
+
+    .review-survey-text {
+        font-size: 12px;
+    }
+
+    .booking-counselor {
+        color: var(--White, #FFF);
+        text-align: center;
+        font-family: Lexend;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        cursor: pointer;
+    }
+
+    #survey_history{
+        padding: 15px !important;
+    }
+}

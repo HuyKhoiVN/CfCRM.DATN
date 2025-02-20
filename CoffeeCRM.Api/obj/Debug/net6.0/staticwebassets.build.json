@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "9D1KM8zB7IxXdzIHpTRBEwj89IUzCqo4f9fcWNJVmlU=",
+  "Source": "CoffeeCRM.Api",
+  "BasePath": "_content/CoffeeCRM.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

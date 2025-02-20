@@ -1,0 +1,106 @@
+﻿.medicalinfo_body .input {
+    background: #F5F5F5;
+    border-radius: 14px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 14px;
+    border: 0;
+}
+
+.select2.select2-container {
+    width: 100% !important;
+}
+
+.card-title h3 {
+    font-size: 24px !important;
+    margin-bottom: 16px;
+}
+
+#btnSaveMedicalInfo {
+    width: 330px;
+}
+
+.medicalinfo_container .input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+    background: #F5F5F5;
+    border-radius: 14px !important;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.medicalinfo_container .input-group-text {
+    display: flex;
+    align-items: center;
+    padding: 0.775rem 1rem;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--bs-gray-700);
+    text-align: center;
+    white-space: nowrap;
+    background-color: #F5F5F5;
+    border: 0px;
+    border-radius: 0.475rem;
+}
+
+.medicalinfo_container .input-value {
+    border: unset;
+    background: #F5F5F5 !important;
+    padding: 14px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+    color: var(--Blue-sky, #1470F5);
+}
+
+label {
+    margin-bottom: 0;
+}
+
+.radio-group {
+    display: flex;
+    gap: 203px;
+}
+
+/*Update theo figma*/
+.medicalinfo_card {
+    /* border: 1px solid #EEE; */
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 16px 0px;
+    border-radius: 5px;
+}
+
+    .medicalinfo_card:first-child {
+        margin-bottom: 20px;
+    }
+
+.card-title {
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 0 !important;
+}
+
+.btnEdit {
+    color: var(--Blue-sky, #1470F5) !important;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.general-editing {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 32px;
+}

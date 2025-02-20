@@ -1,0 +1,61 @@
+﻿/*
+    Author: Ha Thanh Nguyen
+    Created: 07/09/2024
+    
+*/
+#tableData thead tr th:nth-child(1),
+#tableData tbody tr td:nth-child(1),
+#tableData tfoot tr th:nth-child(1) {
+    width: 70px !important;
+    text-align: center !important;
+}
+#tableData thead tr th:nth-child(4),
+#tableData tbody tr td:nth-child(4),
+#tableData tfoot tr th:nth-child(4) {
+    width: 130px !important;
+    text-align: center !important;
+}
+#tableData thead tr th:nth-child(5),
+#tableData tbody tr td:nth-child(5),
+#tableData tfoot tr th:nth-child(5) {
+    width: 130px !important;
+    text-align: center !important;
+}
+#tableData thead tr th:nth-child(7),
+#tableData tbody tr td:nth-child(7),
+#tableData tfoot tr th:nth-child(7) {
+    width: 70px !important;
+    text-align: center;
+}
+
+#tableData thead tr th:nth-child(2),
+#tableData tbody tr td:nth-child(2),
+#tableData tfoot tr th:nth-child(2) {
+    width: 230px !important;
+    text-align: center;
+}
+.search-control {
+    white-space: normal;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#btnTableSearch {
+    margin-right: 10px;
+}
+
+.input-group-text {
+    cursor: pointer;
+}
+
+#tableData td {
+    vertical-align: middle;
+}
+#postPhoto {
+    object-fit: cover;
+    object-position: center;
+    border-radius: 5px;
+    border: 50px;
+    width: 100%;
+    max-height: 100%;
+}

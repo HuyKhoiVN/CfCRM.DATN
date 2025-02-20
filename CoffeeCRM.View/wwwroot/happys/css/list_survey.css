@@ -1,0 +1,221 @@
+﻿
+.survey_item {
+    border-radius: 15px;
+    border: 1px solid var(--Line, #E8F1FD);
+    background: var(--White, #FFF);
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+    padding: 30px 20px;
+}
+
+p {
+    margin-bottom: 0px;
+}
+
+.survey_title p {
+    color: #000;
+    font-family: SF Pro Display;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.survey_infor {
+    width: 100%;
+}
+
+.survey_detail {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.title_survey {
+    color: #000;
+    /* title 24 */
+    font-family: SF Pro Display;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.survey_img {
+    text-align: center;
+    padding-left: 0px;
+}
+
+.survey_send {
+    width: 100%;
+}
+
+.survey_title {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.survey_description {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.survey_detail {
+    padding: 0px;
+}
+
+.survey_description {
+    max-width: 591px;
+    color: #000;
+    /* Text body */
+    font-family: SF Pro Display;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.btn_survey {
+    display: flex;
+    width: 190px;
+    height: 48px;
+    padding: 20px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 38px;
+    border: 1px solid var(--Blue-sky, #1470F5);
+    background: var(--Blue-sky, #1470F5);
+    color: var(--White, #FFF);
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
+.survey_infor span {
+    color: var(--Black, #1B1E28);
+    font-family: SF Pro Display;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #1B1E28;
+    border: 1px solid #E8F1FD;
+    border-radius: 27px;
+    text-align: center;
+    background-color: #E8F1FD;
+}
+
+.survey_category_1 {
+    padding: 5px 10px 5px 10px;
+}
+
+.survey_category_2 {
+    text-transform: uppercase;
+    padding: 5px 20px;
+}
+
+.survey_list {
+    gap: 16px;
+}
+
+.survey_pagination > .pagination {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+    .survey_pagination > .pagination > li {
+        color: var(--Black, #1B1E28);
+        text-align: center;
+        /* Text body */
+        font-family: SF Pro Display;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        width: 32px;
+        height: 32px;
+    }
+
+.pagina_list {
+    gap: 10px;
+}
+
+    .pagina_list .page_item .page-link {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        border: none;
+        border-radius: 5px;
+        background: var(--Blue-sky, #F7F7F9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        color: var(--Black, #1B1E28);
+        text-align: center;
+        /* Text body */
+        font-family: SF Pro Display;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+.list-category li {
+    border-top: 1px solid var(--Line, #E8F1FD);
+    border-bottom: 1px solid var(--Line, #E8F1FD);
+    background: var(--White, #FFF);
+    padding: 17px 80px 16px 10px;
+}
+
+.category_info p {
+    color: #000;
+    font-family: SF Pro Display;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+    text-transform: capitalize;
+}
+
+.category_info {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+    .category_info span {
+        color: var(--Label, #7D848D);
+        /* Text body */
+        font-family: SF Pro Display;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+.category_img {
+    border-radius: 5px;
+    background: lightgray 50% / cover no-repeat, #D9D9D9;
+}
+
+.active {
+    background-color: #007bff !important; /* Màu nền khi active */
+    color: #ffffff !important; /* Màu chữ khi active */
+}

@@ -1,0 +1,36 @@
+﻿/*
+    Author: Ha Thanh Nguyen
+    Created: 07/09/2024
+   
+*/
+#tableData thead tr th:nth-child(1),
+#tableData tbody tr td:nth-child(1),
+#tableData tfoot tr th:nth-child(1) {
+    width: 70px !important;
+    text-align: center !important;
+}
+
+#tableData thead tr th:nth-child(5),
+#tableData tbody tr td:nth-child(5),
+#tableData tfoot tr th:nth-child(5) {
+    width: 70px !important;
+    text-align: center;
+}
+
+.search-control {
+    white-space: normal;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#btnTableSearch {
+    margin-right: 10px;
+}
+
+.input-group-text {
+    cursor: pointer;
+}
+
+#tableData td {
+    vertical-align: middle;
+}

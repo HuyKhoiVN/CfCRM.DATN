@@ -1,0 +1,9 @@
+﻿.doc_banner_area {
+    background-image: url('../../img/banner/breachcum.svg') !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: bottom !important;
+}
+    .doc_banner_area.single_breadcrumb {
+        padding: 0px 0 175px;
+    }

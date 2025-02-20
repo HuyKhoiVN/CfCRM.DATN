@@ -1,0 +1,123 @@
+﻿
+
+.list_health_facilities {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+    .list_health_facilities .card {
+        padding: 32px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+        .list_health_facilities .card .card_item_img {
+            width: 125px;
+            height: 125px;
+            min-width: 125px;
+            min-height: 125px;
+        }
+
+            .list_health_facilities .card .card_item_img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 25px;
+            }
+
+    .list_health_facilities .card-item {
+        gap: 32px;
+    }
+
+    .list_health_facilities .card {
+        border-radius: 25px;
+        border: 1px solid var(--bs-white);
+        background: var(--bs-white);
+        box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
+    }
+
+.card_item_content {
+    gap: 16px;
+}
+
+    .card_item_content span {
+        gap: 8px;
+        /* Text body */
+        font-family: SF Pro Display;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 125% */
+    }
+
+        .card_item_content span b {
+            font-size: 18px;
+        }
+
+.hf_label_container {
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.hf_content {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+.ellipsis2 {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+}
+@media (max-width:600px) {
+    .list_health_facilities .card {
+        padding: 16px;
+    }
+    .d-block-xs {
+        display: block !important;
+    }
+    .d-none-xs {
+        display: none !important;
+    }
+    .d-flex-xs {
+        display: flex !important;
+    }
+    .card_item_img_xs img {
+        width: 74.182px;
+        height: 59.455px;
+        border-radius: 16px;
+    }
+    .card_item_img {
+        display: none;
+    }
+    .flex-column-xs {
+        flex-direction: column !important;
+    }
+    .dash-xs {
+        display: none;
+    }
+    .lblTime, .lblConselor, .lblLabel {
+        padding: 10px;
+    }
+    .gap-16px-xs {
+        gap: 16px !important;
+    }
+    .gap-10px-xs {
+        gap: 10px !important;
+    }
+    .gap-5px-xs {
+        gap: 5px !important;
+    }
+    .ellipsis2-xs {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+    }
+}

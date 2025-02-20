@@ -1,0 +1,24 @@
+﻿/**
+    Author: Ha Thanh Nguyen
+    Created: 10/08/2024
+    Description: login page style sheet
+*/
+@charset "UTF-8";
+body {
+    min-height: 100vh !important;
+}
+
+body {
+    background-image: url('/assets/media/auth/waves-macos.jpg');
+    background-size: cover;
+}
+
+[data-bs-theme="dark"] body {
+    background-image: url('/metronic8/demo1/assets/media/auth/waves-macos.jpg');
+}
+body{
+    height: 100vh !important;
+}
+.swal2-popup .swal2-html-container, .swal2-popup .swal2-content {
+    margin-top: 0px;
+}

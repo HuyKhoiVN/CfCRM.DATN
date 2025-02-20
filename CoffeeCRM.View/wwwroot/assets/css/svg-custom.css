@@ -1,0 +1,9 @@
+﻿/*
+    Author: Ha Thanh Nguyen
+    Created: 28/07/2024
+    Description: SVG custom css
+*/
+.dion-sync {
+    background: url(/files/frontend/images/icons/phone-5890074462a7e14af36a3cf6466d6a5f.svg) no-repeat;
+    padding-left: 24px
+}

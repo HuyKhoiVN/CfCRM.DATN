@@ -1,0 +1,245 @@
+﻿/*
+    Author: Ha Thanh Nguyen
+    Created: 03/08/2024
+    Description: Layout styleSheet
+*/
+.app-header {
+    background-color: #f5f8fa !important;
+}
+
+.app-header {
+    background-color: #f5f8fa !important;
+}
+
+.spin {
+    animation: spinner 3s linear infinite;
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.swal2-html-container .list-error {
+    text-align: left;
+}
+
+.cke_dialog_image_url .cke_dialog_ui_hbox_last a {
+    display: block !important;
+}
+
+.cke_dialog_body .cke_dialog_tabs a:nth-child(4) {
+    display: none;
+}
+
+.cke_dialog_contents .cke_dialog_contents_body div:nth-child(4) {
+    display: none;
+}
+
+/******************************************* Loading css */
+#loading {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(0 0 0 / 70%);
+    visibility: hidden;
+}
+
+    #loading.show {
+        visibility: visible;
+    }
+
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+    .lds-ring div {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border: 8px solid #2f57ef;
+        border-radius: 50%;
+        animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border-color: #2f57ef transparent transparent transparent;
+    }
+
+        .lds-ring div:nth-child(1) {
+            animation-delay: -0.45s;
+        }
+
+        .lds-ring div:nth-child(2) {
+            animation-delay: -0.3s;
+        }
+
+        .lds-ring div:nth-child(3) {
+            animation-delay: -0.15s;
+        }
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.page-loader {
+    transition: all linear .2s;
+}
+
+    .page-loader.hide {
+        visibility: hidden;
+    }
+
+.select2-container .select2-selection {
+    background-color: var(--bs-body-bg) !important;
+    border-color: var(--bs-gray-300) !important;
+    min-height: 43.6px;
+}
+
+.table-pointer {
+    cursor: pointer;
+}
+
+.input-number::-webkit-inner-spin-button, .input-number::-webkit-outer-spin-button { /*hidden arrow input number*/
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+.input-number {
+    -moz-appearance: textfield !important;
+}
+/*======================== column datatable =====================*/
+.column-index {
+    text-align: center !important;
+    width: 60px !important;
+    max-width: 60px !important;
+    min-width: 60px !important;
+}
+
+.column-date {
+    text-align: center !important;
+    width: 170px !important;
+    max-width: 170px !important;
+    min-width: 170px !important;
+}
+
+.column-dateTime {
+    text-align: center !important;
+    width: 200px !important;
+    max-width: 200px !important;
+    min-width: 200px !important;
+}
+
+.column-action-2 {
+    text-align: center !important;
+    width: 80px !important;
+    max-width: 80px !important;
+    min-width: 80px !important;
+}
+
+.column-action-3 {
+    text-align: center !important;
+    width: 100px !important;
+    max-width: 100px !important;
+    min-width: 100px !important;
+}
+
+.column-approve {
+    text-align: center !important;
+    width: 140px !important;
+    max-width: 140px !important;
+    min-width: 140px !important;
+}
+.column-price{
+    text-align: right !important;
+    width : 150px !important;
+    max-width : 150px !important;
+    min-width: 150px !important;
+}
+.input-color-height {
+    height: 3rem !important
+}
+
+.column-color {
+    text-align: center !important;
+    width: 100px !important;
+    max-width: 100px !important;
+    min-width: 100px !important;
+}
+
+.input-color-height {
+    height: 3rem !important
+}
+
+#candidateModal .form-select:disabled, #candidateModal .select2-container .select2-selection, #companyModal .form-select:disabled, #companyModal .select2-container .select2-selection, #jobModal .form-select:disabled, #jobModal .select2-container .select2-selection, #orderModal .form-select:disabled, #orderModal .select2-container .select2-selection {
+    background-color: var(--bs-gray-200) !important;
+    border-color: var(--bs-gray-300) !important;
+    opacity: 1 !important;
+    cursor: unset !important;
+}
+#companyModal [readonly], #candidateModal [readonly] {
+    background-color: var(--bs-gray-200) !important;
+    border-color: var(--bs-gray-300) !important;
+    opacity: 1 !important;
+}
+.form-control:disabled {
+    color: var(--bs-gray-700) !important;
+}
+[type=checkbox]{
+    cursor: pointer;
+}
+[disabled]{
+    cursor: not-allowed;
+}
+
+.input-group-pass .btn_show_pass{
+    display: none;
+}
+.input-group-pass:focus .btn_show_pass {
+    display: block;
+}
+.input-group-pass:hover .btn_show_pass {
+    display: block;
+}
+.modal .form-control[readonly] {
+    background-color: var(--bs-gray-200) !important;
+    border-color: var(--bs-gray-300) !important;
+    opacity: 1 !important;
+}
+.form-control[disabled] {
+    background-color: var(--bs-gray-200) !important;
+    border-color: var(--bs-gray-300) !important;
+    opacity: 1 !important;
+    cursor: unset !important;
+}
+.user_info_photo{
+    object-fit: cover;
+}
+}
+/*set backdrop cho modal nhỏ*/
+.mini-modal-backdrop {
+    background: #0000004d;
+}

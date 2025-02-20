@@ -1,0 +1,613 @@
+﻿.title {
+    color: black;
+    font-size: 24px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    word-wrap: break-word;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+.navigation.pagination {
+    margin-bottom: 32px !important;
+    margin-top: 0px !important;
+}
+
+.body_dark .title {
+    color: white;
+}
+.card {
+    border: none !important;
+}
+.des {
+    height: 80px;
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.name {
+    color: black;
+    font-size: 20px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    white-space: nowrap;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.sec_pad {
+    padding: 0 !important;
+}
+
+.card {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    flex-direction: row;
+    margin-left: 15px;
+    margin-bottom: 32px;
+    margin-right: 25px;
+}
+
+.tag {
+    width: fit-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: #F04A7C;
+    border-radius: 15px;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.slogan {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    word-wrap: break-word;
+    margin-bottom: 8px;
+}
+
+.number {
+    text-align: center;
+    color: #1470F5;
+    font-size: 20px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    width: 100%;
+}
+
+.lines {
+    width: 32px;
+    height: 0px;
+    transform: rotate(90deg);
+    border: 1px #CCCCCC solid;
+}
+
+
+.tags {
+    color: #7D848D;
+    font-size: 14px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    white-space: nowrap;
+}
+
+.button {
+    margin-top: 16px;
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+.inbox {
+    font-size: 16px !important;
+    font-family: SF Pro Display !important;
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    line-height: 20px !important;
+    word-wrap: break-word !important;
+    margin-bottom: 0px !important;
+    width: 100%;
+    color : white !important;
+    white-space: nowrap;
+}
+
+.img {
+    background-image: url('happys/svg/booking.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.small-none {
+    display: none;
+    background: #F7F7F9;
+}
+
+.big-none {
+    display: block;
+    background: #F7F7F9;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.ava {
+    object-fit: cover;
+    width: 218px;
+    margin-right: 0px;
+}
+    .ava img {
+        width: 218px;
+        height: 290px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+.paran {
+    position: relative;
+}
+.info {
+    margin-left: 32px;
+}
+
+.interact {
+    width: 218px;
+    margin-top: 16px;
+}
+
+.screen {
+    width: 100%;
+}
+
+.info-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.info-footer {
+    display: flex;
+}
+.info-button {
+    width: 100%;
+    margin-left: 32px;
+    margin-top: 16px;
+}
+
+@media (max-width: 330px) {
+    .lines {
+        width: 20px;
+        margin-left: 10px;
+    }
+    .left label {
+        margin-bottom: 0px !important;
+    }
+    .right label {
+        margin-bottom: 0px !important;
+    }
+    .button_booking button {
+        width: 100%
+    }
+
+    .button_inbox button {
+        width: 100%
+    }
+    .info-button {
+        margin-left: 0px;
+        display: flex;
+        flex-direction: column;
+    }
+    .small-none {
+        display: block !important;
+    }
+
+    .big-none {
+        display: none !important;
+    }
+    .mess {
+        margin-top: 10px !important;
+    }
+    .info-header {
+        margin-bottom: 7px !important;
+    }
+    .ava img {
+        width: 85px !important;
+        height: 118px !important;
+    }
+    .info-header {
+        flex-direction: column;
+    }
+    .info  {
+        margin-left: 15px;
+    }
+    .tags {
+        font-size: 9px;
+    }
+    .number {
+        font-size: 15px;
+    }
+    .left {
+        width: 50% !important;
+    }
+
+    .right {
+        width: 50% !important;
+    }
+    .interact {
+        width: 153px;
+    }
+    .inbox {
+        width: 100%;
+    }
+    .ava {
+        margin-right: 0px;
+    }
+}
+
+@media (min-width: 331px) and (max-width: 424px) {
+    .left label {
+        margin-bottom: 0px !important;
+    }
+
+    .right label {
+        margin-bottom: 0px !important;
+    }
+
+    .button_booking button {
+        width: 100%
+    }
+
+    .button_inbox button {
+        width: 100%
+    }
+
+    .info-button {
+        margin-left: 0px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .small-none {
+        display: block !important;
+    }
+
+    .big-none {
+        display: none !important;
+    }
+
+    .mess {
+        margin-top: 10px !important;
+    }
+
+    .info-header {
+        margin-bottom: 7px !important;
+    }
+
+    .ava img {
+        width: 85px !important;
+        height: 118px !important;
+    }
+    .ava {
+        margin-right: 0px;
+        width: 125px;
+    }
+
+    .info-header {
+        flex-direction: column;
+    }
+
+    .info {
+        margin-left: 15px;
+    }
+
+    .number {
+        font-size: 15px;
+    }
+
+    .left {
+        width: 50% !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right {
+        width: 50% !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .interact {
+        width: 100%;
+    }
+    .tags {
+        text-align: center;
+        font-size: 9px;
+    }
+    .inbox {
+        width: 100%;
+    }
+}
+
+@media (min-width: 425px) and (max-width: 434px) {
+    .left label {
+        margin-bottom: 0px !important;
+    }
+
+    .right label {
+        margin-bottom: 0px !important;
+    }
+
+    .button_booking button {
+        width: 100%
+    }
+
+    .button_inbox button {
+        width: 100%
+    }
+
+    .info-button {
+        margin-left: 0px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .small-none {
+        display: block !important;
+    }
+
+    .big-none {
+        display: none !important;
+    }
+
+    .mess {
+        margin-top: 10px !important;
+    }
+
+    .info-header {
+        margin-bottom: 7px !important;
+    }
+
+    .ava img {
+        width: 85px !important;
+        height: 118px !important;
+    }
+
+    .ava {
+        margin-right: 0px;
+        width: 125px;
+    }
+
+    .info-header {
+        flex-direction: column;
+    }
+
+    .info {
+        margin-left: 15px;
+    }
+
+    .tags {
+        font-size: 9px;
+    }
+
+    .number {
+        font-size: 15px;
+    }
+
+    .left {
+        width: 50% !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right {
+        width: 50% !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .interact {
+        width: 100%;
+    }
+
+    .tags {
+        text-align: center;
+        font-size: 14px;
+    }
+    .inbox {
+        width: 100%;
+    }
+}
+
+@media (min-width: 435px) and (max-width: 600px) {
+    .small-none {
+        display: block !important;
+    }
+
+    .big-none {
+        display: none !important;
+    }
+
+    .ava {
+        margin-right: 0px;
+        width: 150px;
+    }
+    .ava img {
+        object-fit: cover;
+        height: 130px;
+    }
+
+    .info-header {
+        display: flex;
+       flex-direction: column;
+       margin-bottom: 12px;
+    }
+    .name {
+        width: 100%;
+    }
+    .star {
+        margin-top: 12px;
+    }
+
+    .left {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .right {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .interact {
+        width: 100%;
+    }
+
+    .button_booking button {
+        width: 100%
+    }
+
+    .button_inbox button {
+        width: 100%
+    }
+
+    .info-button {
+        margin-left: 0px;
+    }
+    .info {
+        margin-left: 22px;
+    }
+    .inbox {
+        width: 100%;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 991px)
+{
+    .small-none {
+        display: none;
+    }
+
+    .screen {
+        width: 100%;
+    }
+    .info-button {
+         width: 100%;
+    }
+    .inbox {
+        width: 100%;
+    }
+    .ava {
+        height: auto;
+        margin-right: 0px;
+    }
+        .ava img {
+            height: 250px;
+            object-fit: contain;
+        }   
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .info-header {
+        flex-direction: row;
+    }
+    .ava {
+        margin-right: 0px;
+        width: 200px;
+        height: 235px;
+    }
+
+    .ava img {
+        height: 255px;
+        object-fit: cover;
+    }
+    .des {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .screen {
+        width: 100%;
+    }
+    .inbox {
+        width: 100%;
+    }
+    .info-button {
+        flex-direction: column;
+        margin-left: 10px;
+        width: 100%;
+    }
+    .interact {
+        width: 200px;
+        gap: 0px;
+    }
+    .info_body {
+        margin-bottom: 25px;
+    }
+    .info-footer {
+        gap: 20px;
+    }
+    .list-counselors {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1899px) {
+    .ava {
+        margin-right: 0px;
+    }
+    .ava img {
+        height: 272px;
+        object-fit: cover;
+    }
+    .screen {
+        width: 50%;
+    }
+    .inbox {
+        width: 100%;
+        font-size: 12px !important;
+    }
+    .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+}
+
+@media (min-width: 1900px) {
+    .screen {
+        width: 50%;
+    }
+    .info-button {
+        width: 100%;
+    }
+
+    .inbox {
+        width: 100%;
+    }
+
+    .info-footer {
+        margin-top: 16px;
+    }
+
+    .buttons_inbox {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+    .buttons_inbox {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+}

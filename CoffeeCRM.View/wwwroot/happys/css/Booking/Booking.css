@@ -1,0 +1,386 @@
+﻿.screen {
+    width: 100%;
+}
+
+.hide {
+    display: none;
+}
+
+.big {
+    display: block;
+}
+
+.small {
+    display: none;
+}
+
+.banner {
+    background-image: url('/happys/img/health-facilities/banner.png');
+    background-color: var(--Blue-sky, #1470F5);
+    height: 200px;
+    /*    padding: 100px 0px 0px 32px;
+    display: inline-block;*/
+}
+
+.image {
+    margin-left: 40px;
+    width: 330px;
+    height: 391px;
+}
+
+    .image img {
+        width: 330px;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+
+.name {
+    color: black;
+    font-size: 32px;
+    font-family: Lexend;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.input-time {
+    background: #F7F7F9;
+    border-radius: 5px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    width: fit-content;
+    margin-top: 6px;
+}
+
+.content {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.button {
+    width: 100%;
+    margin-top: 16px;
+}
+
+.btn-light {
+    color: #1470F5 !important;
+    border-color: #1470F5 !important;
+    border-radius: 5px;
+    color: #1470F5;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 20px;
+}
+
+    .btn-light:hover {
+        border-color: #1470F5 !important;
+        border-radius: 5px;
+        background-color: #1470F5;
+        color: white !important;
+    }
+
+.booking-user {
+    width: 100%;
+    display: flex;
+}
+
+.booking-detail {
+    margin-left: 24px;
+    width: 100%;
+}
+
+.booking-header {
+    width: 100%;
+}
+
+.title-booking {
+    color: black;
+    font-size: 24px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    margin-bottom: 32px;
+}
+
+.booking-body {
+    padding: 32px;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    flex-direction: column;
+    border-radius: 15px
+}
+
+.booking-col {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.input-booking {
+    background: #F7F7F9;
+    border-radius: 14px;
+    width: 100%;
+    padding: 14px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.time {
+    display: flex;
+    gap:16px;
+}
+.time-select {
+    margin-bottom: 8px;
+}
+.select-content {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    white-space: nowrap
+}
+
+.select-input {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.title-input {
+    color: black;
+    font-size: 14px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    margin-bottom: 8px;
+}
+
+.columns {
+    width: 50%
+}
+
+.input-booking {
+    border: 0px !important;
+}
+
+.application {
+    display: block;
+}
+
+.submit {
+    display: flex;
+    justify-content:center;
+}
+
+.doc_blog_grid_area sec_pad_happys {
+    margin-bottom: 112px;
+}
+
+#time-pc {
+    height: 56px;
+}
+
+#done, #accept {
+    color: #11a111;
+}
+
+#cancel, #reject {
+    color: #F04A7C;
+}
+
+#wait {
+    color: #fb5401;
+}
+
+@media (max-width: 600px) {
+    .big {
+        display: none;
+    }
+
+    .small {
+        display: block;
+    }
+
+    .banner {
+        background-image: url('../../img/booking/banner-small.svg');
+        height: 120px;
+    }
+
+    .booking-header {
+        display: flex;
+        margin-left: 16px;
+        margin-top: 0px;
+        gap: 15px;
+        border: 0px;
+    }
+
+    .img {
+        width: 164px;
+        height: 194px;
+        margin-top: -93px;
+    }
+
+        .img img {
+            width: 164px;
+            height: 194px;
+            object-fit: cover;
+        }
+
+    .input-time {
+        justify-content: space-between;
+        flex-direction:unset;
+        align-items: center;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        margin-left: 16px;
+    }
+
+    .button {
+        margin-left: 16px;
+        margin-bottom: 32px;
+        width: 97%;
+    }
+
+    .title-booking {
+        margin-left: 16px;
+        color: #1B1E28;
+        font-size: 16px;
+        font-family: SF Pro Display;
+        font-weight: 600;
+        line-height: 20px;
+    }
+
+    .columns {
+        width: 100%;
+    }
+
+    .input-booking {
+        margin-bottom: 16px;
+        margin-left: 16px;
+        width: 97%
+    }
+
+    .title-input {
+        margin-left: 16px;
+        color: #7D848D;
+        font-size: 14px;
+        font-family: SF Pro Display;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .button {
+        margin-top: 32px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 992px) {
+    .big {
+        display: none;
+    }
+
+    .small {
+        display: block;
+    }
+
+    .banner {
+        background-image: url('../../img/booking/banner-small.svg');
+        height: 120px;
+    }
+
+    .booking-header {
+        display: flex;
+        margin-left: 16px;
+        margin-top: 0px;
+        gap: 15px;
+        border: 0px;
+    }
+
+    .img {
+        width: 164px;
+    }
+
+        .img img {
+            margin-top: -93px;
+            width: 164px;
+        }
+
+    .input-time {
+        justify-content: space-between;
+        flex-direction: unset;
+        align-items: center;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        margin-left: 16px;
+    }
+
+    .button {
+        margin-left: 16px;
+        margin-bottom: 32px;
+        width: 97%;
+    }
+
+    .title-booking {
+        margin-left: 16px;
+        color: #1B1E28;
+        font-size: 16px;
+        font-family: SF Pro Display;
+        font-weight: 600;
+        line-height: 20px;
+    }
+
+    .columns {
+        width: 100%;
+    }
+
+    .input-booking {
+        margin-bottom: 16px;
+        margin-left: 16px;
+        width: 97%
+    }
+
+    .title-input {
+        margin-left: 16px;
+        color: #7D848D;
+        font-size: 14px;
+        font-family: SF Pro Display;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .button {
+        margin-top: 32px;
+    }
+}
+
+@media (min-width: 993px) and (max-width: 1199px) {
+    .select-content {
+        font-size: 11px;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 404px) {
+    .content {
+        text-align: end;
+    }
+}

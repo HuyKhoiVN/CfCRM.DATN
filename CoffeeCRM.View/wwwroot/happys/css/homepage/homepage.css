@@ -1,0 +1,929 @@
+﻿.doc_subscribe_area {
+    margin-bottom:52px;
+}
+.body_wrapper {
+    background: rgba(255, 248, 227, 1);
+}
+.doc_psychologist_area {
+    background-image: url('../../img/home/bg-cout.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+}
+.doc_featured_news_area {
+    background-image: url('../../img/home/tintuc.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.info-logo {
+    width: 32px;
+    height: 32px;
+}
+    .info-logo img {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+    }
+.psychologist-width {
+    width: fit-content !important;
+}
+.doc_featured_news_inner {
+    display: flex;
+    flex-direction: column;
+}
+    .doc_featured_news_inner .btnHS2 {
+        margin-top: 24px;
+    }
+    .nav_btn {
+        white-space: nowrap;
+    }
+.featured-news-body {
+    padding: 0px;
+}
+.select-item a {
+    width: fit-content;
+}
+.entry-middle {
+    display: flex;
+    gap: 8px
+}
+    .entry-middle img {
+        border-radius: 50%;
+    }
+    .count-comment, .count-watch {
+        color: black !important;
+    }
+.btnHS2 {
+    white-space: nowrap;
+}
+.doc_banner_content p {
+    text-align: justify;
+}
+.detail-about-me p {
+    text-align: justify;
+}
+.doc_featured_news_area {
+    padding: 64px;
+}
+.psychologist-hospital {
+    width: fit-content
+}
+.post_name {
+    -webkit-line-clamp: 2;
+    padding: 0px 16px 0px 16px;
+}
+.media.post_author {
+    padding: 15px 16px;
+}
+.post-overview {
+    height: 80px;
+    padding: 0px 16px 0px 16px;
+    -webkit-line-clamp: 4;
+}
+.psychologist-name {
+    text-align: start
+}
+.psychologist {
+    flex-direction: column;
+}
+.right-nav {
+    margin-left: 30px;
+}
+.psychologist-detail {
+    flex: 1;
+}
+.anh img {
+    width: 218px;
+    height: 259px;
+    border-radius: 16px;
+    object-fit: cover;
+}
+.number {
+    color: #1470F5;
+    font-size: 20px;
+    font-family: Lexend;
+    font-weight: 600;
+}
+.featured-news-detail {
+    flex-direction: row;
+    gap: 16px;
+}
+.featured-news-first {
+    width: 100%;
+    background-color: white;
+}
+.carousel-inner {
+    height: 100%;
+}
+.carousel-item {
+    height: 100%;
+}
+    .carousel-item img {
+        height: 100%;
+        border-radius: 16px;
+        object-fit: fill;
+    }
+.homepage-slide-post {
+    gap: 26px;
+    display: flex;
+    flex-direction: row;
+}
+.count-text {
+    color: #777777;
+    font-size: 14px;
+    font-family: Lexend;
+    font-weight: 400;
+    line-height: 20px;
+}
+.doc_community_icon img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.interact {
+    width: 70%;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+.click-option {
+    width: 100%;
+}
+.info-footer {
+    gap: 10px;
+    margin-top: 24px;
+    display: flex;
+    padding-bottom: 26px;
+}
+.select-item img {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    padding: 0px;
+}
+.interact-count {
+    width: 100%;
+}
+.entry-left {
+    width: 360px;
+}
+.inbox {
+    width: 100%;
+}
+.psychologist-detail {
+    padding: 16px;
+}
+.photo-post img {
+    border-radius: 16px 16px 0px 0px !important;
+    height: 250px;
+    object-fit: cover;
+}
+
+.post_author .round_img img {
+    width: 40px;
+    object-fit: cover
+}
+.post_name {
+    height: 50px;
+}
+.post-overview {
+    height: 80px;
+}
+.doc_community_icon img {
+    border-radius: 16px;
+}
+.fluid-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.recommended_topic_area {
+    background-image: url('../../img/home/bg-us.svg');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: cover;
+    padding-bottom: 200px;
+}
+.doc_community_area .doc_title {
+    margin-bottom: 8px !important;
+}
+.doc_features_inner {
+    gap: 24px;
+    padding: 24px !important;
+}
+.homepage-content-inner {
+    box-shadow: 0 0.525rem 0.75rem rgba(0,0,0,.175) !important;
+    border-radius: 16px;
+}
+    .doc_features_inner img {
+        padding: 0px;
+    }
+    .doc_features_inner .image-select {
+        object-fit: cover;
+        width: 322px;
+        height: 200px;
+        border-radius: 16px;
+    }
+.select-item {
+    margin-left: 5px;
+}
+@media (max-width: 600px) {
+    .doc_features_inner .image-select {
+        width: 100%;
+    }
+    .right-nav {
+        margin-left: 0px !important;
+    }
+    .post_name {
+        padding: 0px 16px 0px 16px;
+    }
+    .post-overview {
+        padding: 0px 16px 0px 16px;
+    }
+    .featured-news-body {
+        padding: 0px !important;
+    }
+    .photo-post img {
+        height: 200px;
+        object-fit: cover;
+    }
+    .menu_purple .nav_btn:not(.not-round-btn) {
+        color: black !important;
+        border-color: black !important;
+    }
+    .fluid-container {
+        padding-top: 30px;
+    }
+    .author_text {
+        white-space: nowrap
+    }
+    .text {
+        padding-right: 0px;
+    }
+    .row {
+        flex-direction: column !important;
+    }
+    .col-6 {
+        max-width: unset !important;
+    }
+    .btn {
+        white-space: nowrap;
+    }
+    .input-fill {
+        margin-bottom: 24px;
+    }
+    .psychologist-detail-content {
+        flex-direction: column;
+    }
+    .anh {
+        display: flex;
+        justify-content: center
+    }
+    .doc_psychologist_area {
+        padding-top: 64px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-bottom: 64px;
+    }
+    .click-option {
+        display: none;
+    }
+    /*library*/
+    .w-xs-100 {
+        width: 100% !important;
+    }
+    .flex-xs-column {
+        flex-direction: column !important;
+    }
+    /*library-end*/
+
+    .recommended_topic_area .recommended_topic_inner .row {
+        gap: 16px;
+    }
+    .doc_banner_area-inner {
+        background-image: unset;
+    }
+
+    .container {
+        padding-right: 17px;
+        padding-left: 17px;
+    }
+    .doc_banner_content h2 {
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .header_search_keyword {
+        gap: 10px;
+    }
+    .doc_features_item p {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .doc_features_item {
+        padding: 16px;
+    }
+    .doc_features_item h4 {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+    }
+    .recommended_topic_inner {
+        padding:0;
+    }
+    .doc_title h2 {
+        font-size: 24px;
+        line-height: 24px;
+        margin-bottom: 10px;
+    }
+    .doc_shap_one {
+        width: 100%;
+    }
+    .doc_title p {
+        margin-bottom: 0;
+    }
+    .doc_title {
+        margin-bottom: 37px;
+    }
+    .doc_community_area .doc_title {
+        margin-bottom: 32px;
+    }
+    .doc_community_item p {
+        display: none;
+    }
+    .doc_entry_content {
+        padding-right: 0;
+    }
+    .doc_community_item {
+        padding: 16px;
+        flex-direction: column
+    }
+        .doc_community_item .doc_community_icon {
+            width: 100%;
+            height: 100%;
+        }
+    .doc_community_icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover
+    }
+    .flex-xs-column {
+        flex-direction: column !important;
+    }
+    .doc_community_item h4 {
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .lblCategory, .lblTime, .lblConselor, .lblLabel {
+        font-size: 14px;
+        line-height: 20px;
+        padding: 5px 10px;
+    }
+    .justify-content-xs-start {
+        justify-content: flex-start !important;
+    }
+    .align-items-xs-start {
+        align-items: flex-start !important;
+    }
+    .doc_entry_content-container {
+        gap: 10px;
+    }
+    .doc_entry_content-container .label_container {
+        gap: 8px;
+    }
+    .doc_community_area {
+        padding-bottom: 32px;
+        padding-top: 70px;
+    }
+    .doc_entry_content-container {
+        gap:10px;
+    }
+    .gap-xs-10px {
+        gap: 10px !important;
+    }
+
+    .gap-xs-16px {
+        gap: 16px !important;
+    }
+
+    .doc_testimonial_slider .item h1 {
+        font-size: 24px;
+        line-height: normal;
+    }
+    .item_category {
+        font-size: 12px;
+        line-height: 20px;
+    }
+    .item_text {
+        font-size: 16px;
+        line-height: normal;
+    }
+    .doc_testimonial_slider .item {
+        height: auto;
+    }
+    .doc_img_slider .item img:last-child {
+        width: 257.25px;
+        height: 343px;
+        float: left;
+    }
+    .doc_img_slider .item .round.one {
+        width: 91.875px;
+        height: 91.875px;
+        top: 30%;
+        right: 22%;
+    }
+    .doc_img_slider .item .round.two {
+        width: 171.5px;
+        height: 171.5px;
+        bottom: 8%;
+        top: unset;
+        right: 10%;
+    }
+    .conselor_info_container .doc_conselor_slider {
+        width: 343px;
+        height: 171px;
+        left: 15px;
+        bottom: -125px;
+        padding: 16px;
+    }
+    .conselor_info h3 {
+        font-size: 20px;
+        line-height: normal;
+    }
+    .conselor_info .btn.btnHS {
+        padding: 10px 20px
+    }
+    .conselor_info_container .slick-dots {
+        text-align: center;
+    }
+    .doc_testimonial_area {
+        padding: 64px 0 160px;
+    }
+    .doc_subscribe_inner {
+        padding: 64px 16px;
+    }
+    .doc_subscribe_inner h2 {
+        font-size: 24px;
+        line-height: normal;
+        margin-bottom: 16px;
+    }
+    .doc_subscribe_inner .text {
+        margin-bottom: 32px;
+    }
+    .doc_features_inner {
+        flex-direction: column;
+        padding: 16px !important;
+    }
+    .featured-news-title {
+        white-space: nowrap;
+        font-size: 25px
+
+    }
+    .select-item a {
+        width: fit-content;
+    }
+    .doc_featured_news_area {
+        padding: 16px 0 0 0 !important;
+    }
+    .doc_features_inner img {
+        padding: 5px;
+    }
+    .interact {
+        width: 100%
+    }
+    .psychologist-detail-content {
+        padding: 0px !important;
+    }
+    .select-item {
+        width: 100%;
+        white-space: nowrap;
+    }
+    .btn.btnHS.about-me {
+        width: 100%;
+    }
+    .recommended_topic_inner {
+        padding: 0px;
+        margin-top: 60px;
+    }
+    .entry-right {
+        gap: 35px;
+    }
+    .psychologist-body {
+        width: 100%;
+        flex-direction: column;
+    }
+    .psychologist {
+        flex-direction: row;
+    }
+    .psychologist-name {
+        text-align: start;
+    }
+    .psychologist-hospital {
+        color: white;
+        font-size: 12px;
+        font-family: Lexend;
+        font-weight: 400;
+        width: fit-content;
+        line-height: 20px;
+    }
+     
+    .interact-count-text {
+        white-space: nowrap !important;
+        font-size: 14px;
+    }
+    .booking-count-text {
+        white-space: nowrap;
+        font-size: 14px;
+    }
+    .count-text {
+        white-space: nowrap;
+    }
+    .featured-news-detail {
+        flex-direction: column;
+    }
+    .featured-news-first {
+        width: 100%;
+    }
+    .form-group {
+        flex-direction: column;
+    }
+    .entry-middle img {
+        position: unset;
+    }
+    .doc-entry-body {
+        flex-direction: column;
+    }
+    .entry-middle {
+        margin-bottom: 8px;
+        margin-top: 8px;
+        position: unset !important;
+    }
+        .entry-middle img:first-child, .entry-middle img:last-child, .entry-middle img:nth-child(2) {
+            position: unset;
+        }
+    .psychologist-overview {
+       display: none;
+    }
+    .psychologist-header {
+        white-space: nowrap;
+        font-size: 20px;
+    }
+    .doc_subscribe_form {
+        padding-right: 0px;
+    }
+    .info-footer {
+        justify-content: center;
+    }
+    .post_name {
+        height: fit-content
+    }
+    .post-publish-time {
+        text-align:end
+    }
+    .entry-left {
+        width: 100%;
+        justify-content: space-between
+    }
+}
+@media (min-width:601px) and (max-width: 991px) {
+    .doc_features_inner .image-select {
+        width: 100%;
+    }
+    .doc_psychologist_area {
+        padding: 64px 0px;
+    }
+    .right-nav {
+        margin-left: 0px !important;
+    }
+    .featured-news-body {
+        padding: 0px;
+    }
+    .post_name, .post-overview {
+        padding: 0px 16px 0px 16px;
+    }
+    .menu_purple .nav_btn:not(.not-round-btn) {
+        color: black !important;
+        border-color: black !important;
+    }
+    .doc_subscribe_inner .doc_subscribe_form .form-group {
+        flex-direction: column;
+    }
+    .select-item a {
+        width: fit-content;
+    }
+    .doc_banner_area-inner {
+        background-image: unset;
+        display: unset;
+    }
+    .select-item {
+        position: absolute;
+        width: 100%;
+    }
+    .flex-md-column {
+        flex-direction: column !important;
+    }
+    .w-md-100 {
+        width: 100% !important;
+    }
+    .doc_features_item {
+        padding: 16px !important;
+    }
+    .btn.btnHS.about-me {
+        width: 100%;
+    }
+    .doc_features_item p {
+        font-size: 14px;
+        line-height: normal;
+    }
+    .doc_title.text-center {
+        margin-bottom: 32px;
+    }
+    .recommended_topic_inner {
+        padding: 32px;
+    }
+    .recommended_topic_inner .row {
+        row-gap: 30px;
+    }
+    .doc_community_item {
+        padding: 15px;
+        column-gap: 8px;
+    }
+    .doc_community_icon img {
+        width: 90px;
+        height: 90px;
+    }
+    .doc_community_item .doc_community_icon {
+        margin-right: 0;
+    }
+    .doc_entry_content {
+        padding-right: 0;
+    }
+    .doc_entry_content-container {
+        gap: 8px;
+    }
+    .doc_entry_content {
+        gap:8px;
+    }
+    .doc_community_item h4, .doc_community_item p {
+        line-height: normal;
+    }
+    .doc_testimonial_slider .item {
+        height: auto;
+    }
+    .conselor_info_container .doc_conselor_slider {
+        right: 32px;
+        bottom: -80px;
+        padding: 30px;
+    }
+    .doc_subscribe_inner {
+        padding: 64px 30px;
+    }
+    .doc_features_inner {
+        margin-bottom: 32px;
+       display: grid;
+    }
+    .psychologist-name {
+        width: 100% !important;
+    }
+    .psychologist {
+        display: unset !important;
+    }
+    .psychologist-width {
+        width: fit-content !important;
+    }
+    .psychologist-overview {
+        font-size: 14px !important;
+    }
+    .interact-count-text {
+        white-space: nowrap !important;
+        font-size: 14px;
+    }
+    .booking-count-text {
+        white-space: nowrap;
+        font-size: 14px;
+    }
+    .psychologist-detail {
+        width: 100%;
+    }
+    .psychologist-body {
+        flex-direction: column;
+    }
+    .psychologist-name {
+        text-align: start;
+    }
+    .featured-news-detail {
+        flex-direction: column;
+    }
+    .featured-news-first  {
+        width: 100%;
+    }
+    .entry-middle img {
+        position: unset;
+    }
+
+    .doc-entry-body {
+        flex-direction: column;
+    }
+
+    .entry-middle {
+        margin-bottom: 8px;
+        margin-top: 8px;
+        position: unset !important;
+    }
+
+        .entry-middle img:first-child, .entry-middle img:last-child, .entry-middle img:nth-child(2) {
+            position: unset;
+        }
+
+    .count-text {
+        white-space: nowrap;
+    }
+    .psychologist-overview {
+        color: black !important;
+        font-size: 14px !important;
+        font-family: Lexend !important;
+        font-weight: 400 !important;
+        line-height: 20px !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .doc_features_inner .image-select {
+        width: 203px;
+    }
+    .right-nav {
+        margin-left: 0px !important;
+    }
+    .psychologist-hospital {
+        width: fit-content;
+    }
+    .select-item a {
+        width: fit-content;
+        font-size: 14px;
+        padding: 5px 20px;
+    }
+    .select-item {
+        white-space: nowrap;
+        margin-left: 5px;
+        padding: 5px 0px;
+    }
+    .select-item img {
+        width: 45px;
+    }
+
+    .featured-news-detail {
+        flex-direction: row;
+    }
+
+    .carousel-item {
+        height: 300px !important;
+    }
+
+    .media.post_author {
+        flex-direction: row !important;
+    }
+
+    .post_author .author_text {
+        white-space: nowrap
+    }
+
+    .photo-post img {
+        border-radius: 16px 16px 0px 0px !important;
+        height: 278px !important;
+    }
+
+    .post_name {
+        height: 100px;
+    }
+
+    .slide .col-4 {
+        max-width: 100%
+    }
+
+    .slide {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+        .slide .col-8 {
+            max-width: 100%;
+        }
+
+    .psychologist-body {
+        flex-direction: column;
+    }
+
+    .interact {
+        width: 50%;
+    }
+
+    .post-publish-time {
+        text-align: end
+    }
+
+    .featured-news-first {
+        flex-direction: column;
+    }
+
+    .photo-post img {
+        height: 100%;
+        width: 100%;
+    }
+}
+@media (min-width: 1200px) and (max-width: 1899px) {
+    .doc_features_inner .image-select {
+        width: 263px;
+    }
+    .featured-news-first {
+        flex-direction: column;
+    }
+    .slide {
+        flex-direction: column;
+    }
+    .post_author .author_text {
+        white-space: nowrap;
+    }
+    .photo-post img {
+        height: 100%;
+        width: 100%;
+    }
+    .media.post_author {
+        flex-direction: row
+    }
+    .psychologist {
+        flex-direction: column;
+    }
+
+    .psychologist-width {
+        width: fit-content;
+    }
+
+    .click-option {
+        margin-left: 0px;
+    }
+
+    .interact {
+        margin-left: 0px;
+        width: 100%;
+    }
+
+    .psychologist-name {
+        text-align: unset;
+    }
+
+    .info-footer {
+        padding-left: 16px;
+    }
+
+    .anh img {
+        height: 288px;
+        width: 215px;
+    }
+    .slide .col-4 {
+        max-width: 100%;
+        flex-direction: row;
+    }
+
+    .slide {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+        .slide .col-8 {
+            max-width: 100%;
+        }
+
+    .psychologist-body {
+        flex-direction: row;
+    }
+
+    .select-item {
+        white-space: nowrap;
+        margin-left: 5px;
+    }
+
+        .select-item a {
+            width: fit-content
+        }
+
+    .post-publish-time {
+        text-align: end
+    }
+
+    .featured-news-first {
+        flex-direction: column;
+    }
+
+    .photo-post img {
+        height: 390px;
+        width: 100%;
+    }
+    .carousel-inner {
+        height: 460px;
+    }
+    .btnHS2 {
+        font-size: 14px;
+    }
+}

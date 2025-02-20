@@ -1,0 +1,261 @@
+﻿.message-text-title {
+    color: #000;
+    font-family: Lexend;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.div-message-parent {
+    height: 100%;
+    background: white;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.10);
+    border-radius: 15px
+}
+
+.list-conversation-parent {
+   padding: 32px 0;
+}
+
+.list-conversation-item {
+    border-radius: 15px;
+    background: var(--White, #FFF);
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+    padding: 0px 32px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    height: 96px;
+}
+
+.item-conversation {
+    display: flex;
+    gap: 10px;
+}
+
+.user-name-conversation {
+    color: #000;
+    font-family: Lexend;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    margin: 0px;
+}
+
+.text-conversation {
+    color: #000;
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.count-noti-message {
+    border-radius: 30px;
+    background: rgba(255, 0, 25, 0.97);
+    display: inline-flex;
+    padding: 5px 7px;
+    justify-content: center;
+    margin: auto;
+    gap: 5px;
+    height: 30px;
+    width: 30px;
+}
+
+.noti-message-count {
+    color: var(--White, #FFF);
+    text-align: right;
+    font-family: Lexend;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.createdTinme-conversation {
+    color: #777;
+    text-align: right;
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: 10px;
+}
+
+.noti-message {
+    display: inline-grid;
+}
+
+.check-active {
+    width: 10px;
+    height: 10px;
+    background: #38E100;
+    border-radius: 37.5px;
+    border: 1px white solid;
+    position: absolute;
+    top: 43px;
+    right: 6px;
+}
+
+.image-parent {
+    position: relative;
+}
+
+.counselor-parent {
+    width: 100%;
+    gap : 24px;
+    border-radius: 14px;
+    background: var(--White, #FFF);
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+    margin-top: 32px;
+    padding : 8px 0px 8px 8px;
+    align-items:center;
+    position : relative;
+}
+.icon_work {
+    background-color: #38E100;
+    border-radius: 15px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    border: 1px solid #fff;
+    left: 45px;
+    top: 45px;
+}
+.check_auth {
+    background-color: #00B907;
+    width: 12px;
+    height: 12px;
+    border-radius: 15px;
+    color: #fff;
+    display:flex;
+    justify-content:center;
+    align-items :center;
+}
+.head-listmessage {
+    padding: 16px;
+    box-shadow: 0 5px 13px #cccccc29;
+}
+.body-chat {
+    margin-top: 5px;
+}
+.auth_info {
+    gap: 10px;
+    align-items: center;
+}
+.customer {
+    width: auto;
+    max-width: 70%;
+    padding: 20px;
+    background: #F5F5F5;
+    border-radius: 15px 15px 15px 0px;
+    box-shadow: 0 0 3px #ccc;
+}
+
+    .customer .content-chat {
+        margin-bottom: 5px;
+        color: #000;
+        text-align: justify;
+        font-family: Lexend;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+.time {
+    color: #777;
+    font-family: Lexend;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+.kt_chatMessageSignalR {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.user {
+    width: auto;
+    max-width: 70%;
+    padding: 20px;
+    border-radius: 15px 15px 0px 16px;
+    background: #E8F1FD;
+    box-shadow: 0 0 3px #ccc;
+}
+.user .content-chat {
+    margin-bottom: 5px;
+    color: #000;
+    text-align: justify;
+    font-family: Lexend;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+.card-footer {
+    background: white;
+    gap: 17px;
+}
+    .card-footer input {
+        border-radius: 20px;
+    }
+.name-counselor {
+    color: #000;
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.image-counselor {
+    width: 48px;
+    height: 48px;
+    border-radius: 37.5px;
+    background: url(<path-to-image>), lightgray 50% / cover no-repeat;
+    object-fit: cover;
+}
+
+.phone-book{
+    margin-top: 32px;
+}
+
+.image-end-user {
+    width: 48px;
+    height: 48px;
+    border-radius: 37.5px;
+    background: url(<path-to-image>), lightgray 50% / cover no-repeat;
+    object-fit: cover;
+}
+
+.user-name-style {
+    color: #000;
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+#btnSendMessage {
+    display: inline-flex;
+    height: 38px;
+    padding: 0px 18px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 35px;
+    background: var(--Blue-linear, linear-gradient(90deg, #1470F5 0%, #388AFF 100%));
+    border: none;
+    color: white !important;
+    align-self: center;
+}

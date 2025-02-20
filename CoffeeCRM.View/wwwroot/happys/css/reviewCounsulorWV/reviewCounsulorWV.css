@@ -1,0 +1,264 @@
+﻿
+.review-counsulor-list {
+    padding: 20px 15px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+    .review-counsulor-list li {
+        list-style: none;
+        border-radius: 15px;
+        background: var(--White, #FFF);
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+        padding: 11px;
+        margin: 0;
+        display: flex;
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+.review img {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.user-name-counselor {
+    color: #000;
+    font-family: Lexend;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.des {
+    color: #000;
+    font-family: Lexend;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; 
+}
+
+.noti-link {
+    display: flex;
+    color: black;
+}
+
+.read-noti {
+    color: #1B1E28;
+    font-size: 16px;
+    font-family: Lexend;
+    font-weight: 400;
+    line-height: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.icon-check-parent {
+    padding: 5px;
+    background: white;
+    border-radius: 30px;
+    border: 1px #1B1E28 solid;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.button-reviewSection {
+    width: 100%;
+    max-width: 199px;
+    display: inline-flex;
+    height: 54px;
+    padding: 20px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 35px;
+    background: var(--Blue-linear, linear-gradient(90deg, #1470F5 0%, #388AFF 100%));
+    box-shadow: 0px 4px 20px 0px rgba(20, 112, 245, 0.50);
+    border: none;
+    color: white;
+    align-self: center;
+}
+
+    .button-reviewSection:hover {
+        background: var(--Blue-linear, linear-gradient(90deg, #1470F5 100%, #388AFF 0%));
+        background-position: 100% 0;
+        transition: all .4s ease-in-out;
+        opacity: 0.8;
+        color: white;
+    }
+
+
+.icon-check {
+    height: 10.14px;
+    left: 3.47px;
+    top: 2.8px;
+    position: absolute;
+}
+
+.button-loadMore {
+    display: flex;
+    justify-content: center;
+}
+
+.date-time {
+    color: var(--Label, #7D848D);
+    font-family: Lexend;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.review-counsulor-rating {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-counselor-textbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+    .courseReview-rating i {
+        color: #ffd055 !important;
+        font-size: 15px !important;
+        cursor: pointer;
+    }
+
+.parent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 27px 0 34px;
+}
+
+.review-img-text {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 11px;
+}
+
+.btn-loadMore {
+    color: #fff;
+    background-color: #F04A7C;
+    border-color: #F04A7C;
+}
+
+.stars {
+    cursor: pointer;
+    display: flex;
+    &:hover
+
+{
+    .star polygon
+
+{
+    fill: #ffd055 !important;
+}
+
+}
+
+.star {
+    polygon
+
+{
+    fill: #d8d8d8;
+}
+
+&:hover ~ .star {
+    polygon
+
+{
+    fill: #d8d8d8 !important;
+}
+
+}
+}
+
+&[data-stars] {
+    .star polygon
+
+{
+    fill: #ffd055;
+}
+
+}
+
+&[data-stars="1"] {
+    .star:nth-child(1) ~ .star polygon
+
+{
+    fill: #d8d8d8;
+}
+
+}
+
+&[data-stars="2"] {
+    .star:nth-child(2) ~ .star polygon
+
+{
+    fill: #d8d8d8;
+}
+
+}
+
+&[data-stars="3"] {
+    .star:nth-child(3) ~ .star polygon
+
+{
+    fill: #d8d8d8;
+}
+
+}
+
+&[data-stars="4"] {
+    .star:nth-child(4) ~ .star polygon
+
+{
+    fill: #d8d8d8;
+}
+
+}
+
+&[data-stars="5"] {
+    .star:nth-child(5) ~ .star polygon
+
+{
+    fill: #d8d8d8;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 15px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 15px;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555; 

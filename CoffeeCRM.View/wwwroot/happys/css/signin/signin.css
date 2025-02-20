@@ -1,0 +1,348 @@
+﻿.signin_left:before {
+    content: unset !important;
+}
+
+.signin_left_bottom {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.signin_left_top {
+    gap: 32px;
+}
+
+    .signin_left_top p {
+        color: #000;
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+.sign_left {
+    padding: 32px 40px !important;
+    background-image: url(/happys/img/background-sign.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.sign_right {
+    justify-content: flex-start;
+    flex-direction: column;
+    position: relative;
+}
+
+.signup_inner h3 {
+    color: #0054CD;
+    text-align: center;
+    font-family: SF Pro Display Bold;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.login_social {
+    gap: 16px;
+}
+
+.card-sign {
+    border-radius: 25px;
+    background: var(--Blue-sky, #1470F5);
+    background-image: url('/happys/svg/sign-in-background.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 32px;
+    gap: 16px;
+    display: none;
+}
+.card-sign-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.sign_inner .btn-google img {
+    width: 25px;
+    height: 25px;
+    object-fit:contain;
+    padding-right: 0;
+}
+.sign_up_container {
+    padding: 0px 32px;
+}
+
+.login_form .form-group .small_text {
+    font-family: SF Pro Display;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+}
+
+.login_form .form-group input.form-control {
+    border-radius: 14px;
+    background: var(--Background-xam, #F7F7F9);
+    height: 48px;
+    border: unset;
+    padding: 14px 20px;
+}
+
+.login_form .form-group .form-control#password {
+    padding: 14px 55px 14px 20px;
+}
+
+.login_form .form-group {
+    margin-bottom: 16px;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 18px;
+    margin: 0;
+}
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 9px;
+    border: 1px solid var(--Label, #7D848D);
+    background: var(--White, #FFF);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        width: 20px;
+        height: 20px;
+        left: -1px;
+        bottom: -2px;
+        border-radius: 13px;
+        background: var(--Label, #7D848D);
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+.switch_container {
+    gap: 8px;
+}
+
+.sign_footer a {
+    color: var(--Blue-sky, #1470F5);
+    font-family: Lexend;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+}
+.sign_footer {
+    margin: 32px;
+}
+.forward_password_container a {
+    color: var(--Black, #1B1E28);
+    font-family: SF Pro Display;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+}
+.btn.btnHS2#btnLogin {
+    width: 249px;
+}
+.select_formgroup {
+    height: 48px;
+    border-radius: 14px;
+    background: var(--Background-xam, #F7F7F9);
+}
+.select2-container--default .select2-selection--single {
+    border-radius: 14px !important;
+    background: var(--Background-xam, #F7F7F9) !important;
+}
+.select2-container .select2-selection--single, .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 48px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 48px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    width: 30px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow svg {
+    width: 24px;
+    height: 100%;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding-right: 35px !important;
+}
+.card-sign label {
+    margin-bottom: 8px;
+    color: var(--Background-xam, #F7F7F9);
+    font-family: SF Pro Display;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+.bi-eye-slash {
+    color: black;
+    width: 16px;
+    height: 16px;
+}
+
+.signin_left_bottom img {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 80%;
+}
+.sign-top {
+    position: relative;
+    top: 0;
+    /*background-image: url(/happys/img/Vector.png);*/
+    height: auto;
+    background-position: bottom;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    padding: 35px 0px;
+    background-size: 100% 100%;
+    max-height: 150px;
+    min-height: 150px;
+    height: 100%;
+}
+
+.sign-top h3 {
+    color: black;
+    font-size: 42px;
+}
+.sign_inner {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 25px;
+    background: var(--White, #FFF);
+}
+
+.sign_inner .btn-google {
+    border-radius: 15px;
+    background: #F5F5F5;
+    padding: 17px;
+}
+.login_form .text-center > div {
+    line-height: 16px;
+}
+.gap-24px {
+    gap: 24px;
+}
+.gap-15px {
+    gap: 15px;
+}
+.login_form a.register b {
+    color: var(--Blue-sky, #1470F5);
+}
+p {
+    margin:0 !important;
+}
+.signup_area {
+    min-height: 100vh !important;
+    height: 100vh !important;
+    background-image: url(/assets/media/images/75112.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.body_wrapper_image{
+    position:absolute;
+    width:100%;
+}
+@media (max-width:600px) {
+    .signin_left {
+        display: none !important;
+    }
+    .sign-top {
+        height: 150px;
+    }
+    .sign-top h3 {
+        margin-bottom: 15px;
+    }
+}
+@media (max-width:991px) {
+    .signin_left {
+        display: none !important;
+    }
+    .sign_right {
+        padding: 0 !important;
+    }
+    .sign-top h3 {
+        font-size: 28px;
+    }
+}
+
+
+
+.sign_right {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.sign_inner {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+.sign_right {
+    display: block;
+}
+.button-wrapper canvas, .confetti {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999999;
+}

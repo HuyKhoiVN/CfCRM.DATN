@@ -1,0 +1,211 @@
+﻿.table-content {
+    padding: 15px;
+    background: var(--bs-app-header-base-bg-color);
+    border-radius: 8px;
+}
+table thead tr th {
+    white-space:nowrap;
+}
+td {
+    height: 100px;
+}
+#staffTarget {
+    margin-left: auto;
+    margin-right: auto;
+    height: 50px;
+    width: 100%;
+    background-color: #EAECF2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    margin-bottom: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+    #staffTarget p {
+        margin-bottom: 0px !important;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+.table-container {
+    overflow-x: auto;
+}
+
+#table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    #table thead tr th:nth-child(1) {
+        width: 50px;
+        /* justify-content: center; */
+        /* align-content: center; */
+        max-width: 50px !important;
+        text-align: center;
+    }
+
+    #table thead tr:nth-child(1) {
+        background-color: #dddddd;
+    }
+
+    #table thead tr th:nth-child(5),
+    #table tbody tr td:nth-child(5) {
+        width: 250px !important;
+        max-width: 250px !important;
+    }
+
+    #table thead tr th:nth-child(6),
+    #table tbody tr td:nth-child(6) {
+        width: 250px !important;
+        max-width: 250px !important;
+    }
+    #table thead tr th:nth-child(7),
+    #table tbody tr td:nth-child(7) {
+        width: auto !important;
+        min-width: 200px !important;
+        max-width: 250px !important;
+    }
+    #table thead tr th:nth-child(3),
+    #table tbody tr td:nth-child(3),
+    #table thead tr th:nth-child(4),
+    #table tbody tr td:nth-child(4) {
+        width: 200px !important;
+        max-width: 200px !important;
+    }
+
+.typeError {
+    display: flex;
+    justify-content: space-between;
+    border: solid 1px #F1F1F1;
+    border-radius: 10px;
+    /* padding: 9px 10px; */
+}
+
+.valueError, .infoViolate {
+    border: unset;
+    border-radius: 10px;
+    width: 100%;
+    padding: 9px 10px;
+    resize: none;
+    align-content: center;
+}
+    .valueError:focus, .valueError:focus-visible, .valueError:focus-within, .valueError:active,
+    .infoViolate:focus, .infoViolate:focus-visible, .infoViolate:focus-within, .infoViolate:active {
+        outline: none;
+    }
+
+.numberOfError {
+    border: solid 1px #F1F1F1;
+    border-radius: 10px;
+    height: 34px;
+    width: 40px;
+    padding: 9px 10px;
+}
+
+.infoReqire {
+    border: solid 1px #F1F1F1;
+    border-radius: 10px;
+    height: 34px;
+    width: 515px;
+    padding: 9px 10px;
+}
+
+.errorName, .errorDetail {
+    display: flex;
+    justify-content: space-between;
+    border: solid 1px #F1F1F1;
+    border-radius: 10px;
+}
+
+#addError, #deleteError {
+    height: 35px;
+    border: solid 1px #044688;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    padding: 0px 50px;
+    gap: 5px;
+    font-size: 16px;
+}
+
+.searchIcon {
+    padding: 0 10px;
+    margin: auto 0;
+    cursor: pointer;
+}
+
+.inputForm {
+    height: 100%;
+    width: calc(100% - 34px);
+    border: solid 1px #fff;
+    border-radius: 10px;
+    outline: none;
+    padding-left: 10px;
+}
+
+input {
+    outline: none;
+}
+
+.color-back {
+    background-color: #EAECF2 !important;
+}
+td input, td input:focus, td div input, td div input:focus {
+    border: none !important;
+}
+.col-flex {
+    display: flex;
+}
+.button-main {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding-right: 25px;
+}
+.button-main-add {
+    color: white;
+    font-size: 16px;
+    font-family: SVN-Gilroy;
+    font-weight: 400;
+    padding: 12px 40px 12px 40px;
+    background: #009EF7;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.pointer {
+    cursor: pointer;
+}
+#buttonSelect {
+    border: none !important;
+    background-color: #EAECF2 !important;
+}
+.modal-footer {
+    justify-content: center
+}
+.list-group {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 500px;
+    scrollbar-width: none;
+}
+#deleteError.hide {
+    display:none;
+}
+#tableStaffData thead tr th {
+    display: none;
+}
+.select2-container--bootstrap5 .select2-selection--single .select2-selection__rendered {
+    white-space: normal; 
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; 
+    overflow: hidden;
+}

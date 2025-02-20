@@ -1,0 +1,540 @@
+﻿
+
+.screen {
+    width: 100%;
+    margin-top: 44px;
+}
+.title-name-counselors {
+    display: flex;
+    gap: 40px
+}
+.name-counselors{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.banner {
+    background-image: url('/happys/img/health-facilities/banner.png');
+    background-color: var(--Blue-sky, #1470F5);
+    height: 200px;
+    display: none;
+    /*    padding: 100px 0px 0px 32px;
+    display: inline-block;*/
+}
+
+.big {
+    display: block;
+}
+
+.small {
+    display: none;
+}
+
+.content {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.profile {
+    gap: 32px;
+    display: flex;
+    margin-block: 32px;
+}
+
+.link-calender {
+    color: #1470F5 !important;
+    font-size: 16px;
+    font-family: Lexend;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.ava {
+    width: 330px;
+    margin-left: 40px;
+}
+
+    .ava img {
+        width: 330px;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+
+.interact {
+    width: 100%;
+    text-align: center;
+    margin-top: 11px;
+}
+
+.lines {
+    width: 32px;
+    height: 0px;
+    transform: rotate(90deg);
+    border: 1px #CCCCCC solid;
+}
+
+.name {
+    color: black;
+    font-size: 24px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    width: 100%;
+    margin-bottom: 11px;
+    white-space: nowrap;
+}
+
+.detail-counselors {
+    margin-top: 60px;
+}
+
+.head-detail {
+    border-bottom: 1px #CCCCCC solid;
+    padding-bottom: 31px;
+}
+
+.body-detail {
+    width: 100%;
+    margin-top: 33px;
+    display: flex;
+    flex-direction: column;
+}
+
+.box {
+    display: flex;
+    width: 100%;
+    gap: 40px;
+    margin-bottom: 16px;
+}
+
+.input {
+    background: #F7F7F9;
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.evaluate {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    line-height: 20px;
+    gap: 5px;
+    align-items: center;
+}
+
+.text-input {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.info {
+    margin-bottom: 32px;
+}
+
+.tag {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: fit-content;
+    background: #F04A7C;
+    border-radius: 20px;
+    overflow: hidden;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+    white-space: nowrap;
+    margin-right: 32px;
+}
+
+.line {
+    color: white;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+    white-space: nowrap
+}
+
+.title {
+    color: black;
+    font-size: 24px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tags {
+    text-align: center;
+    color: #7D848D;
+    font-size: 14px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.number {
+    color: #1470F5;
+    font-size: 20px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.detail-button {
+    width: 50%;
+    display: flex;
+    gap: 30px;
+}
+
+.button_booking {
+    width: 100%;
+}
+
+.button_inbox {
+    width: 100%
+}
+
+.time-input {
+    color: black;
+    font-size: 16px;
+    font-family: SF Pro Display;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.inbox {
+    font-size: 16px !important;
+    font-family: SF Pro Display !important;
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    line-height: 20px !important;
+    white-space: nowrap;
+    width: 50%;
+    background: white;
+    height: 55px;
+    padding-top: 16px;
+}
+
+/*.body_dark .number,
+.body_dark .line,
+.body_dark .title,
+.body_dark .tags{
+    color: white;
+}*/
+
+.btn-light {
+    color: #1470F5 !important;
+    border-color: #1470F5 !important;
+    border-radius: 5px;
+}
+
+    .btn-light:hover {
+        border-color: #1470F5 !important;
+        border-radius: 5px;
+        background-color: #1470F5;
+        color: white !important;
+    }
+
+.info-name {
+    color: black;
+    font-size: 24px;
+    font-family: SF Pro Display;
+    font-weight: 600;
+}
+
+@media (min-width: 320px) and (max-width: 500px) {
+    .rate {
+        flex-direction: column !important;
+        gap: 10px;
+    }
+
+        .rate .text-input {
+            text-align: center;
+        }
+
+        .rate .evaluate {
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+}
+@media (max-width: 490px) {
+    .big {
+        display: none;
+    }
+    .behind-name {
+        display: none;
+    }
+    .behind-vote {
+        display: block
+    }
+
+
+    .small {
+        display: block;
+    }
+
+    .ava {
+        margin-left: 0px;
+        width: auto;
+    }
+
+        .ava img {
+            width: 164px;
+            height: 194px;
+            object-fit: cover;
+        }
+
+    .profile {
+        margin-left: 16px;
+        margin-bottom: 0px;
+        gap: 15px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .head-detail {
+        border: none;
+    }
+
+    .interact {
+        margin-bottom: 12px;
+    }
+
+    .tag {
+        margin-bottom: 16px;
+        margin-left: 16px;
+    }
+
+    .banner {
+        height: 120px;
+        background-image: url('../../img/counselors-detail/banner-600px.svg');
+    }
+
+    .input {
+        margin-left: 16px;
+        width: 94%;
+        margin-right: 16px;
+        margin-bottom: 16px;
+    }
+    .address-counselors {
+        text-align: end;
+    }
+    .time-counselors {
+        text-align: end;
+    }
+        .detail-button {
+            width: 94%;
+            margin-left: 16px;
+            flex-direction: column;
+        }
+
+    .inbox {
+        width: 98%;
+    }
+
+    .name {
+        margin-top: 32px;
+        margin-bottom: 16px;
+    }
+
+    .content {
+        margin-left: 16px;
+    }
+
+    .info-name {
+        margin-top: 32px;
+        margin-left: 16px;
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 491px) and (max-width: 600px) {
+    .big {
+        display: none;
+    }
+    .behind-name {
+        display: flex;
+        flex-direction: column;
+    }
+        .behind-name .tag {
+            margin-left: 0px;
+        }
+        .behind-vote {
+            display: none
+        }
+
+    .small {
+        display: block;
+    }
+
+    .ava {
+        margin-left: 0px;
+        width: auto;
+    }
+
+        .ava img {
+            width: 164px;
+            height: 194px;
+            object-fit: cover;
+        }
+
+    .profile {
+        margin-left: 16px;
+        margin-bottom: 0px;
+        gap: 15px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .head-detail {
+        border: none;
+    }
+
+    .interact {
+        margin-bottom: 12px;
+    }
+
+    .tag {
+        margin-bottom: 16px;
+        margin-left: 16px;
+    }
+
+    .banner {
+        height: 120px;
+        background-image: url('../../img/counselors-detail/banner-600px.svg');
+    }
+
+    .input {
+        margin-left: 16px;
+        width: 94%;
+        margin-right: 16px;
+        margin-bottom: 16px;
+    }
+
+    .detail-button {
+        width: 94%;
+        margin-left: 16px;
+    }
+
+    .inbox {
+        width: 98%;
+    }
+
+    .name {
+        margin-top: 32px;
+        margin-bottom: 16px;
+    }
+
+    .content {
+        margin-left: 16px;
+    }
+
+    .info-name {
+        margin-top: 32px;
+        margin-left: 16px;
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1199px) {
+    .big {
+        display: none;
+    }
+    .behind-name {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .behind-name .tag {
+            margin-left: 0px;
+        }
+
+    .behind-vote {
+        display: none
+    }
+    .small {
+        display: block;
+    }
+
+    .ava {
+        width: 280px;
+        margin-left: 0px;
+    }
+
+        .ava img {
+            width: 164px;
+            height: 194px;
+            object-fit: cover;
+        }
+
+    .profile {
+        margin-left: 16px;
+        margin-bottom: 0px;
+        gap: 15px;
+    }
+
+    .head-detail {
+        border: none;
+    }
+
+    .interact {
+        margin-bottom: 12px;
+    }
+
+    .tag {
+        margin-bottom: 16px;
+        margin-left: 16px;
+    }
+
+    .banner {
+        height: 120px;
+        background-image: url('../../img/counselors-detail/banner-600px.svg');
+    }
+
+    .input {
+        margin-left: 16px;
+        width: 94%;
+        margin-right: 16px;
+        margin-bottom: 16px;
+    }
+
+    .detail-button {
+        width: 94%;
+        margin-left: 16px;
+    }
+
+    .inbox {
+        width: 98%;
+    }
+
+    .name {
+        margin-top: 32px;
+        margin-bottom: 16px;
+    }
+
+    .content {
+        margin-left: 16px;
+    }
+
+    .info-name {
+        margin-top: 32px;
+        margin-left: 16px;
+        font-size: 16px;
+    }
+}

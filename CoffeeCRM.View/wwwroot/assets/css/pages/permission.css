@@ -1,0 +1,25 @@
+﻿/*
+    Author: Ha Thanh Nguyen
+    Created: 02/08/2024
+    Description: admin account list style sheet
+*/
+#table_permission select{
+    display: none;
+}
+#table_permission thead:nth-child(1) tr th, #table_permission tfoot tr th {
+    white-space: nowrap;
+}
+    .colum_action {
+        width: 70px;
+    }
+.column_index {
+    width: 50px;
+    max-width: 50px;
+}
+.column_date {
+    width: 175px;
+    max-width: 175px;
+}
+.thumbnail{
+    object-fit: cover;
+}

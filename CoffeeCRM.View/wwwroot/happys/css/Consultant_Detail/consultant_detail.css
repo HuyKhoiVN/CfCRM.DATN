@@ -1,0 +1,50 @@
+﻿.b-tl {
+    border-radius: 5px 0 0 0;
+}
+
+.b-tr {
+    border-radius: 0 5px 0 0;
+}
+
+.b-bl {
+    border-radius: 0 0 0 5px;
+}
+
+.b-br {
+    border-radius: 0 0 5px 0;
+}
+
+.col-4 {
+    background-color: #1470F5;
+    color: white;
+    font-family: Lexend;
+    font-size: 10px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding: 6px;
+}
+
+.col-8 {
+    background-color: #1470F5;
+    color: white;
+    font-family: Lexend;
+    font-size: 10px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding: 6px;
+}
+
+b, h3 {
+    font-family: Lexend;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+@@media (min-width: 768px) {
+    .container, .container-md, .container-sm {
+        max-width: 1200px !important;
+    }
+}

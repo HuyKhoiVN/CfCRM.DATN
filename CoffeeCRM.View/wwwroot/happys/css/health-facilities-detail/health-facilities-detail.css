@@ -1,0 +1,89 @@
+﻿.hfd_container {
+    margin-bottom: 32px;
+}
+.value-content {
+    color: black;
+    font-size: 16px;
+    font-family: Lexend;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: end
+}
+.hfd_banner {
+    background-image: url('/happys/img/health-facilities/banner.png');
+    background-color: var(--Blue-sky, #1470F5);
+    height: 200px;
+   /* padding: 100px 0px 0px 40px;*/
+/*    display: inline-block;*/
+}
+iframe {
+    width: 100%;
+    height: 500px !important;
+}
+.hfd_profile {
+    gap: 32px;
+    /* align-items: flex-end;*/
+}
+
+/*.hfd_profile_img {
+    width: 330px;
+    height: 330px;
+    display: inline-flex;
+}*/
+
+.hfd_profile_img img {
+    width: 330px;
+    height: 330px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 3px solid var(--White, #FFF);
+    margin-top: -85px;
+    margin-left: 40px;
+}
+
+.hfd_profile_contact {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 36px;
+}
+
+.hfd_profile_contact_input {
+    width: 50%;
+}
+
+.hfd_profile_contact_row {
+    display: flex;
+    flex-direction: row;
+    gap: 42px;
+}
+
+.hfd_profile_contact_input {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 5px;
+    background: var(--bs-grey);
+    padding: 19px 20px;
+    gap: 16px;
+}
+
+.hfd_info_content {
+    text-align: justify;
+    /* Text body */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+    margin-top: 32px;
+}
+
+.hfd_info {
+    margin-bottom: 32px;
+}
+
+.hfd_map_url iframe {
+    width: 100%;
+    height: 500px !important;
+}
+

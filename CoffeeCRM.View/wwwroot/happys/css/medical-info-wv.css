@@ -1,0 +1,174 @@
+﻿@media(min-width: 375px) {
+    .fade:not(.show) {
+        opacity: unset;
+    }
+    .medicalinfo_body .input {
+        background: #fff;
+        border-radius: 14px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 14px;
+        border: 0;
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+    }
+
+    .select2.select2-container {
+        width: 100% !important;
+    }
+
+    .title-input {
+        color: var(--Black, #1B1E28);
+        font-family: Lexend;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; 
+    }
+
+    #medicalinfo-gender {
+        border-radius: 15px;
+        background: #fff;
+        color: #000;
+        font-family: Lexend;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 125% */
+        padding: 14px 14px 14px 20px;
+        border: none;
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+    }
+    .btn.btnHS {
+        display: flex;
+        width: 100%;
+        height: 54px;
+        padding: 20px 40px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        border-radius: 33px;
+        background: var(--Blue-linear, linear-gradient(90deg, #1470F5 0%, #388AFF 100%));
+        /* 10 20 blue */
+        box-shadow: 0px 4px 20px 0px rgba(20, 112, 245, 0.50);
+        color: white;
+    }
+
+    .card-title h3 {
+        color: #000;
+        font-family: Lexend;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    #btnSaveMedicalInfo {
+        width: 330px;
+    }
+    .result-servey {
+        font-family: Lexend;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        color: #F04A7C;
+    }
+    .input-group {
+        position: relative;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        width: 100%;
+        background: #fff;
+        border-radius: 14px;
+        justify-content: space-between;
+        flex-direction: row;
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+    }
+
+    .input-group-text {
+        display: flex;
+        align-items: center;
+        padding: 0.775rem 1rem;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: var(--bs-gray-700);
+        text-align: center;
+        white-space: nowrap;
+        background-color: var(--bs-gray-100);
+        border: 1px solid var(--bs-gray-300);
+        border-radius: 0.475rem;
+    }
+
+    .input-value {
+        border: unset;
+        background: var(--bs-gray-100);
+        padding: 14px;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+        color: var(--Blue-sky, #1470F5);
+    }
+
+    label {
+        margin-bottom: 0;
+    }
+    .mental-health {
+        color: #000;
+        font-family: Lexend;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+    .radio-group {
+        display: flex;
+        gap: 203px;
+    }
+
+    /*Update theo figma*/
+    .medicalinfo_card {
+        /* border: 1px solid #EEE; */
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        padding: 16px 0px;
+        border-radius: 5px;
+        flex-direction: column;
+        gap: 16px;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+        .medicalinfo_card:first-child {
+            margin-bottom: 20px;
+        }
+
+    .card-title {
+        border-bottom: 1px solid #EEE;
+        margin-bottom: 0 !important;
+    }
+
+    .btnEdit {
+        color: var(--Blue-sky, #1470F5) !important;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .general-editing {
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-top: 32px;
+    }
+
+}
