@@ -8,6 +8,7 @@ namespace CoffeeCRM.Data.Model
         public Role()
         {
             Accounts = new HashSet<Account>();
+            Notifications = new HashSet<Notification>();
         }
 
         public int Id { get; set; }
@@ -17,5 +18,6 @@ namespace CoffeeCRM.Data.Model
         public bool? Active { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

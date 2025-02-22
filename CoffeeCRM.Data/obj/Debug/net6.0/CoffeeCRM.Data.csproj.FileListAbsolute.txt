@@ -317,3 +317,4 @@ D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Data\obj\Debug\net6.0\refint\Cof
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Data\obj\Debug\net6.0\CoffeeCRM.Data.pdb
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Data\obj\Debug\net6.0\CoffeeCRM.Data.genruntimeconfig.cache
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Data\obj\Debug\net6.0\ref\CoffeeCRM.Data.dll
+D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.Data\obj\Debug\net6.0\CoffeeCRM.Data.sourcelink.json

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using CfCRM.Data.Models;
-using CfCRM.View.DTO;
+using CoffeeCRM.Data.DTO;
+using CoffeeCRM.Data.Model;
 using NPOI.SS.Formula.Functions;
 
-namespace CfCRM.View.Util.Extentions
+namespace CoffeeCRM.Core.Util
 {
     public class AutoMapper : Profile
     {

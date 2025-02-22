@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{305A27CB-0F72-48CA-9DD7-20DD3D207594}|CoffeeCRM.Core\\CoffeeCRM.Core.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.core\\util\\applicationextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{305A27CB-0F72-48CA-9DD7-20DD3D207594}|CoffeeCRM.Core\\CoffeeCRM.Core.csproj|solutionrelative:coffeecrm.core\\util\\applicationextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.data\\model\\sysdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|solutionrelative:coffeecrm.data\\model\\sysdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{305A27CB-0F72-48CA-9DD7-20DD3D207594}|CoffeeCRM.Core\\CoffeeCRM.Core.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.core\\util\\linqextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{305A27CB-0F72-48CA-9DD7-20DD3D207594}|CoffeeCRM.Core\\CoffeeCRM.Core.csproj|solutionrelative:coffeecrm.core\\util\\linqextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.data\\viewmodels\\notificationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|solutionrelative:coffeecrm.data\\viewmodels\\notificationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.data\\viewmodels\\invoicevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|solutionrelative:coffeecrm.data\\viewmodels\\invoicevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.data\\viewmodels\\ingredientviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|solutionrelative:coffeecrm.data\\viewmodels\\ingredientviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 156,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,28 +42,66 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ApplicationExtensions.cs",
-              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Core\\Util\\ApplicationExtensions.cs",
-              "RelativeDocumentMoniker": "CoffeeCRM.Core\\Util\\ApplicationExtensions.cs",
-              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Core\\Util\\ApplicationExtensions.cs",
-              "RelativeToolTip": "CoffeeCRM.Core\\Util\\ApplicationExtensions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-14T03:04:00.989Z",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\appsettings.json",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\appsettings.json",
+              "RelativeToolTip": "CoffeeCRM.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-22T16:57:30.999Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "LinqExtensions.cs",
-              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Core\\Util\\LinqExtensions.cs",
-              "RelativeDocumentMoniker": "CoffeeCRM.Core\\Util\\LinqExtensions.cs",
-              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Core\\Util\\LinqExtensions.cs",
-              "RelativeToolTip": "CoffeeCRM.Core\\Util\\LinqExtensions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAhAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "SysDbContext.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\Model\\SysDbContext.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Data\\Model\\SysDbContext.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\Model\\SysDbContext.cs",
+              "RelativeToolTip": "CoffeeCRM.Data\\Model\\SysDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-14T03:02:14.211Z"
+              "WhenOpened": "2025-02-22T16:57:27.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NotificationViewModel.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\ViewModels\\NotificationViewModel.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Data\\ViewModels\\NotificationViewModel.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\ViewModels\\NotificationViewModel.cs",
+              "RelativeToolTip": "CoffeeCRM.Data\\ViewModels\\NotificationViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T03:31:26.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IngredientViewModel.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\ViewModels\\IngredientViewModel.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Data\\ViewModels\\IngredientViewModel.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\ViewModels\\IngredientViewModel.cs",
+              "RelativeToolTip": "CoffeeCRM.Data\\ViewModels\\IngredientViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T03:31:17.586Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "InvoiceVM.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\ViewModels\\InvoiceVM.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Data\\ViewModels\\InvoiceVM.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\ViewModels\\InvoiceVM.cs",
+              "RelativeToolTip": "CoffeeCRM.Data\\ViewModels\\InvoiceVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T03:30:53.081Z"
             }
           ]
         }

@@ -11,6 +11,7 @@ namespace CoffeeCRM.Data.Model
             Attendances = new HashSet<Attendance>();
             CashFlows = new HashSet<CashFlow>();
             Invoices = new HashSet<Invoice>();
+            Notifications = new HashSet<Notification>();
             PurchaseOrders = new HashSet<PurchaseOrder>();
             StockTransactions = new HashSet<StockTransaction>();
             TableBookings = new HashSet<TableBooking>();
@@ -34,6 +35,7 @@ namespace CoffeeCRM.Data.Model
         public virtual ICollection<Attendance> Attendances { get; set; }
         public virtual ICollection<CashFlow> CashFlows { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual ICollection<StockTransaction> StockTransactions { get; set; }
         public virtual ICollection<TableBooking> TableBookings { get; set; }

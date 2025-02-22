@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 
-namespace CfCRM.View.Util
+namespace CoffeeCRM.Core.Util
 {
     public static class ApplicationExtensions
     {

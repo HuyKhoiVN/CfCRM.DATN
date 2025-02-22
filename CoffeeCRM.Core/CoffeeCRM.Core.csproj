@@ -31,4 +31,8 @@
 	  <ProjectReference Include="..\CoffeeCRM.Data\CoffeeCRM.Data.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Util\Parameters\" />
+	</ItemGroup>
+
 </Project>

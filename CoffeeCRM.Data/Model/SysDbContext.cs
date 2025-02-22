@@ -7,6 +7,7 @@ namespace CoffeeCRM.Data.Model
 {
     public partial class SysDbContext : DbContext
     {
+
         public SysDbContext(DbContextOptions<SysDbContext> options)
             : base(options)
         {
@@ -28,6 +29,8 @@ namespace CoffeeCRM.Data.Model
         public virtual DbSet<InventoryAudit> InventoryAudits { get; set; } = null!;
         public virtual DbSet<InventoryDiscrepancy> InventoryDiscrepancies { get; set; } = null!;
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
+        public virtual DbSet<Notification> Notifications { get; set; } = null!;
+        public virtual DbSet<NotificationStatus> NotificationStatuses { get; set; } = null!;
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; } = null!;
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
@@ -373,6 +376,12 @@ namespace CoffeeCRM.Data.Model
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Note).HasMaxLength(500);
+
+                entity.HasOne(d => d.Warehouse)
+                    .WithMany(p => p.InventoryAudits)
+                    .HasForeignKey(d => d.WarehouseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_InventoryAudit_Warehouse");
             });
 
             modelBuilder.Entity<InventoryDiscrepancy>(entity =>
@@ -439,6 +448,43 @@ namespace CoffeeCRM.Data.Model
                     .HasForeignKey(d => d.TableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Invoice__TableId__123EB7A3");
+            });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.ToTable("Notification");
+
+                entity.Property(e => e.ApproveTime).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(255);
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.Notifications)
+                    .HasForeignKey(d => d.AccountId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Notification_Account");
+
+                entity.HasOne(d => d.NotificationStatus)
+                    .WithMany(p => p.Notifications)
+                    .HasForeignKey(d => d.NotificationStatusId)
+                    .HasConstraintName("FK_Notification_NotificationStatus");
+
+                entity.HasOne(d => d.Sender)
+                    .WithMany(p => p.Notifications)
+                    .HasForeignKey(d => d.SenderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Notification_SenderRole");
+            });
+
+            modelBuilder.Entity<NotificationStatus>(entity =>
+            {
+                entity.ToTable("NotificationStatus");
+
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(255);
             });
 
             modelBuilder.Entity<PurchaseOrder>(entity =>
