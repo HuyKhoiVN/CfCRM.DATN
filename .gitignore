@@ -1,0 +1,8 @@
+# Bỏ qua tất cả thư mục bin và obj ở mọi cấp
+**/bin/
+**/obj/
+
+# Bỏ qua thư mục tạm
+*.log
+*.tmp
+ 

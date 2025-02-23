@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoffeeCRM.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d5618bfc4bb058e7bb22459285aab7e7dc6cc65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+524344b39562c174841fdd2a51fb0c05095db290")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoffeeCRM.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoffeeCRM.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
