@@ -17,10 +17,10 @@ namespace CoffeeCRM.Data.Model
         public decimal TotalMoney { get; set; }
         public string Status { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public int WarehouseId { get; set; }
         public int AccountId { get; set; }
-        public DateTime? TransactionDate { get; set; }
+        public DateTime TransactionDate { get; set; }
 
         public virtual Account Account { get; set; } = null!;
         public virtual Warehouse Warehouse { get; set; } = null!;

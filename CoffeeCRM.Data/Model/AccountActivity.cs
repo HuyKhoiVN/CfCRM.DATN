@@ -8,7 +8,7 @@ namespace CoffeeCRM.Data.Model
         public int Id { get; set; }
         public string? ActivityCode { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public int? AccountId { get; set; }
         public string ActivityDescription { get; set; } = null!;
         public string ActivityType { get; set; } = null!;

@@ -17,7 +17,7 @@ namespace CoffeeCRM.Data.Model
         public int SelfLife { get; set; }
         public decimal? AveragePrice { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public int IngredientCategoryId { get; set; }
         public int SupplierId { get; set; }
         public int UnitId { get; set; }

@@ -204,9 +204,7 @@ D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\CoffeeCRM.
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\CoffeeCRM.View.MvcApplicationPartsAssemblyInfo.cache
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\CoffeeCRM.View.RazorAssemblyInfo.cache
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\CoffeeCRM.View.RazorAssemblyInfo.cs
-D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\scopedcss\bundle\CoffeeCRM.View.styles.css
-D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\scopedcss\projectbundle\CoffeeCRM.View.bundle.scp.css
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\staticwebassets.build.json
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\staticwebassets.development.json
 D:\HuyKhoi\NET_CS\DATN_NCKH\CoffeeCRM\CoffeeCRM.View\obj\Debug\net6.0\staticwebassets.build.endpoints.json

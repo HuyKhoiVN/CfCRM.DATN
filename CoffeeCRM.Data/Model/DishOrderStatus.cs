@@ -14,7 +14,7 @@ namespace CoffeeCRM.Data.Model
         public string? DishOrderStatusCode { get; set; }
         public string DishOrderStatusName { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         public virtual ICollection<DishOrder> DishOrders { get; set; }
     }

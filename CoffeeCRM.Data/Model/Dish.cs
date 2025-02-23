@@ -16,7 +16,7 @@ namespace CoffeeCRM.Data.Model
         public decimal Price { get; set; }
         public string Photo { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public int DishCategoryId { get; set; }
 
         public virtual DishCategory DishCategory { get; set; } = null!;

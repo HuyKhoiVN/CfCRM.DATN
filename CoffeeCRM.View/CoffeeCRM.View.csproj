@@ -17,4 +17,9 @@
 	  <ProjectReference Include="..\CoffeeCRM.Data\CoffeeCRM.Data.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Controllers\" />
+	  <Folder Include="Views\Shared\" />
+	</ItemGroup>
+
 </Project>

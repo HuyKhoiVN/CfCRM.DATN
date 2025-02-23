@@ -1,8 +1,10 @@
 
 
+using CoffeeCRM.Data.Model;
+
 namespace CoffeeCRM.Data.ViewModels
 {
-    public class NotificationViewModel
+    public class NotificationViewModel : Notification
     {
         public string NotificationStatusName { get; set; }
         public string UserCreate { get; set; }

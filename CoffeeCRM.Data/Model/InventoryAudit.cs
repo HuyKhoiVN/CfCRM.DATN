@@ -16,7 +16,7 @@ namespace CoffeeCRM.Data.Model
         public string Auditor { get; set; } = null!;
         public string? Note { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public int WarehouseId { get; set; }
 
         public virtual Warehouse Warehouse { get; set; } = null!;

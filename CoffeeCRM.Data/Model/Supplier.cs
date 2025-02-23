@@ -17,7 +17,7 @@ namespace CoffeeCRM.Data.Model
         public string SupplierName { get; set; } = null!;
         public string? Address { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         public virtual ICollection<Debt> Debts { get; set; }
         public virtual ICollection<Ingredient> Ingredients { get; set; }

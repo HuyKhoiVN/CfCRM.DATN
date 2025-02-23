@@ -7,11 +7,11 @@ namespace CoffeeCRM.Data.Model
     {
         public int Id { get; set; }
         public DateTime BookingTime { get; set; }
-        public DateTime? CheckinTime { get; set; }
+        public DateTime CheckinTime { get; set; }
         public string BookingStatus { get; set; } = null!;
         public decimal? Deposit { get; set; }
-        public DateTime CreateTime { get; set; }
-        public bool? Active { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public bool Active { get; set; }
         public int AccountId { get; set; }
         public int TableId { get; set; }
 

@@ -10,7 +10,7 @@ namespace CoffeeCRM.Data.Model
         public decimal TotalMoney { get; set; }
         public string PaymentStatus { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public string PaymentMethod { get; set; } = null!;
         public int AccountId { get; set; }
         public int TableId { get; set; }

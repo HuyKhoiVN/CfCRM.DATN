@@ -11,7 +11,7 @@ namespace CoffeeCRM.Data.Model
         public int DishOrderId { get; set; }
         public int DishId { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public decimal Price { get; set; }
 
         public virtual Dish Dish { get; set; } = null!;

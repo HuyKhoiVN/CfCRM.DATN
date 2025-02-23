@@ -3,8 +3,40 @@
   "WorkspaceRootPath": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.data\\model\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E537A344-2AB2-4D6E-ABA5-3628A0D32294}|CoffeeCRM.Data\\CoffeeCRM.Data.csproj|solutionrelative:coffeecrm.data\\model\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\tablebookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\tablebookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\unitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\unitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\warehousecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\warehousecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\tablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\tablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\suppliercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\suppliercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\stocktransactiondetailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\stocktransactiondetailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\stocktransactioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\stocktransactioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\stocklevelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\stocklevelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|d:\\huykhoi\\net_cs\\datn_nckh\\coffeecrm\\coffeecrm.api\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC1A71C7-4F1F-495D-98D2-ECD7F79C76D1}|CoffeeCRM.Api\\CoffeeCRM.Api.csproj|solutionrelative:coffeecrm.api\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,29 +46,8 @@
       "DocumentGroups": [
         {
           "DockedHeight": 156,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Account.cs",
-              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\Model\\Account.cs",
-              "RelativeDocumentMoniker": "CoffeeCRM.Data\\Model\\Account.cs",
-              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Data\\Model\\Account.cs",
-              "RelativeToolTip": "CoffeeCRM.Data\\Model\\Account.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAxwB4AAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-23T02:40:31.66Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
@@ -44,6 +55,123 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WarehouseController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\WarehouseController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\WarehouseController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\WarehouseController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\WarehouseController.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAcwEUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:43:29.249Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UnitController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\UnitController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\UnitController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\UnitController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\UnitController.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAcwEYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:43:24.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TableController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\TableController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\TableController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\TableController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\TableController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAArwEUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:43:19.304Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TableBookingController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\TableBookingController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\TableBookingController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\TableBookingController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\TableBookingController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAArwEUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:43:14.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SupplierController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\SupplierController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\SupplierController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\SupplierController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\SupplierController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAArwEYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:43:09.736Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "StockTransactionDetailController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\StockTransactionDetailController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\StockTransactionDetailController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\StockTransactionDetailController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\StockTransactionDetailController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAArwEgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:43:05.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "StockTransactionController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\StockTransactionController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\StockTransactionController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\StockTransactionController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\StockTransactionController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAArwEUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:42:59.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "StockLevelController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\StockLevelController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\StockLevelController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\StockLevelController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\StockLevelController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAArwEcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:42:54.976Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RoleController.cs",
+              "DocumentMoniker": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\RoleController.cs",
+              "RelativeDocumentMoniker": "CoffeeCRM.Api\\Controllers\\RoleController.cs",
+              "ToolTip": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.Api\\Controllers\\RoleController.cs",
+              "RelativeToolTip": "CoffeeCRM.Api\\Controllers\\RoleController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAArwEcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:42:50.782Z",
+              "EditorCaption": ""
             }
           ]
         }

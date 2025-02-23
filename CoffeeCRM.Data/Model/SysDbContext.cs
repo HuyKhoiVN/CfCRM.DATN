@@ -695,7 +695,7 @@ namespace CoffeeCRM.Data.Model
 
                 entity.Property(e => e.CheckinTime).HasColumnType("datetime");
 
-                entity.Property(e => e.CreateTime).HasColumnType("datetime");
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Deposit).HasColumnType("decimal(18, 0)");
 

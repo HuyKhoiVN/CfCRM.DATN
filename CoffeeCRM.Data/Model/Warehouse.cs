@@ -18,7 +18,7 @@ namespace CoffeeCRM.Data.Model
         public string? Location { get; set; }
         public string? Note { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         public virtual ICollection<InventoryAudit> InventoryAudits { get; set; }
         public virtual ICollection<StockLevel> StockLevels { get; set; }

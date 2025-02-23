@@ -16,7 +16,7 @@ namespace CoffeeCRM.Data.Model
         public DateTime ExpirationDate { get; set; }
         public decimal UnitPrice { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public int IngredientId { get; set; }
         public int WarehouseId { get; set; }
         public DateTime LastUpdatedTime { get; set; }

@@ -9,7 +9,7 @@ namespace CoffeeCRM.Data.Model
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public int IngredientId { get; set; }
         public int PurchaseOrderId { get; set; }
 

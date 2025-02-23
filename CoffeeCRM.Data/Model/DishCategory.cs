@@ -14,7 +14,7 @@ namespace CoffeeCRM.Data.Model
         public string? DishCategoryCode { get; set; }
         public string DishCateogryName { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         public virtual ICollection<Dish> Dishes { get; set; }
     }

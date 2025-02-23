@@ -15,7 +15,7 @@ namespace CoffeeCRM.Data.Model
         public string? RoleCode { get; set; }
         public string RoleName { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }

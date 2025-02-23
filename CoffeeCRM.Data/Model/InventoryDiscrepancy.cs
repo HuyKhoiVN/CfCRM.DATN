@@ -12,7 +12,7 @@ namespace CoffeeCRM.Data.Model
         public int ActualQuantity { get; set; }
         public string? DiscrepancyReason { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         public virtual InventoryAudit InventoryAudit { get; set; } = null!;
         public virtual StockLevel StockLevel { get; set; } = null!;

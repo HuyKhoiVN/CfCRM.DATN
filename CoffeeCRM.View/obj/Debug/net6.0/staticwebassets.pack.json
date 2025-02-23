@@ -1,10 +1,6 @@
 {
   "Files": [
     {
-      "Id": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.View\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\CoffeeCRM.View.bundle.scp.css",
-      "PackagePath": "staticwebassets\\CoffeeCRM.View.3qmnigpx5x.bundle.scp.css"
-    },
-    {
       "Id": "D:\\HuyKhoi\\NET_CS\\DATN_NCKH\\CoffeeCRM\\CoffeeCRM.View\\wwwroot\\admin\\assets\\VanillaToast\\VanillaToast.css",
       "PackagePath": "staticwebassets\\admin\\assets\\VanillaToast\\VanillaToast.css"
     },

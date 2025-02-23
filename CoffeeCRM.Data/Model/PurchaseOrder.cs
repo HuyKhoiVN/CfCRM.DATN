@@ -15,9 +15,9 @@ namespace CoffeeCRM.Data.Model
         public decimal TotalPrice { get; set; }
         public string PaymentStatus { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
         public int AccountId { get; set; }
-        public DateTime? OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }
 
         public virtual Account Account { get; set; } = null!;
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }

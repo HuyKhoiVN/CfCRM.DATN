@@ -12,6 +12,6 @@ namespace CoffeeCRM.Data.Model
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
     }
 }
