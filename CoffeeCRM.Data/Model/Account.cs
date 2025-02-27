@@ -28,7 +28,7 @@ namespace CoffeeCRM.Data.Model
         public string? PhoneNumber { get; set; }
         public DateTime CreatedTime { get; set; }
         public bool Active { get; set; }
-        public int? RoleId { get; set; }
+        public int RoleId { get; set; }
 
         public virtual Role? Role { get; set; }
         public virtual ICollection<AccountActivity> AccountActivities { get; set; }
