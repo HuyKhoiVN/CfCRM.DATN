@@ -12,8 +12,9 @@
     using CoffeeCRM.Data.Constants;
     using CoffeeCRM.Core.Service;
     using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Core.Helper;
 
-    namespace CfCRM.DATN.Controllers
+namespace CfCRM.DATN.Controllers
     {
         [Route("[controller]")]
         [ApiController]
@@ -24,8 +25,44 @@
             {
                 service = _service;
             }
-            
-            [HttpGet]
+
+        //[HttpGet]
+        //[Route("api/ListQueue")]
+        //public async Task<IActionResult> ListQueue(int pageIndex, int pageSize)
+        //{
+        //    try
+        //    {
+        //        var accountId = this.GetLoggedInUserId();
+        //        var roleId = this.GetLoggedInRoleId();
+        //        if (roleId == RoleConst.BARTENDER)
+        //        {
+        //            var dataList = await service.ListDishOrderNotification();
+        //            if (dataList == null || dataList.Count == 0)
+        //            {
+        //                return NotFound();
+        //            }
+        //            return Ok(CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList()));
+        //        }
+        //        else if (roleId == RoleConst.WAITER)
+        //        {
+
+        //            var dataList = await notificationService.ListPaging(accountId, pageIndex, pageSize);
+        //            if (dataList == null || dataList.Count == 0)
+        //            {
+        //                return NotFound();
+        //            }
+        //            return Ok(CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList()));
+        //        }
+
+        //        return BadRequest();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
+        [HttpGet]
             [Route("api/List")]
             public async Task<IActionResult> List()
             {

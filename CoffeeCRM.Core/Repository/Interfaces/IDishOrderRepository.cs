@@ -1,36 +1,41 @@
 
-    using CoffeeCRM.Data.Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using CoffeeCRM.Core.Util;
-    using CoffeeCRM.Core.Util.Parameters;
-    using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
 
 
-    namespace CoffeeCRM.Core.Repository
+namespace CoffeeCRM.Core.Repository
+{
+    public interface IDishOrderRepository
     {
-        public interface IDishOrderRepository
-        {
-            Task <List< DishOrder>> List();
+        Task<List<DishOrder>> List();
 
-            //Task <List< DishOrder>> Search(string keyword);
+        //Task <List< DishOrder>> Search(string keyword);
 
-            Task <List< DishOrder>> ListPaging(int pageIndex, int pageSize);
+        Task<List<DishOrder>> ListPaging(int pageIndex, int pageSize);
 
-            Task <DishOrder> Detail(long ? postId);
+        Task<DishOrder> Detail(long? postId);
 
-            Task <DishOrder> Add(DishOrder DishOrder);
+        Task<DishOrder> Add(DishOrder DishOrder);
 
-            Task Update(DishOrder DishOrder);
+        Task<bool> Update(DishOrder DishOrder);
 
-            Task Delete(DishOrder DishOrder);
+        Task Delete(DishOrder DishOrder);
 
-            Task <long> DeletePermanently(long ? DishOrderId);
+        Task<long> DeletePermanently(long? DishOrderId);
+        Task<List<DishOrder>> ListUnPaid();
+        Task<List<DishOrderViewModel>> DishOrderDetailByTableId(int tableId);
+        Task<List<DishOrderViewModel>> DishOrderDetailList(int tableId);
+        Task<List<DishOrderViewModel>> ListDishOrderNotification();
+        Task<List<DishOrderViewModel>> ListDishOrderInvoice(int tableId);
 
-            int Count();
+        int Count();
 
-            Task <DTResult<DishOrder>> ListServerSide(DishOrderDTParameters parameters);
-        }
+        Task<DTResult<DishOrder>> ListServerSide(DishOrderDTParameters parameters);
     }
+}

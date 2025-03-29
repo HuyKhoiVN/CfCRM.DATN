@@ -31,4 +31,10 @@
 	  <ProjectReference Include="..\CoffeeCRM.Data\CoffeeCRM.Data.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Helper\WebClientHelper.cs">
+	    <SubType>Component</SubType>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

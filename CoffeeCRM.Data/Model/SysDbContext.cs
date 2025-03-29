@@ -7,6 +7,9 @@ namespace CoffeeCRM.Data.Model
 {
     public partial class SysDbContext : DbContext
     {
+        public SysDbContext()
+        {
+        }
 
         public SysDbContext(DbContextOptions<SysDbContext> options)
             : base(options)
@@ -49,12 +52,6 @@ namespace CoffeeCRM.Data.Model
             {
                 entity.ToTable("Account");
 
-                entity.HasIndex(e => e.Email, "idx_Account_Email");
-
-                entity.HasIndex(e => e.RoleId, "idx_Account_RoleId");
-
-                entity.HasIndex(e => e.Username, "idx_Account_Username");
-
                 entity.Property(e => e.AccountCode).HasMaxLength(255);
 
                 entity.Property(e => e.Active)
@@ -78,16 +75,12 @@ namespace CoffeeCRM.Data.Model
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK__Account__RoleId__02FC7413");
+                    .HasConstraintName("FK__Account__RoleId__08B54D69");
             });
 
             modelBuilder.Entity<AccountActivity>(entity =>
             {
                 entity.ToTable("AccountActivity");
-
-                entity.HasIndex(e => e.AccountId, "idx_AccountActivity_AccountId");
-
-                entity.HasIndex(e => e.CreatedTime, "idx_AccountActivity_CreatedTime");
 
                 entity.Property(e => e.Active)
                     .IsRequired()
@@ -104,7 +97,7 @@ namespace CoffeeCRM.Data.Model
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.AccountActivities)
                     .HasForeignKey(d => d.AccountId)
-                    .HasConstraintName("FK__AccountAc__Accou__03F0984C");
+                    .HasConstraintName("FK__AccountAc__Accou__09A971A2");
             });
 
             modelBuilder.Entity<Attendance>(entity =>
@@ -124,16 +117,12 @@ namespace CoffeeCRM.Data.Model
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.Attendances)
                     .HasForeignKey(d => d.AccountId)
-                    .HasConstraintName("FK__Attendanc__Accou__04E4BC85");
+                    .HasConstraintName("FK__Attendanc__Accou__0A9D95DB");
             });
 
             modelBuilder.Entity<CashFlow>(entity =>
             {
                 entity.ToTable("CashFlow");
-
-                entity.HasIndex(e => e.AccountId, "idx_CashFlow_AccountId");
-
-                entity.HasIndex(e => e.CreatedTime, "idx_CashFlow_CreatedTime");
 
                 entity.Property(e => e.Active)
                     .IsRequired()
@@ -151,7 +140,7 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.CashFlows)
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CashFlow__Accoun__05D8E0BE");
+                    .HasConstraintName("FK__CashFlow__Accoun__0B91BA14");
             });
 
             modelBuilder.Entity<Debt>(entity =>
@@ -176,16 +165,12 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.Debts)
                     .HasForeignKey(d => d.SupplierId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Debt__SupplierId__06CD04F7");
+                    .HasConstraintName("FK__Debt__SupplierId__0C85DE4D");
             });
 
             modelBuilder.Entity<Dish>(entity =>
             {
                 entity.ToTable("Dish");
-
-                entity.HasIndex(e => e.DishCategoryId, "idx_Dish_DishCategoryId");
-
-                entity.HasIndex(e => e.DishCode, "idx_Dish_DishCode");
 
                 entity.Property(e => e.Active)
                     .IsRequired()
@@ -205,14 +190,12 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.Dishes)
                     .HasForeignKey(d => d.DishCategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Dish__DishCatego__07C12930");
+                    .HasConstraintName("FK__Dish__DishCatego__0D7A0286");
             });
 
             modelBuilder.Entity<DishCategory>(entity =>
             {
                 entity.ToTable("DishCategory");
-
-                entity.HasIndex(e => e.DishCategoryCode, "idx_DishCategory_DishCategoryCode");
 
                 entity.Property(e => e.Active)
                     .IsRequired()
@@ -235,17 +218,23 @@ namespace CoffeeCRM.Data.Model
 
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.DishOrders)
+                    .HasForeignKey(d => d.AccountId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_dishOrder_account");
+
                 entity.HasOne(d => d.DishOrderStatus)
                     .WithMany(p => p.DishOrders)
                     .HasForeignKey(d => d.DishOrderStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DishOrder__DishO__08B54D69");
+                    .HasConstraintName("FK__DishOrder__DishO__0E6E26BF");
 
                 entity.HasOne(d => d.Table)
                     .WithMany(p => p.DishOrders)
                     .HasForeignKey(d => d.TableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DishOrder__Table__09A971A2");
+                    .HasConstraintName("FK__DishOrder__Table__0F624AF8");
             });
 
             modelBuilder.Entity<DishOrderDetail>(entity =>
@@ -264,13 +253,13 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.DishOrderDetails)
                     .HasForeignKey(d => d.DishId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DishOrder__DishI__0A9D95DB");
+                    .HasConstraintName("FK__DishOrder__DishI__10566F31");
 
                 entity.HasOne(d => d.DishOrder)
                     .WithMany(p => p.DishOrderDetails)
                     .HasForeignKey(d => d.DishOrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DishOrder__DishO__0B91BA14");
+                    .HasConstraintName("FK__DishOrder__DishO__114A936A");
             });
 
             modelBuilder.Entity<DishOrderStatus>(entity =>
@@ -329,19 +318,19 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.Ingredients)
                     .HasForeignKey(d => d.IngredientCategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Ingredien__Ingre__0C85DE4D");
+                    .HasConstraintName("FK__Ingredien__Ingre__123EB7A3");
 
                 entity.HasOne(d => d.Supplier)
                     .WithMany(p => p.Ingredients)
                     .HasForeignKey(d => d.SupplierId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Ingredien__Suppl__0D7A0286");
+                    .HasConstraintName("FK__Ingredien__Suppl__1332DBDC");
 
                 entity.HasOne(d => d.Unit)
                     .WithMany(p => p.Ingredients)
                     .HasForeignKey(d => d.UnitId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Ingredien__UnitI__0E6E26BF");
+                    .HasConstraintName("FK__Ingredien__UnitI__14270015");
             });
 
             modelBuilder.Entity<IngredientCategory>(entity =>
@@ -400,26 +389,18 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.InventoryDiscrepancies)
                     .HasForeignKey(d => d.InventoryAuditId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Inventory__Inven__0F624AF8");
+                    .HasConstraintName("FK__Inventory__Inven__151B244E");
 
                 entity.HasOne(d => d.StockLevel)
                     .WithMany(p => p.InventoryDiscrepancies)
                     .HasForeignKey(d => d.StockLevelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Inventory__Stock__10566F31");
+                    .HasConstraintName("FK__Inventory__Stock__160F4887");
             });
 
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.ToTable("Invoice");
-
-                entity.HasIndex(e => e.AccountId, "idx_Invoice_AccountId");
-
-                entity.HasIndex(e => e.CreatedTime, "idx_Invoice_CreatedTime");
-
-                entity.HasIndex(e => e.InvoiceCode, "idx_Invoice_InvoiceCode");
-
-                entity.HasIndex(e => e.TableId, "idx_Invoice_TableId");
 
                 entity.Property(e => e.Active)
                     .IsRequired()
@@ -441,13 +422,13 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Invoice__Account__114A936A");
+                    .HasConstraintName("FK__Invoice__Account__17036CC0");
 
                 entity.HasOne(d => d.Table)
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.TableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Invoice__TableId__123EB7A3");
+                    .HasConstraintName("FK__Invoice__TableId__17F790F9");
             });
 
             modelBuilder.Entity<Notification>(entity =>
@@ -509,7 +490,7 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.PurchaseOrders)
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PurchaseO__Accou__1332DBDC");
+                    .HasConstraintName("FK__PurchaseO__Accou__1BC821DD");
             });
 
             modelBuilder.Entity<PurchaseOrderDetail>(entity =>
@@ -528,20 +509,18 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.PurchaseOrderDetails)
                     .HasForeignKey(d => d.IngredientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PurchaseO__Ingre__14270015");
+                    .HasConstraintName("FK__PurchaseO__Ingre__1CBC4616");
 
                 entity.HasOne(d => d.PurchaseOrder)
                     .WithMany(p => p.PurchaseOrderDetails)
                     .HasForeignKey(d => d.PurchaseOrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PurchaseO__Purch__151B244E");
+                    .HasConstraintName("FK__PurchaseO__Purch__1DB06A4F");
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Role");
-
-                entity.HasIndex(e => e.RoleCode, "idx_Role_RoleCode");
 
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
@@ -572,13 +551,13 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.StockLevels)
                     .HasForeignKey(d => d.IngredientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__StockLeve__Ingre__160F4887");
+                    .HasConstraintName("FK__StockLeve__Ingre__1EA48E88");
 
                 entity.HasOne(d => d.Warehouse)
                     .WithMany(p => p.StockLevels)
                     .HasForeignKey(d => d.WarehouseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__StockLeve__Wareh__17036CC0");
+                    .HasConstraintName("FK__StockLeve__Wareh__1F98B2C1");
             });
 
             modelBuilder.Entity<StockTransaction>(entity =>
@@ -607,13 +586,13 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.StockTransactions)
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__StockTran__Accou__17F790F9");
+                    .HasConstraintName("FK__StockTran__Accou__208CD6FA");
 
                 entity.HasOne(d => d.Warehouse)
                     .WithMany(p => p.StockTransactions)
                     .HasForeignKey(d => d.WarehouseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__StockTran__Wareh__18EBB532");
+                    .HasConstraintName("FK__StockTran__Wareh__2180FB33");
             });
 
             modelBuilder.Entity<StockTransactionDetail>(entity =>
@@ -630,13 +609,13 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.StockTransactionDetails)
                     .HasForeignKey(d => d.StockLevelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__StockTran__Stock__19DFD96B");
+                    .HasConstraintName("FK__StockTran__Stock__22751F6C");
 
                 entity.HasOne(d => d.StockTransaction)
                     .WithMany(p => p.StockTransactionDetails)
                     .HasForeignKey(d => d.StockTransactionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__StockTran__Stock__1AD3FDA4");
+                    .HasConstraintName("FK__StockTran__Stock__236943A5");
             });
 
             modelBuilder.Entity<Supplier>(entity =>
@@ -662,10 +641,6 @@ namespace CoffeeCRM.Data.Model
             {
                 entity.ToTable("Table");
 
-                entity.HasIndex(e => e.TableCode, "idx_Table_TableCode");
-
-                entity.HasIndex(e => e.TableStatus, "idx_Table_TableStatus");
-
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.TableCode).HasMaxLength(255);
@@ -678,12 +653,6 @@ namespace CoffeeCRM.Data.Model
             modelBuilder.Entity<TableBooking>(entity =>
             {
                 entity.ToTable("TableBooking");
-
-                entity.HasIndex(e => e.AccountId, "idx_TableBooking_AccountId");
-
-                entity.HasIndex(e => e.BookingTime, "idx_TableBooking_BookingTime");
-
-                entity.HasIndex(e => e.TableId, "idx_TableBooking_TableId");
 
                 entity.Property(e => e.Active)
                     .IsRequired()
@@ -703,13 +672,13 @@ namespace CoffeeCRM.Data.Model
                     .WithMany(p => p.TableBookings)
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__TableBook__Accou__1BC821DD");
+                    .HasConstraintName("FK__TableBook__Accou__245D67DE");
 
                 entity.HasOne(d => d.Table)
                     .WithMany(p => p.TableBookings)
                     .HasForeignKey(d => d.TableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__TableBook__Table__1CBC4616");
+                    .HasConstraintName("FK__TableBook__Table__25518C17");
             });
 
             modelBuilder.Entity<Unit>(entity =>

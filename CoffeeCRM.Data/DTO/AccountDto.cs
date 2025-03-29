@@ -15,7 +15,7 @@ namespace CoffeeCRM.Data.DTO
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Photo { get; set; }
-        public DateTime? DOB { get; set; }
+        public DateTime DOB { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime CreatedTime { get; set; }
         public bool Active { get; set; }
@@ -23,7 +23,7 @@ namespace CoffeeCRM.Data.DTO
         public string RoleName { get; set; } // Từ bảng Role
 
         // Thông tin tổng quan cho danh sách nhân viên
-        public DateTime? LastLoginTime { get; set; } // Có thể lưu trong AccountActivity hoặc thêm vào Account
+        public DateTime LastLoginTime { get; set; } // Có thể lưu trong AccountActivity hoặc thêm vào Account
         public int TotalInvoices { get; set; } // Tính từ Invoice
         public int TotalStockTransactions { get; set; } // Tính từ StockTransaction
         public int TotalCheckInDays { get; set; } // Tính từ Attendance
