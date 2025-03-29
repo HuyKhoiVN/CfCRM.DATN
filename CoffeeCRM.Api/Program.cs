@@ -1,9 +1,13 @@
-using CoffeeCRM.Core;
+﻿using CoffeeCRM.Core;
 using CoffeeCRM.Core.Repository;
 using CoffeeCRM.Core.Service;
 using CoffeeCRM.Data.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,44 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<SysDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+
+
+// Cấu hình CORS (nếu cần)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", b => b.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
+});
+
+var jwtSection = builder.Configuration.GetSection("Jwt");
+
+// Cấu hình dịch vụ xác thực JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSection["Issuer"],   // Địa chỉ issuer trong appSettings
+            ValidAudience = jwtSection["Audience"], // Địa chỉ audience trong appSettings
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSection["Key"])), // Khóa bí mật
+            ClockSkew = TimeSpan.Zero // Đặt ClockSkew = 0 để giảm độ trễ khi kiểm tra token
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                logger.LogError($"Authentication failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
@@ -122,6 +164,8 @@ catch (Exception ex)
         builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
         builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 
+        builder.Services.AddScoped<ITokenService, TokenService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -136,10 +180,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+var wwwrootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+if (!Directory.Exists(wwwrootPath))
+{
+    Directory.CreateDirectory(wwwrootPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(wwwrootPath),
+    RequestPath = ""  // Không thay đổi đường dẫn truy cập
+});
+
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseCors("AllowSpecificOrigin");
+app.UseAuthentication();  // Middleware xác thực
+app.UseAuthorization();   // Middleware phân quyền
 app.MapControllers();
 
 app.Run();

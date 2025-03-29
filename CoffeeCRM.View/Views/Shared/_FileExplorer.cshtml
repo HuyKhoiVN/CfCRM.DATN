@@ -1,0 +1,176 @@
+﻿@{
+    Layout = null;
+}
+<!-- File explorer style start -->
+<link href="~/assets/css/pages/file-explorer.css" rel="stylesheet" asp-append-version="true" />
+<!-- FILE EXPLORER JAVASCRIPT start -->
+<script src="~/assets/js/pages/file-explorer.js" asp-append-version="true"></script>
+<!-- FILE EXPLORER JAVASCRIPT end -->
+<!-- File explorer style end -->
+<!--Modal file manage-->
+<div class="modal  fade" id="modalFileExplorer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" data-bs-focus="false" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal_xxl">
+        <div class="modal-content shadow-none">
+            <div class="modal-header" id="kt_modal_add_customer_header">
+                <!--begin::Modal title-->
+                <h2 class="fw-bold modal-title">Quản lý tệp tin</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btn-close" data-bs-dismiss="modal" aria-label="Dong">
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0 m-0 h-100">
+                <div class="d-flex flex-row h-100 overflow-hidden" data-kt-app-layout="light-sidebar">
+                    <div id="file-explorer-side-bar" class="flex-column bg-body" data-kt-drawer-width="225px">
+                        <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
+                            <div id="file_explorer_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+                                <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="file_explorer_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-main flex-column flex-row-fluid" id="file-explorer-content">
+                        <div class="file_explorer_toolbar d-flex flex-row justify-content-between bg-light px-6 py-4">
+                            <input type="file" multiple id="di_file_upload" class="d-none" />
+                            <div class="start_toolbar">
+                                <span class="btn btn-primary btn_add_folder">
+                                    <span class="menu-icon">
+                                        <i class="ki-duotone ki-add-folder fs-3">
+                                            <span class="path1 ki-uniE968"></span>
+                                            <span class="path2 ki-uniE969"></span>
+                                        </i>
+                                    </span>
+                                    <span class="menu-title">Thêm mới</span>
+                                </span>
+                                <button class="btn btn-primary" id="btn_upload_file">
+                                    <i class="ki-duotone ki-file-up fs-3">
+                                        <span class="path1 ki-uniEC2D"></span>
+                                        <span class="path2 ki-uniEC2E"></span>
+                                    </i>
+                                    Tải lên
+                                </button>
+                            </div>
+                            <div class="end_toolbar d-flex flex-row">
+                                <div class="d-flex align-items-center position-relative my-0 me-3">
+                                    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
+                                        <span class="path1 ki-uniED02"></span>
+                                        <span class="path2 ki-uniED03"></span>
+                                    </i>
+                                    <input type="text" data-kt-ecommerce-product-filter="search" class="form-control  w-250px ps-12 search_all" placeholder="Tìm kiếm...">
+                                </div>
+                                <button class="btn btn-primary btn_refresh" title="Làm mới">
+                                    <i class="ki-duotone ki-arrows-circle fs-3">
+                                        <span class="path1 ki-uniE9B3"></span>
+                                        <span class="path2 ki-uniE9B4"></span>
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <!--begin::Content wrapper-->
+                        <div class="d-flex flex-column flex-column-fluid h-100">
+                            <div class="file_explorer_view_content p-3 scroll-y" tabindex="-1">
+                                <div class="file_gallery" role="grid" tabindex="-1" style="--file-gallery-size: 140px;">
+                                </div>
+                            </div>
+                            <div id="file_pagination">
+                                <ul class="pagination pagination-outline">
+                                    <li class="page-item previous disabled m-1"><a href="#!" class="page-link"><i class="previous"></i></a></li>
+                                    <li class="page-item m-1"><a href="#!" class="page-link">1</a></li>
+                                    <li class="page-item active m-1"><a href="#!" class="page-link">2</a></li>
+                                    <li class="page-item m-1"><a href="#!" class="page-link">3</a></li>
+                                    <li class="page-item m-1"><a href="#!" class="page-link">4</a></li>
+                                    <li class="page-item m-1"><a href="#!" class="page-link">5</a></li>
+                                    <li class="page-item m-1"><a href="#!" class="page-link">6</a></li>
+                                    <li class="page-item next m-1"><a href="#!" class="page-link"><i class="next"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--end::Content wrapper-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center w-100">
+                    <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal">
+                        Đóng
+                    </button>
+                    <button type="button" class="btn btn-primary shadow-2 d-none me-3" id="btnChooseFile">
+                        Chọn tệp
+                    </button>
+                    <button type="button" class="btn btn-danger shadow-2 d-none" id="btnDeleteFile">
+                        Xóa tệp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade sub_modal" tabindex="-1" id="modal_add_folder">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Thêm mới thư mục</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-close btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label required" for="folder_name">
+                        Tên thư mục
+                    </label>
+                    <input type="text" class="form-control mb-3 mb-lg-0 form_input folder_name bs_max_length" maxlength="255" id="folder_name">
+                </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary btn_submit">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // var config = {
+    //     option: {
+    //         maximum: @@UploadFileConst.MINIMUM_LAGRE_FILE,
+    //         folderUploadId: @@FolderUploadConst.FOLDER_UPLOAD_ID,
+    //         defaultFolderUploadId: @@FolderUploadConst.FOLDER_UPLOAD_ID,
+    //     },
+    //     elements: {
+    //         loading: "#loading",
+    //         upload: "#di_file_upload",
+    //         search: "#file-explorer-content .search_all",search id
+    //         fileContent: "#file-explorer-content .file_explorer_view_content",
+    //         treeFolder: "#fileExplorerTreeFolder",tree folder id
+    //         folderName: "#folder_Name",folder name id
+    //         editFolder: "#edit_folder",edit folder id
+    //         parent: "#modalFileExplorer",parent id
+    //     },
+    //     buttons: {
+    //         btnRefresh: "#btnRefreshFileExplorer",btn refresh id
+    //         btnUploadFile: "#btn_upload_file",btn upload file id
+    //         btnChooseFile: "#btnChooseFile",
+    //         btnDeleteFile: "#btnDeleteFile",
+    //     },
+    //     paths: {
+    //         folderThumb: "https",
+    //         file: "https",
+    //         folder: "https"
+    //     },
+    //     images: {
+    //         empty: "https"
+    //     },
+    //     instantFolder: {
+    //         uploads: @@FolderUploadConst.FOLDER_UPLOAD_ID
+    //     },
+    // };
+    // FILE_EXPLORER.init(config);
+    // $(document).ready(function () {
+
+    // });
+</script>

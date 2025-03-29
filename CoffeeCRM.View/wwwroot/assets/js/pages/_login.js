@@ -1,15 +1,8 @@
 ﻿"use strict";
-/**
- * Author: Ha Thanh Nguyen
- * Created: 09/08/2024
- * Description: Login page javascript
- */
 const accessKey = "Authorization";
-/**
- * Author: Ha Thanh Nguyen
- * Created: 09/08/2024
- * Description: submit login
- */
+const profileKey = "Profile";
+const apiURL = "https://localhost:7273/";
+
 $("#loginForm").on("submit",function (e) {
     e.preventDefault();
     signIn();
@@ -46,15 +39,17 @@ async function signIn() {
             return;
         }
         
-        let result = await httpService.postAsync("/account/api/login", data);
+        let result = await httpService.postAsync(apiURL + "account/api/login", data);
         if (result.status == "200") {
             let token = result.resources.accessToken;
             let profile = result.resources.profile;
             localStorage.setItem("token", token);
             localStorage.setItem("profile", JSON.stringify(profile));
-            document.cookie = `${accessKey}=${token}`;
+            document.cookie = `${accessKey}=${token}; path=/; max-age=86400;`;
+            document.cookie = `UserId=${profile.id}; path=/; max-age=86400;`;
+            document.cookie = `RoleId=${profile.roleId}; path=/; max-age=86400;`;
             Swal.fire("Đăng nhập thành công", "Chào mừng <b>" + data.userName + "</b> trở lại.", "success").then(function () {
-                location.href = "/";
+                location.href = "/home/index";
             });
         }
         else {

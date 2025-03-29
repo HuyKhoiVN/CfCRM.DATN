@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CoffeeCRM.Core.Util;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.DTO;
 
 
 namespace CoffeeCRM.Core.Repository
@@ -30,8 +31,7 @@ namespace CoffeeCRM.Core.Repository
         Task<long> DeletePermanently(long? AccountId);
 
         int Count();
-
-        Task<DTResult<Account>> ListServerSide(AccountDTParameters parameters);
-        Task<Account> Login(Account obj);
+        Task<DTResult<AccountDto>> ListServerSide(AccountDTParameters parameters);
+        Task<Account> Login(LoginDto obj);
     }
 }

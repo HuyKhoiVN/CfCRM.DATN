@@ -1,0 +1,89 @@
+﻿@{ Layout = null; }
+<script>
+    setTimeout(function () {
+        $(".page-loader").addClass('hide');
+    }, 500);
+    function formatNumberCurrency(n) {
+        // format number 1000000 to 1,234,567
+        n = n.toString();
+        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }
+    $("input[data-type='currency'").on('keyup', function () {
+        $(this).val(function (index, value) {
+            return value
+                .replace(/\D/g, '')
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        });
+    });
+    function timeAgo(dateString) {
+        // Chuyển chuỗi thời gian sang đối tượng Date theo định dạng "DD/MM/YYYY HH:mm:ss"
+        const parts = dateString.split(' ');
+        const dateParts = parts[0].split('/');  // Tách phần ngày (DD/MM/YYYY)
+        const timeParts = parts[1].split(':');  // Tách phần giờ (HH:mm:ss)
+
+        // Tạo đối tượng Date theo định dạng "YYYY-MM-DDTHH:mm:ss"
+        const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timeParts[0]}:${timeParts[1]}:${timeParts[2]}`;
+        const date = new Date(formattedDate);
+        const now = new Date();
+
+        // Tính toán sự khác biệt giữa thời gian hiện tại và thời gian đã cho
+        const differenceInSeconds = Math.floor((now - date) / 1000); // Sự khác biệt tính bằng giây
+        const differenceInMinutes = Math.floor(differenceInSeconds / 60); // Sự khác biệt tính bằng phút
+        const differenceInHours = Math.floor(differenceInMinutes / 60); // Sự khác biệt tính bằng giờ
+        const differenceInDays = Math.floor(differenceInHours / 24); // Sự khác biệt tính bằng ngày
+
+        // Kiểm tra và trả về kết quả theo định dạng "X phút trước", "X giờ trước", "X ngày trước"
+        if (differenceInSeconds < 60) {
+            return "Vừa xong";
+        } else if (differenceInMinutes < 60) {
+            return `${differenceInMinutes} phút trước`;
+        } else if (differenceInHours < 24) {
+            return `${differenceInHours} giờ trước`;
+        } else {
+            return `${differenceInDays} ngày trước`;
+        }
+    }
+</script>
+<!--begin::Javascript-->
+<script>var hostUrl = "/admin/assets/index.html";</script>
+
+<!--begin::Global Javascript Bundle(mandatory for all pages)-->
+<script src="/admin/assets/plugins/global/plugins.bundle.js"></script>
+<script src="/admin/assets/js/scripts.bundle.js"></script>
+<!--end::Global Javascript Bundle-->
+<!--begin::Vendors Javascript(used for this page only)-->
+<script src="/admin/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/index.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/radar.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/map.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/geodata/continentsLow.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
+<script src="/admin/cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
+<script src="/admin/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+<!--end::Vendors Javascript-->
+<!--begin::Custom Javascript(used for this page only)-->
+<script src="/admin/assets/js/widgets.bundle.js"></script>
+<script src="/admin/assets/js/custom/widgets.js"></script>
+<script src="/admin/assets/js/custom/apps/chat/chat.js"></script>
+<script src="/admin/assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+<script src="/admin/assets/js/custom/utilities/modals/create-app.js"></script>
+<script src="/admin/assets/js/custom/utilities/modals/new-target.js"></script>
+<script src="/admin/assets/js/custom/utilities/modals/users-search.js"></script>
+<script src="/assets/js/pages/_layout.js" asp-append-version="true"></script>
+<script src="~/assets/js/ajaxsetup.js" asp-append-version="true"></script>
+<!--end::Custom Javascript-->
+<!--end::Javascript-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="/assets/js/select2_language_vi.js" asp-append-version="true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js"></script>
+<script>
+    $.fn.select2.defaults.set('language', 'vi');
+    $.fn.dataTable.ext.errMode = function (settings, helpPage, message) {
+        console.log(message);
+    };
+</script>

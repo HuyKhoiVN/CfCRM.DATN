@@ -1,0 +1,295 @@
+﻿@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+@using CoffeeCRM.Core.Util
+@using CoffeeCRM.Data.Constants
+@{
+    Layout = null;
+}
+
+<title>Coffee - Quản trị</title>
+<meta charset="utf-8" />
+<meta name="description" content="
+           Coffee Management
+        " />
+<meta name="keywords" content="
+           Coffee Management
+        " />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="
+            Coffee Management
+        " />
+<meta property="og:url" content="https://keenthemes.com/metronic" />
+<meta property="og:site_name" content="Keenthemes | Metronic" />
+<link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+<link rel="shortcut icon" href="/faviconsuri.ico" />
+
+<!--begin::Fonts(mandatory for all pages)-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" /> <!--end::Fonts-->
+<!--begin::Vendor Stylesheets(used for this page only)-->
+<link href="/admin/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+<link href="/admin/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+<!--end::Vendor Stylesheets-->
+<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+<link href="/admin/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+<link href="/admin/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+<!--end::Global Stylesheets Bundle-->
+<!--Begin::Google Tag Manager -->
+
+
+<!--DataTable Library End-->
+<!--start::CK-Editor 5-->
+<script src="/assets/js/ckeditor/ckeditor.js" asp-append-version="true"></script>
+<script src="/assets/js/ckeditor/config.js" asp-append-version="true"></script>
+<!--end:: CK-Editor 5-->
+
+<script>
+    // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking)
+    if (window.top != window.self) {
+        window.top.location.replace(window.self.location.href);
+    }
+</script>
+
+
+<script src="/assets/js/custom/fslightbox/fslightbox.bundle.js" asp-append-version="true"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<!--DataTable Library-->
+<link href="/admin/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+<script src="/admin/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+<link href="/admin/assets/plugins/custom/datatables/customtables.css" rel="stylesheet" type="text/css" />
+<script src="/admin/assets/plugins/global/tempus-dominus.init.js"></script>
+<script src="/admin/assets/plugins/custom/fileupload/getsrcktimageinput.js"></script>
+<script src="/admin/assets/plugins/custom/fileupload/uploadfile.js"></script>
+<script src="~/admin/assets/js/http-service.js" asp-append-version="true"></script>
+
+
+<!--DataTable Library End-->
+<script>
+    // var systemURL = window.origin + "/";
+    var systemURL = "@SystemConstant.API_URL";
+</script>
+<script>
+    $(document).ready(function () {
+        // console.log("systemURL:", systemURL);
+        // console.log("apiURL:", apiURL);
+    });
+</script>
+
+<!-- Datetime picker -->
+@*<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />*@
+<script>
+    function formatNumber() {
+        //debugger;
+        $('.column-price , .column-openingPrice , .column-value , .column-amount, .column-available, .column-balance1').each(function (event) {
+            // format number
+            $(this).text(function (index, value) {
+                return value
+                    .replace(/\D/g, '')
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            });
+        });
+
+        $('.input-price,.input-depositPrice,.input-openingPrice,.input-buyPrice,.input-stepPrice , .input-value, .input-balance, .input-available, .input-auctionPropertyRegisterFee, .input-registerFee').each(function (event) {
+            $(this).attr('type', 'text');
+
+            // format number
+            $(this).val(function (index, value) {
+                return value
+                    .replace(/\D/g, '')
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            });
+        });
+
+        $('.column-createdTime , .column-publishedTime , .column-openTime , .column-closedTime').each(function (event) {
+            //debugger;
+            var currentValue = $(this).text();
+            if (!currentValue.includes("T")) return;
+            var date = new Date(currentValue);
+            var newValue = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+            //$(this).text(newValue);
+            $(this).text(formatDisplayTimeFromDBTime(currentValue));
+        });
+
+        // $('.column-createdTime').each(function (event) {
+        //    //debugger;
+        //    var currentValue = $(this).text();
+        //    $(this).text(datetimeFormatVietNam(currentValue));
+        //});
+
+
+        $('.input-createdTime , .input-publishedTime').each(function (event) {
+            //debugger;
+            var inputObj = $(this).find("input");
+            var currentValue = inputObj.val();
+            if (!currentValue.includes("T")) return;
+            var date = new Date(currentValue);
+            var newValue = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+            inputObj.val(newValue);
+        });
+
+    }
+    function validateInputNumber() {
+        $('.input-price').each(function () {
+            this.value = this.value.replace(/,/g, '')
+        });
+    }
+    function datetimeFormat(datetime) {
+        try {
+            datetime = datetime.replace(" AM", "");
+            datetime = datetime.replace(" PM", "");
+
+            //let currentDate = "";
+            var currentDate = datetime;
+
+            //in case date or month has only 1 character
+            var array = currentDate.split("/");
+            if (array[0].length == 1) array[0] = "0" + array[0];
+            if (array[1].length == 1) array[1] = "0" + array[1];
+            currentDate = array.join("/");
+
+            if (currentDate.includes("AM") == true || currentDate.includes("PM") == true) {
+                currentDate = currentDate.substring(0, currentDate.indexOf("M") - 2);
+            }
+
+            var dateValue = currentDate.substring(0, 2);
+            var monthValue = currentDate.substring(3, 5);
+            var formatedDate = monthValue + "-" + dateValue + currentDate.substring(5);
+            var returnValue = moment(formatedDate).format("YYYY-MM-DD HH:mm:ss");
+            if (returnValue != "Invalid date") {
+                return returnValue;
+            }
+            else {
+                return "2019-01-01 00:00:00";
+            }
+            //return moment(formatedDate).format("YYYY-MM-DD HH:mm:ss");
+        }
+        catch (err) {
+            return "2020-01-01 00:00:00";
+        }
+    }
+
+
+    function datetimeFormatVietNam(datetime) {
+        try {
+            datetime = datetime.replace(" AM", "");
+            datetime = datetime.replace(" PM", "");
+
+            //let currentDate = "";
+            var currentDate = datetime;
+
+            //in case date or month has only 1 character
+            var array = currentDate.split("/");
+            if (array[0].length == 1) array[0] = "0" + array[0];
+            if (array[1].length == 1) array[1] = "0" + array[1];
+            currentDate = array.join("/");
+
+            if (currentDate.includes("AM") == true || currentDate.includes("PM") == true) {
+                currentDate = currentDate.substring(0, currentDate.indexOf("M") - 2);
+            }
+
+            var dateValue = currentDate.substring(0, 2);
+            var monthValue = currentDate.substring(3, 5);
+            var formatedDate = dateValue + "-" + monthValue + currentDate.substring(5);
+            var returnValue = moment(formatedDate).format("DD/MM/YYYY HH:mm:ss A");
+            if (returnValue != "Invalid date") {
+                return returnValue;
+            }
+            else {
+                return "01/01/2019 00:00:00";
+            }
+            //return moment(formatedDate).format("YYYY-MM-DD HH:mm:ss");
+        }
+        catch (err) {
+            return "2020-01-01 00:00:00";
+        }
+    }
+
+    function camelToSentenceCase(input) {
+        var text = input;
+        var result = text.replace(/([A-Z])/g, " $1");
+        var finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+        return finalResult;
+    }
+    function formatDisplayTimeFromDBTime(n) { let t = n.length; 22 == t && (n += "0"), 21 == t && (n += "00"), 19 == t && (n += ".000"); let e = n.substring(0, 4), i = n.substring(5, 7), r = n.substring(8, 10), u = n.substring(11, 13), o = n.substring(14, 16), c = n.substring(17, 19); n.substring(20, t > 23 ? 23 : n.length); return r + "/" + i + "/" + e + " " + u + ":" + o + ":" + c }
+    function formatDatetimeUpdate(dateStr) {
+        var [date, time] = dateStr.split(" ");
+        var [day, month, year] = date.split("/");
+        var localISOTime = year + "-" + month + "-" + day + "T" + time;
+        return localISOTime;
+    }
+
+    var systemConfig = {
+        defaultAPIURL: "@ViewBag.SystemURL"
+    }
+
+</script>
+@* <script src="~/assets/js/ajaxsetup.js"></script> *@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.7/signalr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    var profile = JSON.parse(localStorage.getItem('profile'));
+    function playNotificationSound() {
+        var audio = document.getElementById("notificationSound");
+        audio.play();
+    }
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl(systemURL + "notificationHub")
+        .build();
+    connection.on("ReceiveNotification", function (message) {
+        console.log(message)
+        if ((@RoleConst.BARTENDER == @ViewBag.RoleId && message.senderId == @RoleConst.WAITER)) {
+            playNotificationSound();
+            toastr.info(
+                message.name,
+                'Bạn có thông báo mới',
+                {
+                    timeOut: 5000, extendedTimeOut: 0, closeButton: true, closeDuration: 0, onclick: function () {
+                        // Chuyển hướng người dùng khi click vào thông báo
+                        //window.location.href = systemConfig.defaultAPIURL + message.url;
+                    }
+                }
+            );
+            loadDataSelectNoti();
+        } else if ((message.accountId == @ViewBag.AccountId && message.senderId == @RoleConst.BARTENDER) ) {
+            playNotificationSound();
+            toastr.success(
+                message.name,
+                'Bạn có thông báo mới',
+                {
+                    timeOut: 5000, extendedTimeOut: 0, closeButton: true, closeDuration: 0, onclick: function () {
+                        // Chuyển hướng người dùng khi click vào thông báo
+                        //window.location.href = systemConfig.defaultAPIURL + message.url;
+                    }
+                }
+            );
+            loadDataSelectNoti();
+        }
+    });
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
+    });
+</script>
+
+
+
+<style>
+    .page-loader {
+        transition: all linear .2s;
+    }
+
+    .page-loader.hide {
+        visibility: hidden;
+    }
+
+    .dropzone .dz-preview .dz-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>

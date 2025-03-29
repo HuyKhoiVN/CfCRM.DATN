@@ -1,15 +1,16 @@
+using CoffeeCRM.Data.Model;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
+using System.Threading.Tasks;
+using CoffeeCRM.Data.DTO;
+using CoffeeCRM.Data.Constants;
 
-        using CoffeeCRM.Data.Model;
-       using CoffeeCRM.Core.Util;
-        using CoffeeCRM.Core.Util.Parameters;
-        using CoffeeCRM.Data.ViewModels;
-        using System.Threading.Tasks;
-        
-        namespace CoffeeCRM.Core.Service
-        {
-            public interface IAccountService : IBaseService<Account>
-            {
-                Task<DTResult<Account>> ListServerSide(AccountDTParameters parameters);
-            }
-        }
-    
+namespace CoffeeCRM.Core.Service
+{
+    public interface IAccountService : IBaseService<Account>
+    {
+        Task<DTResult<AccountDto>> ListServerSide(AccountDTParameters parameters);
+        Task<CoffeeManagementResponse> Login(LoginDto model);
+    }
+}

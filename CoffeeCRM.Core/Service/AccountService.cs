@@ -83,7 +83,7 @@ namespace CoffeeCRM.Core.Service
             return await accountRepository.ListPaging(pageIndex, pageSize);
         }
 
-        public async Task<DTResult<Account>> ListServerSide(AccountDTParameters parameters)
+        public async Task<DTResult<AccountDto>> ListServerSide(AccountDTParameters parameters)
         {
             return await accountRepository.ListServerSide(parameters);
         }
@@ -102,7 +102,7 @@ namespace CoffeeCRM.Core.Service
             await accountRepository.Update(obj);
         }
 
-        public async Task<CoffeeManagementResponse> Login(Account model)
+        public async Task<CoffeeManagementResponse> Login(LoginDto model)
         {
             //trim
             model.Username = model.Username.Trim();
@@ -126,8 +126,8 @@ namespace CoffeeCRM.Core.Service
                     RoleId = data.RoleId,
                 }, DateTime.Now.AddMinutes(int.Parse(config["Jwt:AdminExpireMinutes"])));
                 var account = mapper.Map<AccountProfileResponseDTO>(data);
-                httpContextAccessor.HttpContext.Session.SetInt32("UserId", (int)account.Id);
-                httpContextAccessor.HttpContext.Session.SetInt32("RoleId", (int)account.RoleId);
+                //httpContextAccessor.HttpContext.Session.SetInt32("UserId", (int)account.Id);
+                //httpContextAccessor.HttpContext.Session.SetInt32("RoleId", (int)account.RoleId);
                 return CoffeeManagementResponse.Success(new SignInResponse()//Change resources
                 {
                     AccessToken = accessToken,

@@ -1,0 +1,338 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using CoffeeCRM.Core.Util
+@using CoffeeCRM.Data.Constants
+@{
+    Layout = null;
+}
+<style>
+    .app-sidebar-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+</style>
+<div id="kt_app_sidebar" class="app-sidebar  flex-column"
+     data-kt-drawer="true" data-kt-drawer-name="app-sidebar" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
+
+
+    <!--begin::Logo-->
+    <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
+        <!--begin::Logo image-->
+        <a href="/home">
+            <img alt="Logo" src="/suri/coffee-logo.png" class="h-25px app-sidebar-logo-default" />
+
+            <img alt="Logo" src="/suri/coffee-logo-small.png" class="h-20px app-sidebar-logo-minimize" />
+        </a>
+        <!--end::Logo image-->
+        <!--begin::Sidebar toggle-->
+        <!--begin::Minimized sidebar setup:
+            if (isset($_COOKIE["sidebar_minimize_state"]) && $_COOKIE["sidebar_minimize_state"] === "on") {
+                1. "src/js/layout/sidebar.js" adds "sidebar_minimize_state" cookie value to save the sidebar minimize state.
+                2. Set data-kt-app-sidebar-minimize="on" attribute for body tag.
+                3. Set data-kt-toggle-state="active" attribute to the toggle element with "kt_app_sidebar_toggle" id.
+                4. Add "active" class to to sidebar toggle element with "kt_app_sidebar_toggle" id.
+            }
+        -->
+        <div id="kt_app_sidebar_toggle"
+             class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate "
+             data-kt-toggle="true"
+             data-kt-toggle-state="active"
+             data-kt-toggle-target="body"
+             data-kt-toggle-name="app-sidebar-minimize">
+
+            <i class="ki-duotone ki-double-left fs-2 rotate-180"><span class="path1"></span><span class="path2"></span></i>
+        </div>
+        <!--end::Sidebar toggle-->
+    </div>
+    <!--end::Logo-->
+    <!--begin::sidebar menu-->
+    <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
+        <!--begin::Menu wrapper-->
+        <div id="kt_app_sidebar_menu_wrapper"
+             class="app-sidebar-wrapper hover-scroll-overlay-y my-5"
+             data-kt-scroll="true"
+             data-kt-scroll-activate="true"
+             data-kt-scroll-height="auto"
+             data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+             data-kt-scroll-wrappers="#kt_app_sidebar_menu"
+             data-kt-scroll-offset="5px"
+             data-kt-scroll-save-state="true">
+            <!--begin::Menu-->
+
+            <div class="menu menu-column menu-rounded menu-sub-indention px-3"
+                 id="kt_app_sidebar_menu"
+                 data-kt-menu="true"
+                 data-kt-menu-expand="false">
+
+                @{
+
+                    // Định nghĩa danh sách menu
+                    var menuList = new List<MenuItem>
+                {
+                new MenuItem { Url = "coffee/admin/dashboard", Name = "Thống kê" },
+                new MenuItem { Url = "booking/admin/tablebooking", Name = "Quản lý đặt bàn" },
+                new MenuItem { Url = "invoice/admin/list", Name = "Quản lý hóa đơn" },
+                new MenuItem { Url = "account/admin/list", Name = "Quản lý nhân viên" },
+                new MenuItem { Url = "ingredient/admin/list", Name = "Quản lý nguyên liệu" },
+                new MenuItem { Url = "ingredientcategory/admin/list", Name = "Danh mục nguyên liệu" },
+                new MenuItem { Url = "dish/admin/list", Name = "Quản lý món ăn" },
+                new MenuItem { Url = "dishcategory/admin/list", Name = "Quản lý nhóm món" },
+                new MenuItem { Url = "warehouse/admin/list", Name = "Quản lý kho hàng" },
+                new MenuItem { Url = "purchaseOrder/admin/list", Name = "Quản lý nhập hàng" },
+                new MenuItem { Url = "supplier/admin/list", Name = "Quản lý nhà cung cấp" },
+                new MenuItem { Url = "cashflow/admin/list", Name = "Quản lý dòng tiền" }
+                };
+
+                    var roleId = ViewBag.RoleId; // Lấy RoleId từ ViewBag
+                                                 // Điều kiện phân quyền hiển thị menu
+
+                    foreach (var item1 in menuList)
+                    {
+                        // Kiểm tra điều kiện RoleId và menu cần hiển thị
+                        if ((roleId == RoleConst.BARTENDER && item1.Url == "booking/admin/tablebooking") ||
+                        (roleId == RoleConst.WAITER && item1.Url == "booking/admin/tablebooking") ||
+                        (roleId == RoleConst.MANAGER) ||  // Manager có thể xem tất cả menu
+                        (roleId == RoleConst.ADMIN)) // Admin có thể xem tất cả menu
+                        {
+                            // Tạo menu phẳng (không có menu con)
+                            <div class="menu-item">
+                                <a class="menu-link" href="/@item1.Url">
+                                    <span class="menu-icon">
+                                        <i class="">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <span class="menu-title">@item1.Name</span>
+                                </a>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+
+
+@*             <div class="menu menu-column menu-rounded menu-sub-indention px-3"
+                 id="#kt_app_sidebar_menu"
+                 data-kt-menu="true"
+                 data-kt-menu-expand="false">
+                @{
+                    var menuList = new List<MenuItem>
+                {
+                new MenuItem { Url = "ingredientcategory/admin/list", Name = "Danh mục nguyên liệu" },
+                new MenuItem { Url = "ingredient/admin/list", Name = "Danh sách nguyên liệu" },
+                new MenuItem { Url = "dishcategory/admin/list", Name = "Danh mục món ăn" },
+                new MenuItem { Url = "dish/admin/list", Name = "Danh sách món ăn" },
+                new MenuItem { Url = "warehouse/admin/list", Name = "Quản lý kho" },
+                new MenuItem { Url = "account/admin/list", Name = "Tài khoản" },
+                new MenuItem { Url = "booking/admin/tablebooking", Name = "Trang chủ" }
+                };
+
+                    @foreach (var item1 in menuList)
+                {
+                    var roleId = ViewBag.RoleId; // Lấy RoleId từ ViewBag
+
+                    // Kiểm tra các RoleId và chỉ hiển thị menu tương ứng
+                    if ((roleId == @RoleConst.BARTENDER && item1.Url == "booking/admin/tablebooking") ||
+                    (roleId == @RoleConst.WAITER && item1.Url == "booking/admin/tablebooking") ||
+                    (roleId == @RoleConst.MANAGER && (item1.Url == "ingredientcategory/admin/list" ||
+                    item1.Url == "ingredient/admin/list" ||
+                    item1.Url == "dishcategory/admin/list" ||
+                    item1.Url == "dish/admin/list" ||
+                    item1.Url == "warehouse/admin/list" ||
+                    item1.Url == "booking/admin/tablebooking")) ||
+                    (roleId == @RoleConst.ADMIN)) // RoleId = 4 sẽ hiển thị tất cả menu
+                    {
+                        if (item1.ParentId == 0 && item1.GroupId == 1 && item1.MenuTypeId == 1001)
+                        {
+                            var hasChild = 0;
+                            var rowSubContent = "";
+                            foreach (var item2 in ViewBag.MenuByRole)
+                            {
+                                if (item2.ParentId == item1.Id)
+                                {
+                                    hasChild = 1;
+                                    rowSubContent += @"<div class='menu-sub menu-sub-accordion'>
+                <!--begin:Menu item-->
+                <div class='menu-item'>
+                <!--begin:Menu link-->
+                <a class='menu-link' href='" + item2.Url + @"'>
+                <span class='menu-bullet'>
+                <span class='bullet bullet-dot'></span>
+                </span>
+                <span class='menu-title'>" + item2.Name + @"</span>
+                </a>
+                <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+                </div>";
+                                }
+                            }
+                            if (hasChild == 1)
+                            {
+                                <!--begin:Menu item-->
+                                <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+                                    <!--begin:Menu link-->
+                                    <span class="menu-link">
+                                        <span class="menu-icon">
+                                            <i class="@item1.Description">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                            </i>
+                                        </span>
+                                        <span class="menu-title">@item1.Name</span><span class="menu-arrow"></span>
+                                    </span>
+                                    <!--end:Menu link-->
+                                    <!--begin:Menu sub-->
+                                    @Html.Raw(rowSubContent)
+                                    <!--end::Menu-->
+                                </div>
+                                <!--end::Menu wrapper-->
+                            }
+                            else
+                            {
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="@item1.Url">
+                                        <span class="menu-icon">
+                                            <i class="@item1.Description">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                        </span>
+                                        <span class="menu-title">@item1.Name</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                            }
+                        }
+                        else if (item1.ParentId == 0 && item1.GroupId == 2 && item1.MenuTypeId == 1001)
+                        {
+                            var hasChild = 0;
+                            var rowSubContent = "";
+                            var rowSubSubContent = "";
+                            foreach (var item2 in ViewBag.MenuByRole)
+                            {
+                                if (item2.ParentId == item1.Id)
+                                {
+                                    hasChild = 1;
+                                    rowSubSubContent = "";
+                                    var hasChildChild = 0;
+                                    foreach (var item3 in ViewBag.MenuByRole)
+                                    {
+                                        if (item3.ParentId == item2.Id)
+                                        {
+                                            hasChildChild = 1;
+                                            rowSubSubContent += @"<div class='menu-sub menu-sub-accordion'>
+                <!--begin:Menu item-->
+                <div class='menu-item'>
+                <!--begin:Menu link-->
+                <a class='menu-link' href='" + item3.Url + @"'>
+                <span class='menu-bullet'>
+                <span class='bullet bullet-dot'></span>
+                </span>
+                <span class='menu-title'>" + item3.Name + @"</span>
+                </a>
+                <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+                </div>";
+                                        }
+                                    }
+                                    if (hasChildChild == 1)
+                                    {
+                                        rowSubContent += @"
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger='click' class='menu-item menu-accordion'>
+                <!--begin:Menu link-->
+                <span class='menu-link'>
+                <span class='menu-icon'>
+                <i class='" + item2.Description + @"'>
+                <span class='path1'></span>
+                <span class='path2'></span>
+                <span class='path3'></span>
+                <span class='path4'></span>
+                </i>
+                </span>
+                <span class='menu-title'>" + item2.Name + @"</span><span class='menu-arrow'></span>
+                </span>
+                <!--end:Menu link-->
+                <!--begin:Menu sub-->
+                " + rowSubSubContent + @"
+                <!--end::Menu-->
+                </div>
+                <!--end::Menu wrapper-->
+                ";
+                                    }
+                                    else
+                                    {
+                                        rowSubContent += @"
+                <div class='menu-item'>
+                <!--begin:Menu link-->
+                <a class='menu-link' href='" + item2.Url + @"'>
+                <span class='menu-icon'>
+                <i class='" + item2.Description + @"'>
+                <span class='path1'></span>
+                <span class='path2'></span>
+                </i>
+                </span>
+                <span class='menu-title'>" + item2.Name + @"</span>
+                </a>
+                <!--end:Menu link-->
+                </div>
+                ";
+                                    }
+                                }
+                            }
+                            if (hasChild == 1)
+                            {
+                                <div class="menu-item pt-5"><!--begin:Menu content--><div class="menu-content"><span class="menu-heading fw-bold text-uppercase fs-7">@item1.Name</span></div><!--end:Menu content--></div>
+                                @Html.Raw(rowSubContent)
+                                ;
+                            }
+                        }
+                    }
+                }
+                }
+            </div> *@
+            <!--end::sidebar menu-->
+            
+
+        </div>
+        @* <!--begin::Footer-->
+        <div class="app-sidebar-footer flex-column-auto pt-2 pb-6 px-6" id="kt_app_sidebar_footer">
+            <a href="/admin/file-explorer/demo"
+               class="btn btn-flex flex-center btn-custom btn-primary overflow-hidden text-nowrap px-0 h-40px w-100"
+               data-bs-toggle="tooltip"
+               data-bs-trigger="hover"
+               data-bs-dismiss-="click"
+               title="Thư viện editor">
+
+                <span class="btn-label">
+                    File Explorer
+                </span>
+
+                <i class="ki-duotone ki-document btn-icon fs-2 m-0"><span class="path1"></span><span class="path2"></span></i>
+            </a>
+            <a href="https://preview.keenthemes.com/html/metronic/docs"
+               class="btn btn-flex flex-center btn-custom btn-primary overflow-hidden text-nowrap px-0 h-40px w-100"
+               data-bs-toggle="tooltip"
+               data-bs-trigger="hover"
+               data-bs-dismiss-="click"
+               title="200+ in-house components and 3rd-party plugins">
+
+                <span class="btn-label">
+                    Docs & Components
+                </span>
+
+                <i class="ki-duotone ki-document btn-icon fs-2 m-0"><span class="path1"></span><span class="path2"></span></i>
+            </a>
+        </div>
+        <!--end::Footer--> *@
+    </div>
+</div>
+

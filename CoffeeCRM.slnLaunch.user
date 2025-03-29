@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "CoffeeCRM.Api\\CoffeeCRM.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "CoffeeCRM.View\\CoffeeCRM.View.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
