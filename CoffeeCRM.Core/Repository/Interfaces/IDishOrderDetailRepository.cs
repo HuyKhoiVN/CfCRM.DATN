@@ -1,36 +1,36 @@
 
-    using CoffeeCRM.Data.Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using CoffeeCRM.Core.Util;
-    using CoffeeCRM.Core.Util.Parameters;
-    using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
 
 
-    namespace CoffeeCRM.Core.Repository
+namespace CoffeeCRM.Core.Repository
+{
+    public interface IDishOrderDetailRepository
     {
-        public interface IDishOrderDetailRepository
-        {
-            Task <List< DishOrderDetail>> List();
+        Task<List<DishOrderDetail>> List();
 
-            //Task <List< DishOrderDetail>> Search(string keyword);
+        //Task <List< DishOrderDetail>> Search(string keyword);
 
-            Task <List< DishOrderDetail>> ListPaging(int pageIndex, int pageSize);
+        Task<List<DishOrderDetail>> ListPaging(int pageIndex, int pageSize);
 
-            Task <DishOrderDetail> Detail(long ? postId);
+        Task<DishOrderDetail> Detail(long? postId);
 
-            Task <DishOrderDetail> Add(DishOrderDetail DishOrderDetail);
+        Task<DishOrderDetail> Add(DishOrderDetail DishOrderDetail);
 
-            Task Update(DishOrderDetail DishOrderDetail);
+        Task<bool> Update(DishOrderDetail obj);
 
-            Task Delete(DishOrderDetail DishOrderDetail);
+        Task Delete(DishOrderDetail DishOrderDetail);
 
-            Task <long> DeletePermanently(long ? DishOrderDetailId);
+        Task<long> DeletePermanently(long? DishOrderDetailId);
+        Task<List<DishOrderDetailViewModel>> ListByOrderId(int id);
+        int Count();
 
-            int Count();
-
-            Task <DTResult<DishOrderDetail>> ListServerSide(DishOrderDetailDTParameters parameters);
-        }
+        Task<DTResult<DishOrderDetail>> ListServerSide(DishOrderDetailDTParameters parameters);
     }
+}

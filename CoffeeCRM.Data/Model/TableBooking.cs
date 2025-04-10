@@ -15,7 +15,7 @@ namespace CoffeeCRM.Data.Model
         public int AccountId { get; set; }
         public int TableId { get; set; }
 
-        public virtual Account Account { get; set; } = null!;
-        public virtual Table Table { get; set; } = null!;
+        public virtual Account? Account { get; set; } = null!;
+        public virtual Table? Table { get; set; } = null!;
     }
 }

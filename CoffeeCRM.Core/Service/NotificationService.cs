@@ -1,16 +1,14 @@
-
-        using CoffeeCRM.Data.Model;
-        using CoffeeCRM.Core.Repository;
-         
-       using CoffeeCRM.Core.Util;
-        using CoffeeCRM.Core.Util.Parameters;
-        using CoffeeCRM.Data.ViewModels;
-        using System;
-        using System.Collections.Generic;
-        using System.Threading.Tasks;
+using CoffeeCRM.Data.Model;
+using CoffeeCRM.Core.Repository;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoffeeCRM.Data.Constants;
 namespace CoffeeCRM.Core.Service
-        {
+{
     public class NotificationService : INotificationService
     {
         INotificationRepository notificationRepository;
@@ -98,5 +96,4 @@ namespace CoffeeCRM.Core.Service
         public const int Read = 1;
     }
 }
-    
-    
+

@@ -113,7 +113,6 @@
                                                 },
                                                 contentType: 'application/json',
                                                 success: function (responseData) {
-                                                    debugger;
                                                     var data = responseData.data;
                                                     var htmlNoti = "";
                                                     if (@RoleConst.BARTENDER == profile.roleId) {
@@ -198,7 +197,7 @@
                                                         "tableId": tableId,
                                                         "accountId": fromUserId,
                                                         "dishOrderStatusId": @DishOrderStatudConst.DONE
-                                                    }
+                                                    };
                                                     $.ajax({
                                                         url: systemURL + "dishorder/api/Update",
                                                         type: "POST",
@@ -637,7 +636,7 @@
             //$(".ac-email").text(profile.email != null ? profile.email : 'Chưa có email');
             $(".ac-type").text(profile.roleName != null ? profile.roleName : '');
             $(".ac-type").attr("style", "background-color:" + customBagdeColor(profile.roleColor) + "; color: " + profile.roleColor + "")
-            $(".ac-photo").attr('src', profile.photo != null ? profile.photo : '/images/userdefault.jpg');
+            $(".ac-photo").attr('src', profile.photo != null ? systemURL + profile.photo : systemURL + '/images/userdefault.jpg');
         }
     });
 </script>

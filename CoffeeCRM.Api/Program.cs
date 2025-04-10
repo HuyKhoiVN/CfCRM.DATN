@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Reflection;
 using System.Text;
 
@@ -16,6 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SysDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()       // Ghi log ra Console
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Cấu hình CORS (nếu cần)
 builder.Services.AddCors(options =>
@@ -53,8 +59,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 builder.Services.AddAuthorization();
-
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -76,8 +82,8 @@ catch (Exception ex)
         var loaderExceptions = typeLoadException.LoaderExceptions;
     }
 }
-
-        builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+#region add scoped
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
         builder.Services.AddScoped<IAccountService, AccountService>();
     
         builder.Services.AddScoped<IAccountActivityRepository, AccountActivityRepository>();
@@ -165,8 +171,19 @@ catch (Exception ex)
         builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 
         builder.Services.AddScoped<ITokenService, TokenService>();
-
+#endregion
 builder.Services.AddControllers();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", b =>
+        b.WithOrigins("https://localhost:7125") // domain frontend
+         .AllowAnyMethod()
+         .AllowAnyHeader()
+         .AllowCredentials()); // BẮT BUỘC PHẢI THÊM DÒNG NÀY
+});
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -190,13 +207,20 @@ if (!Directory.Exists(wwwrootPath))
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(wwwrootPath),
-    RequestPath = ""  // Không thay đổi đường dẫn truy cập
+    RequestPath = ""
 });
-
+    
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigin");
-app.UseAuthentication();  // Middleware xác thực
-app.UseAuthorization();   // Middleware phân quyền
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<NotificationHub>("/notificationHub");
+});
 
 app.Run();

@@ -9,9 +9,9 @@ namespace CoffeeCRM.Core.Service
     public interface IDishOrderService : IBaseService<DishOrder>
     {
         Task<DTResult<DishOrder>> ListServerSide(DishOrderDTParameters parameters);
-        //Task<List<DishOrderViewModel>> DishOrderDetailByTableId(int tableId);
-        //Task<bool> AddOrUpdateByVm(DishOrderViewModel model);
-        //Task<List<DishOrderViewModel>> ListDishOrderNotification();
-        //Task<List<DishOrderViewModel>> ListDishOrderInvoice(int tableId);
+        Task<List<DishOrderViewModel>> DishOrderDetailByTableId(int tableId);
+        Task<bool> AddOrUpdateByVm(DishOrderViewModel model);
+        Task<List<DishOrderViewModel>> ListDishOrderNotification();
+        Task<List<DishOrderViewModel>> ListDishOrderInvoice(int tableId);
     }
 }

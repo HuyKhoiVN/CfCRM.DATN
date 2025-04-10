@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CoffeeCRM.Core.Util;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 
 namespace CoffeeCRM.Core.Repository
@@ -26,7 +27,7 @@ namespace CoffeeCRM.Core.Repository
         Task<bool> Update(DishOrder DishOrder);
 
         Task Delete(DishOrder DishOrder);
-
+        DatabaseFacade GetDatabase();
         Task<long> DeletePermanently(long? DishOrderId);
         Task<List<DishOrder>> ListUnPaid();
         Task<List<DishOrderViewModel>> DishOrderDetailByTableId(int tableId);

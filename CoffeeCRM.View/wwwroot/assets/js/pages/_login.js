@@ -43,6 +43,7 @@ async function signIn() {
         if (result.status == "200") {
             let token = result.resources.accessToken;
             let profile = result.resources.profile;
+            profile.roleColor = profile.roleColor ?? "#044688";
             localStorage.setItem("token", token);
             localStorage.setItem("profile", JSON.stringify(profile));
             document.cookie = `${accessKey}=${token}; path=/; max-age=86400;`;
