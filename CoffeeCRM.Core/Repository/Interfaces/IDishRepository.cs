@@ -29,9 +29,9 @@ namespace CoffeeCRM.Core.Repository
         Task Delete(Dish Dish);
 
         Task<long> DeletePermanently(long? DishId);
-
+        Task<Dish> GetDishByCode(string dishCode);
         int Count();
 
-        Task<DTResult<Dish>> ListServerSide(DishDTParameters parameters);
+        Task<DTResult<DishViewModel>> ListServerSide(DishDTParameters parameters);
     }
 }

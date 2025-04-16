@@ -1,0 +1,544 @@
+﻿@{
+    Layout = "_Admin_Layout";
+}
+@{
+    ViewData["ViewName"] = "Nhóm món ăn";
+}
+<style>
+    /* Existing styles */
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+
+    /*  định dạng cho dicc toàn nội dung */
+    .container {
+        padding: 15px;
+        background: var(--bs-app-header-base-bg-color);
+        border-radius: 8px;
+    }
+
+    .search-bar {
+        justify-content: space-between;
+        display: flex; /* Use flexbox to align elements */
+        align-items: center; /* Center align items vertically */
+        margin-bottom: 10px;
+    }
+
+    /*  định dạng cho nut search */
+    #searchInput {
+        width: 350px; /* Shorten the width of the search input */
+        padding: 10px;
+        border: 1px solid #f9f9f9;
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        margin-right: 10px; /* Add space between search input and button */
+    }
+
+        #searchInput:focus {
+            border-color: #ccc;
+        }
+
+    .DishCategory-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .DishCategory-table th {
+            color: #181c32;
+            font-family: Inter, Helvetica, "sans-serif";
+        }
+        /* định dạng cho bảng thông tin danh sách  nhóm món */
+
+        .DishCategory-table th,
+        .DishCategory-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            font-family: Inter, Helvetica, "sans-serif";
+        }
+
+        .DishCategory-table > tbody > tr:hover {
+            background-color: #dfdddd;
+        }
+
+    /*  định dạng các nút tạo, icon , sửa , xóa */
+    .create-btn,
+    .edit-btn,
+    .delete-btn {
+        padding: 5px 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    /* định dạng nút tạo */
+    .create-btn {
+        background-color: #007BFF;
+        height: 38px;
+        margin-left: 40px;
+    }
+
+        .create-btn:hover {
+            background-color: #66B2FF;
+        }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+    /*  định dạng ô thông tin chính */
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 6px;
+        width: 40%;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+        /* định dạng chung cho cac lable */
+        form label {
+            margin-bottom: 5px;
+        }
+
+        /*  định dạng cho các input, lựa chọn và các nút */
+        form input,
+        form select,
+        form button {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+    #closeModalBtn,
+    #confirmDeleteBtn,
+    #cancelDeleteBtn,
+    #btnClose-waringModal {
+        background-color: rgb(221, 51, 51);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    /* định dạng cho nut cập nhật và nít đóng */
+    #closeModalBtn,
+    #updateBtn {
+        max-width: 100px;
+        margin-right: 8px
+    }
+
+    /* định dạng cho đaonj cuối của model thêm/sửa nhóm món hàng */
+    .model-content-footer {
+        display: flex;
+        justify-content: right;
+    }
+
+    /* định dạng nút cập nhật */
+    #updateBtn {
+        /* background-color: #007BFF; */
+        background-color: rgb(48, 133, 214);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    /*  định dạng màu xanh cho nút hủy */
+    #cancelDeleteBtn {
+        background-color: rgb(48, 133, 214);
+    }
+    /* kích thước của model xóa */
+
+    #confirmDeleteModal .modal-content,
+    #warningModal .modal-content {
+        height: 40vh;
+        width: 60vh;
+    }
+        /*  điều chỉnh kích thước cho tiêu đề và dòng thông báo */
+        #confirmDeleteModal .modal-content h2,
+        #confirmDeleteModal .modal-content p,
+        #warningModal .modal-content h2,
+        #warningModal .modal-content p {
+            text-align: center;
+        }
+    /* css cho hàng chứa các nút của mòel xóa */
+    .deleteModel-footer,
+    .warringModal-footer {
+        display: flex;
+        justify-content: center;
+    }
+        /* kich thước nút trong model xóa */
+        .deleteModel-footer .btnYes-deleteModal,
+        .deleteModel-footer .btnNo-deleteModal {
+            max-width: 100px;
+            margin: 0 20px
+        }
+
+        /* Định dạng body của modal */
+
+        .warringModal-footer #btnClose-waringModal {
+            max-width: 100px;
+            margin: 0 20px
+        }
+</style>
+<div class="container">
+    <!-- Hộp tìm kiếm -->
+    <div class="search-bar">
+        <div class="d-flex align-items-center position-relative my-1">
+            <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
+            <input type="text" class="form-control form-control-solid w-250px ps-15" placeholder="Tìm kiếm" id="searchInput">
+        </div>
+        <button class="create-btn" id="createDishCategoryBtn">Tạo mới</button> <!-- Di chuyển nút vào đây -->
+    </div>
+
+    <!-- Bảng nhóm món -->
+    <table id="tableData" class="DishCategory-table">
+        <thead>
+            <tr>
+                <th class="text-align-left" style="width: 20px;">STT</th>
+                <th class="text-align-left" style="width: 120px;">Mã nhóm </th>
+                <th>Tên nhóm</th>
+                <th class="text-align-center" style="width: 120px;">Ngày tạo</th>
+                <th class="text-align-center" style="width: 100px;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="dishCategoryTableBody">
+            <!-- Dữ liệu sẽ được điền ở đây -->
+        </tbody>
+    </table>
+
+    <!-- Modal cho nhóm món -->
+    <div id="DishCategoryModal" class="modal">
+        <div class="modal-content">
+            <h2>Tiêu đề modal</h2>
+            <form id="dishCategoryForm">
+                <label for="dishCategoryCode" class="fw-semibold fs-6 mb-2 required">Mã nhóm </label>
+                <input type="text" id="dishCategoryCode" name="dishCategoryCode" required>
+
+                <label for="dishCategoryName">Tên nhóm</label>
+                <input type="text" id="dishCategoryName" name="dishCategoryName" required>
+
+                <label for="creationDate">Ngày tạo</label>
+                <input type="text" id="creationDate" name="creationDate" readonly>
+
+                <div class="model-content-footer">
+                    <button type="submit" id="updateBtn">Thêm</button>
+                    <button id="closeModalBtn">Đóng</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Modal xác nhận xóa -->
+    <div id="confirmDeleteModal" class="modal">
+        <div class="modal-content">
+            <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;"><div class="swal2-icon-content">!</div></div>
+            <h2>Xác nhận xóa</h2>
+            <p>Bạn có chắc muốn xóa nhóm món này không?</p>
+            <div class="deleteModel-footer">
+                <button id="confirmDeleteBtn" class="btnYes-deleteModal">Xoá</button>
+                <button id="cancelDeleteBtn" class="btnNo-deleteModal">Hủy</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Cảnh Báo -->
+    <div id="warningModal" class="modal">
+        <div class="modal-content">
+            <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;"><div class="swal2-icon-content">!</div></div>
+            <h2>Quản lý nhóm món</h2>
+            <p class="title">Thêm mới không thành công</p>
+            <p>Mã nhóm món đã tồn tại. Vui lòng nhập mã khác.</p>
+            <div class="warringModal-footer">
+                <button id="btnClose-waringModal" class="btnNo-deleteModal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // bắt đầu lấy dữ liệu
+    let currentDeleteId; // Lưu ID của nhóm món để xóa
+
+    // Mở modal để thêm/chỉnh sửa nhóm món
+    document.getElementById('createDishCategoryBtn').addEventListener('click', function () {
+        openModal(false); // Mở modal để thêm nhóm món mới
+        clearForm(); // Xóa các trường trong form để nhập mới
+    });
+
+    // Xử lý sự kiện nhấp chuột vào nút chỉnh sửa
+    $(document).on('click', '.edit-btn', function () {
+        const dcategoryId = $(this).data('dcategory-id');
+        populateForm(dcategoryId); // Điền dữ liệu vào form
+        openModal(true); // Sau đó mở modal để chỉnh sửa
+    });
+
+    // Xử lý sự kiện nhấp chuột vào nút xóa
+    $(document).on('click', '.delete-btn', function () {
+        currentDeleteId = $(this).data('dcategory-id'); // Lấy ID của nhóm món để xóa
+        openDeleteConfirmationModal();
+    });
+
+    // Đóng modal cho nhóm món
+    document.getElementById('closeModalBtn').addEventListener('click', function () {
+        closeModal();
+    });
+
+    // Đóng modal xác nhận
+    document.getElementById('cancelDeleteBtn').addEventListener('click', function () {
+        closeDeleteConfirmationModal();
+    });
+
+    // Xác nhận xóa
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        deleteDcategory(currentDeleteId);
+        closeDeleteConfirmationModal();
+    });
+
+    // Hàm mở modal cảnh báo
+    function showWarningModal(isID = false) {
+        document.getElementById('warningModal').style.display = 'flex';
+        if (isID) {
+            document.querySelector('.modal-content .title').innerText = 'Chỉnh sửa nhóm món không thành công';
+
+        } else {
+            document.querySelector('.modal-content .title').innerText = 'Thêm mới không thành công';
+        }
+    }
+
+    // Đóng modal khi người dùng nhấn vào nút OK
+    document.getElementById('btnClose-waringModal').addEventListener('click', function () {
+        document.getElementById('warningModal').style.display = 'none';
+    });
+
+    function openModal(isEdit = false) {
+        document.getElementById('DishCategoryModal').style.display = 'flex';
+
+        if (isEdit) {
+            document.querySelector('.modal-content h2').innerText = 'Chỉnh sửa nhóm món';
+            document.getElementById('updateBtn').innerText = 'Cập nhật';
+        } else {
+            document.querySelector('.modal-content h2').innerText = 'Tạo mới nhóm món';
+            document.getElementById('updateBtn').innerText = 'Thêm';
+        }
+        document.getElementById('dishCategoryForm').removeAttribute('data-edit-id');
+
+        clearForm(); // Gọi hàm này để thiết lập thời gian hiện tại khi mở modal
+    }
+
+    function closeModal() {
+        document.getElementById('DishCategoryModal').style.display = 'none';
+        clearForm(); // Xóa form để thiết lập lại
+    }
+
+    function openDeleteConfirmationModal() {
+        document.getElementById('confirmDeleteModal').style.display = 'flex';
+    }
+
+    function closeDeleteConfirmationModal() {
+        document.getElementById('confirmDeleteModal').style.display = 'none';
+    }
+
+    // Xóa form và thiết lập ngày hiện tại cho ngày tạo
+    function clearForm() {
+        document.getElementById('dishCategoryCode').value = '';
+        document.getElementById('dishCategoryName').value = '';
+
+        // Lấy ngày và giờ hiện tại
+        const now = new Date();
+        const formattedDate = moment(now).format("YYYY-MM-DD HH:mm:ss"); // Định dạng cho moment.js
+        document.getElementById('creationDate').value = formattedDate; // Gán giá trị đã định dạng
+    }
+
+    // Xử lý xác thực đơn giản và xử lý gửi form
+    document.getElementById('dishCategoryForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Ngăn chặn gửi form mặc định
+
+        // Lấy giá trị từ các trường input
+        let dishCategoryCode = document.getElementById('dishCategoryCode').value;
+        let dishCategoryName = document.getElementById('dishCategoryName').value;
+        let creationDate = document.getElementById('creationDate').value; // Ngày tạo
+
+        // Tạo đối tượng dữ liệu để gửi
+        let dcategoryData = {
+            dishCategoryCode: dishCategoryCode,
+            dishCateogryName: dishCategoryName,
+            createdTime: moment(creationDate, "YYYY-MM-DD HH:mm:ss").toISOString() // Chuyển đổi thành định dạng ISO
+        };
+
+        // Kiểm tra xem có đang chỉnh sửa nhóm món hiện có không
+        let editId = document.getElementById('dishCategoryForm').getAttribute('data-edit-id');
+        if (editId) {
+            // Nếu editId tồn tại, chúng ta đang cập nhật một nhóm món hiện có
+            $.ajax({
+                url: `https://localhost:7185/api/DishCategory/UpdateDishCategory?Id=${editId}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(dcategoryData), // Chuyển đổi đối tượng thành chuỗi JSON
+                success: function (data) {
+                    console.log('Nhóm món đã được cập nhật:', data);
+                    closeModal(); // Đóng modal sau khi cập nhật thành công
+                    fetchDcategoryData(); // Làm mới bảng sau khi gửi
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.status === 409) {
+                        // Nếu mã nhóm món đã tồn tại
+                        showWarningModal(true); // Hiển thị modal cảnh báo
+                    } else {
+                        console.error('Lỗi khi cập nhật nhóm món:', error);
+                        alert('Đã xảy ra lỗi khi cập nhật nhóm món. Vui lòng thử lại.');
+                    }
+                }
+            });
+        } else {
+            // Nếu editId không tồn tại, chúng ta đang tạo một nhóm món mới
+            $.ajax({
+                url: 'https://localhost:7185/api/DishCategory/CreateDishcategory',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(dcategoryData), // Chuyển đổi đối tượng thành chuỗi JSON
+                success: function (data) {
+                    console.log('Nhóm món đã được thêm:', data);
+                    closeModal(); // Đóng modal sau khi thêm thành công
+                    fetchDcategoryData(); // Làm mới bảng sau khi gửi
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.status === 409) {
+                        // Nếu mã nhóm món đã tồn tại
+                        showWarningModal(false); // Hiển thị modal cảnh báo
+                    } else {
+                        console.error('Lỗi khi thêm nhóm món:', error);
+                        alert('Đã xảy ra lỗi khi thêm nhóm món. Vui lòng thử lại.');
+                    }
+                }
+            });
+        }
+    });
+
+    function fetchDcategoryData() {
+        $.ajax({
+            url: 'https://localhost:7185/api/DishCategory',
+            method: 'GET',
+            success: function (data) {
+                console.log('Dữ liệu từ API:', data);
+                populateDcategoryTable(data);
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi lấy dữ liệu:', error);
+            }
+        });
+    }
+
+    // Hàm để điền dữ liệu vào bảng với dữ liệu đã lấy
+    function populateDcategoryTable(data) {
+        const dishCategoryTableBody = $('#dishCategoryTableBody');
+        dishCategoryTableBody.empty(); // Xóa các hàng hiện có
+        console.log('Dữ liệu từ API:', data);
+        data.forEach(function (dcategory, index) {
+            console.log('Dữ liệu từ API:', dcategory);
+            const createdTimeBy = new Date(dcategory.createdTime);
+            const displayValue = moment(dcategory.createdTime).format("DD/MM/YYYY"); // Định dạng theo yêu cầu
+
+            let row = `
+                        <tr>
+                            <td class="text-align-left">${index + 1}</td>
+                                <td class="text-align-left">${dcategory.dishCategoryCode}</td>
+                                <td>${dcategory.dishCateogryName}</td>
+                            <td class="text-align-center">${displayValue}</td> <!-- Hiển thị giá trị đã định dạng -->
+                            <td class="text-align-center">
+                                <button class="edit-btn" data-dcategory-id="${dcategory.id}">✏️</button>
+                                <button class="delete-btn" data-dcategory-id="${dcategory.id}">🗑️</button>
+                            </td>
+                        </tr>
+                    `;
+            dishCategoryTableBody.append(row);
+            console.log(dcategory.dishCategoryName);
+        });
+            
+    }
+
+    function populateForm(dcategoryId) {
+        $.ajax({
+            url: `https://localhost:7185/api/DishCategory/${dcategoryId}`, // Lấy dữ liệu của nhóm món cụ thể
+            method: 'GET',
+            success: function (dcategory) {
+                document.getElementById('dishCategoryCode').value = dcategory.dishCategoryCode;
+                document.getElementById('dishCategoryName').value = dcategory.dishCateogryName;
+
+                // Định dạng cho ô input
+                document.getElementById('creationDate').value = moment(dcategory.createdTime).format("YYYY-MM-DD HH:mm:ss");
+
+                // Lưu ID của nhóm món đang được chỉnh sửa
+                document.getElementById('dishCategoryForm').setAttribute('data-edit-id', dcategoryId);
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi lấy dữ liệu nhóm món:', error);
+            }
+        });
+    }
+
+    function deleteDcategory(dcategoryId) {
+        $.ajax({
+            url: `https://localhost:7185/api/DishCategory/SoftDelete/${dcategoryId}`,
+            method: 'PUT',
+            success: function () {
+                console.log('nhóm món đã được xóa thành công');
+                fetchDcategoryData(); // Làm mới bảng sau khi xóa
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi xóa nhóm món:', error);
+            }
+        });
+    }
+
+    // Hàm để lọc dữ liệu nhóm món
+    function filterDcategory(searchValue) {
+        $.ajax({
+            url: 'https://localhost:7185/api/DishCategory',
+            method: 'GET',
+            success: function (data) {
+                const filteredData = data.filter(dcategory =>
+                    dcategory.dishCategoryCode.toLowerCase().includes(searchValue) // Kiểm tra xem mã nhóm món có chứa giá trị tìm kiếm không
+                );
+                populateDcategoryTable(filteredData); // Điền bảng với dữ liệu đã lọc
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi lấy dữ liệu:', error);
+            }
+        });
+    }
+
+    // Gọi hàm lấy dữ liệu khi trang được tải
+    $(document).ready(function () {
+        fetchDcategoryData();
+
+        // Thêm sự kiện lắng nghe cho input tìm kiếm
+        $('#searchInput').on('input', function () {
+            const searchValue = $(this).val().toLowerCase(); // Lấy giá trị nhập vào và chuyển thành chữ thường
+            filterDcategory(searchValue); // Gọi hàm lọc
+        });
+    });
+</script>
+

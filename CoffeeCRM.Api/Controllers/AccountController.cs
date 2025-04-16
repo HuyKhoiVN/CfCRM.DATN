@@ -15,6 +15,7 @@ using CoffeeCRM.Core.Util.Parameters;
 using Microsoft.AspNetCore.Authorization;
 using CoffeeCRM.Data.DTO;
 using Nancy;
+using CoffeeCRM.Core.Helper;
 
 namespace CfCRM.DATN.Controllers
 {
@@ -119,14 +120,14 @@ namespace CfCRM.DATN.Controllers
         }
         [HttpPost]
         [Route("api/Add")]
-        public async Task<IActionResult> Add([FromBody] Account model)
+        public async Task<IActionResult> Add([FromForm] AccountCreateDto model)
         {
             if (ModelState.IsValid)
             {
                 //2. add new object
                 try
                 {
-                    await service.Add(model);
+                    await service.AddOrUpdate(model);
                     var coffeemanagementResponse = CoffeeManagementResponse.CREATED(model);
                     return Created("", coffeemanagementResponse);
                 }

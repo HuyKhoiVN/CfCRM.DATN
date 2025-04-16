@@ -192,7 +192,7 @@
 				<div class="modal-dialog modal-xl modal-dialog-scrollable">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h3 class="modal-title">Modal title</h3>
+							<h3 class="modal-title">Quản lý thông tin tài khoản</h3>
 
 							<!--begin::Close-->
 							<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
@@ -202,150 +202,96 @@
 						</div>
 						<div class="modal-body">
 							<form action="#">
-								<div class="row">
-									<div class="d-none col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="input-group-text" id="basic-addon-id">Mã</label>
-												<input readonly type="number" autocomplete="off" class="form-control input-id" id="account-id" aria-label="id" aria-describedby="basic-addon-id" />
+								<div class="col-12 mb-7">
+									<div class="form-group rounded p-3">
+										<label class="fw-semibold fs-6 mb-2" for="account-image">Ảnh đại diện</label>
+										<div class="image-upload-container d-flex align-items-center">
+											<img id="image-preview" class="border border-primary" src="/images/userdefault.jpg" alt="Ảnh đại diện" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
+											<div>
+												<input type="file" accept="image/*" id="account-image" class="form-control d-none">
+												<button type="button" class="btn btn-primary" onclick="document.getElementById('account-image').click();">Chọn ảnh</button>
 											</div>
 										</div>
 									</div>
-
-									<div class="col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2 required" id="basic-addon-accountCode">Mã nhân viên</label>
-												<input type="text" autocomplete="off" class="form-control input-accountCode" id="account-accountCode" aria-label="accountCode" aria-describedby="basic-addon-accountCode" />
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2 required" id="basic-addon-fullName">Họ và tên</label>
-												<input type="text" autocomplete="off" class="form-control input-fullName" id="account-fullName" aria-label="fullName" aria-describedby="basic-addon-fullName" />
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2 required" id="basic-addon-username">Tên đăng nhập</label>
-												<input type="text" autocomplete="off" class="form-control input-username" id="account-username" aria-label="username" aria-describedby="basic-addon-username" />
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2 required" id="basic-addon-password">Mật khẩu</label>
-												<input type="password" autocomplete="off" class="form-control input-password" id="account-password" aria-label="password" aria-describedby="basic-addon-password" />
-											</div>
-										</div>
-									</div>
-
-
-
-									<div class="col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2 required" id="basic-addon-email">Email</label>
-												<input type="text" autocomplete="off" class="form-control input-email" id="account-email" aria-label="email" aria-describedby="basic-addon-email" />
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2 required" id="basic-addon-phoneNumber">Số điện thoại</label>
-												<input type="text" autocomplete="off" class="form-control input-phoneNumber" id="account-phoneNumber" aria-label="phoneNumber" aria-describedby="basic-addon-phoneNumber" />
-											</div>
-										</div>
-									</div>
-									@*             <div class="col-sm-6">                   
-                        <div class="form-group">
-                            <div class="mb-7 fv-plugins-icon-container">
-                                <label class="fw-semibold fs-6 mb-2 required" id="basic-addon-photo">Photo</label>
-                                <input type="text"   autocomplete="off" class="form-control input-photo" id="account-photo" placeholder="photo" aria-label="photo" aria-describedby="basic-addon-photo"/>
-                            </div>
-                        </div>   
-                    </div> *@
-
-									<div class="col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2 required" id="basic-addon-dOB">Ngày sinh</label>
-												<input type="datetime" autocomplete="off" class="form-control input-doB" id="account-doB" aria-label="doB" aria-describedby="basic-addon-doB" />
-											</div>
-										</div>
-									</div>
-
-
-
-									@*             <div class="col-sm-6" style="display:none;">                        
-                <div class="form-group">
-                    <div class="mb-7 fv-plugins-icon-container">
-                        <label class="input-group-text" id="basic-addon-active">Kích hoạt</label>
-                        <input readonly type="bit" autocomplete="off" class="form-control input-active" id="account-active" placeholder="active" aria-label="active" aria-describedby="basic-addon-active"/>
-                    </div>
-                </div>   
-            </div> *@
-
-									<div class="col-sm-6">
-										<div class="form-group">
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2 required" id="basic-addon-roleId">Vai trò</label>
-												<select class="form-select rounded-3 dataSelect" id="account-roleId" data-control="select2" data-dropdown-parent="#modal-id"></select>
-											</div>
-										</div>
-										<script>
-											var roleData = [];
-											async function loadDataSelectRole() {
-												await $.ajax({
-													url: systemURL + 'role/api/list',
-													type: 'GET',
-													async: 'true',
-													contentType: 'application/json',
-													success: function (responseData) {
-														// debugger;
-														var data = responseData.data;
-														roleData = data;
-													},
-													error: function (e) {
-														//console.log(e.message);
-													}
-												});
-											}
-											$(document).ready(function () {
-												loadDataSelectRole();
-												$.when(loadDataSelectRole()).done(function () {
-													roleData.forEach(function (item) {
-														$('#account-roleId').append(new Option(item.roleName, item.id, false, false)).trigger('change');
-													})
-												});
-											});
-										</script>
-									</div>
-
-									<div class="col-sm-6">
-										<div class='form-group'>
-											<div class="mb-7 fv-plugins-icon-container">
-												<label class="fw-semibold fs-6 mb-2" id="basic-addon-createdTime">Ngày tạo</label>
-												<div class='form-control date datetimepicker  input-createdTime' id='account-createdTimeDiv' style='padding:0px;'>
-													<input type='text' autocomplete="off" id="account-createdTime" required disabled class="form-control datepicker" aria-label="createdTime" aria-describedby="basic-addon-createdTime" />
-													<span class="input-group-addon">
-														<span class="glyphicon glyphicon-calendar"></span>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-
 								</div>
 
+								<div class="row g-3">
+									<div class="d-none col-md-4">
+										<div class="form-group">
+											<label class="input-group-text">Mã</label>
+											<input readonly type="number" class="form-control" id="account-id" />
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2 required">Mã nhân viên</label>
+										<input type="text" class="form-control" id="account-accountCode" />
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2 required">Họ và tên</label>
+										<input type="text" class="form-control" id="account-fullName" />
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2 required">Tên đăng nhập</label>
+										<input type="text" class="form-control" id="account-username" />
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2 required">Mật khẩu</label>
+										<input type="password" class="form-control" id="account-password" />
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2 required">Email</label>
+										<input type="text" class="form-control" id="account-email" />
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2 required">Số điện thoại</label>
+										<input type="text" class="form-control" id="account-phoneNumber" />
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2 required">Ngày sinh</label>
+										<input type="date" class="form-control" id="account-doB" />
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2 required">Vai trò</label>
+										<select class="form-select dataSelect" id="account-roleId" data-control="select2" data-dropdown-parent="#modal-id"></select>
+									</div>
+
+									<div class="col-md-4">
+										<label class="fw-semibold fs-6 mb-2">Ngày tạo</label>
+										<input type="text" class="form-control" id="account-createdTime" disabled />
+									</div>
+								</div>
 							</form>
+
+							<script>
+								var roleData = [];
+								async function loadDataSelectRole() {
+									await $.ajax({
+										url: systemURL + 'role/api/list',
+										type: 'GET',
+										contentType: 'application/json',
+										success: function (responseData) {
+											roleData = responseData.data;
+										}
+									});
+								}
+
+								$(document).ready(function () {
+									loadDataSelectRole().then(() => {
+										roleData.forEach(item => {
+											$('#account-roleId').append(new Option(item.roleName, item.id)).trigger('change');
+										});
+									});
+								});
+							</script>
+
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
@@ -371,6 +317,16 @@
 </div>
 <!--begin:Base load data-->
 <script>	
+	$('#account-image').on('change', function (event) {
+		const file = event.target.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				$('#image-preview').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+	});
 		let regexPhone = /^((84|0)[3|5|7|8|9])\d{8}\b/;
 		let regexUserName = /^(?=.*[a-zA-Z])[a-zA-Z0-9_.]+$/;
 		let regexFullName = /^[a-zA-ZÀ-Ỹà-ỹ\s']+$/;
@@ -625,24 +581,32 @@
 					}
 				});
 			}
+			
 			async function editItem(id) {
 				updatingItemId = id;
+				const defaultImageSrc = '/images/userdefault.jpg';
+				$('#image-preview').attr('src', defaultImageSrc);
+				$('#account-image').val('');
+
 				$("#modal-id").modal('show');
-				if(id > 0) {
+				if (id > 0) {
 					editObj = await getItemById(id);
 				}
 				$("#account-id").val(id > 0 ? editObj.id : "0");
-	$("#account-accountCode").val(id > 0 ? editObj.accountCode : "");
-	$("#account-username").val(id > 0 ? editObj.username : "");
-	//$("#account-password").val(id > 0 ? editObj.password : "");
-	$("#account-fullName").val(id > 0 ? editObj.fullName : "");
-	$("#account-email").val(id > 0 ? editObj.email : "");
-	// $("#account-photo").val(id > 0 ? editObj.photo : "");
-			$("#account-doB").val(id > 0 ? moment(editObj.dOB).format("DD/MM/YYYY") : moment(new Date()).format("DD/MM/YYYY"));
-	$("#account-phoneNumber").val(id > 0 ? editObj.phoneNumber : "");
-	// $("#account-active").val(id > 0 ? editObj.active : "");
-	$("#account-roleId").val(id > 0 ? editObj.roleId : "").trigger("change");
-	$("#account-createdTime").val(id > 0 ? moment(editObj.createdTime).format("DD/MM/YYYY HH:mm:ss") : moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
+				$("#account-accountCode").val(id > 0 ? editObj.accountCode : "");
+				$("#account-username").val(id > 0 ? editObj.username : "");
+				//$("#account-password").val(id > 0 ? editObj.password : "");
+				$("#account-fullName").val(id > 0 ? editObj.fullName : "");
+				$("#account-email").val(id > 0 ? editObj.email : "");
+				// $("#account-photo").val(id > 0 ? editObj.photo : "");
+				$("#account-doB").val(id > 0 ? moment(editObj.dOB).format("DD/MM/YYYY") : moment(new Date()).format("DD/MM/YYYY"));
+				$("#account-phoneNumber").val(id > 0 ? editObj.phoneNumber : "");
+				// $("#account-active").val(id > 0 ? editObj.active : "");
+				$("#account-roleId").val(id > 0 ? editObj.roleId : "").trigger("change");
+				$("#account-createdTime").val(id > 0 ? moment(editObj.createdTime).format("DD/MM/YYYY HH:mm:ss") : moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
+				if (id > 0 && editObj.photo) {
+					$('#image-preview').attr('src', `${systemURL}${editObj.photo}`);
+				}
 
 				formatNumber();
 			}
@@ -650,26 +614,37 @@
 				if (!validateInput($("#account-id").val())) return;
 				var actionName = (id == 0 ? "Bạn muốn tạo mới" : "Cập nhật");
 				var obj;
+				const fileInput = $('#account-image')[0];
+				const file = fileInput.files[0];
 				if(id > 0) {
 					obj = await getItemById(id);
 				}
 			let objName = id > 0 ? obj.fullName : $("#account-fullName").val();
-				validateInputNumber();
-				var updatingObj = {
-					"id": $("#account-id").val(),
-					"accountCode": $("#account-accountCode").val(),
-					"username": $("#account-username").val(),
-					"password": $("#account-password").val(),
-					"fullName": $("#account-fullName").val(),
-					"email": $("#account-email").val(),
-					// "photo": $("#account-photo").val(),
-						"dOB": convertDateFormat($("#account-doB").val()),
-					"phoneNumber": $("#account-phoneNumber").val(),
-					"active": true,
-					"roleId": $("#account-roleId").val(),
-					"createdTime": formatDatetimeUpdate($("#account-createdTime").val()),
 
-				};
+				validateInputNumber();
+
+				var updatingObj = {
+				"id": $("#account-id").val(),
+				"username": $("#account-username").val(),
+				"fullName": $("#account-fullName").val(),
+			};
+				const formData = new FormData();
+				formData.append("Id", $("#account-id").val());
+				formData.append("AccountCode", $("#account-accountCode").val());
+				formData.append("Username", $("#account-username").val());
+				formData.append("Password", $("#account-password").val());
+				formData.append("FullName", $("#account-fullName").val());
+				formData.append("Email", $("#account-email").val());
+				formData.append("DoB", convertDateFormat($("#account-doB").val()));
+				formData.append("PhoneNumber", $("#account-phoneNumber").val());
+				formData.append("Active", true);
+				formData.append("RoleId", $("#account-roleId").val());
+				formData.append("CreatedTime", formatDatetimeUpdate($("#account-createdTime").val()));
+
+				if (file) {
+					formData.append("Image", file); // gửi file nếu có
+				}
+
 				Swal.fire({
 					title: 'Xác nhận thay đổi?',
 					text: "" + actionName + " " + objName + "",
@@ -685,13 +660,14 @@
 						//CALL AJAX TO UPDATE
 						if (id > 0) {
 							$.ajax({
-								url: systemURL + "account/api/update",
+								url: systemURL + "account/api/add",
 								type: "POST",
-								contentType: "application/json",
-								data: JSON.stringify(updatingObj),
+								data: formData,
+								processData: false,
+								contentType: false,
 								success: function (responseData) {
 									// debugger;
-									if (responseData.status == 200 && responseData.message === "SUCCESS") {
+									if (responseData.status == 201 && responseData.message === "CREATED") {
 										Swal.fire(
 											'Thành Công!',
 											'Đã cập nhật "' + objName + '" ',
@@ -720,15 +696,13 @@
 						};
 						//CALL AJAX TO CREATE
 						if (id == 0) {
-							updatingObj.id = 1;
-							delete updatingObj["id"]
-							updatingObj.active = true;
-							updatingObj.createdTime = new Date();
+
 							$.ajax({
 								url: systemURL + "account/api/add",
 								type: "POST",
-								contentType: "application/json",
-								data: JSON.stringify(updatingObj),
+								data: formData,
+								processData: false,
+								contentType: false,
 								success: function (responseData) {
 									// debugger;
 									if (responseData.status == 201 && responseData.message === "CREATED") {
@@ -737,7 +711,6 @@
 											'Đã cập nhật dữ liệu',
 											'success'
 										);
-										updatingObj = responseData.data;
 										reGenTable();
 										// Remove loading indication
 										submitButton.removeAttribute('data-kt-indicator');
@@ -770,8 +743,8 @@
 
 			}
 			async function deleteItem(id) {
-				updatingObj = table.ajax.json().data.find(c => c.id == id);
-				let objName = id > 0 ? updatingObj.name : "item";
+				let objDel = table.ajax.json().data.find(c => c.id == id);
+				let objName = id > 0 ? objDel.name : "item";
 				Swal.fire({
 					title: 'Xác nhận thay đổi?',
 					text: "Xóa " + objName + "",

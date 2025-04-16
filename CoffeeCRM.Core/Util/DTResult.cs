@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace CoffeeCRM.Core.Util
 {
@@ -187,6 +188,7 @@ namespace CoffeeCRM.Core.Util
         /// Ordering direction for this column.
         /// It will be dt-string asc or dt-string desc to indicate ascending ordering or descending ordering, respectively.
         /// </summary>
+        [JsonConverter(typeof(LowercaseDTOrderDirConverter))]
         public DTOrderDir Dir { get; set; }
     }
 

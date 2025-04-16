@@ -1,0 +1,2528 @@
+﻿@using CoffeeCRM.Data.Constants
+@{
+    Layout = "_Admin_Layout";
+}
+<style>
+    #tableOrderHistory td,
+    #tableOrderHistory tr th {
+        padding-left: 0.75rem;
+    }
+
+    .menuOption {
+        display: none;
+        position: absolute;
+        width: 200px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        overflow: hidden;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+        .menuOption.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-150%, 10%);
+        }
+
+        .menuOption div {
+            padding: 12px;
+            border-bottom: 1px solid #eaeaea;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+            .menuOption div:hover {
+                background-color: #f1f1f1;
+            }
+
+            .menuOption div:last-child {
+                border-bottom: none;
+            }
+    :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5a49d8;
+        --secondary: #fd79a8;
+        --success: #00b894;
+        --warning: #fdcb6e;
+        --danger: #ff7675;
+        --light: #f8f9fa;
+        --dark: #2d3436;
+        --coffee-light: #e17055;
+        --coffee-dark: #d63031;
+        --gray-100: #f8f9fa;
+        --gray-200: #e9ecef;
+        --gray-300: #dee2e6;
+        --gray-400: #ced4da;
+        --gray-500: #adb5bd;
+    }
+
+
+    .filter-section {
+        background-color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+    }
+
+        .filter-section .form-select, .filter-section .form-control {
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+    .status-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .status-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    .table-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .table-card {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+        .table-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .table-header {
+        background: linear-gradient(135deg, #663ffa, #8e74ff);
+        color: white;
+        padding: 15px;
+        font-weight: 600;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .table-body {
+        padding: 20px;
+        position: relative;
+    }
+
+    .table-icon {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+        .table-icon i {
+            font-size: 40px;
+            color: #aaa;
+        }
+
+    .table-status {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+
+        .status-badge i {
+            margin-right: 5px;
+        }
+
+    .status-empty {
+        background-color: rgba(0, 184, 148, 0.1);
+        color: var(--success);
+    }
+
+    .status-occupied {
+        background-color: rgba(253, 121, 168, 0.1);
+        color: var(--secondary);
+    }
+
+    .status-reserved {
+        background-color: rgba(253, 203, 110, 0.1);
+        color: var(--warning);
+    }
+
+    .people-badge {
+        background-color: rgba(108, 92, 231, 0.1);
+        color: var(--primary);
+    }
+
+    .table-info {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        font-size: 14px;
+        color: #666;
+    }
+
+        .table-info div {
+            display: flex;
+            align-items: center;
+        }
+
+        .table-info i {
+            margin-right: 5px;
+        }
+
+    .table-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .table-card:hover .table-actions {
+        opacity: 1;
+    }
+
+    .action-btn {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 15px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+    }
+
+        .action-btn i {
+            margin-right: 5px;
+        }
+
+        .action-btn.primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+            .action-btn.primary:hover {
+                background-color: var(--primary-dark);
+            }
+
+        .action-btn.secondary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+            .action-btn.secondary:hover {
+                background-color: #d0d0d0;
+            }
+
+    .user-dropdown {
+        position: relative;
+    }
+
+        .user-dropdown .dropdown-toggle {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark);
+        }
+
+            .user-dropdown .dropdown-toggle img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .user-dropdown .dropdown-toggle::after {
+                display: none;
+            }
+
+        .user-dropdown .dropdown-menu {
+            right: 0;
+            left: auto;
+            padding: 10px 0;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+            .user-dropdown .dropdown-item:hover {
+                background-color: #f8f9fa;
+            }
+
+            .user-dropdown .dropdown-item i {
+                width: 20px;
+                text-align: center;
+            }
+
+    /* Floor selector styles */
+    .floor-selector {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .floor-btn {
+        background-color: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 8px 15px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        min-width: 100px;
+        text-align: center;
+    }
+
+        .floor-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .floor-btn:hover:not(.active) {
+            background-color: #f5f5f5;
+        }
+
+    
+</style>
+
+<div class="container-fluid p-0">
+    <!-- Header Row -->
+    
+
+    <!-- Body Row -->
+    <div class="row m-2 p-0">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="row align-items-end">
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label for="floorSelect" class="form-label">Chọn tầng:</label>
+                    <select class="form-select" id="floorSelect">
+                        <option value="1">Tầng 1</option>
+                        <option value="2">Tầng 2</option>
+                        <option value="3">Tầng 3</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label for="statusFilter" class="form-label">Trạng thái bàn:</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="all">Tất cả</option>
+                        <option value="empty">Bàn trống</option>
+                        <option value="occupied">Đang sử dụng</option>
+                        <option value="reserved">Đã đặt trước</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label for="orderFilter" class="form-label">Số hóa đơn:</label>
+                    <select class="form-select" id="orderFilter">
+                        <option value="all">Tất cả</option>
+                        <option value="with-order">Có hóa đơn</option>
+                        <option value="no-order">Không có hóa đơn</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100">
+                        <i class="fas fa-filter me-2"></i> Lọc
+                    </button>
+                </div>
+            </div>
+
+            <div class="status-legend mt-3">
+                <div class="status-item">
+                    <div class="status-dot" style="background-color: var(--success);"></div>
+                    <span>Bàn trống</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot" style="background-color: var(--secondary);"></div>
+                    <span>Đang sử dụng</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot" style="background-color: var(--warning);"></div>
+                    <span>Đã đặt trước</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot" style="background-color: #aaa;"></div>
+                    <span>Đang chờ thanh toán</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floor Selector -->
+        <div class="floor-selector">
+            <button class="floor-btn active">Tất cả</button>
+            <button class="floor-btn">Tầng 1</button>
+            <button class="floor-btn">Tầng 2</button>
+            <button class="floor-btn">Tầng 2</button>
+        </div>
+        <!-- Right Column: Table List -->
+        <div id="tableOrganization" class="table-grid"></div>
+    </div>
+</div>
+<div class="modal fade" id="modal-id">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header bg-primary text-white p-3">
+                <div class="d-flex align-items-center">
+                    <div class="btn btn-icon btn-sm btn-light me-2" id="model-back-btn" onclick="startModel($('#tableBooking-id').val())">
+                        <i class="fas fa-arrow-left fs-4 text-primary"></i>
+                    </div>
+                    <h3 class="modal-title fs-4 fw-bold mb-0">Đặt món</h3>
+                </div>
+                <div class="btn btn-icon btn-sm btn-light" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times fs-4 text-danger"></i>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body p-0">
+                
+                    <div class="row g-0">
+                        <!-- Order History Section (Preserved) -->
+                        <div class="col-xl" id="tableOrderHistory">
+                            <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
+                                <h5 class="text-dark fw-bold fs-5 mb-0">
+                                    Danh sách lịch sử đặt món
+                                </h5>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" id="addWarehouseEntryRequest" title="Tạo mới" onclick="newOrder()">
+                                    <i class="fas fa-plus me-1"></i>
+                                    Đặt món
+                                </button>
+                            </div>
+                            <div class="p-4">
+                                <div class="card shadow-sm">
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover display" id="tableDishOrderHistory">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th class="column-name">Người đặt</th>
+                                                        <th class="column-quantity">Trạng thái</th>
+                                                        <th class="column-price">Thời gian đặt</th>
+                                                        <th class="column-action-2">Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <thead id="rowSearch" class="d-none">
+                                                    <tr>
+                                                        <td><input type='text' class='form-control tableHeaderFilter' /></td>
+                                                        <td><input type='text' class='form-control tableHeaderFilter' /></td>
+                                                        <td><input type='text' class='form-control tableHeaderFilter' /></td>
+                                                        <td><input type='text' class='form-control tableHeaderFilter' /></td>
+                                                        <td class="text-center">
+                                                            <button id="btnTableSearch" class="btn btn-primary btn-sm me-1" title="Tìm kiếm">
+                                                                <i class="fas fa-search"></i>
+                                                            </button>
+                                                            <button id="btnTableResetSearch" class="btn btn-secondary btn-sm" title="Reset">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Order history data will be loaded here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Detail Section (Redesigned) -->
+                        <div class="col-xl d-none" id="tableOrderDetail">
+                            <!-- Two-panel layout for order details -->
+                            <div class="d-flex flex-column flex-xl-row h-100">
+                                <!-- Menu Section -->
+                                <div class="flex-grow-1 border-end" style="width: 65%;">
+                                    <!-- Table Info Bar -->
+                                    <div class="bg-primary text-white p-2 d-flex justify-content-start">
+                                        <div class="badge bg-light text-dark rounded-pill me-2 px-3 py-2">
+                                            <i class="fas fa-utensils me-1"></i> Đặt món
+                                        </div>
+                                        <div class="badge bg-light text-dark rounded-pill me-2 px-3 py-2">
+                                            <i class="fas fa-chair me-1"></i> Bàn <span id="table-name">A3</span>
+                                        </div>
+                                        <div class="badge bg-light text-dark rounded-pill me-2 px-3 py-2">
+                                            <i class="fas fa-users me-1"></i> <span id="table-capacity">6</span> người
+                                        </div>
+                                        <div class="badge bg-light text-dark rounded-pill px-3 py-2">
+                                            <i class="fas fa-clock me-1"></i> <span id="current-time">15:30</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Menu Header with Search -->
+                                    <div class="p-3 bg-light border-bottom">
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0">
+                                                <i class="fas fa-search text-muted"></i>
+                                            </span>
+                                            <input type="text" class="form-control border-start-0" id="searchDish" placeholder="Tìm kiếm món...">
+                                        </div>
+                                    </div>
+
+                                    <!-- Category Tabs -->
+                                    <div class="d-flex overflow-auto p-2 border-bottom" id="categoryTabs">
+                                        <button class="btn btn-sm btn-primary rounded-pill me-2 px-3" data-category="all">Tất cả</button>
+                                        <!-- Category tabs will be loaded here -->
+                                    </div>
+
+                                    <!-- Product Selection (Hidden but preserved for functionality) -->
+                                    <div class="d-none">
+                                        <select class="form-select dataSelect" id="productSearchForOrder" data-control="select2" data-dropdown-parent="#modal-id">
+                                        </select>
+                                        <input type="text" id="tableBooking-id" class="form-control d-none" />
+                                        <input type="text" id="dishOrder-id" class="form-control d-none" />
+                                    </div>
+
+                                    <!-- Menu Items Grid -->
+                                    <div class="p-3 overflow-auto" style="max-height: 500px;">
+                                        <div class="row g-3" id="menuItemsGrid">
+                                            <!-- Menu items will be loaded here -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Order Cart Section -->
+                                <div class="d-flex flex-column bg-light" style="width: 35%;">
+                                    <!-- Cart Header -->
+                                    <div class="p-3 border-bottom">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-shopping-cart text-primary me-2"></i>
+                                            <h5 class="fw-bold mb-0">Giỏ hàng</h5>
+                                        </div>
+                                        <div class="d-flex gap-2 mt-2">
+                                            <span class="badge bg-light text-dark border">
+                                                <i class="fas fa-receipt me-1"></i> Hóa đơn #<span id="order-number">1234</span>
+                                            </span>
+                                            <span class="badge bg-light text-dark border">
+                                                <i class="fas fa-user me-1"></i> Nhân viên: <span id="staff-name">Admin</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cart Items -->
+                                    <div class="p-3 overflow-auto flex-grow-1" style="max-height: 350px;">
+                                        <div id="cart-items">
+                                            <!-- Cart items will be loaded here -->
+                                        </div>
+
+                                        <!-- Empty Cart Message -->
+                                        <div id="empty-cart" class="text-center py-5">
+                                            <i class="fas fa-shopping-cart text-muted mb-3" style="font-size: 3rem;"></i>
+                                            <p class="text-muted">Giỏ hàng trống</p>
+                                            <p class="text-muted small">Vui lòng chọn món từ thực đơn</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Order Summary -->
+                                    <div class="p-3 border-top">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Tạm tính:</span>
+                                            <span id="subtotal">0đ</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Giảm giá:</span>
+                                            <span id="discount">0đ</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Thuế (10%):</span>
+                                            <span id="tax">0đ</span>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between fw-bold text-primary">
+                                            <span>Tổng cộng:</span>
+                                            <span id="total">0đ</span>
+                                        </div>
+
+                                        <!-- Discount Section -->
+                                        <div class="mt-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-tag text-warning me-2"></i>
+                                                <span class="fw-bold">Áp dụng giảm giá</span>
+                                            </div>
+                                            <div class="d-flex gap-1 mb-2">
+                                                <button class="btn btn-sm btn-warning active discount-btn" data-discount="10">10%</button>
+                                                <button class="btn btn-sm btn-outline-warning discount-btn" data-discount="15">15%</button>
+                                                <button class="btn btn-sm btn-outline-warning discount-btn" data-discount="20">20%</button>
+                                                <button class="btn btn-sm btn-outline-warning discount-btn" data-discount="custom">Khác</button>
+                                            </div>
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" id="discountCode" placeholder="Mã giảm giá">
+                                                <button class="btn btn-primary" type="button" id="applyDiscountBtn">Áp dụng</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Original Table (Hidden but preserved for functionality) -->
+                            <div class="d-none">
+                                <div class="card">
+                                    <div class="card-block table-border-style">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover display" id="tableDataProduct">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="column-name">Tên sản phẩm</th>
+                                                        <th class="column-price">Giá</th>
+                                                        <th class="column-quantity">Số lượng</th>
+                                                        <th class="column-price">Thành tiền</th>
+                                                        <th class="column-action-2">Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <thead id="rowSearch" class="d-none">
+                                                    <tr>
+                                                        <td><input type='text' class='form-control tableHeaderFilter' /></td>
+                                                        <td><input type='text' class='form-control tableHeaderFilter' /></td>
+                                                        <td><input type='text' class='form-control tableHeaderFilter' /></td>
+                                                        <td><input type='text' class='form-control tableHeaderFilter' /></td>
+                                                        <td class="text-center">
+                                                            <button id="btnTableSearch" class="btn btn-primary custom-btn-table me-1" title="Tìm kiếm">
+                                                                <i class="fas fa-search"></i>
+                                                            </button>
+                                                            <button id="btnTableResetSearch" class="btn btn-secondary custom-btn-table" title="Reset">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer bg-light">
+                <div class="d-flex justify-content-between w-100">
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i> Đóng
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" id="printTempBtn">
+                            <i class="fas fa-print me-1"></i> In tạm tính
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" id="saveTempBtn">
+                            <i class="fas fa-save me-1"></i> Lưu tạm
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" id="paymentBtn">
+                            <i class="fas fa-credit-card me-1"></i> Thanh toán
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-success d-none" id="btnConfirmOrder">
+                        <span class="indicator-label">
+                            <i class="fas fa-check-circle me-1"></i> Xác nhận đơn hàng
+                        </span>
+                        <span class="indicator-progress">
+                            Đang tải... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div class="modal fade" id="noteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm ghi chú</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" rows="4" id="noteText" placeholder="Nhập ghi chú cho món này..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="saveNoteBtn">Lưu ghi chú</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End booking table -->
+<!-- Start booking payment-->
+<div class="modal fade" id="modal-payment">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex align-items-center">
+                    <h3 class="modal-title">Thanh toán</h3>
+                </div>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1 text-danger"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form action="#">
+                    <div class="row">
+                        <div class="col-xl ">
+                            <div class="col-xl" id="tablePayment">
+                                <div style="text-align: center;">
+                                    <h2>Hóa Đơn Thanh Toán</h2>
+
+                                </div>
+                                <!-- Thông tin hóa đơn -->
+                                <div class="mb-4 " >
+                                    <div class="col-sm-6 d-none">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-solid mb-5">
+                                                <label class="input-group-text  " id="basic-addon-invoiceCode"><strong>Mã hóa đơn:</strong></label>
+                                                <input type="text" disabled autocomplete="off" class="form-control input-invoiceCode" id="invoice-invoiceCode" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" />
+                                            </div>
+                                        </div>   
+                                     </div>
+                                    
+                                     <div class="col-sm-6">                           
+                                        <div class='form-group'>
+                                            <div class="input-group input-group-solid mb-5">
+                                                <label class="input-group-text" id="basic-addon-createdTime">Ngày tạo</label>
+                                                <div class='form-control date datetimepicker  input-createdTime' id='invoice-createdTimeDiv' style='padding:0px;'>
+                                                    <input type='text' autocomplete="off" id="invoice-createdTime" required class="form-control datepicker" aria-label="createdTime" aria-describedby="basic-addon-createdTime" disabled />
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-none col-sm-6">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-solid mb-5">
+                                                <label class="input-group-text" id="basic-addon-id">Mã table</label>
+                                                <input readonly type="number" autocomplete="off" class="form-control input-id" id="tableId" aria-label="id" aria-describedby="basic-addon-id" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="col-sm-6">                   
+                                        <div class="form-group">
+                                            <div class="input-group input-group-solid mb-5">
+                                                <label class="input-group-text  " id="basic-addon-invoiceCode"><strong>Tên bàn:</strong></label>
+                                                <input type="text" autocomplete="off" class="form-control input-invoiceCode" id="invoice-tableId" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" disabled />
+                                            </div>
+                                        </div>   
+                                     </div>
+                                    <div class="d-none col-sm-6">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-solid mb-5">
+                                                <label class="input-group-text" id="basic-addon-id">Mã</label>
+                                                <input readonly type="number" autocomplete="off" class="form-control input-id" id="accoutId" aria-label="id" aria-describedby="basic-addon-id" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="col-sm-6">                   
+                                        <div class="form-group">
+                                            <div class="input-group input-group-solid mb-5">
+                                                <label class="input-group-text  " id="basic-addon-accoutId"><strong>Nhân viên phụ trách:</strong></label>
+                                                <input type="text" autocomplete="off" class="form-control input-invoiceCode" id="invoice-accoutId" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" disabled />
+                                            </div>
+                                        </div>   
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-block table-border-style">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover display" id="tableInvoiceDetail">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="column-name">Tên sản phẩm</th>
+                                                        <th class="column-price">Giá</th>
+                                                        <th class="column-quantity">Số lượng</th>
+                                                        <th class="column-price">Thành tiền</th>
+
+                                                    </tr>
+                                                </thead>                                               
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="4" class="text-end">
+                                                            <strong style="margin-right: 10px;">Tổng dịch vụ:</strong>
+                                                            <input disabled type="text" id="invoicedetail-totalPriceNotVAT" class="column-price form-control d-inline-block" style="width: 150px;" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4" class="text-end">
+                                                            <strong style="margin-right: 10px;">Tổng thanh toán (10% VAT):</strong>
+                                                            <input disabled type="text" id="invoicedetail-totalPrice" class="form-control d-inline-block" style="width: 150px;" />
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                             </table>                                            
+                                        </div>
+                                    </div>
+                                    <!-- Table end -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Phương thức thanh toán -->
+                        <div class="mb-3">
+                            <label for="paymentMethod" class="form-label"><strong>Phương thức thanh toán:</strong></label>
+                            <select id="payment-paymentId" class="form-select">
+                            </select>
+                            <script>
+                                var paymentData = [];
+                                async function loadDataSelectPayment() {
+                                    await $.ajax({
+                                        url: systemURL + 'paymentmethod/api/list',
+                                        type: 'GET',
+                                        async: 'true',
+                                        contentType: 'application/json',
+                                        success: function (responseData) {
+                                            // console.log(new Date().getSeconds() + ':' + new Date().getMilliseconds() + ' - loaded category created');
+                                            // debugger;
+                                            //console.log(responseData);
+                                            var data = responseData.data;
+                                            paymentData = data;
+                                            //console.log(roleData);
+                                        },
+                                        error: function (e) {
+                                            //console.log(e.message);
+                                        }
+                                    });
+                                }
+                                //console.log(roleData);
+                                $(document).ready(function () {
+                                    loadDataSelectPayment();
+                                    $.when(loadDataSelectPayment()).done(function () {
+                                        paymentData.forEach(function (item) {
+                                            $('#payment-paymentId').append(new Option(item.paymentMethodName, item.id, false, false)).trigger('change');
+                                        })
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <!-- Nút hành động -->
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary " id="confirmPayment">
+                    <span class="indicator-label">
+                        Xác nhận thanh toán
+                    </span>
+                    <span class="indicator-progress">
+                        Đang tải... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    </span>
+                </button>
+                <button type="button" class="btn btn-default"
+                        data-bs-dismiss="modal">
+                    Đóng
+                </button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //var data = await httpService.getAsync("warehouse/api/detail/" + id);
+    const submitButton = document.getElementById('btnConfirmOrder');
+    const submitButtonPayment = document.getElementById('confirmPayment');
+    $(document).ready(async function () {
+        loadTableList();
+        loadProductList();
+        // Hàm này khi chọn sản phẩm cho vào danh sách để đặt món
+        $("#productSearchForOrder").on("select2:select", function () {
+            if ($("#productSearchForOrder").val()) {
+                let dish = getProductById($("#productSearchForOrder").val());
+                if (isExistProductInTable(dish.id)) {
+                    swal.fire({
+                        icon: 'warning',
+                        title: 'Đặt món',
+                        html: 'Sản phẩm đã có trong đơn.'
+                    });
+                } else {
+                    tableProduct.row.add({
+                        "id": 0,
+                        "dishId": dish.id,
+                        "dishName": dish.dishName,
+                        "dishOrderStatusId": @DishOrderStatudConst.PROCESSING,
+                        "price": dish.price,
+                        "finalPrice": dish.price,
+                        "quantity": 1,
+                        "isEdit": false,
+                    }).draw();
+                }
+            }
+            //trigger change lại product
+            $("#productSearchForOrder").val("").trigger("change");
+            //Tính toán lại giá tiền cho toàn bộ bảng
+            //calculateAllPrice();
+            // }
+
+        });
+    });
+</script>
+
+<script>
+    InitDishOrderHistory();
+    var tableDishOrderHistory;
+    function InitDishOrderHistory() {
+        tableDishOrderHistory = $("#tableDishOrderHistory").DataTable({
+            order: [[0, 'desc']],
+            ordering: false,
+            columns: [
+                {
+                    data: "ordererName",
+                    render: function (data, type, row, meta) {
+                        return `<strong><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
+                    },
+                },
+                {
+                    data: "dishOrderStatusName",
+                    render: function (data, type, row, meta) {
+                        return `<strong><span style='' class='fs-14 ${(row.dishOrderStatusId == @DishOrderStatudConst.PROCESSING) ? "text-primary" : ""}${row.dishOrderStatusId == @DishOrderStatudConst.DONE ? "text-success" : ""}${row.dishOrderStatusId == @DishOrderStatudConst.CANCEL ? "text-danger" : ""}' >${data}</span></strong>`;
+                    },
+                },
+                {
+                    data: "createdTime",
+                    render: function (data) {
+                        var tempDate = new Date(data);
+                        var displayValue = timeAgo(moment(data).format("DD/MM/YYYY HH:mm:ss"));
+                        //return displayValue;
+                        return `<span class="badge py-3 px-4" style="color:#04b440; background-color:#e6f8ec; font-size: 13px">${displayValue}<span></span></span>`;
+
+                    }
+                },
+                {
+                    data: 'id',
+                    render: function (data, type, row, meta) {
+
+                        return `
+                                        <div class='overlay-edit-custom'>
+                                                            <button title="Sửa" type='button' onclick='editOrder(${row.id},${row.dishOrderStatusId})' class='btn btn-icon btn-admin-primary'><i class="ki-duotone ki-notepad-edit fs-2x text-primary"><span class="path1"> </span><span class="path2"></span></i></button>
+                                                    <button title="Hủy" type='button' onclick='cancelOrder(${data})' class='btn btn-icon btn-admin-danger ${row.dishOrderStatusId == @DishOrderStatudConst.PROCESSING ? "" : "d-none"}'><i class="ki-duotone ki-trash-square fs-2x text-danger "><span class="path1"></span><span class="path2"> </span><span class="path3"></span><span class="path4"> </span></i></button>
+                                        </div>
+                                    `;
+                    }
+                },
+            ],
+            createdRow: function (row, data, dataIndex) {
+                $(row).attr('data-productId', data.productId);
+                $(row).attr('data-id', data.id);
+            },
+            columnDefs: [
+                { targets: "no-sort", orderable: false },
+                { targets: "no-search", searchable: false },
+                { orderable: false, targets: [-1, 0] },
+            ],
+            aLengthMenu: [
+                [10, 25, 50, 100],
+                [10, 25, 50, 100]
+            ],
+            columnDefs: [
+                // {
+                //     targets: 2,
+                //     createdCell: function (td, cellData, rowData, row, col) {
+                //         $(td).attr("data-attr", "quantity");
+                //     }
+                // },
+            ],
+            drawCallback: function () {
+                $('#tableDishOrderHistory tfoot').html("");
+                $("#tableDishOrderHistory thead:nth-child(1) tr").clone(true).appendTo("#tableDishOrderHistory tfoot");
+                $('#tableDishOrderHistory tfoot tr').addClass("border-top");
+            },
+            "oLanguage": {
+                "sUrl": "/js/Vietnamese.json"
+            },
+        })
+    }
+
+</script>
+
+<script>
+    let allTables = [];
+
+    function loadTableList() {
+        $.ajax({
+            url: systemURL + "Table/api/Listdto",
+            method: "GET",
+            success: function (response) {
+                if (response.status === "200") {
+                    allTables = response.data;
+                    renderTables(allTables);
+                }
+            },
+            error: function (xhr) {
+                console.error("Lỗi gọi API:", xhr);
+            }
+        });
+    }
+
+    $("#floorSelect").on("change", function () {
+        renderTables(allTables);
+    });
+
+    function renderTables(tables) {
+        const selectedFloor = $("#floorSelect").val();
+        const container = $("#tableOrganization");
+        container.empty();
+
+        const filteredTables = tables.filter(table => {
+            const match = table.tableCode.match(/TB-(\d{3})-(\d+)/);
+            if (!match) return false;
+            const floor = parseInt(match[1].charAt(0));
+            return floor == selectedFloor;
+        });
+
+        if (filteredTables.length === 0) {
+            container.html('<div class="col-12 text-center text-muted">Không có bàn nào.</div>');
+            return;
+        }
+
+        filteredTables.forEach(table => {
+            const card = getTableCard(table.tableName, table.id, table.tableCode, table.tableStatus, table.totalBooking, table.lastBookingTime);
+            container.append(card);
+        });
+    }
+
+    function getTableCard(tableName, id, tableCode, status, totalBooking, lastBookingTime) {
+        const idTbMenu = "menu" + id;
+        const match = tableCode.match(/TB-\d{3}-(\d+)/);
+        const maxPeople = match ? match[1] : 4;
+        const orderCount = totalBooking !== undefined ? totalBooking : 0;
+
+        let timeText = "";
+        if (lastBookingTime != null) {
+            const absMinutes = Math.abs(lastBookingTime);
+            const isPast = lastBookingTime < 0;
+
+            if (absMinutes >= 60) {
+                const hours = Math.floor(absMinutes / 60);
+                const minutes = absMinutes % 60;
+                timeText = `${isPast ? "Trễ " : "Còn "}${hours}h${minutes} phút`;
+            } else {
+                timeText = `${isPast ? "Trễ " : "Còn "}${absMinutes} phút`;
+            }
+        } else {
+            timeText = "Chưa có lịch";
+        }
+
+        const statusClass = {
+            "available": "status-empty",
+            "occupied": "status-occupied",
+            "booked": "status-reserved"
+        }[status] || "status-empty";
+
+        const statusText = {
+            "available": "Trống",
+            "occupied": "Đã dùng",
+            "booked": "Đã đặt"
+        }[status] || "Trống";
+
+        const statusIcon = {
+            "available": "check-circle",
+            "occupied": "circle",
+            "booked": "bookmark"
+        }[status] || "check-circle";
+
+        return `
+            
+                <div class="table-card" onclick="showMenu(event, ${id})">
+                    <div class="table-header">
+                        <span>${tableName}</span>
+                        <span><i class="fas fa-users"></i> ${maxPeople}</span>
+                    </div>
+                    <div class="table-body">
+                        <div class="table-icon">
+                            <i class="fas fa-coffee"></i>
+                        </div>
+                        <div class="table-status">
+                            <div class="status-badge ${statusClass}">
+                                <i class="fas fa-${statusIcon}"></i> ${statusText}
+                            </div>
+                            <div class="status-badge people-badge">
+                                <i class="fas fa-users"></i> ${maxPeople} người
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div>
+                                <i class="far fa-clock"></i> Đã đặt: ${orderCount}
+                            </div>
+                            <div>
+                                <i class="far fa-hourglass"></i> ${timeText}
+                            </div>
+                        </div>
+
+                                            <div class="table-actions">
+                        <button class="action-btn primary" onclick="menuAction(this, ${id}, 'order')">
+                            <i class="fas fa-utensils"></i> Gọi món
+                        </button>
+                        <button class="action-btn primary" onclick="menuAction(this, ${id}, 'booking')">
+                            <i class="fas fa-plus-circle"></i> Đặt bàn
+                        </button>
+
+                    </div>
+                    </div>
+                    <div class="card-footer p-0">
+                        
+                    </div>
+                </div>
+                <div class="menuOption guestTable position-absolute hidden bg-white shadow rounded p-2 mt-1 z-100" data-tableBooking-id="${id}" id="${idTbMenu}">
+                            <div onclick="menuAction(this, ${id}, 'order')" class="p-2 hover-bg-light"><i class="fas fa-utensils me-2 text-primary"></i> Đặt món</div>
+                            <div onclick="menuAction(this, ${id}, 'booking')" class="p-2 hover-bg-light"><i class="fas fa-calendar-check me-2 text-primary"></i> Đặt bàn</div>
+                            <div onclick="menuAction(this, ${id}, 'occupied')" class="p-2 hover-bg-light"><i class="fas fa-chair me-2 text-primary"></i> Chọn bàn</div>
+                            <div onclick="menuAction(this, ${id}, 'available')" class="p-2 hover-bg-light"><i class="fas fa-trash me-2 text-primary"></i> Làm trống</div>
+                            <div onclick="menuAction(this, ${id}, 'payment')" class="p-2 hover-bg-light"><i class="fas fa-credit-card me-2 text-primary"></i> Thanh toán</div>
+                        </div>
+            
+        `;
+    }
+</script>
+
+<!-- #region Ẩn hiện menu khi click vào bàn và modal đặt đồ ăn-->
+<script>
+    $(window).on('click', function (e) {
+        // Kiểm tra xem click có phải vào guestTable hoặc menu không
+        if (!$(e.target).closest('.guestTable').length && !$(e.target).closest('.menuOption').length) {
+            $('.menuOption').removeClass('active');  // Đóng menu nếu click ra ngoài
+        }
+    });
+    function ModalBooking() {
+        $("#modal-id").modal('show');
+    }
+    function makePayment() {
+        $("#modal-payment").modal('show');
+    }
+    function showMenu(event, menuId) {
+        event.stopPropagation();
+        // Ẩn tất cả các menu trước khi hiển thị menu tương ứng
+        $('.menuOption').removeClass('active');
+        // Lấy phần tử menu cần hiển thị từ menuId
+        const $menu = $("#menu" + menuId);
+        // Lấy phần tử guestTable
+        const $guestTable = $(event.currentTarget);
+        // Tính toán vị trí của guestTable để đặt vị trí cho menu
+        const rect = $guestTable[0].getBoundingClientRect();
+            $menu.css({
+        'top': (rect.top + window.scrollY) + 'px',
+        'left': (rect.right + window.scrollX + 10) + 'px' // 10px offset from the right edge
+    }).addClass('active');
+        // Ngừng truyền sự kiện để tránh việc đóng menu ngay sau khi mở
+        event.stopPropagation();
+    }
+    async function menuAction(element, menuId, actionName) {
+        $('.menuOption').removeClass('active');
+        $("#tableBooking-id").val($(element).closest('.menuOption').data('tablebooking-id'))
+
+        // Nếu hành động là order - đặt bàn thì mở modal.
+        if (actionName == 'order') {
+            await startModel(menuId);
+            ModalBooking();
+        }
+
+        // Hành động booking - đặt bàn
+        else if(actionName ==  'booking') {
+            openBookingModal(menuId);
+        }
+
+        // Chọn bàn (occupied)
+        else if(actionName == 'occupied') {
+            await selectTable(menuId);
+        }
+
+        // Làm trống bàn (available)
+        else if(actionName == 'available') {
+            await makeAvailable(menuId);
+        }
+        else if(actionName == 'payment') {
+            await startInvoice(menuId);
+            await makePayment();
+        }
+        // Code của các hành động tiếp theo thì viết dưới đây
+    }
+    async function startModel(tableId) {
+        tableDishOrderHistory.clear().draw();
+        $('#model-back-btn').addClass('d-none');
+        $('#tableOrderHistory').fadeIn(10);
+        $('#tableOrderDetail').addClass('d-none');
+        $('#btnConfirmOrder').addClass('d-none');
+        var data = await httpService.getAsync("dishorder/api/DetailByTableId/" + tableId);
+        if (data.status == "200") {
+            data.data[0].forEach((item) => {    
+                tableDishOrderHistory.row.add({
+                    "id": item.id,
+                    "ordererName": item.ordererName,
+                    "dishOrderStatusId": item.dishOrderStatusId,
+                    "dishOrderStatusName": item.dishOrderStatusName,
+                    "createdTime": item.createdTime,
+                }).draw();
+            })
+        } else {
+            swal.fire({
+                icon: 'error',
+                title: 'Đặt món',
+                html: 'Đã xảy ra lỗi, vui lòng thử lại sau'
+            });
+        }
+    }
+    async function startInvoice(tableId) {
+        tableInvoiceDetail.clear().draw();
+        // Gán vào input người phụ trách
+        setAcountName()
+        generateInvoiceCode();
+        setTableName(tableId);
+        $("#invoice-createdTime").val(moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
+        var data = await httpService.getAsync("dishorderdetail/api/DishDetailByTableId/" + tableId);
+        var sumPrice = 0;
+        if (data.status == "200") {
+            data.data[0].forEach((item) => {
+                tableInvoiceDetail.row.add({
+                    "dishId": item.dishId,
+                    "dishName": item.dishName,
+                    "quantity": item.quantity,
+                    "price": item.price,
+                    "totalPrice": item.totalPrice,
+                }).draw();
+                sumPrice += item.price * item.quantity;
+            })
+            $("#invoicedetail-totalPriceNotVAT").val(sumPrice);
+            sumPrice += sumPrice * 0.1;
+            $("#invoicedetail-totalPrice").val(sumPrice);
+        } else {    
+            swal.fire({
+                icon: 'error',
+                title: 'Thanh toán',
+                html: 'Đã xảy ra lỗi, vui lòng thử lại sau'
+            });
+        }
+    }
+    // Hàm định dạng ngày hiện tại: YYYYMMDD
+    function getCurrentDateFormatted() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+        const dd = String(today.getDate()).padStart(2, '0');
+        return `${yyyy}${mm}${dd}`;
+    }
+
+    async function setAcountName() {
+        let userData = localStorage.getItem('profile');
+        let user = JSON.parse(userData);
+        $("#accoutId").val(user.id);
+        let accountName = user.fullName;
+        $("#invoice-accoutId").val(accountName);
+    }
+    // Hàm tạo mã hóa đơn
+    async function generateInvoiceCode() {
+
+        const response = await $.ajax({
+            url: systemURL + "invoice/api/Count", // API trả về thông tin bàn
+            type: 'GET',
+            dataType: 'json'
+        });
+        let count;
+        if(response == 0){
+            count = 1;
+        }else{
+            count++;
+        }
+        const currentDate = getCurrentDateFormatted();
+        // Gán mã hóa đơn vào input
+        $("#invoice-invoiceCode").val("HD-" + currentDate +"-" + (count + 1).toString().padStart(4, "0"));
+    }
+    async function setTableName(tableId) {
+        $("#tableId").val(tableId);
+        const response = await $.ajax({
+            url: `${systemURL}Table/api/detail/${tableId}`, // API trả về thông tin bàn
+            type: 'GET',
+            dataType: 'json'
+        });
+        const tableName = response.data[0].tableName || "Bàn chưa chọn";
+        $("#invoice-tableId").val(tableName);
+    }
+
+    function newOrder() {
+        $("#dishOrder-id").val(0);
+        tableProduct.clear().draw();
+        showOrderDetail();
+    }
+    function showOrderDetail() {
+        $('#tableOrderHistory').fadeOut(300, function () {
+            $('#tableOrderDetail').removeClass('d-none');
+            $('#tableOrderDetail').fadeIn(300);
+        });
+        $('#model-back-btn').removeClass('d-none');
+        $('#btnConfirmOrder').removeClass('d-none');
+    }
+    async function editOrder(DishOrderId, DishOrderStatusId) {
+        showOrderDetail();
+        if (!(DishOrderStatusId == @DishOrderStatudConst.PROCESSING)) {
+            $('#btnConfirmOrder').addClass('d-none');
+        }
+        $("#dishOrder-id").val(DishOrderId);
+        tableProduct.clear().draw();
+        var data = await httpService.getAsync("dishorderdetail/api/ListByOrderId/" + DishOrderId);
+        if (data.status == "200") {
+            data.data.forEach((item) => {
+                tableProduct.row.add({
+                    "id": item.id,
+                    "dishId": item.dishId,
+                    "dishName": item.dishName,
+                    "dishOrderStatusId": DishOrderStatusId,
+                    "price": item.price,
+                    "finalPrice": item.price * item.quantity,
+                    "quantity": item.quantity,
+                    "isEdit": false,
+                }).draw();
+            })
+        } else {
+            swal.fire({
+                icon: 'error',
+                title: 'Đặt món',
+                html: 'Đã xảy ra lỗi, vui lòng thử lại sau'
+            });
+        }
+    }
+</script>
+<!-- #endregion -->
+<script>
+        // Global variables
+    let allDishes = [];
+    let allCategories = [];
+    let currentCategory = 'all';
+    let currentDiscount = 10; // Default discount percentage
+    let currentNoteItem = null;
+
+    // Initialize when document is ready
+    $(document).ready(function() {
+        // Set current time
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 60000); // Update time every minute
+
+        // Load dish categories and dishes
+        loadDishCategories();
+        loadDishes();
+
+        // Event listeners
+        setupEventListeners();
+    });
+
+    // Update current time display
+    function updateCurrentTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        $('#current-time').text(`${hours}:${minutes}`);
+    }
+
+    // Load dish categories from API
+    function loadDishCategories() {
+        $.ajax({
+            url: systemURL + "Dishcategory/api/list",
+            method: "GET",
+            success: function(response) {
+                if (response.status === "200") {
+                    allCategories = response.data;
+                    renderCategoryTabs();
+                } else {
+                    console.error("Error loading dish categories:", response);
+                }
+            },
+            error: function(xhr) {
+                console.error("API call error:", xhr);
+            }
+        });
+    }
+
+    // Load dishes from API
+    function loadDishes() {
+        $.ajax({
+            url: systemURL + "Dish/api/list",
+            method: "GET",
+            success: function(response) {
+                if (response.status === "200") {
+                    allDishes = response.data;
+                    renderMenuItems();
+                } else {
+                    console.error("Error loading dishes:", response);
+                }
+            },
+            error: function(xhr) {
+                console.error("API call error:", xhr);
+            }
+        });
+    }
+
+    // Render category tabs
+    function renderCategoryTabs() {
+        const $categoryTabs = $('#categoryTabs');
+
+        // Clear existing tabs except "All"
+        $categoryTabs.find('button:not(:first-child)').remove();
+
+        // Add category tabs
+        allCategories.forEach(category => {
+            $categoryTabs.append(`
+                <button class="btn btn-sm btn-outline-primary rounded-pill me-2 px-3"
+                        data-category="${category.id}">
+                    ${category.dishCateogryName}
+                </button>
+            `);
+        });
+
+        // Add event listeners to category tabs
+        $categoryTabs.find('button').click(function() {
+            $categoryTabs.find('button').removeClass('btn-primary').addClass('btn-outline-primary');
+            $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+
+            currentCategory = $(this).data('category');
+            renderMenuItems();
+        });
+    }
+
+    // Render menu items based on selected category
+    function renderMenuItems() {
+        const $menuItemsGrid = $('#menuItemsGrid');
+        $menuItemsGrid.empty();
+
+        if (!allDishes || allDishes.length === 0) {
+            $menuItemsGrid.html('<div class="col-12 text-center text-muted">Không có món ăn nào.</div>');
+            return;
+        }
+
+        // Filter dishes by category if needed
+        const filteredDishes = currentCategory === 'all'
+            ? allDishes
+            : allDishes.filter(dish => dish.dishCategoryId === currentCategory);
+
+        // Render each dish
+        filteredDishes.forEach(dish => {
+            const imageUrl = dish.photo ? systemURL + dish.photo : 'https://via.placeholder.com/150?text=' + encodeURIComponent(dish.dishName);
+
+            $menuItemsGrid.append(`
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100 shadow-sm menu-item" data-dish-id="${dish.id}">
+                        <div class="position-relative">
+                            <img src="${imageUrl}" class="card-img-top" alt="${dish.dishName}" style="height: 120px; object-fit: contain;">
+                            ${dish.isNew ? '<span class="position-absolute top-0 end-0 badge bg-info m-2">Mới</span>' : ''}
+                            ${dish.isPopular ? '<span class="position-absolute top-0 end-0 badge bg-warning m-2">Phổ biến</span>' : ''}
+                        </div>
+                        <div class="card-body p-2">
+                            <h6 class="card-title mb-1 text-truncate">${dish.dishName}</h6>
+                            <p class="card-text text-primary fw-bold mb-2">${priceFormatCurrency(dish.price)}đ</p>
+                            <button class="btn btn-sm btn-primary w-100 add-item-btn" data-dish-id="${dish.id}">
+                                <i class="fas fa-plus me-1"></i> Thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `);
+        });
+
+        // If no dishes in the selected category
+        if (filteredDishes.length === 0) {
+            $menuItemsGrid.html('<div class="col-12 text-center text-muted">Không có món ăn nào trong danh mục này.</div>');
+        }
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+        // Search functionality
+        $('#searchDish').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+
+            if (searchTerm.length > 0) {
+                // Filter dishes by search term
+                const filteredDishes = allDishes.filter(dish =>
+                    dish.dishName.toLowerCase().includes(searchTerm) ||
+                    dish.dishCode.toLowerCase().includes(searchTerm)
+                );
+
+                // Render filtered dishes
+                renderFilteredMenuItems(filteredDishes);
+            } else {
+                // Reset to category view
+                renderMenuItems();
+            }
+        });
+
+        // Add item to cart
+        $(document).on('click', '.add-item-btn', function() {
+            const dishId = $(this).data('dish-id');
+            addToCart(dishId);
+        });
+
+        // Quantity buttons
+        $(document).on('click', '.quantity-btn', function() {
+            const $cartItem = $(this).closest('.cart-item');
+            const dishId = $cartItem.data('dish-id');
+            const isPlus = $(this).hasClass('plus');
+
+            updateCartItemQuantity(dishId, isPlus);
+        });
+
+        // Remove item from cart
+        $(document).on('click', '.remove-item-btn', function() {
+            const $cartItem = $(this).closest('.cart-item');
+            const dishId = $cartItem.data('dish-id');
+
+            removeFromCart(dishId);
+        });
+
+        // Add note button
+        $(document).on('click', '.add-note-btn', function() {
+            const $cartItem = $(this).closest('.cart-item');
+            currentNoteItem = {
+                dishId: $cartItem.data('dish-id'),
+                element: $cartItem
+            };
+
+            // Clear previous note
+            $('#noteText').val('');
+
+            // Show note modal
+            $('#noteModal').modal('show');
+        });
+
+        // Save note
+        $('#saveNoteBtn').click(function() {
+            const note = $('#noteText').val().trim();
+
+            if (note && currentNoteItem) {
+                // Replace add note button with note text
+                currentNoteItem.element.find('.note-container').html(`
+                    <div class="small text-muted mt-2">
+                        <i class="fas fa-sticky-note me-1"></i> ${note}
+                    </div>
+                `);
+
+                // Save note to the data structure
+                saveNoteToItem(currentNoteItem.dishId, note);
+            }
+
+            // Close modal
+            $('#noteModal').modal('hide');
+        });
+
+        // Discount buttons
+        $('.discount-btn').click(function() {
+            $('.discount-btn').removeClass('btn-warning').addClass('btn-outline-warning');
+            $(this).removeClass('btn-outline-warning').addClass('btn-warning');
+
+            const discount = $(this).data('discount');
+            if (discount === 'custom') {
+                // Handle custom discount
+                $('#discountCode').focus();
+            } else {
+                currentDiscount = parseInt(discount);
+                updateOrderSummary();
+            }
+        });
+
+        // Apply discount button
+        $('#applyDiscountBtn').click(function() {
+            const discountCode = $('#discountCode').val().trim();
+
+            if (discountCode) {
+                // Here you would validate the discount code with your backend
+                // For now, we'll just show an alert
+                alert('Mã giảm giá: ' + discountCode);
+
+                // Apply a custom discount (for demo purposes)
+                currentDiscount = 12; // 12% discount for any code
+                updateOrderSummary();
+
+                // Update UI
+                $('.discount-btn').removeClass('btn-warning').addClass('btn-outline-warning');
+                $('.discount-btn[data-discount="custom"]').removeClass('btn-outline-warning').addClass('btn-warning');
+            }
+        });
+
+        // Confirm order button
+        $('#btnConfirmOrder').click(function() {
+            // This will use your existing confirm order functionality
+            // The button is just made visible when needed
+        });
+
+        // Action buttons
+        $('#printTempBtn').click(function() {
+            alert('In tạm tính');
+        });
+
+        $('#saveTempBtn').click(function() {
+            alert('Lưu tạm');
+        });
+
+        $('#paymentBtn').click(function() {
+            alert('Chuyển đến thanh toán');
+        });
+    }
+
+    // Render filtered menu items (for search)
+    function renderFilteredMenuItems(filteredDishes) {
+        const $menuItemsGrid = $('#menuItemsGrid');
+        $menuItemsGrid.empty();
+
+        if (filteredDishes.length === 0) {
+            $menuItemsGrid.html('<div class="col-12 text-center text-muted">Không tìm thấy món ăn nào.</div>');
+            return;
+        }
+
+        // Render each dish
+        filteredDishes.forEach(dish => {
+            const imageUrl = dish.photo ? systemURL + dish.photo : 'https://via.placeholder.com/150?text=' + encodeURIComponent(dish.dishName);
+
+            $menuItemsGrid.append(`
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100 shadow-sm menu-item" data-dish-id="${dish.id}">
+                        <div class="position-relative">
+                            <img src="${imageUrl}" class="card-img-top" alt="${dish.dishName}" style="height: 120px; object-fit: cover;">
+                        </div>
+                        <div class="card-body p-2">
+                            <h6 class="card-title mb-1 text-truncate">${dish.dishName}</h6>
+                            <p class="card-text text-primary fw-bold mb-2">${priceFormatCurrency(dish.price)}đ</p>
+                            <button class="btn btn-sm btn-primary w-100 add-item-btn" data-dish-id="${dish.id}">
+                                <i class="fas fa-plus me-1"></i> Thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `);
+        });
+    }
+
+    // Cart operations
+    let cartItems = [];
+
+    // Add item to cart
+    function addToCart(dishId) {
+        const dish = allDishes.find(d => d.id === dishId);
+        if (!dish) return;
+
+        // Check if item already exists in cart
+        const existingItem = cartItems.find(item => item.dishId === dishId);
+
+        if (existingItem) {
+            // Increment quantity
+            existingItem.quantity += 1;
+
+            // Update UI
+            const $cartItem = $(`.cart-item[data-dish-id="${dishId}"]`);
+            $cartItem.find('.quantity-input').val(existingItem.quantity);
+            updateOriginalTableQuantity(dishId, existingItem.quantity);
+        } else {
+            // Add new item
+            cartItems.push({
+                dishId: dish.id,
+                dishName: dish.dishName,
+                price: dish.price,
+                quantity: 1,
+                note: ''
+            });
+            addToOriginalTable(dish);
+
+            // Add to UI
+            $('#cart-items').append(`
+                <div class="card mb-2 cart-item" data-dish-id="${dish.id}">
+                    <div class="card-body p-2">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h6 class="card-title mb-0">${dish.dishName}</h6>
+                            <span class="text-primary fw-bold">${priceFormatCurrency(dish.price)}đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="input-group input-group-sm" style="width: 120px;">
+                                <button class="btn btn-outline-secondary quantity-btn minus btn-quantity" type="button">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="text" class="form-control text-center quantity-input" value="1" readonly>
+                                <button class="btn btn-outline-secondary quantity-btn plus btn-quantity" type="button">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger remove-item-btn">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <div class="note-container mt-2">
+                            <button class="btn btn-sm btn-link p-0 add-note-btn">
+                                <i class="fas fa-plus-circle me-1"></i> Thêm ghi chú
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `);
+
+            // Hide empty cart message
+            $('#empty-cart').hide();
+        }
+
+        // Add to original table for compatibility
+        
+
+        // Update order summary
+        updateOrderSummary();
+
+        // Show confirm order button
+        $('#btnConfirmOrder').removeClass('d-none');
+    }
+
+    // Update cart item quantity
+    function updateCartItemQuantity(dishId, isIncrease) {
+        const cartItem = cartItems.find(item => item.dishId === dishId);
+        if (!cartItem) return;
+
+        if (isIncrease) {
+            cartItem.quantity += 1;
+        } else if (cartItem.quantity > 1) {
+            cartItem.quantity -= 1;
+        } else {
+            return; // Don't decrease below 1
+        }
+
+        // Update UI
+        const $cartItem = $(`.cart-item[data-dish-id="${dishId}"]`);
+        $cartItem.find('.quantity-input').val(cartItem.quantity);
+
+        // Update original table
+        updateOriginalTableQuantity(dishId, cartItem.quantity);
+
+        // Update order summary
+        updateOrderSummary();
+    }
+
+    // Remove item from cart
+    function removeFromCart(dishId) {
+        // Remove from data
+        cartItems = cartItems.filter(item => item.dishId !== dishId);
+
+        // Remove from UI
+        $(`.cart-item[data-dish-id="${dishId}"]`).fadeOut(300, function() {
+            $(this).remove();
+
+            // Show empty cart message if no items left
+            if (cartItems.length === 0) {
+                $('#empty-cart').show();
+                $('#btnConfirmOrder').addClass('d-none');
+            }
+        });
+
+        // Remove from original table
+        removeFromOriginalTable(dishId);
+
+        // Update order summary
+        updateOrderSummary();
+    }
+
+    // Save note to cart item
+    function saveNoteToItem(dishId, note) {
+        const cartItem = cartItems.find(item => item.dishId === dishId);
+        if (cartItem) {
+            cartItem.note = note;
+        }
+        tableProduct.rows().every(function() {
+            const data = this.data();
+            if (data.dishId === dishId) {
+                data.note = note;
+                this.data(data).draw();
+            }
+        });
+    }
+
+    // Update order summary
+    function updateOrderSummary() {
+        let subtotal = 0;
+
+        // Calculate subtotal
+        cartItems.forEach(item => {
+            subtotal += item.price * item.quantity;
+        });
+
+        // Calculate discount
+        const discountAmount = subtotal * (currentDiscount / 100);
+
+        // Calculate tax (10%)
+        const taxAmount = (subtotal - discountAmount) * 0.1;
+
+        // Calculate total
+        const total = subtotal - discountAmount + taxAmount;
+
+        // Update UI
+        $('#subtotal').text(priceFormatCurrency(subtotal) + 'đ');
+        $('#discount').text('-' + priceFormatCurrency(discountAmount) + 'đ');
+        $('#tax').text(priceFormatCurrency(taxAmount) + 'đ');
+        $('#total').text(priceFormatCurrency(total) + 'đ');
+    }
+
+    // Format currency
+    function priceFormatCurrency(amount) {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    // Functions to interact with the original table for compatibility
+    function addToOriginalTable(dish) {
+        // This integrates with your existing tableProduct DataTable
+        tableProduct.row.add({
+            "id": 0,
+            "dishId": dish.id,
+            "dishName": dish.dishName,
+            "dishOrderStatusId": 1, // Use your constant here
+            "price": dish.price,
+            "finalPrice": dish.price,
+            "quantity": 1,
+            "isEdit": false,
+        }).draw();
+    }
+
+    function updateOriginalTableQuantity(dishId, quantity) {
+        // Find the row in the DataTable
+        tableProduct.rows().every(function() {
+            const data = this.data();
+            if (data.dishId === dishId) {
+                data.quantity = quantity;
+                data.finalPrice = data.price * quantity;
+                this.data(data).draw();
+
+            }
+        });
+    }
+
+    function removeFromOriginalTable(dishId) {
+        // Find and remove the row from the DataTable
+        tableProduct.rows().every(function() {
+            const data = this.data();
+            if (data.dishId === dishId) {
+                tableProduct.row(this).remove().draw();
+
+            }
+        });
+    }
+
+    // Function to show order detail section
+    function showOrderDetail(tableId) {
+        // Update table info
+        updateTableInfo(tableId);
+
+        // Transition from history to detail view
+        $('#tableOrderHistory').fadeOut(300, function() {
+            $('#tableOrderDetail').removeClass('d-none');
+            $('#tableOrderDetail').fadeIn(300);
+        });
+
+        // Show back button and confirm button
+        $('#model-back-btn').removeClass('d-none');
+        $('#btnConfirmOrder').removeClass('d-none');
+
+        // Reset cart
+        resetCart();
+    }
+
+    // Update table info
+    function updateTableInfo(tableId) {
+        // You would fetch table info from your API here
+        // For now, we'll use placeholder data
+        $('#table-name').text('A3');
+        $('#table-capacity').text('6');
+        $('#order-number').text('1234');
+        let staffNameOrder = JSON.parse(localStorage.getItem('profile')).fullName;
+        $('#staff-name').text(staffNameOrder);
+    }
+
+    // Reset cart
+    function resetCart() {
+        cartItems = [];
+        $('#cart-items').empty();
+        $('#empty-cart').show();
+        updateOrderSummary();
+    }
+
+    // Override your existing newOrder function
+    window.newOrder = function() {
+        $("#dishOrder-id").val(0);
+        tableProduct.clear().draw();
+        showOrderDetail($("#tableBooking-id").val());
+    };
+
+    // Override your existing editOrder function
+    window.editOrder = function(dishOrderId, dishOrderStatusId) {
+        showOrderDetail($("#tableBooking-id").val());
+
+        if (!(dishOrderStatusId == 1)) { // Replace 0 with your PROCESSING constant
+            $('#btnConfirmOrder').addClass('d-none');
+        }
+
+        $("#dishOrder-id").val(dishOrderId);
+        resetCart();
+
+        // Load order details
+        loadOrderDetails(dishOrderId);
+    };
+
+    // Load order details
+    function loadOrderDetails(dishOrderId) {
+        $.ajax({
+            url: systemURL + "dishorderdetail/api/ListByOrderId/" + dishOrderId,
+            method: "GET",
+            success: function(response) {
+                if (response.status === "200") {
+                    response.data.forEach(item => {
+                        // Add to original table
+                        tableProduct.row.add({
+                            "id": item.id,
+                            "dishId": item.dishId,
+                            "dishName": item.dishName,
+                            "dishOrderStatusId": item.dishOrderStatusId,
+                            "price": item.price,
+                            "finalPrice": item.price * item.quantity,
+                            "quantity": item.quantity,
+                            "isEdit": false,
+                        }).draw();
+
+                        // Add to cart
+                        const dish = {
+                            id: item.dishId,
+                            dishName: item.dishName,
+                            price: item.price
+                        };
+
+                        // Add to cart data
+                        cartItems.push({
+                            dishId: item.dishId,
+                            dishName: item.dishName,
+                            price: item.price,
+                            quantity: item.quantity,
+                            note: item.note || ''
+                        });
+
+                        // Add to UI
+                        $('#cart-items').append(`
+                            <div class="card mb-2 cart-item" data-dish-id="${item.dishId}">
+                                <div class="card-body p-2">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h6 class="card-title mb-0">${item.dishName}</h6>
+                                        <span class="text-primary fw-bold">${priceFormatCurrency(item.price)}đ</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="input-group input-group-sm" style="width: 120px;">
+                                            <button class="btn btn-outline-secondary quantity-btn minus" type="button">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="text" class="form-control text-center quantity-input" value="${item.quantity}" readonly>
+                                            <button class="btn btn-outline-secondary quantity-btn plus" type="button">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-danger remove-item-btn">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="note-container mt-2">
+                                        ${item.note ?
+                                            `<div class="small text-muted">
+                                                <i class="fas fa-sticky-note me-1"></i> ${item.note}
+                                            </div>` :
+                                            `<button class="btn btn-sm btn-link p-0 add-note-btn">
+                                                <i class="fas fa-plus-circle me-1"></i> Thêm ghi chú
+                                            </button>`
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                    });
+
+                    // Hide empty cart message
+                    $('#empty-cart').hide();
+
+                    // Update order summary
+                    updateOrderSummary();
+                } else {
+                    console.error("Error loading order details:", response);
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Đặt món',
+                        html: 'Đã xảy ra lỗi, vui lòng thử lại sau'
+                    });
+                }
+            },
+            error: function(xhr) {
+                console.error("API call error:", xhr);
+                swal.fire({
+                    icon: 'error',
+                    title: 'Đặt món',
+                    html: 'Đã xảy ra lỗi, vui lòng thử lại sau'
+                });
+            }
+        });
+    }
+</script>
+
+<!-- #region Các hành động Table liên quan đến Order món, thêm món -->
+<script>
+    InitTableProduct();
+    var tableProduct;
+    function InitTableProduct() {
+        tableProduct = $("#tableDataProduct").DataTable({
+            order: [[0, 'desc']],
+            ordering:false,
+            columns: [
+                {
+                    data: "dishName",
+                    render: function (data, type, row, meta) {
+                        return "<span id='row" + row.id + "-column-id'>" + data + "<span>";
+                    },
+                },
+                {
+                    data: "price",
+                    render: function (data, type, row, meta) {
+                        return "<span id='row" + row.id + "-column-id'>" + formatNumberCurrency(data.toString()) + "<span>";
+                    },
+                },
+                {
+                    data: "quantity",
+                    render: function (data, type, row, meta) {
+                        return `
+                                            <span class="">` + (data) + `</span>
+                                            <input type="number" min="0" class="text-start form-control d-none quantity-change" onchange="onChangeQuantity(this)" value="` + data + `" />`;
+                    },
+                },
+                {
+                    data: "finalPrice",
+                    render: function (data, type, row, meta) {
+                        return "<span class='bold' id='row" + row.id + "-column-id'>" + formatNumberCurrency(data.toString()) + "<span>";
+                    },
+                },
+                {
+                    data: 'id',
+                    render: function (data, type, row, meta) {
+
+                        return `
+                                            <div class='overlay-edit-custom ${!(row.dishOrderStatusId == @DishOrderStatudConst.PROCESSING) ? "d-none" : ""}'>
+                                            <button title="Sửa" type='button' onclick='editOrderDetail(this)' class='btn btn-icon btn-admin-primary ${row.isEdit == false ? '' : 'd-none'}'><i class="ki-duotone ki-notepad-edit fs-2x text-primary"><span class="path1"> </span><span class="path2"></span></i></button>
+                                        <button title="Sửa hoàn tất" type='button' onclick='editDoneOrderDetail(this)' class='btn btn-icon btn-admin-primary ${row.isEdit == true ? '' : 'd-none'}'><i class="fas fa-check" style="color: #007BFF; font-size: 16px;"></i></button>
+                                            <button title="Xoá" type='button' onclick='deleteOrderDetail(this)' class='btn btn-icon btn-admin-danger'><i class="ki-duotone ki-trash-square fs-2x text-danger"><span class="path1"></span><span class="path2"> </span><span class="path3"></span><span class="path4"> </span></i></button>
+                                    </div>
+                                `;
+                    }
+                },
+            ],
+            createdRow: function (row, data, dataIndex) {
+                $(row).attr('data-productId', data.productId);
+                $(row).attr('data-id', data.id);
+            },
+            columnDefs: [
+                { targets: "no-sort", orderable: false },
+                { targets: "no-search", searchable: false },
+                { orderable: false, targets: [-1, 0] },
+            ],
+            aLengthMenu: [
+                [10, 25, 50, 100],
+                [10, 25, 50, 100]
+            ],
+            columnDefs: [
+                {// Số lượng
+                    targets: 2,
+                    createdCell: function (td, cellData, rowData, row, col) {
+                        $(td).attr("data-attr", "quantity");
+                    }
+                },
+            ],
+            drawCallback: function () {
+                $('#tableDataProduct tfoot').html("");
+                $("#tableDataProduct thead:nth-child(1) tr").clone(true).appendTo("#tableDataProduct tfoot");
+                $('#tableDataProduct tfoot tr').addClass("border-top");
+            },
+            "oLanguage": {
+                "sUrl": "/js/Vietnamese.json"
+            },
+        })
+    }
+
+    var DishData = [];
+    function loadProductList() {
+        $('#productSearchForOrder').select2({
+            language: 'vi',
+            dropdownCssClass: 'bigdrop',
+            minimumInputLength: 1,
+            ajax: {
+                url: systemURL + 'Dish/api/Search',
+                type: "POST",
+                contentType: "application/json",
+                data: function (params) {
+                    return JSON.stringify({
+                        searchString: params.term,
+                    });
+                },
+                processResults: function (res) {
+                    var data = res.data;
+                    DishData = data
+                    return {
+                        results: data
+                    };
+                }
+            },
+            escapeMarkup: function (markup) { return markup; },
+            templateResult: formatProductResult,
+            templateSelection: formatProductSelection
+        });
+    }
+    function formatProductResult(data) {
+        var price = "";
+        if (data.loading != true) {
+            price = data.price.toString();
+        }
+        var price = data.price ? formatNumberCurrency(data.price.toString()) + ' vnđ' : 'N/A';
+        var productName = data.dishName ? data.dishName : 'Không xác định';
+        return `
+                                    <div class="d-flex justify-content-between p-1">
+                                            <span style="min-width: 120px; display: inline-block; padding-left: 0; color: #044688; ">
+                                        <strong>${productName}</strong>
+                                    </span>
+                                </div>
+                                <div class="p-1">
+                                        <span style="min-width: 120px; display: inline-block; padding-left: 0; color: #044688; ;">
+                                                ${price}
+                                    </span>
+                                </div>
+                                    <div style="border-bottom: 1px solid #ced4da; margin-left: 0;"></div>
+                        `;
+    }
+    function formatProductSelection(data) {
+        return `<div class=""><span>` + data.name + `</span></div>`;
+    }
+    // Hàm sửa OrderDetail
+    function editOrderDetail(element) {
+        let $row = $(element).parents("tr")
+        let data = tableProduct.row($row).data();
+
+        data.isEdit = true;
+        // tableProduct.row($row).data(data).draw();
+
+        $.when(
+            tableProduct.row($row).data(data).draw()
+        ).done(function () {
+            $row.find('td[data-attr="quantity"] span').addClass("d-none");
+            $row.find('td[data-attr="quantity"] input').removeClass("d-none");
+        });
+    }
+    function editDoneOrderDetail(element) {
+        let $row = $(element).parents("tr")
+        let data = tableProduct.row($row).data();
+
+        data.isEdit = false;
+        tableProduct.row($row).data(data).draw();
+    }
+    function calculateAllPrice() {
+        let totalPrice = 0;
+        tableProduct.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            totalPrice += this.data().finalPrice;
+        });
+        totalPrice += parseInt($("#order-TotalShipMoney").text().replaceAll('.', ''));
+        $("#order-TotalMoney").text(formatNumberCurrency(totalPrice.toString()));
+    };
+    function getProductById(id) {
+        const dish = DishData.find(d => parseInt(d.id) == parseInt(id));
+        return dish;
+    }
+    function isExistProductInTable(dishId) {
+        let isExist = false;
+        tableProduct.rows().every(function () {
+            if (this.data().dishId == dishId) isExist = true;
+        });
+        return isExist;
+    }
+    function deleteOrderDetail(element) {
+        let $row = $(element).parents("tr")
+        let data = tableProduct.row($row).data();
+        tableProduct.row($row).remove().draw();
+        // Xoá xong phải tính lại tiền tổng đơn
+    }
+    // Hàm thay đổi số lượng trong bảng need update
+    function onChangeQuantity(element) {
+        let $row = $(element).parents("tr")
+        let data = tableProduct.row($row).data();
+        let oldQuantity = parseInt(data.quantity);
+        let newQuantity = $(element).val().replace(/\D/g, '') ? parseInt($(element).val().replace(/\D/g, '')) : oldQuantity;
+        data.quantity = newQuantity;
+        data.finalPrice = newQuantity * data.price;
+    }
+    submitButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        let dishList = [];
+        tableProduct.rows().every(function () {
+            let data = this.data();
+
+            let obj = {
+                id: data.id,
+                quantity: data.quantity,
+                dishId: data.dishId,
+                note: data.note,    
+                dishOrderId: $("#dishOrder-id").val(),
+            }
+            dishList.push(obj);
+        });
+        if (dishList.length == 0) {
+            Swal.fire(
+                'Đặt món không thành công',
+                'Vui lòng chọn ít nhất một món ăn!',
+                'warning'
+            );
+            submitButton.setAttribute('data-kt-indicator', 'off');
+            submitButton.disabled = false;
+            return;
+        }
+        Swal.fire({
+            title: 'Đặt món',
+            text: "Xác nhận thay đổi?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#443',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Huỷ'
+        }).then((result) => {
+            if (result.value) { 
+                submitButton.setAttribute('data-kt-indicator', 'on');
+                submitButton.disabled = true;
+                
+                let UpdateObj = {
+                    "id": $("#dishOrder-id").val(),
+                    "tableId": $("#tableBooking-id").val(),
+                    "accountId": 0,
+                    "dishOrderStatusId": 0,
+                    "dishOrderDetails": dishList
+                }
+                $.ajax({
+                    url: systemURL + "dishorder/api/AddOrUpdate",
+                    type: "POST",
+                    contentType: "application/json",
+                    beforeSend: function (xhr) {
+                        if (localStorage.token) {
+                            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+                        }
+                    },
+                    data: JSON.stringify(UpdateObj),
+                    success: function (responseData) {
+                        // debugger;
+                        if (responseData.status == "200" && responseData.message === "SUCCESS") {
+                            Swal.fire(
+                                'Thành công!',
+                                'Đặt món thành công',
+                                'success'
+                            );
+                            tableProduct.clear().draw();
+                            submitButton.setAttribute('data-kt-indicator', 'off');
+                            submitButton.disabled = false;
+                            startModel(UpdateObj.tableId)
+                        }
+                    },
+                    error: function (e) {
+                        //console.log(e.message);
+                        Swal.fire(
+                            'Lỗi!',
+                            'Đã xảy ra lỗi, vui lòng thử lại',
+                            'error'
+                        );
+                        submitButton.setAttribute('data-kt-indicator', 'off');
+                        submitButton.disabled = false;
+                    }
+                });
+            }
+        });
+        
+        
+    });
+    function cancelOrder(id) {
+        Swal.fire({
+            title: 'Hủy đặt món',
+            text: "Xác nhận thay đổi?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#443',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Huỷ'
+        }).then((result) => {
+            if (result.value) {
+                let UpdateObj = {
+                    "id": id,
+                    "tableId": parseInt($("#tableBooking-id").val()),
+                    "accountId": 0,
+                    "dishOrderStatusId": @DishOrderStatudConst.CANCEL
+                    }
+                $.ajax({
+                    url: systemURL + "dishorder/api/Update",
+                    type: "POST",
+                    contentType: "application/json",
+                    beforeSend: function (xhr) {
+                        if (localStorage.token) {
+                            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+                        }
+                    },
+                    data: JSON.stringify(UpdateObj),
+                    success: function (responseData) {
+                        // debugger;
+                        if (responseData.status == "200" && responseData.message === "SUCCESS") {
+                            Swal.fire(
+                                'Thành công!',
+                                'Hủy món thành công',
+                                'success'
+                            );
+                            startModel(UpdateObj.tableId)
+                        }
+                    },
+                    error: function (e) {
+                        //console.log(e.message);
+                        Swal.fire(
+                            'Lỗi!',
+                            'Đã xảy ra lỗi, vui lòng thử lại',
+                            'error'
+                        );
+
+                    }
+                });
+            }
+        })
+
+                
+    }
+</script>
+<!-- #region Các hành động Table liên quan đến Đặt bàn -->
+
+<!-- #endregion -->
+<!-- Các hành động liên quan đến thanh toán-->
+<script>
+    InitInvoiceTable();
+    var tableInvoiceDetail;
+    function InitInvoiceTable() {
+        tableInvoiceDetail = $("#tableInvoiceDetail").DataTable({
+            order: [[0, 'desc']],
+            paging: false,
+            info: false,
+            ordering: false,
+            columns: [
+                {
+                    data: "dishName",
+                    render: function (data, type, row, meta) {
+                        return `<strong><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
+                    },
+                },
+                {
+                    data: "price",
+                    render: function (data, type, row, meta) {
+                        return `<strong><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
+                    },
+                },
+                {
+                    data: "quantity",
+                    render: function (data, type, row, meta) {
+                        return `<strong><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
+                    },
+                },
+                {
+                    data: "totalPrice",
+                    render: function (data, type, row, meta) {
+                        return "<span class='bold' id='row" + row.id + "-column-id'>" + formatNumberCurrency(data.toString()) + "<span>";
+                    },
+                },
+            ],
+            "oLanguage": {
+                "sUrl": "/js/Vietnamese.json"
+            },
+        })
+    }
+    submitButtonPayment.addEventListener('click', function (e) {
+        e.preventDefault();
+        let dishList = [];
+        let tableList = [];
+        tableInvoiceDetail.rows().every(function () {
+            let data = this.data();
+            let obj = {
+                dishId: data.dishId,
+                quantity: data.quantity,
+                unitPrice: data.price,
+                // invoiceDetailCode: $("#invoice-invoiceCode").val(),
+                totalMoney: data.totalPrice,
+
+            }
+            dishList.push(obj);
+        });
+        let  tojb = {
+            tableId : $("#tableId").val(),
+        }
+        tableList.push(tojb);
+        if (dishList.length == 0) {
+            Swal.fire(
+                'Tạo hóa đơn không thành công',  
+                'warning'
+            );
+            submitButtonPayment.setAttribute('data-kt-indicator', 'off');
+            submitButtonPayment.disabled = false;
+            return;
+        }
+        Swal.fire({
+            title: 'Tạo hóa đơn',
+            text: "Xác nhận tạo?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#443',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Huỷ'
+        }).then((result) => {
+            if (result.value) {
+                submitButtonPayment.setAttribute('data-kt-indicator', 'on');
+                submitButtonPayment.disabled = true;
+
+                let UpdateObj = {
+                    // "invoiceCode": $("#invoice-invoiceCode").val(),
+                    "accountId": $("#accoutId").val(),
+                    "paymentMethodId": $('#payment-paymentId').val(),
+                    "totalMoney": $("#invoicedetail-totalPrice").val(),
+                    // "active": true,
+                    // "createdTime": formatDatetimeUpdate($("#invoice-createdTime").val()),
+                    "invoiceDetails": dishList,
+                    "tableInvoices": tableList,
+                }
+                $.ajax({
+                    url: systemURL + "invoice/api/AddByVM",
+                    type: "POST",
+                    contentType: "application/json",
+                    beforeSend: function (xhr) {
+                        if (localStorage.token) {
+                            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+                        }
+                    },
+                    data: JSON.stringify(UpdateObj),
+                    success:async function (responseData) {
+                        // debugger;
+                        if (responseData.status == "200" && responseData.message === "SUCCESS") {
+                            let invoiceId = responseData.data[0].invoiceDetails[0].invoice.id;
+                            let data = (await httpService.getAsync("invoice/api/InvoiceDetailVM?invoiceId=" + invoiceId)).data[0]
+                            var detailHtml = '';
+                            var totalService = 0;
+                            data.invoiceDetails.forEach((item) => { 
+                                detailHtml += `<tr>
+                                            <td>${item.dishName}</td>
+                                            <td>${item.quantity}</td>
+                                            <td>${item.unitPrice}</td>
+                                            <td>${item.quantity * item.unitPrice}</td>
+                                         </tr>`;
+                                totalService += item.quantity * item.unitPrice;
+                            })
+                            var html = `<div class="container d-flex">
+                                            <div class="row">
+                                              <div class="col-12">
+                                                <h1>COFFEE HUYKHOI</h1>
+                                                <p>Trịnh Văn Bô, Q.Nam Từ Liêm.</p>
+                                                <p>0889987688</p>
+                                              </div>
+                                              <div class="col-12">
+                                                <p><b>HÓA ĐƠN THANH TOÁN</b></p>
+                                                <p>Giờ thanh toán: ${moment(data.createdTime).format('HH:mm DD/MM/YYYY')}</p>
+                                                <p>Mã hóa đơn: ${data.invoiceCode}</p>
+                                                <p>Thu ngân: ${data.cashierName}</p>
+                                              </div>
+                                              <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Món ăn</th>
+                                                    <th>SL</th>
+                                                    <th>Giá</th>
+                                                    <th>Tổng</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                    ${detailHtml}
+                                                  </tbody>
+                                              </table>
+                                              <div class="col-12">
+                                                            <p><b>Tổng dịch vụ: ${formatNumberCurrency(totalService)}  VNĐ</b></p>
+                                                            <p><b>Thanh toán (10% VAT): ${formatNumberCurrency(data.totalMoney)} VNĐ</b></p>
+                                              </div>
+      
+                                            </div>
+                                          </div>`
+                            
+                            loadDataSelectNoti();
+                            
+                            $("#modal-payment").modal('hide')
+                            submitButton.setAttribute('data-kt-indicator', 'off');
+                            submitButton.disabled = false;
+                            submitButtonPayment.setAttribute('data-kt-indicator', 'off');
+                            submitButtonPayment.disabled = false;
+                            startModel(UpdateObj.tableId)
+                            Swal.fire(
+                                'Thành công!',
+                                html,
+                                'success'
+                            );
+                            $(".swal2-container .swal2-html-container").css("max-height", "500px");
+                        }
+                    },
+                    error: function (e) {
+                        //console.log(e.message);
+                        Swal.fire(
+                            'Lỗi!',
+                            'Đã xảy ra lỗi, vui lòng thử lại',
+                            'error'
+                        );
+                        submitButton.setAttribute('data-kt-indicator', 'off');
+                        submitButton.disabled = false;
+                    }
+                });
+            }
+        });
+
+
+    });
+</script>

@@ -1,7 +1,5 @@
-﻿
-using CoffeeCRM.Data.Model;
+﻿using CoffeeCRM.Data.Model;
 using CoffeeCRM.Core.Repository;
-
 using CoffeeCRM.Core.Util;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
@@ -10,6 +8,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using CoffeeCRM.Data.Constants;
+using Google.Apis.Logging;
+using Microsoft.Extensions.Logging;
 namespace CoffeeCRM.Core.Service
 {
     public class DishOrderService : IDishOrderService
@@ -19,19 +19,22 @@ namespace CoffeeCRM.Core.Service
         INotificationRepository notificationRepository;
         IHubContext<NotificationHub, INotificationHub> notificationHub;
         ITableRepository tableRepository;
+        ILogger<DishOrderService> _logger;
 
         public DishOrderService(IDishOrderRepository dishOrderRepository, 
             IDishOrderDetailRepository dishOrderDetailRepository, 
             INotificationRepository notificationRepository, 
             IHubContext<NotificationHub, 
             INotificationHub> notificationHub, 
-            ITableRepository tableRepository)
+            ITableRepository tableRepository,
+            ILogger<DishOrderService> logger)
         {
             this.dishOrderRepository = dishOrderRepository;
             this.dishOrderDetailRepository = dishOrderDetailRepository;
             this.notificationRepository = notificationRepository;
             this.notificationHub = notificationHub;
             this.tableRepository = tableRepository;
+            _logger = logger;
         }
 
         public async Task Add(DishOrder obj)
@@ -97,10 +100,8 @@ namespace CoffeeCRM.Core.Service
         public async Task Update(DishOrder obj)
         {
             var detail = await dishOrderRepository.Detail(obj.Id);
-            obj.AccountId = detail.AccountId;
-            obj.CreatedTime = DateTime.Now;
-            obj.Note = "";
-            if (await dishOrderRepository.Update(obj))
+            detail.DishOrderStatusId = obj.DishOrderStatusId;
+            if (await dishOrderRepository.Update(detail))
             {
                 if (obj.DishOrderStatusId == DishOrderStatudConst.DONE)
                 {
@@ -114,6 +115,7 @@ namespace CoffeeCRM.Core.Service
                         SenderId = RoleConst.BARTENDER,
                         Description = "Done",
                         CreatedTime = DateTime.Now,
+                        ApproveTime = null,
                         Url = ""
                     };
                     await notificationRepository.Add(notifi);
@@ -141,10 +143,12 @@ namespace CoffeeCRM.Core.Service
                         await dishOrderRepository.Add(newDishOrder);
                         if (newDishOrder.Id <= 0)
                         {
+                            _logger.LogError("AddOrUpdateByVm: Add new DishOrder failed");
                             await transaction.RollbackAsync();
                             return false;
                         }
                         dishOrderId = newDishOrder.Id;
+                        _logger.LogInformation("AddOrUpdateByVm: Add new DishOrder success with id " + dishOrderId);
                     }
                     else if (model.Id > 0)
                     { // nếu id > 0 thì update
@@ -158,9 +162,11 @@ namespace CoffeeCRM.Core.Service
                         updateDishOrder.Active = true;
                         if (!(await dishOrderRepository.Update(updateDishOrder)))
                         {
+                            _logger.LogError("AddOrUpdateByVm: Update DishOrder failed");
                             await transaction.RollbackAsync();
                             return false;
                         }
+                        _logger.LogInformation("AddOrUpdateByVm: Update DishOrder success with id " + dishOrderId);
                     }
 
 
@@ -168,6 +174,7 @@ namespace CoffeeCRM.Core.Service
                     var listCrrDishOrderDetail = await dishOrderDetailRepository.ListByOrderId(dishOrderId);
                     if (listDishOrderDetail == null || listDishOrderDetail.Count == 0)
                     {
+                        _logger.LogError("AddOrUpdateByVm: ListDishOrderDetail is null or empty");
                         await transaction.RollbackAsync();
                         return false;
                     }
@@ -185,9 +192,11 @@ namespace CoffeeCRM.Core.Service
                             await dishOrderDetailRepository.Add(newDishOrderDetail);
                             if (newDishOrderDetail.Id <= 0)
                             {
+                                _logger.LogError("AddOrUpdateByVm: Add new DishOrderDetail failed");
                                 await transaction.RollbackAsync();
                                 return false;
                             }
+                            _logger.LogInformation("AddOrUpdateByVm: Add new DishOrderDetail success with id " + newDishOrderDetail.Id);
                         }
                         else if (item.Id > 0)
                         {
@@ -200,9 +209,11 @@ namespace CoffeeCRM.Core.Service
                             updateDishOrderDetail.Active = true;
                             if (!(await dishOrderDetailRepository.Update(updateDishOrderDetail)))
                             {
+                                _logger.LogError("AddOrUpdateByVm: Update DishOrderDetail failed");
                                 await transaction.RollbackAsync();
                                 return false;
                             }
+                            _logger.LogInformation("AddOrUpdateByVm: Update DishOrderDetail success with id " + updateDishOrderDetail.Id);
                         }
                     }
                     bool isExist;
@@ -225,6 +236,7 @@ namespace CoffeeCRM.Core.Service
                 }
                 catch (Exception ex)
                 {
+                    _logger.LogError("AddOrUpdateByVm: Fail while add or update DishOrder " + ex.Message);
                     await transaction.RollbackAsync();
                     return false;
                 }
@@ -237,6 +249,7 @@ namespace CoffeeCRM.Core.Service
                     SenderId = RoleConst.WAITER,
                     Description = "Add review",
                     CreatedTime = DateTime.Now,
+                    ApproveTime = null,
                     Url = ""
                 };
                 //await notificationRepository.Add(notifi);

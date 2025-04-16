@@ -19,7 +19,7 @@ namespace CoffeeCRM.Data.Model
         public bool Active { get; set; }
         public int DishCategoryId { get; set; }
 
-        public virtual DishCategory DishCategory { get; set; } = null!;
+        public virtual DishCategory? DishCategory { get; set; } = null!;
         public virtual ICollection<DishOrderDetail> DishOrderDetails { get; set; }
     }
 }

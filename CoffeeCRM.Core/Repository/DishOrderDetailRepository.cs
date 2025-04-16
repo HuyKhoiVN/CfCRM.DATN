@@ -9,6 +9,7 @@ using CoffeeCRM.Core.Util;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
 using System.Globalization;
+using CoffeeCRM.Data.Constants;
 
 namespace CoffeeCRM.Core.Repository
 {
@@ -50,6 +51,34 @@ namespace CoffeeCRM.Core.Repository
         //    }
         //    return null;
         //}
+
+        public async Task<List<DishOrderDetailViewModel>> ListDishOrderInvoice(int tableId)
+        {
+            if (db != null)
+            {
+                var validStatuses = new[] { DishOrderStatudConst.PROCESSING, DishOrderStatudConst.DONE };
+
+                var result = await (
+                    from row in db.DishOrderDetails
+                    join order in db.DishOrders on row.DishOrderId equals order.Id
+                    join dish in db.Dishes on row.DishId equals dish.Id
+                    where order.TableId == tableId
+                          && row.Active
+                          && validStatuses.Contains(order.DishOrderStatusId)
+                    group new { row, dish } by new { row.DishId, dish.DishName, dish.Price } into grouped
+                    select new DishOrderDetailViewModel()
+                    {
+                        DishId = grouped.Key.DishId,
+                        DishName = grouped.Key.DishName,
+                        Quantity = grouped.Sum(x => x.row.Quantity),
+                        Price = grouped.Key.Price,
+                        TotalPrice = grouped.Sum(x => x.row.Quantity * x.dish.Price)
+                    }
+                ).ToListAsync();
+                return result;
+            }
+            return null;
+        }
 
         public async Task<List<DishOrderDetailViewModel>> ListByOrderId(int id)
         {

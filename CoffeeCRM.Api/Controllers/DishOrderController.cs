@@ -13,6 +13,7 @@ using CoffeeCRM.Data.Constants;
 using CoffeeCRM.Core.Service;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Core.Helper;
+using CoffeeCRM.Data.ViewModels;
 
 namespace CfCRM.DATN.Controllers
 {
@@ -138,6 +139,26 @@ namespace CfCRM.DATN.Controllers
         }
 
         [HttpGet]
+        [Route("api/DishDetailByTableId/{Id}")]
+        public async Task<IActionResult> DishDetailByTableId(int Id)
+        {
+            try
+            {
+                var dataList = await service.ListDishOrderInvoice(Id);
+                if (dataList == null)
+                {
+                    return NotFound();
+                }
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList);
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
         [Route("api/ListPaging")]
         public async Task<IActionResult> ListPaging(int pageIndex, int pageSize)
         {
@@ -188,7 +209,31 @@ namespace CfCRM.DATN.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
+        [Route("api/AddOrUpdate")]
+        public async Task<IActionResult> AddOrUpdate([FromBody] DishOrderViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = this.GetLoggedInUserId();
+                    model.AccountId = userId;
+                    if (!(await service.AddOrUpdateByVm(model)))
+                    {
+                        return BadRequest();
+                    }
+                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
+                    return Created("", coffeemanagementResponse);
+                }
+                catch (Exception)
+                {
 
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
         [HttpPost]
         [Route("api/Update")]
         public async Task<IActionResult> Update([FromBody] DishOrder model)

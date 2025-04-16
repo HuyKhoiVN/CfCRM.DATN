@@ -1,4 +1,3 @@
-
 using CoffeeCRM.Data.Model;
 using System;
 using System.Collections.Generic;
@@ -29,6 +28,7 @@ namespace CoffeeCRM.Core.Repository
 
         Task<long> DeletePermanently(long? DishOrderDetailId);
         Task<List<DishOrderDetailViewModel>> ListByOrderId(int id);
+        Task<List<DishOrderDetailViewModel>> ListDishOrderInvoice(int tableId);
         int Count();
 
         Task<DTResult<DishOrderDetail>> ListServerSide(DishOrderDetailDTParameters parameters);

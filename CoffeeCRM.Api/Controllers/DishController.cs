@@ -13,6 +13,7 @@ using CoffeeCRM.Data.Constants;
 using CoffeeCRM.Core.Service;
 using CoffeeCRM.Core.Util.Parameters;
 using CfCRM.View.Models.ViewModels;
+using CoffeeCRM.Data.DTO;
 
 namespace CfCRM.DATN.Controllers
 {
@@ -117,6 +118,36 @@ namespace CfCRM.DATN.Controllers
                 {
 
                     return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("api/addOrUpdate")]
+        public async Task<IActionResult> AddOrUpdate([FromForm] DishDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //1. business logic
+                    //2. add new object
+                    await service.AddOrUpdateDto(model);
+                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
+                    return Ok(coffeemanagementResponse);
+                }
+                catch(BadRequestException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.GetType().FullName == "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException")
+                    {
+                        return NotFound();
+                    }
+                    return StatusCode(500, ex.Message);
                 }
             }
             return BadRequest();

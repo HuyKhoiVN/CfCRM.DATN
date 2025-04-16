@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace CoffeeCRM.Data.DTO
 {
@@ -15,6 +16,7 @@ namespace CoffeeCRM.Data.DTO
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Photo { get; set; }
+        public IFormFile Image { get; set; }
         public DateTime DOB { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime CreatedTime { get; set; }
@@ -33,11 +35,5 @@ namespace CoffeeCRM.Data.DTO
         public decimal TotalRevenue { get; set; } // Tính từ Invoice
         public decimal TotalCashHandled { get; set; } // Tính từ CashFlow
         public int TotalBookings { get; set; } // Tính từ TableBooking
-
-        public List<ActivityDto> ActivityHistory { get; set; } // Từ AccountActivity
-        public List<InvoiceDto> RecentInvoices { get; set; } // Từ Invoice (5 gần nhất)
-        public List<StockTransactionDto> RecentStockTransactions { get; set; } // Từ StockTransaction (gần nhất)
-        public List<CashFlowDto> RecentCashFlows { get; set; } // Từ CashFlow (5 gần nhất)
-        public List<TableBookingDto> RecentBookings { get; set; } // Từ TableBooking (5 gần nhất)
     }
 }

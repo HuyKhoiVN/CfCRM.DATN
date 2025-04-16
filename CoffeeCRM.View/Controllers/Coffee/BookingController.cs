@@ -18,5 +18,13 @@ namespace CfCRM.View.Controllers.Coffee
             //List<Table> listTable = await tableService.List();
             return View();
         }
+
+        [HttpGet]
+        [Route("admin/TableList")]
+        public async Task<IActionResult> TableList()
+        {
+            //List<Table> listTable = await tableService.List();
+            return View();
+        }
     }
 }

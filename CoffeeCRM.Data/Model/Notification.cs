@@ -13,7 +13,7 @@ namespace CoffeeCRM.Data.Model
         public int SenderId { get; set; }
         public string? Description { get; set; }
         public DateTime CreatedTime { get; set; }
-        public DateTime ApproveTime { get; set; }
+        public DateTime? ApproveTime { get; set; }
         public string? Url { get; set; }
 
         public virtual Account Account { get; set; } = null!;

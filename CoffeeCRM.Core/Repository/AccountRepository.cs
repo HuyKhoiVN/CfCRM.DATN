@@ -101,6 +101,15 @@ namespace CoffeeCRM.Core.Repository
             return null;
         }
 
+        public async Task<Account> GetByUsername(string username)
+        {
+            if (db != null)
+            {
+                return await db.Accounts.FirstOrDefaultAsync(x => x.Username == username && x.Active);
+            }
+            return null;
+        }
+
 
         public async Task Update(Account obj)
         {

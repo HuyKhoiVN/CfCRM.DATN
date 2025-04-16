@@ -12,5 +12,7 @@ namespace CoffeeCRM.Core.Service
     {
         Task<DTResult<AccountDto>> ListServerSide(AccountDTParameters parameters);
         Task<CoffeeManagementResponse> Login(LoginDto model);
+        Task AddOrUpdate(AccountCreateDto dto);
+        Task AddDto(AccountCreateDto dto);
     }
 }
