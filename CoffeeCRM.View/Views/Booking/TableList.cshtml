@@ -327,7 +327,68 @@
             background-color: #f5f5f5;
         }
 
-    
+    #modal-payment .modal-content {
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    #modal-payment .form-control:disabled,
+    #modal-payment .form-control[readonly] {
+        background-color: #f8f9fa;
+        opacity: 1;
+    }
+
+    #modal-payment .input-group-text {
+        font-weight: 500;
+    }
+
+    #modal-payment .table th {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    #modal-payment .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    #modal-payment .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        transition: all 0.2s;
+    }
+
+        #modal-payment .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    #modal-payment .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    #modal-payment .form-select {
+        border-radius: 0.375rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+        #modal-payment .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+    #modal-payment .card {
+        transition: all 0.3s ease;
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+        #modal-payment .card:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
 </style>
 
 <div class="container-fluid p-0">
@@ -484,7 +545,7 @@
                                             <i class="fas fa-utensils me-1"></i> Đặt món
                                         </div>
                                         <div class="badge bg-light text-dark rounded-pill me-2 px-3 py-2">
-                                            <i class="fas fa-chair me-1"></i> Bàn <span id="table-name">A3</span>
+                                            <i class="fas fa-chair me-1"></i><span id="table-name">A3</span>
                                         </div>
                                         <div class="badge bg-light text-dark rounded-pill me-2 px-3 py-2">
                                             <i class="fas fa-users me-1"></i> <span id="table-capacity">6</span> người
@@ -568,10 +629,7 @@
                                             <span>Giảm giá:</span>
                                             <span id="discount">0đ</span>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span>Thuế (10%):</span>
-                                            <span id="tax">0đ</span>
-                                        </div>
+
                                         <hr>
                                         <div class="d-flex justify-content-between fw-bold text-primary">
                                             <span>Tổng cộng:</span>
@@ -585,7 +643,8 @@
                                                 <span class="fw-bold">Áp dụng giảm giá</span>
                                             </div>
                                             <div class="d-flex gap-1 mb-2">
-                                                <button class="btn btn-sm btn-warning active discount-btn" data-discount="10">10%</button>
+                                                <button class="btn btn-sm btn-outline-warning discount-btn" data-discount="0">Không</button>
+                                                <button class="btn btn-sm btn-outline-warning discount-btn" data-discount="10">10%</button>
                                                 <button class="btn btn-sm btn-outline-warning discount-btn" data-discount="15">15%</button>
                                                 <button class="btn btn-sm btn-outline-warning discount-btn" data-discount="20">20%</button>
                                                 <button class="btn btn-sm btn-outline-warning discount-btn" data-discount="custom">Khác</button>
@@ -698,182 +757,182 @@
 <!-- Start booking payment-->
 <div class="modal fade" id="modal-payment">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content border-0 shadow" ">
+            <div class="modal-header bg-light py-3">
                 <div class="d-flex align-items-center">
-                    <h3 class="modal-title">Thanh toán</h3>
+                    <h3 class="modal-title fw-bold text-primary mb-0">Thanh toán</h3>
                 </div>
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="ki-duotone ki-cross fs-1 text-danger"><span class="path1"></span><span class="path2"></span></i>
-                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#">
                     <div class="row">
-                        <div class="col-xl ">
+                        <div class="col-xl">
                             <div class="col-xl" id="tablePayment">
-                                <div style="text-align: center;">
-                                    <h2>Hóa Đơn Thanh Toán</h2>
-
+                                <div class="text-center mb-4">
+                                    <h2 class="fw-bold text-primary">Hóa Đơn Thanh Toán</h2>
+                                    <hr class="my-3 mx-auto" style="width: 50%; border-top: 2px solid #0d6efd; opacity: 0.5;">
                                 </div>
+
                                 <!-- Thông tin hóa đơn -->
-                                <div class="mb-4 " >
-                                    <div class="col-sm-6 d-none">
-                                        <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text  " id="basic-addon-invoiceCode"><strong>Mã hóa đơn:</strong></label>
-                                                <input type="text" disabled autocomplete="off" class="form-control input-invoiceCode" id="invoice-invoiceCode" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" />
+                                <div class="mb-4 bg-light p-3 rounded-3 border">
+                                    <div class="row">
+                                        <div class="col-sm-6 d-none">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-solid mb-3">
+                                                    <span class="input-group-text bg-light border-end-0" id="basic-addon-invoiceCode"><strong>Mã hóa đơn:</strong></span>
+                                                    <input type="text" disabled autocomplete="off" class="form-control bg-light border-start-0" id="invoice-invoiceCode" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" />
+                                                </div>
                                             </div>
-                                        </div>   
-                                     </div>
-                                    
-                                     <div class="col-sm-6">                           
-                                        <div class='form-group'>
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text" id="basic-addon-createdTime">Ngày tạo</label>
-                                                <div class='form-control date datetimepicker  input-createdTime' id='invoice-createdTimeDiv' style='padding:0px;'>
-                                                    <input type='text' autocomplete="off" id="invoice-createdTime" required class="form-control datepicker" aria-label="createdTime" aria-describedby="basic-addon-createdTime" disabled />
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-0">
+                                                    <span class="input-group-text bg-light fw-medium text-secondary border-end-0" id="basic-addon-createdTime">Ngày tạo</span>
+                                                    <div class="form-control date datetimepicker border-start-0 input-createdTime" id="invoice-createdTimeDiv" style="padding:0px;">
+                                                        <input type="text" autocomplete="off" id="invoice-createdTime" required class="form-control datepicker border-0" aria-label="createdTime" aria-describedby="basic-addon-createdTime" disabled />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-none col-sm-6">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon-id">Mã table</span>
+                                                    <input readonly type="number" autocomplete="off" class="form-control input-id" id="tableId" aria-label="id" aria-describedby="basic-addon-id" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-0">
+                                                    <span class="input-group-text bg-light fw-medium text-secondary border-end-0" id="basic-addon-invoiceCode"><strong>Tên bàn:</strong></span>
+                                                    <input type="text" autocomplete="off" class="form-control border-start-0" id="invoice-tableId" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-none col-sm-6">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon-id">Mã</span>
+                                                    <input readonly type="number" autocomplete="off" class="form-control input-id" id="accoutId" aria-label="id" aria-describedby="basic-addon-id" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-group">
+                                                <div class="input-group mb-0">
+                                                    <span class="input-group-text bg-light fw-medium text-secondary border-end-0" id="basic-addon-accoutId"><strong>Nhân viên phụ trách:</strong></span>
+                                                    <input type="text" autocomplete="off" class="form-control border-start-0" id="invoice-accoutId" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" disabled />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-none col-sm-6">
-                                        <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text" id="basic-addon-id">Mã table</label>
-                                                <input readonly type="number" autocomplete="off" class="form-control input-id" id="tableId" aria-label="id" aria-describedby="basic-addon-id" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-sm-6">                   
-                                        <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text  " id="basic-addon-invoiceCode"><strong>Tên bàn:</strong></label>
-                                                <input type="text" autocomplete="off" class="form-control input-invoiceCode" id="invoice-tableId" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" disabled />
-                                            </div>
-                                        </div>   
-                                     </div>
-                                    <div class="d-none col-sm-6">
-                                        <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text" id="basic-addon-id">Mã</label>
-                                                <input readonly type="number" autocomplete="off" class="form-control input-id" id="accoutId" aria-label="id" aria-describedby="basic-addon-id" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-sm-6">                   
-                                        <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text  " id="basic-addon-accoutId"><strong>Nhân viên phụ trách:</strong></label>
-                                                <input type="text" autocomplete="off" class="form-control input-invoiceCode" id="invoice-accoutId" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" disabled />
-                                            </div>
-                                        </div>   
-                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <div class="card">
-                                    <div class="card-block table-border-style">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover display" id="tableInvoiceDetail">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="column-name">Tên sản phẩm</th>
-                                                        <th class="column-price">Giá</th>
-                                                        <th class="column-quantity">Số lượng</th>
-                                                        <th class="column-price">Thành tiền</th>
 
+                            <div class="col-sm-12">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-white py-3">
+                                        <h5 class="card-title mb-0 fw-bold text-primary">Chi tiết đơn hàng</h5>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-striped mb-0" id="tableInvoiceDetail">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th class="column-name py-3 ps-2">Tên sản phẩm</th>
+                                                        <th class="column-price py-3 ps-5">Giá</th>
+                                                        <th class="column-quantity py-3 ps-2">Số lượng</th>
+                                                        <th class="column-price py-3 ps-2">Thành tiền</th>
                                                     </tr>
-                                                </thead>                                               
+                                                </thead>
                                                 <tbody>
+                                                    <!-- Dữ liệu sẽ được thêm vào đây -->
                                                 </tbody>
-                                                <tfoot>
+                                                <tfoot class="table-light">
                                                     <tr>
-                                                        <td colspan="4" class="text-end">
-                                                            <strong style="margin-right: 10px;">Tổng dịch vụ:</strong>
-                                                            <input disabled type="text" id="invoicedetail-totalPriceNotVAT" class="column-price form-control d-inline-block" style="width: 150px;" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="4" class="text-end">
-                                                            <strong style="margin-right: 10px;">Tổng thanh toán (10% VAT):</strong>
-                                                            <input disabled type="text" id="invoicedetail-totalPrice" class="form-control d-inline-block" style="width: 150px;" />
+                                                        <td colspan="4" class="text-end py-3">
+                                                            <strong class="me-3 fs-5 text-dark">Tổng thanh toán:</strong>
+                                                            <input disabled type="text" id="invoicedetail-totalPriceNotVAT" class="column-price form-control form-control-lg d-inline-block bg-light fw-bold text-primary" style="width: 180px;" />
                                                         </td>
                                                     </tr>
                                                 </tfoot>
-                                             </table>                                            
+                                            </table>
                                         </div>
                                     </div>
-                                    <!-- Table end -->
                                 </div>
                             </div>
                         </div>
                         <!-- Phương thức thanh toán -->
-                        <div class="mb-3">
-                            <label for="paymentMethod" class="form-label"><strong>Phương thức thanh toán:</strong></label>
-                            <select id="payment-paymentId" class="form-select">
-                            </select>
-                            <script>
-                                var paymentData = [];
-                                async function loadDataSelectPayment() {
-                                    await $.ajax({
-                                        url: systemURL + 'paymentmethod/api/list',
-                                        type: 'GET',
-                                        async: 'true',
-                                        contentType: 'application/json',
-                                        success: function (responseData) {
-                                            // console.log(new Date().getSeconds() + ':' + new Date().getMilliseconds() + ' - loaded category created');
-                                            // debugger;
-                                            //console.log(responseData);
-                                            var data = responseData.data;
-                                            paymentData = data;
-                                            //console.log(roleData);
-                                        },
-                                        error: function (e) {
-                                            //console.log(e.message);
-                                        }
+                        
+                            <div class="mt-4 p-3 bg-light rounded-3 border">
+                                <label for="paymentMethod" class="form-label fw-bold mb-3"><i class="bi bi-credit-card me-2"></i>Phương thức thanh toán:</label>
+                                <select id="payment-paymentId" class="form-select form-select-lg">
+                                    <!-- Options will be added dynamically -->
+                                </select>
+                                <script>
+                                    var paymentData = [];
+                                    async function loadDataSelectPayment() {
+                                        await $.ajax({
+                                            url: systemURL + 'paymentmethod/api/list',
+                                            type: 'GET',
+                                            async: 'true',
+                                            contentType: 'application/json',
+                                            success: function (responseData) {
+                                                // console.log(new Date().getSeconds() + ':' + new Date().getMilliseconds() + ' - loaded category created');
+                                                // debugger;
+                                                var datapayment = responseData.data[0];
+                                                paymentData = datapayment;
+                                                //console.log(roleData);
+                                            },
+                                            error: function (e) {
+                                                //console.log(e.message);
+                                            }
+                                        });
+                                    }
+                                    //console.log(roleData);
+                                    $(document).ready(function () {
+                                        loadDataSelectPayment();
+                                        $.when(loadDataSelectPayment()).done(function () {
+                                            paymentData.forEach(function (item) {
+                                                $('#payment-paymentId').append(new Option(item.paymentName, item.paymentName, false, false)).trigger('change');
+                                            })
+                                        });
                                     });
-                                }
-                                //console.log(roleData);
-                                $(document).ready(function () {
-                                    loadDataSelectPayment();
-                                    $.when(loadDataSelectPayment()).done(function () {
-                                        paymentData.forEach(function (item) {
-                                            $('#payment-paymentId').append(new Option(item.paymentMethodName, item.id, false, false)).trigger('change');
-                                        })
-                                    });
-                                });
-                            </script>
+                                </script>
                         </div>
                         <!-- Nút hành động -->
                     </div>
 
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary " id="confirmPayment">
+            <div class="modal-footer bg-light py-3">
+                <button type="button" class="btn btn-primary btn-lg px-4" id="confirmPayment">
                     <span class="indicator-label">
-                        Xác nhận thanh toán
+                        <i class="bi bi-check-circle me-2"></i>Xác nhận thanh toán
                     </span>
-                    <span class="indicator-progress">
+                    <span class="indicator-progress d-none">
                         Đang tải... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                     </span>
                 </button>
-                <button type="button" class="btn btn-default"
-                        data-bs-dismiss="modal">
+                <button type="button" class="btn btn-outline-secondary btn-lg px-4" data-bs-dismiss="modal">
                     Đóng
                 </button>
-               
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    //var data = await httpService.getAsync("warehouse/api/detail/" + id);
     const submitButton = document.getElementById('btnConfirmOrder');
     const submitButtonPayment = document.getElementById('confirmPayment');
     $(document).ready(async function () {
@@ -1218,13 +1277,18 @@
     async function startInvoice(tableId) {
         tableInvoiceDetail.clear().draw();
         // Gán vào input người phụ trách
+        $('#confirmPayment').addClass('d-none');
         setAcountName()
         generateInvoiceCode();
-        setTableName(tableId);
+        var tb = await getTableInfor(tableId);
+        $("#invoice-tableId").val(tb.tableName);
         $("#invoice-createdTime").val(moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
         var data = await httpService.getAsync("dishorderdetail/api/DishDetailByTableId/" + tableId);
         var sumPrice = 0;
         if (data.status == "200") {
+            if(data.data[0].length > 0) {
+                $('#confirmPayment').removeClass('d-none');
+            }
             data.data[0].forEach((item) => {
                 tableInvoiceDetail.row.add({
                     "dishId": item.dishId,
@@ -1235,9 +1299,8 @@
                 }).draw();
                 sumPrice += item.price * item.quantity;
             })
-            $("#invoicedetail-totalPriceNotVAT").val(sumPrice);
-            sumPrice += sumPrice * 0.1;
-            $("#invoicedetail-totalPrice").val(sumPrice);
+            
+            $("#invoicedetail-totalPriceNotVAT").val(priceFormatCurrency(sumPrice));
         } else {    
             swal.fire({
                 icon: 'error',
@@ -1280,59 +1343,18 @@
         // Gán mã hóa đơn vào input
         $("#invoice-invoiceCode").val("HD-" + currentDate +"-" + (count + 1).toString().padStart(4, "0"));
     }
-    async function setTableName(tableId) {
+    async function getTableInfor(tableId) {
         $("#tableId").val(tableId);
         const response = await $.ajax({
             url: `${systemURL}Table/api/detail/${tableId}`, // API trả về thông tin bàn
             type: 'GET',
             dataType: 'json'
         });
-        const tableName = response.data[0].tableName || "Bàn chưa chọn";
-        $("#invoice-tableId").val(tableName);
+        var tableDetail = response.data[0];
+        
+        return tableDetail;
     }
 
-    function newOrder() {
-        $("#dishOrder-id").val(0);
-        tableProduct.clear().draw();
-        showOrderDetail();
-    }
-    function showOrderDetail() {
-        $('#tableOrderHistory').fadeOut(300, function () {
-            $('#tableOrderDetail').removeClass('d-none');
-            $('#tableOrderDetail').fadeIn(300);
-        });
-        $('#model-back-btn').removeClass('d-none');
-        $('#btnConfirmOrder').removeClass('d-none');
-    }
-    async function editOrder(DishOrderId, DishOrderStatusId) {
-        showOrderDetail();
-        if (!(DishOrderStatusId == @DishOrderStatudConst.PROCESSING)) {
-            $('#btnConfirmOrder').addClass('d-none');
-        }
-        $("#dishOrder-id").val(DishOrderId);
-        tableProduct.clear().draw();
-        var data = await httpService.getAsync("dishorderdetail/api/ListByOrderId/" + DishOrderId);
-        if (data.status == "200") {
-            data.data.forEach((item) => {
-                tableProduct.row.add({
-                    "id": item.id,
-                    "dishId": item.dishId,
-                    "dishName": item.dishName,
-                    "dishOrderStatusId": DishOrderStatusId,
-                    "price": item.price,
-                    "finalPrice": item.price * item.quantity,
-                    "quantity": item.quantity,
-                    "isEdit": false,
-                }).draw();
-            })
-        } else {
-            swal.fire({
-                icon: 'error',
-                title: 'Đặt món',
-                html: 'Đã xảy ra lỗi, vui lòng thử lại sau'
-            });
-        }
-    }
 </script>
 <!-- #endregion -->
 <script>
@@ -1340,7 +1362,7 @@
     let allDishes = [];
     let allCategories = [];
     let currentCategory = 'all';
-    let currentDiscount = 10; // Default discount percentage
+    let currentDiscount = 0; // Default discount percentage
     let currentNoteItem = null;
 
     // Initialize when document is ready
@@ -1576,7 +1598,7 @@
             if (discountCode) {
                 // Here you would validate the discount code with your backend
                 // For now, we'll just show an alert
-                alert('Mã giảm giá: ' + discountCode);
+                
 
                 // Apply a custom discount (for demo purposes)
                 currentDiscount = 12; // 12% discount for any code
@@ -1603,8 +1625,9 @@
             alert('Lưu tạm');
         });
 
-        $('#paymentBtn').click(function() {
-            alert('Chuyển đến thanh toán');
+        $('#paymentBtn').click(async function() {
+            await startInvoice(menuId);
+            await makePayment();
         });
     }
 
@@ -1713,7 +1736,7 @@
         updateOrderSummary();
 
         // Show confirm order button
-        $('#btnConfirmOrder').removeClass('d-none');
+        // $('#btnConfirmOrder').removeClass('d-none');
     }
 
     // Update cart item quantity
@@ -1790,16 +1813,14 @@
         // Calculate discount
         const discountAmount = subtotal * (currentDiscount / 100);
 
-        // Calculate tax (10%)
-        const taxAmount = (subtotal - discountAmount) * 0.1;
 
         // Calculate total
-        const total = subtotal - discountAmount + taxAmount;
+        const total = subtotal - discountAmount;
 
         // Update UI
         $('#subtotal').text(priceFormatCurrency(subtotal) + 'đ');
         $('#discount').text('-' + priceFormatCurrency(discountAmount) + 'đ');
-        $('#tax').text(priceFormatCurrency(taxAmount) + 'đ');
+ 
         $('#total').text(priceFormatCurrency(total) + 'đ');
     }
 
@@ -1824,6 +1845,7 @@
     }
 
     function updateOriginalTableQuantity(dishId, quantity) {
+
         // Find the row in the DataTable
         tableProduct.rows().every(function() {
             const data = this.data();
@@ -1851,7 +1873,7 @@
     function showOrderDetail(tableId) {
         // Update table info
         updateTableInfo(tableId);
-
+        tableProduct.clear().draw();
         // Transition from history to detail view
         $('#tableOrderHistory').fadeOut(300, function() {
             $('#tableOrderDetail').removeClass('d-none');
@@ -1867,11 +1889,14 @@
     }
 
     // Update table info
-    function updateTableInfo(tableId) {
+    async function updateTableInfo(tableId) {
         // You would fetch table info from your API here
+        var tb = await getTableInfor(tableId);
+        const match = tb.tableCode.match(/TB-\d{3}-(\d+)/);
+        const maxPeople = match ? match[1] : 4;
         // For now, we'll use placeholder data
-        $('#table-name').text('A3');
-        $('#table-capacity').text('6');
+        $('#table-name').text(tb.tableName);
+        $('#table-capacity').text(`${maxPeople}`);
         $('#order-number').text('1234');
         let staffNameOrder = JSON.parse(localStorage.getItem('profile')).fullName;
         $('#staff-name').text(staffNameOrder);
@@ -1886,14 +1911,14 @@
     }
 
     // Override your existing newOrder function
-    window.newOrder = function() {
+    function newOrder() {
         $("#dishOrder-id").val(0);
-        tableProduct.clear().draw();
+        tableProduct.clear().draw();            
         showOrderDetail($("#tableBooking-id").val());
     };
 
     // Override your existing editOrder function
-    window.editOrder = function(dishOrderId, dishOrderStatusId) {
+    function editOrder(dishOrderId, dishOrderStatusId) {
         showOrderDetail($("#tableBooking-id").val());
 
         if (!(dishOrderStatusId == 1)) { // Replace 0 with your PROCESSING constant
@@ -1940,7 +1965,7 @@
                             dishName: item.dishName,
                             price: item.price,
                             quantity: item.quantity,
-                            note: item.note || ''
+                            note: item.description || ''
                         });
 
                         // Add to UI
@@ -1966,9 +1991,9 @@
                                         </button>
                                     </div>
                                     <div class="note-container mt-2">
-                                        ${item.note ?
+                                        ${item.description ?
                                             `<div class="small text-muted">
-                                                <i class="fas fa-sticky-note me-1"></i> ${item.note}
+                                                <i class="fas fa-sticky-note me-1"></i> ${item.description}
                                             </div>` :
                                             `<button class="btn btn-sm btn-link p-0 add-note-btn">
                                                 <i class="fas fa-plus-circle me-1"></i> Thêm ghi chú
@@ -2033,6 +2058,12 @@
                         return `
                                             <span class="">` + (data) + `</span>
                                             <input type="number" min="0" class="text-start form-control d-none quantity-change" onchange="onChangeQuantity(this)" value="` + data + `" />`;
+                    },
+                },
+                {
+                    data: "note",
+                    render: function (data, type, row, meta) {
+                        return "<span id='row" + row.id + "-column-id'>" + data + "<span>";
                     },
                 },
                 {
@@ -2145,7 +2176,6 @@
         let data = tableProduct.row($row).data();
 
         data.isEdit = true;
-        // tableProduct.row($row).data(data).draw();
 
         $.when(
             tableProduct.row($row).data(data).draw()
@@ -2335,6 +2365,7 @@
 
                 
     }
+
 </script>
 <!-- #region Các hành động Table liên quan đến Đặt bàn -->
 
@@ -2353,25 +2384,25 @@
                 {
                     data: "dishName",
                     render: function (data, type, row, meta) {
-                        return `<strong><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
+                        return `<strong class="ps-2"><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
                     },
                 },
                 {
                     data: "price",
                     render: function (data, type, row, meta) {
-                        return `<strong><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
+                        return "<strong class='ps-2'><span style=' color: #044688;' class='fs-14' >" + formatNumberCurrency(data.toString()) + "đ<span></strong>";
                     },
                 },
                 {
                     data: "quantity",
                     render: function (data, type, row, meta) {
-                        return `<strong><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
+                        return `<strong class="ps-2"><span style=' color: #044688;' class='fs-14' >${data}</span></strong>`;
                     },
                 },
                 {
                     data: "totalPrice",
                     render: function (data, type, row, meta) {
-                        return "<span class='bold' id='row" + row.id + "-column-id'>" + formatNumberCurrency(data.toString()) + "<span>";
+                        return "<span class='bold ps-2' id='row" + row.id + "-column-id'>" + formatNumberCurrency(data.toString()) + "đ<span>";
                     },
                 },
             ],
@@ -2423,11 +2454,12 @@
                 submitButtonPayment.setAttribute('data-kt-indicator', 'on');
                 submitButtonPayment.disabled = true;
 
+                // invoice update ajax
                 let UpdateObj = {
                     // "invoiceCode": $("#invoice-invoiceCode").val(),
                     "accountId": $("#accoutId").val(),
                     "paymentMethodId": $('#payment-paymentId').val(),
-                    "totalMoney": $("#invoicedetail-totalPrice").val(),
+                    "totalMoney": $("#invoicedetail-totalPriceNotVAT").val(),
                     // "active": true,
                     // "createdTime": formatDatetimeUpdate($("#invoice-createdTime").val()),
                     "invoiceDetails": dishList,
