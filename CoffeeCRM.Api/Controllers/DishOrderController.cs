@@ -43,26 +43,17 @@ namespace CfCRM.DATN.Controllers
                     var dataList = await service.ListDishOrderNotification();
                     if (dataList == null || dataList.Count == 0)
                     {
-                        return NotFound();
-                    }
-                    return Ok(CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList()));
-                }
-                else if (roleId == RoleConst.WAITER)
-                {
-
-                    var dataList = await notificationService.ListPaging(accountId, pageIndex, pageSize);
-                    if (dataList == null || dataList.Count == 0)
-                    {
-                        return NotFound();
+                        return Ok(CoffeeManagementResponse.SUCCESS(new List<DishOrderViewModel>()));
                     }
                     return Ok(CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList()));
                 }
                 else
                 {
+
                     var dataList = await notificationService.ListPaging(accountId, pageIndex, pageSize);
                     //if (dataList == null || dataList.Count == 0)
                     //{
-                    //    return NotFound();
+                    //    return Ok(CoffeeManagementResponse.SUCCESS(new List<DishOrderViewModel>()));
                     //}
                     return Ok(CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList()));
                 }

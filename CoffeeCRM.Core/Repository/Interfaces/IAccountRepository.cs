@@ -18,6 +18,7 @@ namespace CoffeeCRM.Core.Repository
 
         //Task <List< Account>> Search(string keyword);
         Task<Account> GetByUsername(string username);
+        Task<List<Account>> GetByRoleId(int roleId);
 
         Task<List<Account>> ListPaging(int pageIndex, int pageSize);
 

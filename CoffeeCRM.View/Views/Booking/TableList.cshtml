@@ -1052,6 +1052,7 @@
     let allTables = [];
 
     function loadTableList() {
+        allTables = [];
         $.ajax({
             url: systemURL + "Table/api/Listdto",
             method: "GET",
@@ -2292,6 +2293,7 @@
                             tableProduct.clear().draw();
                             submitButton.setAttribute('data-kt-indicator', 'off');
                             submitButton.disabled = false;
+                            loadTableList();
                             startModel(UpdateObj.tableId)
                         }
                     },
@@ -2418,12 +2420,10 @@
         tableInvoiceDetail.rows().every(function () {
             let data = this.data();
             let obj = {
+                id: 0,
                 dishId: data.dishId,
                 quantity: data.quantity,
                 unitPrice: data.price,
-                // invoiceDetailCode: $("#invoice-invoiceCode").val(),
-                totalMoney: data.totalPrice,
-
             }
             dishList.push(obj);
         });
@@ -2456,17 +2456,16 @@
 
                 // invoice update ajax
                 let UpdateObj = {
-                    // "invoiceCode": $("#invoice-invoiceCode").val(),
+                    "id": 0,
                     "accountId": $("#accoutId").val(),
-                    "paymentMethodId": $('#payment-paymentId').val(),
-                    "totalMoney": $("#invoicedetail-totalPriceNotVAT").val(),
-                    // "active": true,
-                    // "createdTime": formatDatetimeUpdate($("#invoice-createdTime").val()),
+                    "tableId": $("#tableId").val(),
+                    "paymentMethod": $('#payment-paymentId').val(),
+                    "totalMoney": $("#invoicedetail-totalPriceNotVAT").val().replace(/[.,]/g, ''),
                     "invoiceDetails": dishList,
-                    "tableInvoices": tableList,
+                    "paymentStatus": 'Chờ thanh toán'
                 }
                 $.ajax({
-                    url: systemURL + "invoice/api/AddByVM",
+                    url: systemURL + "invoice/api/AddOrUpdateVM",
                     type: "POST",
                     contentType: "application/json",
                     beforeSend: function (xhr) {
@@ -2478,10 +2477,10 @@
                     success:async function (responseData) {
                         // debugger;
                         if (responseData.status == "200" && responseData.message === "SUCCESS") {
-                            let invoiceId = responseData.data[0].invoiceDetails[0].invoice.id;
+                            let invoiceId = responseData.data[0].id;
                             let data = (await httpService.getAsync("invoice/api/InvoiceDetailVM?invoiceId=" + invoiceId)).data[0]
                             var detailHtml = '';
-                            var totalService = 0;
+
                             data.invoiceDetails.forEach((item) => { 
                                 detailHtml += `<tr>
                                             <td>${item.dishName}</td>
@@ -2489,43 +2488,45 @@
                                             <td>${item.unitPrice}</td>
                                             <td>${item.quantity * item.unitPrice}</td>
                                          </tr>`;
-                                totalService += item.quantity * item.unitPrice;
                             })
-                            var html = `<div class="container d-flex">
-                                            <div class="row">
-                                              <div class="col-12">
-                                                <h1>COFFEE HUYKHOI</h1>
-                                                <p>Trịnh Văn Bô, Q.Nam Từ Liêm.</p>
-                                                <p>0889987688</p>
-                                              </div>
-                                              <div class="col-12">
-                                                <p><b>HÓA ĐƠN THANH TOÁN</b></p>
-                                                <p>Giờ thanh toán: ${moment(data.createdTime).format('HH:mm DD/MM/YYYY')}</p>
-                                                <p>Mã hóa đơn: ${data.invoiceCode}</p>
-                                                <p>Thu ngân: ${data.cashierName}</p>
-                                              </div>
-                                              <table class="table">
-                                                <thead>
-                                                  <tr>
-                                                    <th>Món ăn</th>
-                                                    <th>SL</th>
-                                                    <th>Giá</th>
-                                                    <th>Tổng</th>
-                                                  </tr>
-                                                </thead>
-                                                <tbody>
-                                                    ${detailHtml}
-                                                  </tbody>
-                                              </table>
-                                              <div class="col-12">
-                                                            <p><b>Tổng dịch vụ: ${formatNumberCurrency(totalService)}  VNĐ</b></p>
-                                                            <p><b>Thanh toán (10% VAT): ${formatNumberCurrency(data.totalMoney)} VNĐ</b></p>
-                                              </div>
-      
-                                            </div>
-                                          </div>`
+                                var qrImageUrl = `https://img.vietqr.io/image/VCB-103138853-compact.png?amount=${data.totalMoney}&addInfo=THANHTOAN${data.invoiceCode}`;
+
+    var html = `
+    <div class="container d-flex flex-column align-items-center">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>COFFEE HUYKHOI</h1>
+            <p>Trịnh Văn Bô, Q.Nam Từ Liêm.</p>
+            <p>0889987688</p>
+            <h3><b>HÓA ĐƠN THANH TOÁN</b></h3>
+            <p>Giờ thanh toán: ${moment(data.createdTime).format('HH:mm DD/MM/YYYY')}</p>
+            <p>Mã hóa đơn: ${data.invoiceCode}</p>
+            <p>Thu ngân: ${data.cashierName}</p>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Món ăn</th>
+                <th>SL</th>
+                <th>Giá</th>
+                <th>Tổng</th>
+              </tr>
+            </thead>
+            <tbody>
+                ${detailHtml}
+            </tbody>
+          </table>
+          <div class="col-12 text-center">
+            <p><b>Thanh toán: ${formatNumberCurrency(data.totalMoney)} VNĐ</b></p>
+            <img src="${qrImageUrl}" width="180" height="180" alt="QR Code Thanh toán" />
+            <p>Quét QR để thanh toán tự động</p>
+          </div>
+        </div>
+    </div>`;
+
                             
                             loadDataSelectNoti();
+                            loadTableList();
                             
                             $("#modal-payment").modal('hide')
                             submitButton.setAttribute('data-kt-indicator', 'off');
@@ -2533,12 +2534,44 @@
                             submitButtonPayment.setAttribute('data-kt-indicator', 'off');
                             submitButtonPayment.disabled = false;
                             startModel(UpdateObj.tableId)
-                            Swal.fire(
-                                'Thành công!',
-                                html,
-                                'success'
-                            );
-                            $(".swal2-container .swal2-html-container").css("max-height", "500px");
+                            Swal.fire({
+            title: 'Thành công!',
+            html: html,
+            icon: 'success',
+            confirmButtonText: 'Tôi đã thanh toán'
+            }).then(async (result) => {
+        if (result.isConfirmed) {
+            // Cập nhật lại id cho UpdateObj
+            UpdateObj.id = invoiceId;
+            UpdateObj.paymentStatus = 'Đã thanh toán'; // cập nhật luôn trạng thái nếu cần
+
+            // Gọi lại API AddOrUpdateVM
+            await $.ajax({
+                url: systemURL + "invoice/api/AddOrUpdateVM",
+                type: "POST",
+                contentType: "application/json",
+                beforeSend: function (xhr) {
+                    if (localStorage.token) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+                    }
+                },
+                data: JSON.stringify(UpdateObj),
+                success: function (responseData) {
+                    if (responseData.status == "200" && responseData.message === "SUCCESS") {
+                        Swal.fire('Đã xác nhận thanh toán và cập nhật hóa đơn!', '', 'success');
+                    } else {
+                        Swal.fire('Cập nhật thất bại!', '', 'error');
+                    }
+                },
+                error: function (e) {
+                    Swal.fire('Lỗi khi cập nhật hóa đơn!', '', 'error');
+                }
+            });
+        }
+    });
+
+
+        $(".swal2-container .swal2-html-container").css("max-height", "500px");
                         }
                     },
                     error: function (e) {

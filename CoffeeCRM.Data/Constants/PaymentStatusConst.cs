@@ -8,6 +8,14 @@
        
     }
 
+    public static class PaymentStatusStringConst
+    {
+        public static string PENDING = "Chờ thanh toán";
+        public static string PAID = "Đã thanh toán";
+        public static string CANCELLED = "Đã hủy";
+        public static List<string> All => new() { PENDING, PAID, CANCELLED };
+    }
+
     public static class PaymentMethodConst
     {
         public static string BANKING = "Chuyển khoản";

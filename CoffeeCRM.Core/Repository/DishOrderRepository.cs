@@ -187,13 +187,13 @@ namespace CoffeeCRM.Core.Repository
             return false;
         }
 
-        public async Task<List<DishOrder>> ListUnPaid()
+        public async Task<List<DishOrder>> ListUnPaid(int tableId)
         {
             if (db != null)
             {
                 return await (
                     from row in db.DishOrders
-                    where (row.Active && (row.DishOrderStatusId != DishOrderStatudConst.PAID))
+                    where (row.Active && (row.DishOrderStatusId != DishOrderStatudConst.PAID) && row.TableId == tableId)
                     orderby row.Id
                     select row
                 ).ToListAsync();
