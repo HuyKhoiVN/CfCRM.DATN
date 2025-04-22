@@ -389,9 +389,119 @@
         #modal-payment .card:hover {
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
         }
+
+    /* Table Selection */
+    .tb-table-option {
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        text-align: center;
+        height: 100%;
+    }
+
+        .tb-table-option:hover {
+            background-color: rgba(var(--bs-primary-rgb), 0.05);
+            border-color: var(--bs-primary);
+        }
+
+        .tb-table-option.selected {
+            background-color: rgba(var(--bs-primary-rgb), 0.1);
+            border-color: var(--bs-primary);
+        }
+
+        .tb-table-option.unavailable {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+    .tb-table-status {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+    }
+
+        .tb-table-status.available {
+            background-color: #00b894;
+        }
+
+        .tb-table-status.booked {
+            background-color: #fdcb6e;
+        }
+
+        .tb-table-status.occupied {
+            background-color: #ff7675;
+        }
+
+    .tb-table-name {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+    }
+
+    .tb-table-capacity {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+
+    /* Status Selection */
+    .tb-status-option {
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        text-align: center;
+        height: 100%;
+    }
+
+        .tb-status-option:hover {
+            background-color: rgba(var(--bs-primary-rgb), 0.05);
+            border-color: var(--bs-primary);
+        }
+
+        .tb-status-option.selected {
+            background-color: rgba(var(--bs-primary-rgb), 0.1);
+            border-color: var(--bs-primary);
+        }
+
+        .tb-status-option i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--bs-primary);
+        }
+
+    .tb-status-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .tb-section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #212529;
+        display: flex;
+        align-items: center;
+    }
+
+        .tb-section-title i {
+            margin-right: 8px;
+            color: var(--bs-primary);
+        }
+
+    /* Animation */
+    .tb-fade-in {
+        animation: fadeIn 0.3s ease;
+    }
 </style>
 
-<div class="container-fluid p-0">
+    <div class="container-fluid p-0">
     <!-- Header Row -->
     
 
@@ -453,12 +563,23 @@
         </div>
 
         <!-- Floor Selector -->
-        <div class="floor-selector">
-            <button class="floor-btn active">Tất cả</button>
-            <button class="floor-btn">Tầng 1</button>
-            <button class="floor-btn">Tầng 2</button>
-            <button class="floor-btn">Tầng 2</button>
+        <div class="row">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Filter bên trái -->
+                <div class="floor-selector d-flex gap-2">
+                    <button class="floor-btn active">Tất cả</button>
+                    <button class="floor-btn">Tầng 1</button>
+                    <button class="floor-btn">Tầng 2</button>
+                    <button class="floor-btn">Tầng 3</button>
+                </div>
+
+                <!-- Button bên phải -->
+                <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                    <i class="fas fa-calendar-check me-2"></i> Đặt bàn
+                </button>
+            </div>
         </div>
+
         <!-- Right Column: Table List -->
         <div id="tableOrganization" class="table-grid"></div>
     </div>
@@ -932,6 +1053,511 @@
     </div>
 </div>
 
+<!-- Start booking table-->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <!-- Modal Header -->   
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="bookingModalLabel">
+                    <i class="fas fa-calendar-check me-2"></i> Đặt bàn
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="bookingForm">
+                    <!-- Table Selection Section -->
+                    <div class="mb-4">
+                        <div class="tb-section-title">
+                            <i class="fas fa-chair"></i> Chọn bàn
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="floorTbSelect" class="form-label">Tầng</label>
+                                <select class="form-select" id="floorTbSelect">
+                                    <option value="all">Tất cả</option>
+                                    <option value="1">Tầng 1</option>
+                                    <option value="2">Tầng 2</option>
+                                    <option value="3">Khu vực ngoài trời</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="capacitySelect" class="form-label">Số người</label>
+                                <select class="form-select" id="capacitySelect">
+                                    <option value="all">Tất cả</option>
+                                    <option value="2">2 người</option>
+                                    <option value="4">4 người</option>
+                                    <option value="6">6 người</option>
+                                    <option value="8">8 người</option>
+                                    <option value="10+">10+ người</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" id="tableContainer">
+                            <!-- Tables will be loaded here -->
+                            <div class="col-6 col-md-3 mb-3">
+                                <div class="tb-table-option">
+                                    <div class="tb-table-status available"></div>
+                                    <div class="tb-table-name">Bàn 1</div>
+                                    <div class="tb-table-capacity">4 người</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3 mb-3">
+                                <div class="tb-table-option">
+                                    <div class="tb-table-status available"></div>
+                                    <div class="tb-table-name">Bàn 2</div>
+                                    <div class="tb-table-capacity">6 người</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Selected Table Info -->
+                        <div class="alert alert-primary d-none mt-3" id="selectedTableInfo">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Bàn đã chọn: <span id="selectedTableName">Bàn 2</span> - <span id="selectedTableCapacity">6 người</span>
+                        </div>
+                    </div>
+
+                    <!-- Booking Time Section -->
+                    <div class="mb-4">
+                        <div class="tb-section-title">
+                            <i class="fas fa-clock"></i> Thời gian đặt bàn
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="bookingDate" class="form-label">Ngày đặt</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                    <input type="text" class="form-control" id="bookingDate" placeholder="Chọn ngày">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="bookingTime" class="form-label">Giờ đặt</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                    <input type="text" class="form-control" id="bookingTime" placeholder="Chọn giờ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Information Section -->
+                    <div class="mb-4">
+                        <div class="tb-section-title">
+                            <i class="fas fa-user"></i> Thông tin khách hàng
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="customerName" class="form-label">Tên khách hàng <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="customerName" placeholder="Nhập tên khách hàng" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="customerPhone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="customerPhone" placeholder="Nhập số điện thoại" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="customerNote" class="form-label">Ghi chú</label>
+                            <textarea class="form-control" id="customerNote" rows="2" placeholder="Nhập ghi chú đặc biệt nếu có"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Booking Status Section -->
+                    <div class="mb-4">
+                        <div class="tb-section-title">
+                            <i class="fas fa-tag"></i> Trạng thái đặt bàn
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-4 mb-3">
+                                <div class="tb-status-option selected" data-status="pending">
+                                    <i class="fas fa-clock"></i>
+                                    <div class="tb-status-name">Chờ xác nhận</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="tb-status-option" data-status="confirmed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="tb-status-name">Đã xác nhận</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="tb-status-option" data-status="cancelled">
+                                    <i class="fas fa-ban"></i>
+                                    <div class="tb-status-name">Đã hủy</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="bookingStatus" value="pending">
+                    </div>
+
+                    <!-- Deposit Section -->
+                    <div class="mb-4">
+                        <div class="tb-section-title">
+                            <i class="fas fa-money-bill-wave"></i> Đặt cọc
+                        </div>
+
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="depositToggle">
+                            <label class="form-check-label" for="depositToggle">Yêu cầu đặt cọc</label>
+                        </div>
+
+                        <div id="depositSection" class="d-none">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="depositAmount" class="form-label">Số tiền đặt cọc</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-money-bill"></i></span>
+                                        <input type="text" class="form-control" id="depositAmount" placeholder="Nhập số tiền">
+                                        <span class="input-group-text">VNĐ</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="paymentMethod" class="form-label">Phương thức thanh toán</label>
+                                    <select class="form-select" id="paymentMethod">
+                                        <option value="cash">Tiền mặt</option>
+                                        <option value="card">Thẻ ngân hàng</option>
+                                        <option value="transfer">Chuyển khoản</option>
+                                        <option value="momo">Ví MoMo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer bg-light">
+                <div class="d-flex flex-column flex-md-row gap-2 w-100">
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i> Hủy bỏ
+                        </button>
+                        <button type="button" class="btn btn-primary" id="saveDraftBtn">
+                            <i class="fas fa-save me-1"></i> Lưu nháp
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-success ms-auto" id="confirmBookingBtn">
+                        <i class="fas fa-check me-1"></i> Xác nhận đặt bàn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script> 
+        $(document).ready(function() {
+        flatpickr("#bookingDate", {
+                dateFormat: "d/m/Y",
+                minDate: "today",
+                defaultDate: "today"
+            });
+
+            flatpickr("#bookingTime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                defaultDate: "18:00"
+            });
+
+            $('#bookingModal').on('shown.bs.modal', function () {
+                loadTables();
+            });
+
+            $('#floorTbSelect, #capacitySelect').change(function() {
+                filterTables();
+            });
+
+            $(document).on('click', '.tb-table-option:not(.unavailable)', function() {
+                $('.tb-table-option').removeClass('selected');
+                $(this).addClass('selected');
+
+                const tableName = $(this).find('.tb-table-name').text();
+                const tableCapacity = $(this).find('.tb-table-capacity').text();
+
+                $('#selectedTableName').text(tableName);
+                $('#selectedTableCapacity').text(tableCapacity);
+                $('#selectedTableInfo').removeClass('d-none');
+            });
+
+            $('.tb-status-option').click(function() {
+                $('.tb-status-option').removeClass('selected');
+                $(this).addClass('selected');
+
+                const status = $(this).data('status');
+                $('#bookingStatus').val(status);
+            });
+
+            $('#depositToggle').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#depositSection').removeClass('d-none');
+                } else {
+                    $('#depositSection').addClass('d-none');
+                }
+            });
+
+            $('#depositAmount').on('input', function() {
+                let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    value = parseInt(value).toLocaleString('vi-VN');
+                    $(this).val(value);
+                }
+            });
+
+
+            $('#confirmBookingBtn').click(function() {
+                if (validateForm(true)) {
+                    const bookingData = getBookingData();
+                    bookingData.isDraft = false;
+
+                    saveBooking(bookingData);
+                }
+            });
+        });
+
+        function loadTables() {
+            
+            $('#tableContainer').html('<div class="col-12 text-center py-4"><div class="spinner-border text-primary" role="status"></div><div class="mt-2">Đang tải danh sách bàn...</div></div>');
+
+            
+            
+
+            processTableData(allTableOrigins);
+        }
+
+         function processTableData(apiTables) {
+                tableBookings = apiTables.map(table => {
+                    // Parse tableCode to extract floor and capacity
+                    const codeParts = table.tableCode.split('-'); // ["TB", "101", "6"]
+                    const floor = parseInt(codeParts[1].charAt(0)); // tầng là chữ số đầu của phần thứ hai
+                    const capacity = parseInt(codeParts[2]);
+
+                    // Return enhanced table object
+                    return {
+                        ...table,
+                        floor: floor,
+                        capacity: capacity
+                    };
+                });
+                debugger
+                // Render tables
+                renderTableBooking(tableBookings);
+         }
+
+            function renderTableBooking(tables) {
+                let html = '';
+                if (tables.length === 0) {
+                    html = '<div class="col-12 text-center py-4">Không có bàn nào phù hợp với điều kiện lọc.</div>';
+                } else {
+                    tables.forEach(table => {
+                        const isUnavailable = table.tableStatus === 'booked' || table.tableStatus === 'occupied';
+
+                        html += `
+                            <div class="col-6 col-md-3 mb-3" data-floor="${table.floor}" data-capacity="${table.capacity}">
+                                <div class="tb-table-option ${isUnavailable ? 'unavailable' : ''}" data-id="${table.id}">
+                                    <div class="tb-table-status ${table.tableStatus}"></div>
+                                    <div class="tb-table-name">${table.tableName}</div>
+                                    <div class="tb-table-capacity">${table.capacity} người</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                $('#tableContainer').html(html);
+            }
+        function filterTables() {
+                const floor = $('#floorTbSelect').val();
+                const capacity = $('#capacitySelect').val();
+
+                let filteredTables = [...tableBookings];
+
+                if (floor !== 'all') {
+                    filteredTables = filteredTables.filter(table => table.floor === parseInt(floor));
+                }
+
+                if (capacity !== 'all') {
+                    let capacityValue = parseInt(capacity);
+                    if (isNaN(capacityValue)) {
+                        capacityValue = 10;
+                        filteredTables = filteredTables.filter(table => table.capacity >= capacityValue);
+                    } else {
+                        filteredTables = filteredTables.filter(table => table.capacity === capacityValue);
+                    }
+                }
+
+                renderTableBooking(filteredTables);
+            }
+        function validateForm(isConfirm) {
+            // Reset previous validation errors
+            $('.is-invalid').removeClass('is-invalid');
+
+            let isValid = true;
+
+            // Check if a table is selected
+            if (!$('.tb-table-option.selected').length) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Chưa chọn bàn',
+                    text: 'Vui lòng chọn một bàn để đặt.'
+                });
+                isValid = false;
+                return isValid;
+            }
+
+            // Check booking date and time
+            if (!$('#bookingDate').val()) {
+                $('#bookingDate').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (!$('#bookingTime').val()) {
+                $('#bookingTime').addClass('is-invalid');
+                isValid = false;
+            }
+
+            // Check customer information
+            if (isConfirm) {
+                if (!$('#customerName').val()) {
+                    $('#customerName').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                if (!$('#customerPhone').val()) {
+                    $('#customerPhone').addClass('is-invalid');
+                    isValid = false;
+                }
+            }
+
+            // Check deposit amount if deposit is required
+            if ($('#depositToggle').is(':checked') && !$('#depositAmount').val()) {
+                $('#depositAmount').addClass('is-invalid');
+                isValid = false;
+            }
+
+            // Show validation error message
+            if (!isValid && isConfirm) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Thông tin chưa đầy đủ',
+                    text: 'Vui lòng điền đầy đủ thông tin bắt buộc.'
+                });
+            }
+
+            return isValid;
+        }
+
+        // Get booking data from form
+        function getBookingData() {
+            const selectedTable = $('.tb-table-option.selected');
+            const tableId = selectedTable.data('id');
+            const tableName = selectedTable.find('.tb-table-name').text();
+
+            return {
+                tableId: tableId,
+                tableName: tableName,
+                bookingDate: $('#bookingDate').val(),
+                bookingTime: $('#bookingTime').val(),
+                customerName: $('#customerName').val(),
+                customerPhone: $('#customerPhone').val(),
+                note: $('#customerNote').val(),
+                status: $('#bookingStatus').val(),
+                hasDeposit: $('#depositToggle').is(':checked'),
+                depositAmount: $('#depositToggle').is(':checked') ? $('#depositAmount').val().replace(/\./g, '') : 0,
+                paymentMethod: $('#depositToggle').is(':checked') ? $('#paymentMethod').val() : null
+            };
+        }
+
+        // Save booking to API
+        function saveBooking(bookingData) {
+            // Show loading indicator
+            const btnText = bookingData.isDraft ? 'Lưu nháp' : 'Xác nhận đặt bàn';
+            const btnIcon = bookingData.isDraft ? 'save' : 'check';
+            const $btn = bookingData.isDraft ? $('#saveDraftBtn') : $('#confirmBookingBtn');
+
+            $btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...`).prop('disabled', true);
+
+            // Call API to save booking
+            $.ajax({
+                url: systemURL + '/bookings',
+                method: 'POST',
+                data: JSON.stringify(bookingData),
+                contentType: 'application/json',
+                success: function(response) {
+                    handleBookingSuccess(response, bookingData.isDraft);
+                },
+                error: function(xhr) {
+                    console.error('Error saving booking:', xhr);
+                    handleBookingError(xhr);
+                },
+                complete: function() {
+                    $btn.html(`<i class="fas fa-${btnIcon} me-1"></i> ${btnText}`).prop('disabled', false);
+                }
+            });
+        }
+
+        // Handle booking success
+        function handleBookingSuccess(response, isDraft) {
+            Swal.fire({
+                icon: 'success',
+                title: isDraft ? 'Đã lưu nháp' : 'Đặt bàn thành công',
+                text: isDraft ? 'Đã lưu nháp thông tin đặt bàn.' : 'Đặt bàn thành công!',
+                confirmButtonText: 'Đóng'
+            }).then((result) => {
+                if (!isDraft) {
+                    // Reset form and close modal for confirmed bookings
+                    resetForm();
+                    $('#bookingModal').modal('hide');
+                }
+            });
+        }
+
+        // Handle booking error
+        function handleBookingError(xhr) {
+            let errorMessage = 'Đã xảy ra lỗi khi lưu thông tin đặt bàn. Vui lòng thử lại sau.';
+
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            }
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: errorMessage
+            });
+        }
+
+        // Reset form
+        function resetForm() {
+            // Reset form fields
+            $('#bookingForm')[0].reset();
+
+            // Reset table selection
+            $('.tb-table-option').removeClass('selected');
+            $('#selectedTableInfo').addClass('d-none');
+
+            // Reset status selection
+            $('.tb-status-option').removeClass('selected');
+            $('.tb-status-option[data-status="pending"]').addClass('selected');
+            $('#bookingStatus').val('pending');
+
+            // Reset deposit section
+            $('#depositSection').addClass('d-none');
+
+            // Reset validation
+            $('.is-invalid').removeClass('is-invalid');
+        }
+    </script>
+</div>
+
 <script>
     const submitButton = document.getElementById('btnConfirmOrder');
     const submitButtonPayment = document.getElementById('confirmPayment');
@@ -1050,6 +1676,7 @@
 
 <script>
     let allTables = [];
+    let allTableOrigins = [];
 
     function loadTableList() {
         allTables = [];
@@ -1059,6 +1686,7 @@
             success: function (response) {
                 if (response.status === "200") {
                     allTables = response.data;
+                    allTableOrigins = response.data;
                     renderTables(allTables);
                 }
             },

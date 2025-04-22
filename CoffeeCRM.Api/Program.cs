@@ -188,7 +188,7 @@ builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", b =>
-        b.WithOrigins("https://localhost:7125") // domain frontend
+        b.WithOrigins("https://localhost:7125", "http://127.0.0.1:5500") // domain frontend
          .AllowAnyMethod()
          .AllowAnyHeader()
          .AllowCredentials()); // BẮT BUỘC PHẢI THÊM DÒNG NÀY
