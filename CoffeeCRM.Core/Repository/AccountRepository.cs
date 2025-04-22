@@ -339,6 +339,16 @@ namespace CoffeeCRM.Core.Repository
                 ).FirstOrDefaultAsync();
             return account;
         }
+
+        public async Task<List<Account>> GetByRoleId(int roleId)
+        {
+            var account = await (
+                from a in db.Accounts
+                where (a.Active == true && a.RoleId == roleId)
+                select a
+                ).ToListAsync();
+            return account;
+        }
     }
 }
 

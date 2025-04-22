@@ -29,7 +29,7 @@ namespace CoffeeCRM.Core.Repository
         Task Delete(DishOrder DishOrder);
         DatabaseFacade GetDatabase();
         Task<long> DeletePermanently(long? DishOrderId);
-        Task<List<DishOrder>> ListUnPaid();
+        Task<List<DishOrder>> ListUnPaid(int tableId);
         Task<List<DishOrderViewModel>> DishOrderDetailByTableId(int tableId);
         Task<List<DishOrderViewModel>> DishOrderDetailList(int tableId);
         Task<List<DishOrderViewModel>> ListDishOrderNotification();

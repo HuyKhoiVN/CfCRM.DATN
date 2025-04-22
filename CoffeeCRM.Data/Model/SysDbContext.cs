@@ -7,9 +7,6 @@ namespace CoffeeCRM.Data.Model
 {
     public partial class SysDbContext : DbContext
     {
-        public SysDbContext()
-        {
-        }
 
         public SysDbContext(DbContextOptions<SysDbContext> options)
             : base(options)
@@ -32,6 +29,7 @@ namespace CoffeeCRM.Data.Model
         public virtual DbSet<InventoryAudit> InventoryAudits { get; set; } = null!;
         public virtual DbSet<InventoryDiscrepancy> InventoryDiscrepancies { get; set; } = null!;
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
+        public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
         public virtual DbSet<NotificationStatus> NotificationStatuses { get; set; } = null!;
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; } = null!;
@@ -429,6 +427,15 @@ namespace CoffeeCRM.Data.Model
                     .HasForeignKey(d => d.TableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Invoice__TableId__17F790F9");
+            });
+
+            modelBuilder.Entity<InvoiceDetail>(entity =>
+            {
+                entity.ToTable("InvoiceDetail");
+
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 0)");
             });
 
             modelBuilder.Entity<Notification>(entity =>

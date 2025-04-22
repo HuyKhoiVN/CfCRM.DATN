@@ -1,226 +1,247 @@
 
-     
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using CoffeeCRM.Data.Model;
-    using CoffeeCRM.Core.Repository;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using CoffeeCRM.Core.Util;
-    using CoffeeCRM.Data.Constants;
-    using CoffeeCRM.Core.Service;
-    using CoffeeCRM.Core.Util.Parameters;
 
-    namespace CfCRM.DATN.Controllers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CoffeeCRM.Data.Model;
+using CoffeeCRM.Core.Repository;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Data.Constants;
+using CoffeeCRM.Core.Service;
+using CoffeeCRM.Core.Util.Parameters;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+
+namespace CfCRM.DATN.Controllers
+{
+    [Route("[controller]")]
+    [ApiController]
+    public class NotificationController : ControllerBase
     {
-        [Route("[controller]")]
-        [ApiController]
-        public class NotificationController : ControllerBase
+        INotificationService service;
+        public NotificationController(INotificationService _service)
         {
-            INotificationService service;
-            public NotificationController(INotificationService _service)
+            service = _service;
+        }
+
+        [HttpGet]
+        [Route("api/List")]
+        public async Task<IActionResult> List()
+        {
+            try
             {
-                service = _service;
+                var dataList = await service.List();
+                if (dataList == null || dataList.Count == 0)
+                {
+                    return NotFound();
+                }
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList());
+                return Ok(coffeemanagementResponse);
             }
-            
-            [HttpGet]
-            [Route("api/List")]
-            public async Task<IActionResult> List()
+            catch (Exception)
             {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Detail/{Id}")]
+        public async Task<IActionResult> Detail(int? Id)
+        {
+            if (Id == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var dataList = await service.Detail(Id);
+                if (dataList == null)
+                {
+                    return NotFound();
+                }
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList);
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+
+
+
+        [HttpGet]
+        [Route("api/ListPaging")]
+        public async Task<IActionResult> ListPaging(int pageIndex, int pageSize)
+        {
+            if (pageIndex < 0 || pageSize < 0) return BadRequest();
+            try
+            {
+                var dataList = await service.ListPaging(pageIndex, pageSize);
+
+                if (dataList == null || dataList.Count == 0)
+                {
+                    return NotFound();
+                }
+
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList());
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost]
+        [Route("api/Add")]
+        public async Task<IActionResult> Add([FromBody] Notification model)
+        {
+            if (ModelState.IsValid)
+            {
+                //1. business logic
+
+                //data validation
+                if (model.Active == false)
+                {
+                    return BadRequest();
+                }
+                //2. add new object
                 try
                 {
-                    var dataList = await service.List();
-                    if (dataList == null || dataList.Count == 0)
-                    {
-                        return NotFound();
-                    }
-                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList());
-                    return Ok(coffeemanagementResponse);
+                    await service.Add(model);
+                    var coffeemanagementResponse = CoffeeManagementResponse.CREATED(model);
+                    return Created("", coffeemanagementResponse);
                 }
                 catch (Exception)
                 {
+
                     return BadRequest();
                 }
             }
-            
-            [HttpGet]
-            [Route("api/Detail/{Id}")]
-            public async Task<IActionResult> Detail(int? Id)
+            return BadRequest();
+        }
+
+
+        [HttpPost]
+        [Route("api/Update")]
+        public async Task<IActionResult> Update([FromBody] Notification model)
+        {
+            if (ModelState.IsValid)
             {
-                if (Id == null)
-                {
-                    return BadRequest();
-                }
                 try
                 {
-                    var dataList = await service.Detail(Id);
-                    if (dataList == null)
-                    {
-                        return NotFound();
-                    }
-                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList);
-                    return Ok(coffeemanagementResponse);
-                }
-                catch (Exception)
-                {
-                    return BadRequest();
-                }
-            }
-
-
-
-
-            [HttpGet]
-            [Route("api/ListPaging")]
-            public async Task<IActionResult> ListPaging(int pageIndex, int pageSize)
-            {
-                if (pageIndex < 0 || pageSize < 0) return BadRequest();
-                try
-                {
-                    var dataList = await service.ListPaging(pageIndex, pageSize);
-
-                    if (dataList == null || dataList.Count == 0)
-                    {
-                        return NotFound();
-                    }
-
-                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList());
-                    return Ok(coffeemanagementResponse);
-                }
-                catch (Exception)
-                {
-                    return BadRequest();
-                }
-            }
-            [HttpPost]
-            [Route("api/Add")]
-            public async Task<IActionResult> Add([FromBody]Notification model)
-            {
-                if (ModelState.IsValid)
-                {
-                    //1. business logic
-
-                    //data validation
-                    if (model.Active == false)
-                    {
-                        return BadRequest();
-                    }
-                    //2. add new object
-                    try
-                    {
-                        await service.Add(model);
-                        var coffeemanagementResponse = CoffeeManagementResponse.CREATED(model);
-                        return Created("", coffeemanagementResponse);
-                    }
-                    catch (Exception)
-                    {
-
-                        return BadRequest();
-                    }
-                }
-                return BadRequest();
-            }
-
-
-            [HttpPost]
-            [Route("api/Update")]
-            public async Task<IActionResult> Update([FromBody]Notification model)
-            {
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        //1. business logic 
-                        //2. update object
-                        await service.Update(model);
-                        var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
-                        return Ok(coffeemanagementResponse);
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex.GetType().FullName == "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException")
-                        {
-                            return NotFound();
-                        }
-                        return BadRequest();
-                    }
-                }
-                return BadRequest();
-            }
-            [HttpPost]
-            [Route("api/Delete")]
-            public async Task<IActionResult> Delete([FromBody]Notification model)
-            {
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        //1. business logic
-                        await service.Delete(model);
-                        var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
-                        return Ok(coffeemanagementResponse);
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex.GetType().FullName == "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException")
-                        {
-                            return NotFound();
-                        }
-                        return BadRequest();
-                    }
-                }
-                return BadRequest();
-            }
-            [HttpPost]
-            [Route("api/DeletePermanently")]
-            public async Task<IActionResult> DeletePermanently([FromBody]Notification model)
-            {
-                var result = 0;
-                if (!(model.Id > 0))
-                {
-                    return BadRequest();
-                }
-                try
-                {
-                    //physically delete object
-                    result = (int)await service.DeletePermanently(model.Id);
-                    if (result == 0)
-                    {
-                        return NotFound();
-                    }
+                    //1. business logic 
+                    //2. update object
+                    await service.Update(model);
                     var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
                     return Ok(coffeemanagementResponse);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    if (ex.GetType().FullName == "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException")
+                    {
+                        return NotFound();
+                    }
                     return BadRequest();
                 }
             }
-
-
-            [HttpGet]
-            [Route("api/Count")]
-            public int CountNotification()
-            {
-                int result = service.Count();
-                return result;
-            }
-            [HttpPost]
-            [Route("api/list-server-side")]
-            public async Task<IActionResult> ListServerSide([FromBody] NotificationDTParameters parameters, int accountLoginId)
+            return BadRequest();
+        }
+        [HttpPost]
+        [Route("api/Delete")]
+        public async Task<IActionResult> Delete([FromBody] Notification model)
+        {
+            if (ModelState.IsValid)
             {
                 try
                 {
-                    var data = await service.ListServerSide(parameters, accountLoginId);
-                    return Ok(data);
+                    //1. business logic
+                    await service.Delete(model);
+                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
+                    return Ok(coffeemanagementResponse);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    return BadRequest(e);
+                    if (ex.GetType().FullName == "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException")
+                    {
+                        return NotFound();
+                    }
+                    return BadRequest();
                 }
+            }
+            return BadRequest();
+        }
+        [HttpPost]
+        [Route("api/DeletePermanently")]
+        public async Task<IActionResult> DeletePermanently([FromBody] Notification model)
+        {
+            var result = 0;
+            if (!(model.Id > 0))
+            {
+                return BadRequest();
+            }
+            try
+            {
+                //physically delete object
+                result = (int)await service.DeletePermanently(model.Id);
+                if (result == 0)
+                {
+                    return NotFound();
+                }
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/Count")]
+        public int CountNotification()
+        {
+            int result = service.Count();
+            return result;
+        }
+        [HttpPost]
+        [Route("api/list-server-side")]
+        public async Task<IActionResult> ListServerSide([FromBody] NotificationDTParameters parameters, int accountLoginId)
+        {
+            try
+            {
+                var data = await service.ListServerSide(parameters, accountLoginId);
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/read-notifi/{Id}")]
+        public async Task<IActionResult> ReadNotification(long Id)
+        {
+            if (Id <= 0)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await service.ReadNotification(Id);
+                var coffeeResponse = CoffeeManagementResponse.SUCCESS();
+                return Ok(coffeeResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
             }
         }
     }
-    
+}

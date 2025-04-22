@@ -1,4 +1,6 @@
-﻿namespace CoffeeCRM.Data.ViewModels
+﻿using CoffeeCRM.Data.Model;
+
+namespace CoffeeCRM.Data.ViewModels
 {
     public class InvoiceViewModel
     {
@@ -9,11 +11,12 @@
         public DateTime CreatedTime { get; set; }
         public bool Active { get; set; }
         public int PaymentMethodId { get; set; }
-        public string  PaymentMethodName { get; set; }
+        public string  PaymentMethod { get; set; }
         public int AccountId { get; set; }
+        public int TableId { get; set; }
         public string? TableName { get; set; }
         public string? OrdererName { get; set; }
+
+        public List<InvoiceDetail>? InvoiceDetails { get; set; }
     }
-
-
 }

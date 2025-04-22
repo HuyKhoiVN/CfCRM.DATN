@@ -240,6 +240,16 @@ namespace CoffeeCRM.Core.Service
                     await transaction.RollbackAsync();
                     return false;
                 }
+
+                var table = await tableRepository.Detail(model.TableId);
+                if (table == null)
+                {
+                    await transaction.RollbackAsync();
+                    return false;
+                }
+                table.TableStatus = TableConst.OCCUPIED;
+                await tableRepository.Update(table);
+
                 var notifi = new Notification
                 {
                     Active = true,
