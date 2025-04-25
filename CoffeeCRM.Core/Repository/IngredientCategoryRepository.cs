@@ -95,6 +95,7 @@
                     db.IngredientCategories.Attach(obj);
                     db.Entry(obj).Property(x => x.IngredientCategoryCode).IsModified = true;
 db.Entry(obj).Property(x => x.IngredientCategoryName).IsModified = true;
+                db.Entry(obj).Property(x => x.ParentCategory).IsModified = true;
 db.Entry(obj).Property(x => x.Active).IsModified = true;
 
                     //Commit the transaction

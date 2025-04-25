@@ -7,7 +7,6 @@ namespace CoffeeCRM.Data.Model
 {
     public partial class SysDbContext : DbContext
     {
-
         public SysDbContext(DbContextOptions<SysDbContext> options)
             : base(options)
         {
@@ -344,6 +343,8 @@ namespace CoffeeCRM.Data.Model
                 entity.Property(e => e.IngredientCategoryCode).HasMaxLength(255);
 
                 entity.Property(e => e.IngredientCategoryName).HasMaxLength(100);
+
+                entity.Property(e => e.ParentCategory).HasColumnName("parentCategory");
             });
 
             modelBuilder.Entity<InventoryAudit>(entity =>
@@ -673,7 +674,11 @@ namespace CoffeeCRM.Data.Model
 
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
+                entity.Property(e => e.CustomerName).HasMaxLength(255);
+
                 entity.Property(e => e.Deposit).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.PhoneNumber).HasMaxLength(50);
 
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.TableBookings)

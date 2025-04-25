@@ -12,8 +12,11 @@
     using CoffeeCRM.Data.Constants;
     using CoffeeCRM.Core.Service;
     using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Core.Helper;
+using CoffeeCRM.Data.DTO;
 
-    namespace CfCRM.DATN.Controllers
+namespace CfCRM.DATN.Controllers
     {
         [Route("[controller]")]
         [ApiController]
@@ -219,6 +222,33 @@
                     return BadRequest(e);
                 }
             }
+        [HttpPost]
+        [Route("api/AddOrUpdate")]
+        public async Task<IActionResult> AddOrUpdate([FromBody] TableBookingDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = this.GetLoggedInUserId();
+                    model.AccountId = userId;
+                    if (!(await service.AddOrUpdate(model)))
+                    {
+                        return BadRequest();
+                    }
+                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
+                    return Created("", coffeemanagementResponse);
+                }
+                catch (Exception)
+                {
+
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
         }
+
+
+    }
     }
     

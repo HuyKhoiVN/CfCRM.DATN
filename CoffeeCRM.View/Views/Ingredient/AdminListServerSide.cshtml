@@ -1,0 +1,1376 @@
+@{
+    Layout = "_Admin_Layout";
+}
+@{
+    ViewData["ViewName"] = "Nguyên liệu";
+}
+
+    <style>
+        :root {
+            --bs-primary: #6c5ce7;
+            --bs-primary-rgb: 108, 92, 231;
+            --bs-secondary: #a29bfe;
+            --bs-secondary-rgb: 162, 155, 254;
+            --bs-success: #00b894;
+            --bs-success-rgb: 0, 184, 148;
+            --bs-warning: #fdcb6e;
+            --bs-warning-rgb: 253, 203, 110;
+            --bs-danger: #ff7675;
+            --bs-danger-rgb: 255, 118, 117;
+        }
+
+        .ig-sidebar {
+            height: calc(100vh - 56px);
+            overflow-y: auto;
+            background-color: #fff;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .content {
+            height: calc(100vh - 56px);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Tree View Styles */
+        .tree-view {
+            list-style: none;
+            padding-left: 0;
+        }
+
+            .tree-view ul {
+                list-style: none;
+                padding-left: 1.5rem;
+            }
+
+        .tree-item {
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+        }
+
+            .tree-item:hover {
+                background-color: rgba(var(--bs-primary-rgb), 0.1);
+            }
+
+            .tree-item.active {
+                background-color: rgba(var(--bs-primary-rgb), 0.2);
+                color: var(--bs-primary);
+                font-weight: 500;
+            }
+
+        .tree-toggle {
+            cursor: pointer;
+            width: 20px;
+            text-align: center;
+            margin-right: 5px;
+        }
+
+        .tree-icon {
+            margin-right: 8px;
+            color: var(--bs-primary) !important;
+            width: 20px;
+            text-align: center;
+        }
+
+        .tree-label {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tree-actions {
+            display: none;
+            margin-left: auto;
+        }
+
+        .tree-item:hover .tree-actions {
+            display: flex;
+        }
+
+        .tree-actions .btn-sm {
+            padding: 0.1rem 0.4rem;
+            font-size: 0.75rem;
+        }
+
+        /* Card Styles */
+        .card-ingredient {
+            transition: all 0.2s;
+            cursor: pointer;
+            height: 100%;
+        }
+
+            .card-ingredient:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            }
+
+            .card-ingredient .card-img-top {
+                height: 120px;
+                object-fit: cover;
+                background-color: #f8f9fa;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .card-ingredient .card-img-icon {
+                font-size: 3rem;
+                color: var(--bs-primary);
+            }
+
+            .card-ingredient .card-body {
+                padding: 1rem;
+            }
+
+            .card-ingredient .card-title {
+                font-size: 1rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .card-ingredient .card-text {
+                font-size: 0.85rem;
+                color: #6c757d;
+                margin-bottom: 0.5rem;
+            }
+
+            .card-ingredient .card-footer {
+                padding: 0.5rem 1rem;
+                background-color: rgba(var(--bs-primary-rgb), 0.05);
+                border-top: none;
+            }
+
+            .card-ingredient .badge {
+                font-weight: 500;
+            }
+
+        /* Breadcrumb Styles */
+        .custom-breadcrumb {
+            background-color: #fff;
+            padding: 10px 15px;
+            border-radius: 4px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 20px;
+        }
+
+            .custom-breadcrumb .breadcrumb {
+                margin-bottom: 0;
+            }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+            .search-box .form-control {
+                padding-left: 40px;
+                border-radius: 20px;
+            }
+
+            .search-box .search-icon {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #6c757d;
+            }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .toolbar .btn-group {
+                margin-left: 10px;
+            }
+
+        /* Status Indicators */
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .status-active {
+            background-color: var(--bs-success);
+        }
+
+        .status-inactive {
+            background-color: var(--bs-danger);
+        }
+
+        .status-low {
+            background-color: var(--bs-warning);
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background-color: var(--bs-primary);
+            color: white;
+        }
+
+        .modal-footer {
+            background-color: #f8f9fa;
+        }
+
+        /* Responsive Adjustments */
+        @@media (max-width: 992px) {
+            .ig-sidebar
+
+        {
+            height: auto;
+            max-height: 300px;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            height: auto;
+        }
+
+        }
+    </style>
+
+<div id="kt_app_content" class="app-content  flex-column-fluid ">
+    <!--begin::Content container-->
+    <div id="kt_app_content_container" class="app-container  container-fluid ">
+        <!--begin::Row-->
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <!-- ig-sidebar - Tree View -->
+                <div class="col-lg-3">
+                    <div class="ig-sidebar p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Danh mục nguyên liệu</h5>
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <div class="search-box">
+                            <input type="text" class="form-control" id="searchCategory" placeholder="Tìm kiếm danh mục...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+
+                        <ul class="tree-view">
+                            <li>
+                                <div class="tree-item active" data-id="all">
+                                    <span class="tree-icon"><i class="fas fa-list"></i></span>
+                                    <span class="tree-label">Tất cả nguyên liệu</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-item" data-id="favorites">
+                                    <span class="tree-icon"><i class="fas fa-star"></i></span>
+                                    <span class="tree-label">Nguyên liệu yêu thích</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-item" data-id="low-stock">
+                                    <span class="tree-icon"><i class="fas fa-exclamation-triangle"></i></span>
+                                    <span class="tree-label">Sắp hết hàng</span>
+                                </div>
+                            </li>
+                            <li class="mt-3">
+                                <div class="tree-item" data-id="category-1">
+                                    <span class="tree-toggle"><i class="fas fa-chevron-down"></i></span>
+                                    <span class="tree-icon"><i class="fas fa-folder"></i></span>
+                                    <span class="tree-label">Cà phê</span>
+                                    <div class="tree-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory(1)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(1)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div class="tree-item" data-id="category-1-1">
+                                            <span class="tree-icon"><i class="fas fa-folder"></i></span>
+                                            <span class="tree-label">Cà phê Arabica</span>
+                                            <div class="tree-actions">
+                                                <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory(1-1)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(1-1)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tree-item" data-id="category-1-2">
+                                            <span class="tree-icon"><i class="fas fa-folder"></i></span>
+                                            <span class="tree-label">Cà phê Robusta</span>
+                                            <div class="tree-actions">
+                                                <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory(1-2)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(1-2)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="tree-item" data-id="category-2">
+                                    <span class="tree-toggle"><i class="fas fa-chevron-right"></i></span>
+                                    <span class="tree-icon"><i class="fas fa-folder"></i></span>
+                                    <span class="tree-label">Sữa và kem</span>
+                                    <div class="tree-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory(2)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(2)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-item" data-id="category-3">
+                                    <span class="tree-toggle"><i class="fas fa-chevron-right"></i></span>
+                                    <span class="tree-icon"><i class="fas fa-folder"></i></span>
+                                    <span class="tree-label">Đường và hương liệu</span>
+                                    <div class="tree-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory(3)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(3)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-item" data-id="category-4">
+                                    <span class="tree-toggle"><i class="fas fa-chevron-right"></i></span>
+                                    <span class="tree-icon"><i class="fas fa-folder"></i></span>
+                                    <span class="tree-label">Trà và nguyên liệu trà</span>
+                                    <div class="tree-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory(4)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(4)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-item" data-id="category-5">
+                                    <span class="tree-toggle"><i class="fas fa-chevron-right"></i></span>
+                                    <span class="tree-icon"><i class="fas fa-folder"></i></span>
+                                    <span class="tree-label">Đồ dùng và vật tư</span>
+                                    <div class="tree-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory(5)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(5)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <div class="content">
+                        <!-- Breadcrumb -->
+                        <div class="custom-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Quản lý nguyên liệu</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Tất cả nguyên liệu</li>
+                                </ol>
+                            </nav>
+                        </div>
+
+                        <!-- Toolbar -->
+                        <div class="toolbar">
+                            <div class="d-flex align-items-center">
+                                <h4 class="mb-0">Tất cả nguyên liệu</h4>
+                                <div class="btn-group ms-3">
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addIngredientModal">
+                                        <i class="fas fa-plus me-1"></i> Thêm nguyên liệu
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#importIngredientsModal">
+                                        <i class="fas fa-file-import me-1"></i> Nhập Excel
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" id="exportIngredientsBtn">
+                                        <i class="fas fa-file-export me-1"></i> Xuất Excel
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="search-box mb-0">
+                                    <input type="text" class="form-control" id="searchIngredient" placeholder="Tìm kiếm nguyên liệu...">
+                                    <i class="fas fa-search search-icon"></i>
+                                </div>
+                                <div class="btn-group ms-2">
+                                    <button class="btn btn-outline-secondary active" id="viewGrid">
+                                        <i class="fas fa-th"></i>
+                                    </button>
+                                    <button class="btn btn-outline-secondary" id="viewList">
+                                        <i class="fas fa-list"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ingredients Grid View -->
+                        <div class="row g-3" id="ingredientsGrid">
+                            <!-- Ingredient Card 1 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card card-ingredient">
+                                    <div class="card-img-top">
+                                        <i class="fas fa-coffee card-img-icon"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Cà phê Arabica Colombia</h5>
+                                        <p class="card-text">
+                                            <span class="status-indicator status-active"></span> Đang sử dụng
+                                        </p>
+                                        <p class="card-text">
+                                            <small>Đơn vị: Kg</small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-success">Còn hàng</span>
+                                            <span class="fw-bold">15.5 Kg</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">Cập nhật: 23/04/2025</small>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(1)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(1)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ingredient Card 2 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card card-ingredient">
+                                    <div class="card-img-top">
+                                        <i class="fas fa-coffee card-img-icon"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Cà phê Robusta Việt Nam</h5>
+                                        <p class="card-text">
+                                            <span class="status-indicator status-active"></span> Đang sử dụng
+                                        </p>
+                                        <p class="card-text">
+                                            <small>Đơn vị: Kg</small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-warning text-dark">Sắp hết</span>
+                                            <span class="fw-bold">2.3 Kg</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">Cập nhật: 22/04/2025</small>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(2)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(2)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ingredient Card 3 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card card-ingredient">
+                                    <div class="card-img-top">
+                                        <i class="fas fa-glass card-img-icon"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Sữa tươi không đường</h5>
+                                        <p class="card-text">
+                                            <span class="status-indicator status-active"></span> Đang sử dụng
+                                        </p>
+                                        <p class="card-text">
+                                            <small>Đơn vị: Lít</small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-success">Còn hàng</span>
+                                            <span class="fw-bold">8.0 Lít</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">Cập nhật: 23/04/2025</small>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(3)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(3)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ingredient Card 4 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card card-ingredient">
+                                    <div class="card-img-top">
+                                        <i class="fas fa-leaf card-img-icon"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Trà xanh Thái Nguyên</h5>
+                                        <p class="card-text">
+                                            <span class="status-indicator status-active"></span> Đang sử dụng
+                                        </p>
+                                        <p class="card-text">
+                                            <small>Đơn vị: Kg</small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-success">Còn hàng</span>
+                                            <span class="fw-bold">5.2 Kg</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">Cập nhật: 21/04/2025</small>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(4)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(4)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ingredient Card 5 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card card-ingredient">
+                                    <div class="card-img-top">
+                                        <i class="fas fa-cubes card-img-icon"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Đường nâu</h5>
+                                        <p class="card-text">
+                                            <span class="status-indicator status-active"></span> Đang sử dụng
+                                        </p>
+                                        <p class="card-text">
+                                            <small>Đơn vị: Kg</small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-success">Còn hàng</span>
+                                            <span class="fw-bold">12.0 Kg</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">Cập nhật: 20/04/2025</small>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(5)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(5)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ingredient Card 6 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card card-ingredient">
+                                    <div class="card-img-top">
+                                        <i class="fas fa-tint card-img-icon"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Siro hương vani</h5>
+                                        <p class="card-text">
+                                            <span class="status-indicator status-active"></span> Đang sử dụng
+                                        </p>
+                                        <p class="card-text">
+                                            <small>Đơn vị: Chai</small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-danger">Hết hàng</span>
+                                            <span class="fw-bold">0 Chai</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">Cập nhật: 19/04/2025</small>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(6)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(6)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ingredient Card 7 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card card-ingredient">
+                                    <div class="card-img-top">
+                                        <i class="fas fa-box card-img-icon"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Ly giấy 12oz</h5>
+                                        <p class="card-text">
+                                            <span class="status-indicator status-active"></span> Đang sử dụng
+                                        </p>
+                                        <p class="card-text">
+                                            <small>Đơn vị: Hộp</small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-warning text-dark">Sắp hết</span>
+                                            <span class="fw-bold">1.5 Hộp</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">Cập nhật: 22/04/2025</small>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(7)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(7)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ingredient Card 8 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card card-ingredient">
+                                    <div class="card-img-top">
+                                        <i class="fas fa-cookie card-img-icon"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Bánh quy bơ</h5>
+                                        <p class="card-text">
+                                            <span class="status-indicator status-inactive"></span> Ngừng sử dụng
+                                        </p>
+                                        <p class="card-text">
+                                            <small>Đơn vị: Hộp</small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-secondary">Không theo dõi</span>
+                                            <span class="fw-bold">-- Hộp</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">Cập nhật: 15/04/2025</small>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(8)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(8)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ingredients List View (Hidden by default) -->
+                        <div class="table-responsive d-none" id="ingredientsList">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tên nguyên liệu</th>
+                                        <th scope="col">Danh mục</th>
+                                        <th scope="col">Đơn vị</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col">Trạng thái</th>
+                                        <th scope="col">Cập nhật</th>
+                                        <th scope="col">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Cà phê Arabica Colombia</td>
+                                        <td>Cà phê Arabica</td>
+                                        <td>Kg</td>
+                                        <td>15.5</td>
+                                        <td><span class="badge bg-success">Còn hàng</span></td>
+                                        <td>23/04/2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(1)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(1)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Cà phê Robusta Việt Nam</td>
+                                        <td>Cà phê Robusta</td>
+                                        <td>Kg</td>
+                                        <td>2.3</td>
+                                        <td><span class="badge bg-warning text-dark">Sắp hết</span></td>
+                                        <td>22/04/2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(2)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(2)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Sữa tươi không đường</td>
+                                        <td>Sữa và kem</td>
+                                        <td>Lít</td>
+                                        <td>8.0</td>
+                                        <td><span class="badge bg-success">Còn hàng</span></td>
+                                        <td>23/04/2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(3)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(3)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Trà xanh Thái Nguyên</td>
+                                        <td>Trà và nguyên liệu trà</td>
+                                        <td>Kg</td>
+                                        <td>5.2</td>
+                                        <td><span class="badge bg-success">Còn hàng</span></td>
+                                        <td>21/04/2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(4)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(4)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">5</th>
+                                        <td>Đường nâu</td>
+                                        <td>Đường và hương liệu</td>
+                                        <td>Kg</td>
+                                        <td>12.0</td>
+                                        <td><span class="badge bg-success">Còn hàng</span></td>
+                                        <td>20/04/2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(5)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(5)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">6</th>
+                                        <td>Siro hương vani</td>
+                                        <td>Đường và hương liệu</td>
+                                        <td>Chai</td>
+                                        <td>0</td>
+                                        <td><span class="badge bg-danger">Hết hàng</span></td>
+                                        <td>19/04/2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(6)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(6)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">7</th>
+                                        <td>Ly giấy 12oz</td>
+                                        <td>Đồ dùng và vật tư</td>
+                                        <td>Hộp</td>
+                                        <td>1.5</td>
+                                        <td><span class="badge bg-warning text-dark">Sắp hết</span></td>
+                                        <td>22/04/2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(7)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(7)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">8</th>
+                                        <td>Bánh quy bơ</td>
+                                        <td>Đồ dùng và vật tư</td>
+                                        <td>Hộp</td>
+                                        <td>--</td>
+                                        <td><span class="badge bg-secondary">Không theo dõi</span></td>
+                                        <td>15/04/2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(8)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(8)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Category Modal -->
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm danh mục nguyên liệu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addCategoryForm">
+                            <div class="mb-3">
+                                <label for="categoryName" class="form-label">Tên danh mục</label>
+                                <input type="text" class="form-control" id="categoryName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="parentCategory" class="form-label">Danh mục cha</label>
+                                <select class="form-select" id="parentCategory">
+                                    <option value="">-- Không có --</option>
+                                    <option value="1">Cà phê</option>
+                                    <option value="2">Sữa và kem</option>
+                                    <option value="3">Đường và hương liệu</option>
+                                    <option value="4">Trà và nguyên liệu trà</option>
+                                    <option value="5">Đồ dùng và vật tư</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="categoryDescription" class="form-label">Mô tả</label>
+                                <textarea class="form-control" id="categoryDescription" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary" id="saveCategoryBtn">Lưu danh mục</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Ingredient Modal -->
+        <div class="modal fade" id="addIngredientModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm nguyên liệu mới</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addIngredientForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ingredientName" class="form-label">Tên nguyên liệu <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="ingredientName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ingredientCategory" class="form-label">Danh mục <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="ingredientCategory" required>
+                                        <option value="">-- Chọn danh mục --</option>
+                                        <option value="1-1">Cà phê Arabica</option>
+                                        <option value="1-2">Cà phê Robusta</option>
+                                        <option value="2">Sữa và kem</option>
+                                        <option value="3">Đường và hương liệu</option>
+                                        <option value="4">Trà và nguyên liệu trà</option>
+                                        <option value="5">Đồ dùng và vật tư</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ingredientUnit" class="form-label">Đơn vị <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="ingredientUnit" required>
+                                        <option value="">-- Chọn đơn vị --</option>
+                                        <option value="kg">Kg</option>
+                                        <option value="g">Gram</option>
+                                        <option value="l">Lít</option>
+                                        <option value="ml">Mililít</option>
+                                        <option value="box">Hộp</option>
+                                        <option value="bottle">Chai</option>
+                                        <option value="pack">Gói</option>
+                                        <option value="piece">Cái</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ingredientStatus" class="form-label">Trạng thái</label>
+                                    <select class="form-select" id="ingredientStatus">
+                                        <option value="active">Đang sử dụng</option>
+                                        <option value="inactive">Ngừng sử dụng</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ingredientQuantity" class="form-label">Số lượng hiện tại</label>
+                                    <input type="number" class="form-control" id="ingredientQuantity" step="0.01" min="0">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ingredientMinQuantity" class="form-label">Số lượng tối thiểu</label>
+                                    <input type="number" class="form-control" id="ingredientMinQuantity" step="0.01" min="0">
+                                    <div class="form-text">Cảnh báo khi số lượng dưới mức này</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ingredientDescription" class="form-label">Mô tả</label>
+                                <textarea class="form-control" id="ingredientDescription" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ingredientSupplier" class="form-label">Nhà cung cấp</label>
+                                <select class="form-select" id="ingredientSupplier">
+                                    <option value="">-- Chọn nhà cung cấp --</option>
+                                    <option value="1">Công ty TNHH Cà phê Việt</option>
+                                    <option value="2">Công ty CP Thực phẩm ABC</option>
+                                    <option value="3">Công ty TNHH XYZ</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="trackInventory" checked>
+                                    <label class="form-check-label" for="trackInventory">
+                                        Theo dõi tồn kho
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary" id="saveIngredientBtn">Lưu nguyên liệu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Import Ingredients Modal -->
+        <div class="modal fade" id="importIngredientsModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nhập nguyên liệu từ Excel</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="importFile" class="form-label">Chọn file Excel</label>
+                            <input class="form-control" type="file" id="importFile" accept=".xlsx, .xls">
+                        </div>
+                        <div class="mb-3">
+                            <a href="#" class="text-decoration-none">
+                                <i class="fas fa-download me-1"></i> Tải file mẫu
+                            </a>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Hệ thống hỗ trợ nhập file Excel với định dạng .xlsx hoặc .xls. Vui lòng sử dụng file mẫu để đảm bảo dữ liệu được nhập chính xác.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary" id="importBtn">Nhập dữ liệu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Content container-->
+</div>
+<!--begin:Base load data-->
+<script>
+    $(document).ready(function() {
+        // Toggle tree view
+        $('.tree-toggle').click(function(e) {
+            e.stopPropagation();
+            const $icon = $(this).find('i');
+            const $parent = $(this).parent();
+            const $ul = $parent.siblings('ul');
+
+            $ul.slideToggle(200);
+
+            if ($icon.hasClass('fa-chevron-right')) {
+                $icon.removeClass('fa-chevron-right').addClass('fa-chevron-down');
+            } else {
+                $icon.removeClass('fa-chevron-down').addClass('fa-chevron-right');
+            }
+        });
+
+        // Select tree item
+        $('.tree-item').click(function() {
+            $('.tree-item').removeClass('active');
+            $(this).addClass('active');
+
+            // Update breadcrumb and title
+            const categoryName = $(this).find('.tree-label').text();
+            $('.breadcrumb-item.active').text(categoryName);
+            $('.toolbar h4').text(categoryName);
+        });
+
+        // Toggle view (Grid/List)
+        $('#viewGrid').click(function() {
+            $(this).addClass('active');
+            $('#viewList').removeClass('active');
+            $('#ingredientsGrid').removeClass('d-none');
+            $('#ingredientsList').addClass('d-none');
+        });
+
+        $('#viewList').click(function() {
+            $(this).addClass('active');
+            $('#viewGrid').removeClass('active');
+            $('#ingredientsList').removeClass('d-none');
+            $('#ingredientsGrid').addClass('d-none');
+        });
+
+        // Search ingredients
+        $('#searchIngredient').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+
+            // Search in grid view
+            $('#ingredientsGrid .card-ingredient').each(function() {
+                const ingredientName = $(this).find('.card-title').text().toLowerCase();
+                if (ingredientName.includes(searchTerm)) {
+                    $(this).parent().show();
+                } else {
+                    $(this).parent().hide();
+                }
+            });
+
+            // Search in list view
+            $('#ingredientsList tbody tr').each(function() {
+                const ingredientName = $(this).find('td:nth-child(2)').text().toLowerCase();
+                if (ingredientName.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+        // Search categories
+        $('#searchCategory').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+
+            $('.tree-view li').each(function() {
+                const categoryName = $(this).find('.tree-label').first().text().toLowerCase();
+                if (categoryName.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+        // Save category
+        $('#saveCategoryBtn').click(function() {
+            const categoryName = $('#categoryName').val();
+
+            if (!categoryName) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Vui lòng nhập tên danh mục!'
+                });
+                return;
+            }
+
+            // Here you would save the category to the database
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Đã thêm danh mục mới!'
+            }).then(() => {
+                $('#addCategoryModal').modal('hide');
+                $('#addCategoryForm')[0].reset();
+
+                // Reload or update the category tree
+            });
+        });
+
+        // Save ingredient
+        $('#saveIngredientBtn').click(function() {
+            const ingredientName = $('#ingredientName').val();
+            const ingredientCategory = $('#ingredientCategory').val();
+            const ingredientUnit = $('#ingredientUnit').val();
+
+            if (!ingredientName || !ingredientCategory || !ingredientUnit) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Vui lòng điền đầy đủ thông tin bắt buộc!'
+                });
+                return;
+            }
+
+            // Here you would save the ingredient to the database
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Đã thêm nguyên liệu mới!'
+            }).then(() => {
+                $('#addIngredientModal').modal('hide');
+                $('#addIngredientForm')[0].reset();
+
+                // Reload or update the ingredients list
+            });
+        });
+
+        // Import ingredients
+        $('#importBtn').click(function() {
+            const importFile = $('#importFile').val();
+
+            if (!importFile) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Vui lòng chọn file để nhập!'
+                });
+                return;
+            }
+
+            // Here you would process the import
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Đã nhập dữ liệu thành công!'
+            }).then(() => {
+                $('#importIngredientsModal').modal('hide');
+                $('#importFile').val('');
+
+                // Reload or update the ingredients list
+            });
+        });
+
+        // Export ingredients
+        $('#exportIngredientsBtn').click(function() {
+            // Here you would generate and download the Excel file
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Đã xuất dữ liệu thành công!'
+            });
+        });
+
+        // Edit category function
+        function editCategory(categoryId) {
+            // Prevent event propagation
+            event.stopPropagation();
+
+            // Here you would fetch the category data from the database
+            // For demo, we'll use mock data
+            const mockCategory = {
+                id: categoryId,
+                name: 'Danh mục ' + categoryId,
+                parentId: null,
+                description: 'Mô tả danh mục ' + categoryId
+            };
+
+            // Populate the modal with category data
+            $('#categoryName').val(mockCategory.name);
+            $('#parentCategory').val(mockCategory.parentId);
+            $('#categoryDescription').val(mockCategory.description);
+
+            // Change modal title and button text
+            $('#addCategoryModal .modal-title').text('Chỉnh sửa danh mục');
+            $('#saveCategoryBtn').text('Cập nhật danh mục');
+
+            // Store category ID in the modal for reference
+            $('#addCategoryModal').data('categoryId', categoryId);
+
+            // Show the modal
+            $('#addCategoryModal').modal('show');
+        }
+
+        // Delete category function
+        function deleteCategory(categoryId) {
+            // Prevent event propagation
+            event.stopPropagation();
+
+            Swal.fire({
+                title: 'Xác nhận xóa?',
+                text: 'Bạn có chắc chắn muốn xóa danh mục này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Here you would delete the category from the database
+
+                    Swal.fire(
+                        'Đã xóa!',
+                        'Danh mục đã được xóa thành công.',
+                        'success'
+                    );
+
+                    // Remove the category from the tree
+                    // This is just a simple example, you might need more complex logic
+                    $(`[data-id="category-${categoryId}"]`).parent().remove();
+                }
+            });
+        }
+
+        // Edit ingredient function
+        function editIngredient(ingredientId) {
+            // Here you would fetch the ingredient data from the database
+            // For demo, we'll use mock data
+            const mockIngredient = {
+                id: ingredientId,
+                name: 'Nguyên liệu ' + ingredientId,
+                categoryId: '1-1',
+                unit: 'kg',
+                status: 'active',
+                quantity: 10,
+                minQuantity: 2,
+                description: 'Mô tả nguyên liệu ' + ingredientId,
+                supplierId: 1,
+                trackInventory: true
+            };
+
+            // Populate the modal with ingredient data
+            $('#ingredientName').val(mockIngredient.name);
+            $('#ingredientCategory').val(mockIngredient.categoryId);
+            $('#ingredientUnit').val(mockIngredient.unit);
+            $('#ingredientStatus').val(mockIngredient.status);
+            $('#ingredientQuantity').val(mockIngredient.quantity);
+            $('#ingredientMinQuantity').val(mockIngredient.minQuantity);
+            $('#ingredientDescription').val(mockIngredient.description);
+            $('#ingredientSupplier').val(mockIngredient.supplierId);
+            $('#trackInventory').prop('checked', mockIngredient.trackInventory);
+
+            // Change modal title and button text
+            $('#addIngredientModal .modal-title').text('Chỉnh sửa nguyên liệu');
+            $('#saveIngredientBtn').text('Cập nhật nguyên liệu');
+
+            // Store ingredient ID in the modal for reference
+            $('#addIngredientModal').data('ingredientId', ingredientId);
+
+            // Show the modal
+            $('#addIngredientModal').modal('show');
+        }
+
+        // Delete ingredient function
+        function deleteIngredient(ingredientId) {
+            Swal.fire({
+                title: 'Xác nhận xóa?',
+                text: 'Bạn có chắc chắn muốn xóa nguyên liệu này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Here you would delete the ingredient from the database
+
+                    Swal.fire(
+                        'Đã xóa!',
+                        'Nguyên liệu đã được xóa thành công.',
+                        'success'
+                    );
+
+                    // Remove the ingredient from the view
+                    // This is just a simple example, you might need more complex logic
+                    // For grid view
+                    $(`#ingredientsGrid .card-ingredient`).filter(function() {
+                        return $(this).find('.btn-outline-danger').attr('onclick').includes(ingredientId);
+                    }).parent().remove();
+
+                    // For list view
+                    $(`#ingredientsList tbody tr`).filter(function() {
+                        return $(this).find('.btn-outline-danger').attr('onclick').includes(ingredientId);
+                    }).remove();
+                }
+            });
+        }
+
+        // Make functions globally accessible
+        window.editCategory = editCategory;
+        window.deleteCategory = deleteCategory;
+        window.editIngredient = editIngredient;
+        window.deleteIngredient = deleteIngredient;
+    });
+</script>

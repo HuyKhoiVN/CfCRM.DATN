@@ -8,6 +8,7 @@ namespace CoffeeCRM.Core.Util.Parameters
 {
     public class TableBookingDTParameters : DTParameters
     {
+        public int? TableId { get; set; }
         public string SearchAll { get; set; } = "";
     }
 }

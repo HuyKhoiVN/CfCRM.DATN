@@ -15,6 +15,7 @@ namespace CoffeeCRM.Data.Model
         public string IngredientCategoryName { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
         public bool Active { get; set; }
+        public int? ParentCategory { get; set; }
 
         public virtual ICollection<Ingredient> Ingredients { get; set; }
     }

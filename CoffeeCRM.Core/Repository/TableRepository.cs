@@ -87,13 +87,23 @@ namespace CoffeeCRM.Core.Repository
                     CreatedTime = x.CreatedTime,
                     TotalBooking = x.BookingList.Count(),
                     LastBookingTime = x.BookingList.Any() ? (int)(x.BookingList
-                                                                    .OrderBy(b => Math.Abs((b.CheckinTime - now).TotalSeconds))
-                                                                    .Select(b => b.CheckinTime)
+                                                                    .OrderBy(b => Math.Abs((b.BookingTime - now).TotalSeconds))
+                                                                    .Select(b => b.BookingTime)
                                                                     .FirstOrDefault() - now).TotalMinutes : 0
 
                 })
                 .OrderBy(x => x.Id)
                 .ToList();
+
+            foreach(var item in result)
+            {
+                if(item.TotalBooking > 0 && item.LastBookingTime != 0 && item.LastBookingTime < 60)
+                {
+                    var tb = await Detail(item.Id);
+                    tb.TableStatus = TableConst.BOOKED;
+                    await Update(tb);
+                }
+            }
 
             return result;
         }
