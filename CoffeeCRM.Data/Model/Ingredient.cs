@@ -14,7 +14,7 @@ namespace CoffeeCRM.Data.Model
         public int Id { get; set; }
         public string? IngredientCode { get; set; }
         public string IngredientName { get; set; } = null!;
-        public int SelfLife { get; set; }
+        public int SelfLife { get; set; } // vòng đời/hsd x ngày
         public decimal? AveragePrice { get; set; }
         public DateTime CreatedTime { get; set; }
         public bool Active { get; set; }
@@ -22,10 +22,10 @@ namespace CoffeeCRM.Data.Model
         public int SupplierId { get; set; }
         public int UnitId { get; set; }
 
-        public virtual IngredientCategory IngredientCategory { get; set; } = null!;
-        public virtual Supplier Supplier { get; set; } = null!;
-        public virtual Unit Unit { get; set; } = null!;
-        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual ICollection<StockLevel> StockLevels { get; set; }
+        public virtual IngredientCategory? IngredientCategory { get; set; } = null!;
+        public virtual Supplier? Supplier { get; set; } = null!;
+        public virtual Unit? Unit { get; set; } = null!;
+        public virtual ICollection<PurchaseOrderDetail>? PurchaseOrderDetails { get; set; }
+        public virtual ICollection<StockLevel>? StockLevels { get; set; }
     }
 }

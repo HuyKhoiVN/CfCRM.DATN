@@ -19,17 +19,25 @@
             --bs-danger-rgb: 255, 118, 117;
         }
 
+    /* i.bi, i[class^=fonticon-], i[class*=" fonticon-"], i[class^=fa-], i[class*=" fa-"], i[class^=la-], i[class*=" la-"] { */
+    /*     line-height: 1; */
+    /*     font-size: 1rem; */
+    /*     color: var(--bs-primary); */
+    /* } */
+
         .ig-sidebar {
-            height: calc(100vh - 56px);
+            /* height: calc(100vh - 56px); */
             overflow-y: auto;
             background-color: #fff;
             border-right: 1px solid #dee2e6;
+            border-radius: 4px;
         }
 
         .content {
-            height: calc(100vh - 56px);
+            /* height: calc(100vh - 56px); */
             overflow-y: auto;
             padding: 20px;
+            padding-top: 0;
         }
 
         /* Tree View Styles */
@@ -70,6 +78,7 @@
             margin-right: 5px;
         }
 
+        .tree-icon i,
         .tree-icon {
             margin-right: 8px;
             color: var(--bs-primary) !important;
@@ -105,15 +114,39 @@
             height: 100%;
         }
 
+    /* .btn-outline-primary i { */
+    /*     color: #009ef7; */
+    /* } */
+
+    /*     .btn-outline-primary i:hover { */
+    /*         color: #fff; */
+    /*     } */
+
+    /* .btn-outline-danger:hover,  */
+    /* .btn-outline-primary:hover { */
+    /*     color: #fff; */
+    /* } */
+
+    /* .btn-outline-danger i { */
+    /*     color: #f1416c; */
+    /* } */
+
+    /*     .btn-outline-danger i:hover { */
+    /*         color: #fff; */
+    /*     } */
+
+
             .card-ingredient:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
             }
 
+    
+
             .card-ingredient .card-img-top {
                 height: 120px;
                 object-fit: cover;
-                background-color: #f8f9fa;
+                background-color: #d7e5f3;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -228,6 +261,21 @@
             background-color: #f8f9fa;
         }
 
+    #categoryCode[readonly] {
+        background-color: #eee;
+    }
+
+    .table-content {
+        padding: 15px;
+        background: var(--bs-app-header-base-bg-color);
+        border-radius: 8px;
+    }
+
+    table thead tr th {
+        white-space: nowrap;
+    }
+
+
         /* Responsive Adjustments */
         @@media (max-width: 992px) {
             .ig-sidebar
@@ -245,12 +293,12 @@
         }
     </style>
 
-<div id="kt_app_content" class="app-content  flex-column-fluid ">
+<div id="kt_app_content" class="app-content  flex-column-fluid pb-0">
     <!--begin::Content container-->
     <div id="kt_app_content_container" class="app-container  container-fluid ">
         <!--begin::Row-->
         <div class="container-fluid">
-            <div class="row mt-3">
+            <div class="row mt-0">
                 <!-- ig-sidebar - Tree View -->
                 <div class="col-lg-3">
                     <div class="ig-sidebar p-3">
@@ -266,7 +314,7 @@
                             <i class="fas fa-search search-icon"></i>
                         </div>
 
-                        <ul class="tree-view">
+                        <ul class="tree-view" id="ingredient-category-tree">
                             <li>
                                 <div class="tree-item active" data-id="all">
                                     <span class="tree-icon"><i class="fas fa-list"></i></span>
@@ -391,6 +439,151 @@
                                 </div>
                             </li>
                         </ul>
+
+                        <script>
+                            $(document).ready(function () {
+                                initIngredientCategories();
+                            });
+
+                            function initIngredientCategories() {
+                                $.ajax({
+                                    url: systemURL + "IngredientCategory/api/tree",
+                                    type: "GET",
+                                    success: function (response) {
+                                        if (response.status === "200" && Array.isArray(response.data)) {
+                                            renderIngredientCategoryTree(response.data);
+                                            initingredientCategoryOptions(response.data);     
+                                        } else {
+                                            console.warn("Không có danh mục nguyên liệu.");
+                                        }
+                                    },
+                                    error: function (err) {
+                                        console.error("Lỗi khi gọi API danh mục:", err);
+                                    }
+                                });
+                            }
+
+                            // Render toàn bộ danh mục vào cây
+                            function renderIngredientCategoryTree(categories) {
+                              let treeHtml = `
+                                  <li>
+                                      <div class="tree-item active" data-id="all">
+                                          <span class="tree-icon"><i class="fas fa-list"></i></span>
+                                          <span class="tree-label">Tất cả nguyên liệu</span>
+                                      </div>
+                                  </li>
+                                  <li>
+                                      <div class="tree-item" data-id="favorites">
+                                          <span class="tree-icon"><i class="fas fa-star"></i></span>
+                                          <span class="tree-label">Nguyên liệu yêu thích</span>
+                                      </div>
+                                  </li>
+                                  <li>
+                                      <div class="tree-item" data-id="low-stock">
+                                          <span class="tree-icon"><i class="fas fa-exclamation-triangle"></i></span>
+                                          <span class="tree-label">Sắp hết hàng</span>
+                                      </div>
+                                  </li>
+                                  <li class="mt-3">
+                                      <hr class="dropdown-divider">
+                                  </li>
+                              `;
+
+                              // Thêm các danh mục từ API
+                              if (categories && categories.length > 0) {
+                                  treeHtml += buildCategoryTreeHtml(categories);
+                              }
+
+                              $('.tree-view').html('');
+                              // Cập nhật HTML cho cây danh mục
+                              $('.tree-view').html(treeHtml);
+
+                              // Khởi tạo sự kiện cho các nút toggle và các item trong cây
+                              initTreeEvents();
+                            }
+
+                            function buildCategoryTreeHtml(categories, level = 0) {
+                              let html = '';
+
+                              categories.forEach(category => {
+                                  const hasChildren = category.childs && category.childs.length > 0;
+                                  const toggleIcon = hasChildren ? 'fa-chevron-right' : '';
+                                  const toggleClass = hasChildren ? 'tree-toggle' : '';
+                                  const toggleSpan = hasChildren ? `<span class="${toggleClass}"><i class="fas ${toggleIcon}"></i></span>` : '<span style="width: 20px;"></span>';
+
+                                  html += `
+                                      <li>
+                                          <div class="tree-item" data-id="category-${category.id}" data-code="${category.ingredientCategoryCode}">
+                                              ${toggleSpan}
+                                              <span class="tree-icon"><i class="fas fa-folder"></i></span>
+                                              <span class="tree-label">${category.ingredientCategoryName}</span>
+                                              <div class="tree-actions">
+                                                  <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory(${category.id})">
+                                                      <i class="fas fa-edit"></i>
+                                                  </button>
+                                                  <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(${category.id})">
+                                                      <i class="fas fa-trash"></i>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                  `;
+
+                                  // Nếu có danh mục con, đệ quy để render
+                                  if (hasChildren) {
+                                      html += `<ul style="display: none;">`;
+                                      html += buildCategoryTreeHtml(category.childs, level + 1);
+                                      html += `</ul>`;
+                                  }
+
+                                  html += `</li>`;
+                              });
+
+                              return html;
+                            }
+
+                            function initTreeEvents() {
+                              // Sự kiện toggle mở/đóng danh mục con
+                              $('.tree-toggle').click(function(e) {
+                                  e.stopPropagation();
+                                  const $icon = $(this).find('i');
+                                  const $parent = $(this).parent();
+                                  const $ul = $parent.siblings('ul');
+
+                                  $ul.slideToggle(200);
+
+                                  if ($icon.hasClass('fa-chevron-right')) {
+                                      $icon.removeClass('fa-chevron-right').addClass('fa-chevron-down');
+                                  } else {
+                                      $icon.removeClass('fa-chevron-down').addClass('fa-chevron-right');
+                                  }
+                              });
+
+                              // Sự kiện chọn danh mục
+                              $('.tree-item').click(function() {
+                                  $('.tree-item').removeClass('active');
+                                  $(this).addClass('active');
+
+                                  // Lấy ID và tên danh mục
+                                  const categoryId = $(this).data('id');
+                                  const categoryName = $(this).find('.tree-label').text();
+
+                                  // Cập nhật breadcrumb và tiêu đề
+                                  // $('.breadcrumb-item.active').text(categoryName);
+                                  // $('.toolbar h4').text(categoryName);
+
+                                  // Gọi hàm load nguyên liệu theo danh mục
+                                  handleCategorySelection(categoryId, categoryName)
+                              });
+
+                              // Ngăn chặn sự kiện click lan truyền từ các nút action
+                              $('.tree-actions button').click(function(e) {
+                                  e.stopPropagation();
+                              });
+                            }
+                        </script>
+
+                        <!-- Region load Ingredient-->
+                        
                     </div>
                 </div>
 
@@ -398,7 +591,7 @@
                 <div class="col-lg-9">
                     <div class="content">
                         <!-- Breadcrumb -->
-                        <div class="custom-breadcrumb">
+                        <div class="custom-breadcrumb d-none">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
@@ -413,7 +606,7 @@
                             <div class="d-flex align-items-center">
                                 <h4 class="mb-0">Tất cả nguyên liệu</h4>
                                 <div class="btn-group ms-3">
-                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addIngredientModal">
+                                    <button class="btn btn-sm btn-primary" id="addIngredientBtn">
                                         <i class="fas fa-plus me-1"></i> Thêm nguyên liệu
                                     </button>
                                     <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#importIngredientsModal">
@@ -441,442 +634,43 @@
                         </div>
 
                         <!-- Ingredients Grid View -->
-                        <div class="row g-3" id="ingredientsGrid">
-                            <!-- Ingredient Card 1 -->
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="card card-ingredient">
-                                    <div class="card-img-top">
-                                        <i class="fas fa-coffee card-img-icon"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Cà phê Arabica Colombia</h5>
-                                        <p class="card-text">
-                                            <span class="status-indicator status-active"></span> Đang sử dụng
-                                        </p>
-                                        <p class="card-text">
-                                            <small>Đơn vị: Kg</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge bg-success">Còn hàng</span>
-                                            <span class="fw-bold">15.5 Kg</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">Cập nhật: 23/04/2025</small>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(1)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(1)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ingredient Card 2 -->
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="card card-ingredient">
-                                    <div class="card-img-top">
-                                        <i class="fas fa-coffee card-img-icon"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Cà phê Robusta Việt Nam</h5>
-                                        <p class="card-text">
-                                            <span class="status-indicator status-active"></span> Đang sử dụng
-                                        </p>
-                                        <p class="card-text">
-                                            <small>Đơn vị: Kg</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge bg-warning text-dark">Sắp hết</span>
-                                            <span class="fw-bold">2.3 Kg</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">Cập nhật: 22/04/2025</small>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(2)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(2)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ingredient Card 3 -->
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="card card-ingredient">
-                                    <div class="card-img-top">
-                                        <i class="fas fa-glass card-img-icon"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Sữa tươi không đường</h5>
-                                        <p class="card-text">
-                                            <span class="status-indicator status-active"></span> Đang sử dụng
-                                        </p>
-                                        <p class="card-text">
-                                            <small>Đơn vị: Lít</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge bg-success">Còn hàng</span>
-                                            <span class="fw-bold">8.0 Lít</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">Cập nhật: 23/04/2025</small>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(3)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(3)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ingredient Card 4 -->
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="card card-ingredient">
-                                    <div class="card-img-top">
-                                        <i class="fas fa-leaf card-img-icon"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Trà xanh Thái Nguyên</h5>
-                                        <p class="card-text">
-                                            <span class="status-indicator status-active"></span> Đang sử dụng
-                                        </p>
-                                        <p class="card-text">
-                                            <small>Đơn vị: Kg</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge bg-success">Còn hàng</span>
-                                            <span class="fw-bold">5.2 Kg</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">Cập nhật: 21/04/2025</small>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(4)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(4)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ingredient Card 5 -->
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="card card-ingredient">
-                                    <div class="card-img-top">
-                                        <i class="fas fa-cubes card-img-icon"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Đường nâu</h5>
-                                        <p class="card-text">
-                                            <span class="status-indicator status-active"></span> Đang sử dụng
-                                        </p>
-                                        <p class="card-text">
-                                            <small>Đơn vị: Kg</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge bg-success">Còn hàng</span>
-                                            <span class="fw-bold">12.0 Kg</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">Cập nhật: 20/04/2025</small>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(5)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(5)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ingredient Card 6 -->
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="card card-ingredient">
-                                    <div class="card-img-top">
-                                        <i class="fas fa-tint card-img-icon"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Siro hương vani</h5>
-                                        <p class="card-text">
-                                            <span class="status-indicator status-active"></span> Đang sử dụng
-                                        </p>
-                                        <p class="card-text">
-                                            <small>Đơn vị: Chai</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge bg-danger">Hết hàng</span>
-                                            <span class="fw-bold">0 Chai</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">Cập nhật: 19/04/2025</small>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(6)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(6)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ingredient Card 7 -->
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="card card-ingredient">
-                                    <div class="card-img-top">
-                                        <i class="fas fa-box card-img-icon"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Ly giấy 12oz</h5>
-                                        <p class="card-text">
-                                            <span class="status-indicator status-active"></span> Đang sử dụng
-                                        </p>
-                                        <p class="card-text">
-                                            <small>Đơn vị: Hộp</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge bg-warning text-dark">Sắp hết</span>
-                                            <span class="fw-bold">1.5 Hộp</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">Cập nhật: 22/04/2025</small>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(7)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(7)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ingredient Card 8 -->
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="card card-ingredient">
-                                    <div class="card-img-top">
-                                        <i class="fas fa-cookie card-img-icon"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Bánh quy bơ</h5>
-                                        <p class="card-text">
-                                            <span class="status-indicator status-inactive"></span> Ngừng sử dụng
-                                        </p>
-                                        <p class="card-text">
-                                            <small>Đơn vị: Hộp</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge bg-secondary">Không theo dõi</span>
-                                            <span class="fw-bold">-- Hộp</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">Cập nhật: 15/04/2025</small>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="editIngredient(8)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(8)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Ingredients List View (Hidden by default) -->
-                        <div class="table-responsive d-none" id="ingredientsList">
-                            <table class="table table-hover">
-                                <thead class="table-light">
+                        <!-- Ingredients List View -->
+                        <div class="table-responsive d-none table-content" id="ingredientsList">
+                            <table id="ingredientsDataTable" class="table table-hover table-rounded table-row-bordered gy-3 gs-3" width="100%">
+                                <thead class="fw-bold fs-6 text-gray-800">
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Tên nguyên liệu</th>
-                                        <th scope="col">Danh mục</th>
-                                        <th scope="col">Đơn vị</th>
-                                        <th scope="col">Số lượng</th>
-                                        <th scope="col">Trạng thái</th>
-                                        <th scope="col">Cập nhật</th>
-                                        <th scope="col">Thao tác</th>
+                                        <th>STT</th>
+                                        <th>Mã</th>
+                                        <th>Tên nguyên liệu</th>
+                                        <th>Danh mục</th>
+                                        <th>Đơn vị</th>
+                                        <th>Tồn kho</th>
+                                        <th>Trạng thái</th>
+                                        <th>Giá TB</th>
+                                        <th>Hạn sử dụng</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Cà phê Arabica Colombia</td>
-                                        <td>Cà phê Arabica</td>
-                                        <td>Kg</td>
-                                        <td>15.5</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>23/04/2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(1)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(1)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Cà phê Robusta Việt Nam</td>
-                                        <td>Cà phê Robusta</td>
-                                        <td>Kg</td>
-                                        <td>2.3</td>
-                                        <td><span class="badge bg-warning text-dark">Sắp hết</span></td>
-                                        <td>22/04/2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(2)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(2)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Sữa tươi không đường</td>
-                                        <td>Sữa và kem</td>
-                                        <td>Lít</td>
-                                        <td>8.0</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>23/04/2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(3)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(3)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Trà xanh Thái Nguyên</td>
-                                        <td>Trà và nguyên liệu trà</td>
-                                        <td>Kg</td>
-                                        <td>5.2</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>21/04/2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(4)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(4)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">5</th>
-                                        <td>Đường nâu</td>
-                                        <td>Đường và hương liệu</td>
-                                        <td>Kg</td>
-                                        <td>12.0</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>20/04/2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(5)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(5)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Siro hương vani</td>
-                                        <td>Đường và hương liệu</td>
-                                        <td>Chai</td>
-                                        <td>0</td>
-                                        <td><span class="badge bg-danger">Hết hàng</span></td>
-                                        <td>19/04/2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(6)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(6)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">7</th>
-                                        <td>Ly giấy 12oz</td>
-                                        <td>Đồ dùng và vật tư</td>
-                                        <td>Hộp</td>
-                                        <td>1.5</td>
-                                        <td><span class="badge bg-warning text-dark">Sắp hết</span></td>
-                                        <td>22/04/2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(7)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(7)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">8</th>
-                                        <td>Bánh quy bơ</td>
-                                        <td>Đồ dùng và vật tư</td>
-                                        <td>Hộp</td>
-                                        <td>--</td>
-                                        <td><span class="badge bg-secondary">Không theo dõi</span></td>
-                                        <td>15/04/2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(8)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(8)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <!-- DataTables sẽ điền dữ liệu vào đây -->
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Ingredients Grid View -->
+                        <div class="row g-3" id="ingredientsGrid">
+                            <!-- Grid items sẽ được điền vào đây bằng JavaScript -->
+                        </div>
+                        <!-- Thêm phần tử này sau div id="ingredientsGrid" -->
+                        <div class="row mt-3" id="gridPagination">
+                            <div class="col-12">
+                                <nav aria-label="Phân trang">
+                                    <ul class="pagination justify-content-center" id="gridPaginationControls">
+                                        <!-- Các nút phân trang sẽ được tạo bằng JavaScript -->
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -893,9 +687,19 @@
                     </div>
                     <div class="modal-body">
                         <form id="addCategoryForm">
+                            <div class="mb-3 d-none">
+                                <label for="categoryIdAdd" class="form-label">Mã định danh</label>
+                                <input type="text" class="form-control" id="categoryIdAdd">
+                            </div>
+
                             <div class="mb-3">
                                 <label for="categoryName" class="form-label">Tên danh mục</label>
                                 <input type="text" class="form-control" id="categoryName" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="categoryCode" class="form-label">Mã danh mục</label>
+                                <input readonly type="text" class="form-control" id="categoryCode" required>
                             </div>
                             <div class="mb-3">
                                 <label for="parentCategory" class="form-label">Danh mục cha</label>
@@ -908,11 +712,41 @@
                                     <option value="5">Đồ dùng và vật tư</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 d-none">
                                 <label for="categoryDescription" class="form-label">Mô tả</label>
                                 <textarea class="form-control" id="categoryDescription" rows="3"></textarea>
                             </div>
                         </form>
+                        <script>
+                            function resetAddCateForm() {
+                                $('#addCategoryForm')[0].reset();
+                                $("#categoryIdAdd").val("0");
+                                $('#parentCategory').val('');
+                                mockCategory = null;
+
+                                $('#addCategoryModal .modal-title').text("Thêm mới danh mục");
+                                $('#saveCategoryBtn').text('Thêm mới');
+                            }
+
+                            function initingredientCategoryOptions(dataList) {
+                                $('#parentCategory').empty(); // Xóa các option cũ
+                                $('#parentCategory').append('<option value="">-- Không có --</option>');
+                                addOptions(dataList, 0);
+                            }
+
+                            // Hàm đệ quy để thêm option
+                            function addOptions(items, level = 0) {
+                                items.forEach(item => {
+                                    let indent = '&nbsp;'.repeat(level * 2); // Thụt lề theo cấp
+                                    $('#parentCategory').append(
+                                        `<option value="${item.id}">${indent}${item.ingredientCategoryName}</option>`
+                                    );
+                                    if (item.childs && item.childs.length > 0) {
+                                        addOptions(item.childs, level + 1);
+                                    }
+                                });
+                            }
+                        </script>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -923,98 +757,110 @@
         </div>
 
         <!-- Add Ingredient Modal -->
-        <div class="modal fade" id="addIngredientModal" tabindex="-1" aria-hidden="true">
+        <!-- Add/Edit Ingredient Modal -->
+        <div class="modal fade" id="ingredientModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Thêm nguyên liệu mới</h5>
+                        <h5 class="modal-title" id="modalTitle">Thêm nguyên liệu mới</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="addIngredientForm">
+                        <form id="ingredientForm">
+                            <input type="hidden" id="ingredientId" name="id" value="0">
+
                             <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ingredientCode" class="form-label">Mã nguyên liệu <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="ingredientCode" name="ingredientCode" required>
+                                </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="ingredientName" class="form-label">Tên nguyên liệu <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="ingredientName" required>
+                                    <input type="text" class="form-control" id="ingredientName" name="ingredientName" required>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="ingredientCategory" class="form-label">Danh mục <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="ingredientCategory" required>
+                                    <label for="ingredientCategoryId" class="form-label">Danh mục <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="ingredientCategoryId" name="ingredientCategoryId" required>
                                         <option value="">-- Chọn danh mục --</option>
-                                        <option value="1-1">Cà phê Arabica</option>
-                                        <option value="1-2">Cà phê Robusta</option>
-                                        <option value="2">Sữa và kem</option>
-                                        <option value="3">Đường và hương liệu</option>
-                                        <option value="4">Trà và nguyên liệu trà</option>
-                                        <option value="5">Đồ dùng và vật tư</option>
+                                        <!-- Danh mục sẽ được điền vào đây bằng JavaScript -->
                                     </select>
                                 </div>
-                            </div>
-
-                            <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="ingredientUnit" class="form-label">Đơn vị <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="ingredientUnit" required>
+                                    <label for="unitId" class="form-label">Đơn vị <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="unitId" name="unitId" required>
                                         <option value="">-- Chọn đơn vị --</option>
-                                        <option value="kg">Kg</option>
-                                        <option value="g">Gram</option>
-                                        <option value="l">Lít</option>
-                                        <option value="ml">Mililít</option>
-                                        <option value="box">Hộp</option>
-                                        <option value="bottle">Chai</option>
-                                        <option value="pack">Gói</option>
-                                        <option value="piece">Cái</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="ingredientStatus" class="form-label">Trạng thái</label>
-                                    <select class="form-select" id="ingredientStatus">
-                                        <option value="active">Đang sử dụng</option>
-                                        <option value="inactive">Ngừng sử dụng</option>
+                                        <!-- Đơn vị sẽ được điền vào đây bằng JavaScript -->
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="ingredientQuantity" class="form-label">Số lượng hiện tại</label>
-                                    <input type="number" class="form-control" id="ingredientQuantity" step="0.01" min="0">
+                                    <label for="supplierId" class="form-label">Nhà cung cấp</label>
+                                    <select class="form-select" id="supplierId" name="supplierId">
+                                        <option value="">-- Chọn nhà cung cấp --</option>
+                                        <!-- Nhà cung cấp sẽ được điền vào đây bằng JavaScript -->
+                                    </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="ingredientMinQuantity" class="form-label">Số lượng tối thiểu</label>
-                                    <input type="number" class="form-control" id="ingredientMinQuantity" step="0.01" min="0">
-                                    <div class="form-text">Cảnh báo khi số lượng dưới mức này</div>
+                                    <label for="averagePrice" class="form-label">Giá trung bình</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="averagePrice" name="averagePrice" min="0" step="1000">
+                                        <span class="input-group-text">VNĐ</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="selfLife" class="form-label">Hạn sử dụng (ngày)</label>
+                                    <input type="number" class="form-control" id="selfLife" name="selfLife" min="0">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label d-block">Trạng thái</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="active" id="activeTrue" value="true" checked>
+                                        <label class="form-check-label" for="activeTrue">Đang sử dụng</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="active" id="activeFalse" value="false">
+                                        <label class="form-check-label" for="activeFalse">Ngừng sử dụng</label>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="ingredientDescription" class="form-label">Mô tả</label>
-                                <textarea class="form-control" id="ingredientDescription" rows="3"></textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="ingredientSupplier" class="form-label">Nhà cung cấp</label>
-                                <select class="form-select" id="ingredientSupplier">
-                                    <option value="">-- Chọn nhà cung cấp --</option>
-                                    <option value="1">Công ty TNHH Cà phê Việt</option>
-                                    <option value="2">Công ty CP Thực phẩm ABC</option>
-                                    <option value="3">Công ty TNHH XYZ</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="trackInventory" checked>
-                                    <label class="form-check-label" for="trackInventory">
-                                        Theo dõi tồn kho
-                                    </label>
-                                </div>
+                                <label for="description" class="form-label">Mô tả</label>
+                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         <button type="button" class="btn btn-primary" id="saveIngredientBtn">Lưu nguyên liệu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Xác nhận xóa</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn xóa nguyên liệu "<span id="deleteIngredientName"></span>"?</p>
+                        <p class="text-danger"><i class="fas fa-exclamation-triangle me-2"></i>Hành động này không thể hoàn tác!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Xóa</button>
                     </div>
                 </div>
             </div>
@@ -1055,79 +901,43 @@
 </div>
 <!--begin:Base load data-->
 <script>
-    $(document).ready(function() {
-        // Toggle tree view
-        $('.tree-toggle').click(function(e) {
-            e.stopPropagation();
-            const $icon = $(this).find('i');
-            const $parent = $(this).parent();
-            const $ul = $parent.siblings('ul');
+    let mockCategory;
+    let ingredientsTable;
+    let currentCategoryId = 'all';
+    let currentView = 'grid';
+    let currentGridPage = 0;
 
-            $ul.slideToggle(200);
+    $(document).ready(function () {
 
-            if ($icon.hasClass('fa-chevron-right')) {
-                $icon.removeClass('fa-chevron-right').addClass('fa-chevron-down');
-            } else {
-                $icon.removeClass('fa-chevron-down').addClass('fa-chevron-right');
-            }
+        $('#addCategoryModal').on('hidden.bs.modal', function () {
+            resetAddCateForm();
         });
 
-        // Select tree item
-        $('.tree-item').click(function() {
-            $('.tree-item').removeClass('active');
-            $(this).addClass('active');
+        initIngredientsDataTable();
+        loadFormSelectOptions();
+        // Khởi tạo các sự kiện
+        initEvents();
 
-            // Update breadcrumb and title
-            const categoryName = $(this).find('.tree-label').text();
-            $('.breadcrumb-item.active').text(categoryName);
-            $('.toolbar h4').text(categoryName);
+        // Tải dữ liệu ban đầu
+        loadIngredients('all');
+    });
+
+        $('#categoryName').on('input', function () {
+            var name = $(this).val();
+            var code = generateIgCode(name);
+            $('#categoryCode').val(code);
         });
 
-        // Toggle view (Grid/List)
-        $('#viewGrid').click(function() {
-            $(this).addClass('active');
-            $('#viewList').removeClass('active');
-            $('#ingredientsGrid').removeClass('d-none');
-            $('#ingredientsList').addClass('d-none');
-        });
-
-        $('#viewList').click(function() {
-            $(this).addClass('active');
-            $('#viewGrid').removeClass('active');
-            $('#ingredientsList').removeClass('d-none');
-            $('#ingredientsGrid').addClass('d-none');
-        });
-
-        // Search ingredients
-        $('#searchIngredient').on('input', function() {
-            const searchTerm = $(this).val().toLowerCase();
-
-            // Search in grid view
-            $('#ingredientsGrid .card-ingredient').each(function() {
-                const ingredientName = $(this).find('.card-title').text().toLowerCase();
-                if (ingredientName.includes(searchTerm)) {
-                    $(this).parent().show();
-                } else {
-                    $(this).parent().hide();
-                }
-            });
-
-            // Search in list view
-            $('#ingredientsList tbody tr').each(function() {
-                const ingredientName = $(this).find('td:nth-child(2)').text().toLowerCase();
-                if (ingredientName.includes(searchTerm)) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
+        $('#ingredientName').on('input', function () {
+            var name = $(this).val();
+            var code = generateIgCode(name);
+            $('#ingredientCode').val(code);
         });
 
         // Search categories
-        $('#searchCategory').on('input', function() {
+        $('#searchCategory').on('input', function () {
             const searchTerm = $(this).val().toLowerCase();
-
-            $('.tree-view li').each(function() {
+            $('.tree-view li').each(function () {
                 const categoryName = $(this).find('.tree-label').first().text().toLowerCase();
                 if (categoryName.includes(searchTerm)) {
                     $(this).show();
@@ -1138,10 +948,8 @@
         });
 
         // Save category
-        $('#saveCategoryBtn').click(function() {
-            const categoryName = $('#categoryName').val();
-
-            if (!categoryName) {
+        $('#saveCategoryBtn').click(function () {
+            if (!$('#categoryName').val()) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi',
@@ -1150,51 +958,60 @@
                 return;
             }
 
-            // Here you would save the category to the database
+            const submitCateBtn = document.getElementById('saveCategoryBtn');
+            submitCateBtn.setAttribute('data-kt-indicator', 'on');
+            // Disable button to avoid multiple click
+            submitCateBtn.disabled = true;
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Thành công',
-                text: 'Đã thêm danh mục mới!'
-            }).then(() => {
-                $('#addCategoryModal').modal('hide');
-                $('#addCategoryForm')[0].reset();
-
-                // Reload or update the category tree
-            });
-        });
-
-        // Save ingredient
-        $('#saveIngredientBtn').click(function() {
-            const ingredientName = $('#ingredientName').val();
-            const ingredientCategory = $('#ingredientCategory').val();
-            const ingredientUnit = $('#ingredientUnit').val();
-
-            if (!ingredientName || !ingredientCategory || !ingredientUnit) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Vui lòng điền đầy đủ thông tin bắt buộc!'
-                });
-                return;
+            var updateCateObj = {
+                "id": $("#categoryIdAdd").val() || 0,
+                "ingredientCategoryName": $('#categoryName').val(),
+                "ingredientCategoryCode": $('#categoryCode').val(),
+                "parentCategory": $('#parentCategory').val() || null,
             }
+            $.ajax({
+                url: systemURL + "ingredientCategory/api/addOrUpdate",
+                type: "POST",
+                data: JSON.stringify(updateCateObj),
+                contentType: "application/json",
+                success: function (responseData) {
+                    // debugger;
+                    if (responseData.status == 200 && responseData.message === "SUCCESS") {
+                        Swal.fire(
+                            'Thành công!',
+                            'Đã cập nhật dữ liệu',
+                            'success'
+                        ).then(() => {
+                            $('#addCategoryModal').modal('hide');
+                            resetAddCateForm();
+                            updateCateObj = responseData.data;
+                            initIngredientCategories();
+                            // Reload or update the category tree
+                        });
 
-            // Here you would save the ingredient to the database
-
-            Swal.fire({
-                icon: 'success',
-                title: 'Thành công',
-                text: 'Đã thêm nguyên liệu mới!'
-            }).then(() => {
-                $('#addIngredientModal').modal('hide');
-                $('#addIngredientForm')[0].reset();
-
-                // Reload or update the ingredients list
+                        // Remove loading indication
+                        submitCateBtn.removeAttribute('data-kt-indicator');
+                        // Enable button
+                        submitCateBtn.disabled = false;
+                    }
+                },
+                error: function (e) {
+                    //console.log(e.message);
+                    Swal.fire(
+                        'Lỗi!',
+                        'Đã xảy ra lỗi, vui lòng thử lại',
+                        'error'
+                    );
+                    // Remove loading indication
+                    submitCateBtn.removeAttribute('data-kt-indicator');
+                    // Enable button
+                    submitCateBtn.disabled = false;
+                }
             });
         });
 
         // Import ingredients
-        $('#importBtn').click(function() {
+        $('#importBtn').click(function () {
             const importFile = $('#importFile').val();
 
             if (!importFile) {
@@ -1221,7 +1038,7 @@
         });
 
         // Export ingredients
-        $('#exportIngredientsBtn').click(function() {
+        $('#exportIngredientsBtn').click(function () {
             // Here you would generate and download the Excel file
 
             Swal.fire({
@@ -1231,146 +1048,825 @@
             });
         });
 
-        // Edit category function
-        function editCategory(categoryId) {
-            // Prevent event propagation
-            event.stopPropagation();
+        function initIngredientsDataTable() {
+            ingredientsTable = $('#ingredientsDataTable').DataTable({
+                processing: true,
+                serverSide: true,
+                paging: true,
+                searching: { regex: true },
+                order: [1, 'desc'],
+                "oLanguage": {
+                    "sUrl": "/js/Vietnamese.json"
+                },
+                ajax: {
+                    url: systemURL + "Ingredient/api/list-server-side",
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: function (d) {
+                        // Thêm tham số lọc theo danh mục
+                        d.CategoryId = currentCategoryId !== 'all' &&
+                            currentCategoryId !== 'favorites' &&
+                            currentCategoryId !== 'low-stock' ?
+                            currentCategoryId.replace('category-', '') : 0;
 
-            // Here you would fetch the category data from the database
-            // For demo, we'll use mock data
-            const mockCategory = {
-                id: categoryId,
-                name: 'Danh mục ' + categoryId,
-                parentId: null,
-                description: 'Mô tả danh mục ' + categoryId
+                        // Thêm tham số cảnh báo tồn kho thấp
+                        d.Warning = currentCategoryId === 'low-stock';
+                        d.SearchAll = "";
+                        return JSON.stringify(d);
+                    }
+                },
+                columns: [
+                    {
+                        data: 'id',
+                        width: '5%',
+                        render: function (data, type, row, meta) {
+                            var info = ingredientsTable.page.info();
+                            var stt = meta.row + 1 + info.page * info.length;
+                            return stt; // This contains the row index
+                        }
+                    },
+                    { data: "ingredientCode", 
+                      width: "5%",
+                      visible: false
+                    },
+                    { data: "ingredientName", width: "20%"  },
+                    { data: "ingredientCategoryName", width: "10%" },
+                    { data: "unitName", width: "8%" },
+                    {
+                        data: "totalInvemtory",
+                        width: "8%",
+                        render: function (data) {
+                            return data || 0;
+                        }
+                    },
+                    {
+                        data: "inventoryStatus",
+                        width: "10%",
+                        render: function (data) {
+                            let badgeClass = 'bg-success';
+                            if (data === 'Hết hàng') {
+                                badgeClass = 'bg-danger';
+                            } else if (data === 'Cảnh báo') {
+                                badgeClass = 'bg-warning text-dark';
+                            }
+                            return `<span class="badge ${badgeClass}">${data}</span>`;
+                        }
+                    },
+                    {
+                        data: "averagePrice",
+                        width: "10%",
+                        render: function (data) {
+                            return data ? data.toLocaleString('vi-VN') + 'đ' : '';
+                        }
+                    },
+                    {
+                        data: "selfLife",
+                        width: "8%",
+                        visible: true,
+                        render: function (data) {
+                            return data ? data + ' ngày' : '';
+                        }
+                    },
+                    {
+                        data: "createdTime",
+                        // width: "10%",   
+                        render: function (data) {
+                            return data ? new Date(data).toLocaleDateString('vi-VN') : '';
+                        }
+                    },
+                    {
+                        data: "id",
+                        width: "50px",
+                        orderable: false,
+                        render: function (data, type, row, meta) {
+                            return `
+                            <div class='d-flex justify-content-center gap-2'>
+                                <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(${row.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(${row.id}, '${row.ingredientName}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                </div>
+                            `;
+                        }
+                    }
+                ],
+                dom: '<"d-flex justify-content-between align-items-center"l i>rtp', // Ẩn thanh tìm kiếm mặc định của DataTables
+                lengthMenu: [8, 10, 25, 50, 100],
+                pageLength: 8,
+                info: true,
+                responsive: true,
+                drawCallback: function (settings) {
+                    const api = this.api();
+                    const pageInfo = api.page.info();
+                    // Nếu đang ở chế độ xem lưới, cập nhật grid view
+                    if (currentView === 'grid') {
+                        updateGridView(settings.json.data);
+                        updateGridPagination(pageInfo);
+                        // Đồng bộ trang hiện tại
+                        currentGridPage = pageInfo.page;
+                    }
+                }
+            });
+        }
+
+        function updateGridPagination(pageInfo) {
+            const totalPages = pageInfo.pages;
+            const currentPage = pageInfo.page;
+
+            if (totalPages <= 1) {
+                // Ẩn phân trang nếu chỉ có 1 trang
+                $('#gridPagination').addClass('d-none');
+                return;
+            }
+
+            $('#gridPagination').removeClass('d-none');
+
+            let paginationHtml = '';
+
+            // Nút "Trước"
+            paginationHtml += `
+                <li class="page-item ${currentPage === 0 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="previous" aria-label="Trước">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            `;
+
+            // Các nút số trang
+            const startPage = Math.max(0, currentPage - 2);
+            const endPage = Math.min(totalPages - 1, currentPage + 2);
+
+            // Hiển thị "..." nếu không bắt đầu từ trang 0
+            if (startPage > 0) {
+                paginationHtml += `
+                    <li class="page-item">
+                        <a class="page-link" href="#" data-page="0">1</a>
+                    </li>
+                `;
+
+                if (startPage > 1) {
+                    paginationHtml += `
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                    `;
+                }
+            }
+
+            // Hiển thị các trang xung quanh trang hiện tại
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHtml += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i + 1}</a>
+                    </li>
+                `;
+            }
+
+            // Hiển thị "..." nếu không kết thúc ở trang cuối
+            if (endPage < totalPages - 1) {
+                if (endPage < totalPages - 2) {
+                    paginationHtml += `
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                    `;
+                }
+
+                paginationHtml += `
+                    <li class="page-item">
+                        <a class="page-link" href="#" data-page="${totalPages - 1}">${totalPages}</a>
+                    </li>
+                `;
+            }
+
+            // Nút "Sau"
+            paginationHtml += `
+                <li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="next" aria-label="Sau">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            `;
+
+            $('#gridPaginationControls').html(paginationHtml);
+        }
+
+        function initEvents() {
+            // Sự kiện chuyển đổi chế độ xem
+            $('#viewGrid').click(function () {
+                $(this).addClass('active');
+                $('#viewList').removeClass('active');
+                $('#ingredientsGrid').removeClass('d-none');
+                $('#ingredientsList').addClass('d-none');
+                $('#gridPagination').removeClass('d-none');
+                currentView = 'grid';
+            });
+
+            $('#viewList').click(function () {
+                $(this).addClass('active');
+                $('#viewGrid').removeClass('active');
+                $('#ingredientsList').removeClass('d-none');
+                $('#ingredientsGrid').addClass('d-none');
+                $('#gridPagination').addClass('d-none');
+                currentView = 'list';
+            });
+
+            // Sự kiện tìm kiếm
+            $('#searchIngredient').on('keyup', function () {
+                ingredientsTable.search($(this).val()).draw();
+            });
+
+            // Sự kiện lưu nguyên liệu
+            $('#saveIngredientBtn').click(function () {
+                saveIngredient();
+            });
+
+            // Sự kiện xác nhận xóa
+            $('#confirmDeleteBtn').click(function () {
+                const ingredientId = $(this).data('id');
+                confirmDeleteIngredient(ingredientId);
+            });
+
+            // Sự kiện mở modal thêm mới
+            $('#addIngredientBtn').click(function () {
+                openIngredientModal();
+            });
+
+            $(document).on('click', '#gridPaginationControls .page-link', function(e) {
+                e.preventDefault();
+
+                const page = $(this).data('page');
+
+                // Nếu là nút "Trước" hoặc "Sau"
+                if (page === 'previous') {
+                    ingredientsTable.page('previous').draw('page');
+                } else if (page === 'next') {
+                    ingredientsTable.page('next').draw('page');
+                } else {
+                    // Nếu là nút số trang
+                    ingredientsTable.page(page).draw('page');
+                }
+            });
+        }
+
+        function loadIngredients(categoryId) {
+            currentCategoryId = categoryId;
+
+            // Hiển thị loading
+            $('#ingredientsGrid').html('<div class="col-12 text-center py-4"><div class="spinner-border text-primary" role="status"></div><div class="mt-2">Đang tải danh sách nguyên liệu...</div></div>');
+
+            // Reload DataTable với tham số mới
+            ingredientsTable.ajax.reload();
+        }
+
+        function updateGridView(data) {
+            if (!data || data.length === 0) {
+                $('#ingredientsGrid').html('<div class="col-12 text-center py-4">Không có nguyên liệu nào trong danh mục này.</div>');
+                return;
+            }
+
+            let gridHtml = '';
+
+            data.forEach(ingredient => {
+                // Xác định trạng thái tồn kho
+                let stockStatus = 'success';
+                let stockText = 'Còn hàng';
+
+                if (ingredient.inventoryStatus === 'Hết hàng') {
+                    stockStatus = 'danger';
+                    stockText = 'Hết hàng';
+                } else if (ingredient.inventoryStatus === 'Cảnh báo') {
+                    stockStatus = 'warning text-dark';
+                    stockText = 'Sắp hết';
+                }
+
+                // Xác định trạng thái hoạt động
+                const activeStatus = ingredient.active ? 'status-active' : 'status-inactive';
+                const activeText = ingredient.active ? 'Đang sử dụng' : 'Ngừng sử dụng';
+
+                // Xác định icon phù hợp với loại nguyên liệu
+                let iconClass = 'fas fa-box';
+                if (ingredient.ingredientName) {
+                    const categoryName = ingredient.ingredientName.toLowerCase();
+                    if (categoryName.includes('cà phê') || categoryName.includes('cafe')) {
+                        iconClass = 'fas fa-coffee';
+                    } else if (categoryName.includes('sữa') || categoryName.includes('kem')) {
+                        iconClass = 'fa-solid fa-ice-cream';
+                    } else if (categoryName.includes('trà') || categoryName.includes('tea') || categoryName.includes('matcha')) {
+                        iconClass = 'fas fa-leaf';
+                    } else if (categoryName.includes('đường') || categoryName.includes('ngọt')) {
+                        iconClass = 'fas fa-cubes';
+                    } else if (categoryName.includes('siro') || categoryName.includes('hương')) {
+                        iconClass = 'fas fa-tint';
+                    }
+                    else if (categoryName.includes('bánh') || categoryName.includes('món ăn')) {
+                        iconClass = 'fas fa-bread-slice';
+                    } else if (categoryName.includes('trái cây') || categoryName.includes('rau củ')) {
+                        iconClass = 'fas fa-apple-alt';
+                    } else if (categoryName.includes('thực phẩm') || categoryName.includes('nguyên liệu')) {
+                        iconClass = 'fas fa-carrot';
+                    }
+                    else if (categoryName.includes('đồ uống') || categoryName.includes('nước')) {
+                        iconClass = 'fas fa-glass-whiskey';
+                    } else if (categoryName.includes('đá') || categoryName.includes('đá viên')) {
+                        iconClass = 'fas fa-ice-cream';
+                    } else if (categoryName.includes('bột') || categoryName.includes('nguyên liệu khô')) {
+                        iconClass = 'fas fa-powder-horn';
+                    } else if (categoryName.includes('gia vị') || categoryName.includes('hương liệu')) {
+                        iconClass = 'fas fa-pepper-hot';
+                    }else{
+                        iconClass = 'fas fa-box';
+                    }
+                }
+
+                // Format ngày tạo
+                const createdDate = new Date(ingredient.createdTime);
+                const formattedDate = createdDate.toLocaleDateString('vi-VN');
+
+                gridHtml += `
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="card card-ingredient">
+                            <div class="card-img-top">
+                                <i class="${iconClass} card-img-icon"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${ingredient.ingredientName}</h5>
+                                <p class="card-text">
+                                    <span class="status-indicator ${activeStatus}"></span> ${activeText}
+                                </p>
+                                <p class="card-text">
+                                    <small>Đơn vị: ${ingredient.unitName || 'Chưa xác định'}</small>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-${stockStatus}">${stockText}</span>
+                                    <span class="fw-bold">${ingredient.totalInvemtory || 0} ${ingredient.unitName || ''}</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">Cập nhật: ${formattedDate}</small>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editIngredient(${ingredient.id})">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteIngredient(${ingredient.id}, '${ingredient.ingredientName}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            $('#ingredientsGrid').html(gridHtml);
+        }
+
+        async function openIngredientModal(ingredient = null) {
+            
+            // Reset form
+            $('#ingredientForm')[0].reset();
+
+            // Cập nhật tiêu đề modal
+            if (ingredient) {
+                $('#modalTitle').text('Chỉnh sửa nguyên liệu');
+                $('#saveIngredientBtn').text('Cập nhật');
+
+                // Điền dữ liệu vào form
+                $('#ingredientId').val(ingredient.id);
+                $('#ingredientCode').val(ingredient.ingredientCode);
+                $('#ingredientName').val(ingredient.ingredientName);
+                $('#ingredientCategoryId').val(ingredient.ingredientCategoryId);
+                $('#unitId').val(ingredient.unitId);
+                $('#supplierId').val(ingredient.supplierId);
+                $('#averagePrice').val(ingredient.averagePrice);
+                $('#selfLife').val(ingredient.selfLife);
+                $('#description').val(ingredient.description);
+
+                // Cập nhật trạng thái
+                if (ingredient.active) {
+                    $('#activeTrue').prop('checked', true);
+                } else {
+                    $('#activeFalse').prop('checked', true);
+                }
+            } else {
+                $('#modalTitle').text('Thêm nguyên liệu mới');
+                $('#saveIngredientBtn').text('Thêm mới');
+                $('#ingredientId').val(0);
+                $('#activeTrue').prop('checked', true);
+            }
+
+            // Tải danh sách danh mục, đơn vị, nhà cung cấp nếu chưa có
+            
+
+            // Hiển thị modal
+            $('#ingredientModal').modal('show');
+        }
+
+        function loadFormSelectOptions() {
+            // Tải danh mục nguyên liệu
+            if ($('#ingredientCategoryId option').length <= 1) {
+                $.ajax({
+                    url: systemURL + "IngredientCategory/api/list",
+                    type: "GET",
+                    success: function (response) {
+                        if (response.status === "200" && Array.isArray(response.data)) {
+                            let options = '<option value="">-- Chọn danh mục --</option>';
+                            response.data.forEach(category => {
+                                options += `<option value="${category.id}">${category.ingredientCategoryName}</option>`;
+                            });
+                            $('#ingredientCategoryId').html(options);
+                        }
+                    }
+                });
+            }
+            // Tải đơn vị
+            if ($('#unitId option').length <= 1) {
+                $.ajax({
+                    url: systemURL + "Unit/api/list",
+                    type: "GET",
+                    success: function (response) {
+                        if (response.status === "200" && Array.isArray(response.data)) {
+                            let options = '<option value="">-- Chọn đơn vị --</option>';
+                            response.data.forEach(unit => {
+                                options += `<option value="${unit.id}">${unit.unitName}</option>`;
+                            });
+                            $('#unitId').html(options);
+                        }
+                    }
+                });
+            }
+
+            // Tải nhà cung cấp
+            if ($('#supplierId option').length <= 1) {
+                $.ajax({
+                    url: systemURL + "Supplier/api/list",
+                    type: "GET",
+                    success: function (response) {
+                        if (response.status === "200" && Array.isArray(response.data)) {
+                            let options = '<option value="">-- Chọn nhà cung cấp --</option>';
+                            response.data.forEach(supplier => {
+                                options += `<option value="${supplier.id}">${supplier.supplierName}</option>`;
+                            });
+                            $('#supplierId').html(options);
+                        }
+                    }
+                });
+            }
+        }
+
+        function saveIngredient() {
+            // Kiểm tra form
+            if (!validateIngredientForm()) {
+                return;
+            }
+
+            // Thu thập dữ liệu từ form
+            const ingredientData = {
+                id: parseInt($('#ingredientId').val()),
+                ingredientCode: $('#ingredientCode').val(),
+                ingredientName: $('#ingredientName').val(),
+                ingredientCategoryId: parseInt($('#ingredientCategoryId').val()),
+                unitId: parseInt($('#unitId').val()),
+                supplierId: $('#supplierId').val() ? parseInt($('#supplierId').val()) : null,
+                averagePrice: $('#averagePrice').val() ? parseFloat($('#averagePrice').val()) : 0,
+                selfLife: $('#selfLife').val() ? parseInt($('#selfLife').val()) : 0,
+                active: $('input[name="active"]:checked').val() === 'true',
+                description: $('#description').val()
             };
 
+            // Xác định URL và phương thức
+            const isNew = ingredientData.id === 0;
+            const url = systemURL + "Ingredient/api/" + (isNew ? "add" : "update");
+            const method = "POST";
+            const statusCode = isNew ? "201" : "200";
+            // Hiển thị loading
+            $('#saveIngredientBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang lưu...').prop('disabled', true);
+
+            // Gọi API
+            $.ajax({
+                url: url,
+                type: method,
+                contentType: "application/json",
+                data: JSON.stringify(ingredientData),
+                success: function (response) {
+                    if (response.status === statusCode) {
+                        // Hiển thị thông báo thành công
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: isNew ? 'Đã thêm nguyên liệu mới!' : 'Đã cập nhật nguyên liệu!'
+                        });
+
+                        // Đóng modal
+                        $('#ingredientModal').modal('hide');
+
+                        // Tải lại dữ liệu
+                        ingredientsTable.ajax.reload();
+                    } else {
+                        // Hiển thị thông báo lỗi
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: response.message || 'Đã xảy ra lỗi khi lưu nguyên liệu!'
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    // Hiển thị thông báo lỗi
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi khi lưu nguyên liệu!'
+                    });
+                    console.error('Lỗi khi lưu nguyên liệu:', xhr);
+                },
+                complete: function () {
+                    // Khôi phục nút lưu
+                    $('#saveIngredientBtn').html('Lưu nguyên liệu').prop('disabled', false);
+                }
+            });
+        }
+
+        function validateIngredientForm() {
+            // Kiểm tra các trường bắt buộc
+            if (!$('#ingredientCode').val()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Thiếu thông tin',
+                    text: 'Vui lòng nhập mã nguyên liệu!'
+                });
+                return false;
+            }
+
+            if (!$('#ingredientName').val()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Thiếu thông tin',
+                    text: 'Vui lòng nhập tên nguyên liệu!'
+                });
+                return false;
+            }
+
+            if (!$('#ingredientCategoryId').val()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Thiếu thông tin',
+                    text: 'Vui lòng chọn danh mục nguyên liệu!'
+                });
+                return false;
+            }
+
+            if (!$('#unitId').val()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Thiếu thông tin',
+                    text: 'Vui lòng chọn đơn vị tính!'
+                });
+                return false;
+            }
+
+            return true;
+        }
+
+        function deleteIngredient(id, name) {
+            $('#deleteIngredientName').text(name);
+            $('#confirmDeleteBtn').data('id', id);
+            $('#deleteModal').modal('show');
+        }
+
+        /**
+         * Xác nhận xóa nguyên liệu
+         * @@param {number} id - ID của nguyên liệu
+         */
+        async function confirmDeleteIngredient(id) {
+            // Hiển thị loading
+            $('#confirmDeleteBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xóa...').prop('disabled', true);
+
+            const response = await $.ajax({
+                url: systemURL + `Ingredient/api/detail/${id}`,
+                type: "GET"
+            });
+
+            var objDel = response.data[0];
+            objDel.id = id;
+
+            // Gọi API xóa
+            $.ajax({
+                url: systemURL + "Ingredient/api/delete",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(objDel),
+                success: function (response) {
+                    if (response.status === "200") {
+                        // Hiển thị thông báo thành công
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Đã xóa nguyên liệu!'
+                        });
+
+                        // Đóng modal
+                        $('#deleteModal').modal('hide');
+
+                        // Tải lại dữ liệu
+                        ingredientsTable.ajax.reload();
+                    } else {
+                        // Hiển thị thông báo lỗi
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: response.message || 'Đã xảy ra lỗi khi xóa nguyên liệu!'
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    // Hiển thị thông báo lỗi
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi khi xóa nguyên liệu!'
+                    });
+                    console.error('Lỗi khi xóa nguyên liệu:', xhr);
+                },
+                complete: function () {
+                    // Khôi phục nút xóa
+                    $('#confirmDeleteBtn').html('Xóa').prop('disabled', false);
+                }
+            });
+        }
+
+        async function editIngredient(id) {
+            
+        let loadingTimeout;
+
+        try {
+            // Hẹn giờ 300ms mới hiện loading
+            loadingTimeout = setTimeout(() => {
+                Swal.fire({
+                    title: 'Đang tải...',
+                    html: 'Vui lòng chờ trong giây lát',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            }, 300);
+
+            // Đợi API lấy chi tiết nguyên liệu
+            const response = await $.ajax({
+                url: systemURL + `Ingredient/api/detail/${id}`,
+                type: "GET"
+            });
+
+            clearTimeout(loadingTimeout); // Nếu API xong sớm thì hủy loading
+            Swal.close();
+
+            if (response.status === "200" && response.data) {
+                await openIngredientModal(response.data[0]); // <-- chờ mở modal luôn
+            } else {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Không thể tải thông tin nguyên liệu!'
+                });
+            }
+        } catch (error) {
+            clearTimeout(loadingTimeout);
+            Swal.close();
+
+            await Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Đã xảy ra lỗi khi tải thông tin nguyên liệu!'
+            });
+            console.error('Lỗi khi tải thông tin nguyên liệu:', error);
+        }
+    }
+
+
+
+        function handleCategorySelection(categoryId, categoryName) {
+            // Cập nhật breadcrumb và tiêu đề
+            $('.breadcrumb-item.active').text(categoryName);
+            $('.toolbar h4').text(categoryName);
+
+            // Tải danh sách nguyên liệu theo danh mục
+            loadIngredients(categoryId);
+        }
+
+        async function getCateById(id) {
+            var data;
+            await $.ajax({
+                url: systemURL + "ingredientCategory/api/detail/" + id,
+                method: "GET",
+                success: function (responseData) {
+                    data = responseData.data[0];
+                },
+                error: function (e) {
+                },
+            });
+            return data;
+        }
+
+        function generateIgCode(str) {
+            return str
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-zA-Z0-9]/g, "")
+                .toLowerCase();
+        }
+
+        // Edit category function
+        async function editCategory(categoryId) {
+            // Prevent event propagation
+            event.stopPropagation();
+            if (categoryId > 0) {
+                mockCategory = await getCateById(categoryId);
+            }
             // Populate the modal with category data
-            $('#categoryName').val(mockCategory.name);
-            $('#parentCategory').val(mockCategory.parentId);
-            $('#categoryDescription').val(mockCategory.description);
+            $('#categoryIdAdd').val(categoryId > 0 ? mockCategory.id : "0");
+            $('#categoryName').val(categoryId > 0 ? mockCategory.ingredientCategoryName : "");
+            $('#categoryCode').val(categoryId > 0 ? mockCategory.ingredientCategoryCode : "");
+            $('#parentCategory').val(categoryId > 0 ? mockCategory.parentCategory : '');
 
             // Change modal title and button text
-            $('#addCategoryModal .modal-title').text('Chỉnh sửa danh mục');
-            $('#saveCategoryBtn').text('Cập nhật danh mục');
+            $('#addCategoryModal .modal-title').text(mockCategory.id > 0 ? 'Chỉnh sửa danh mục nguyên liệu' : "Thêm mới danh mục");
+            $('#saveCategoryBtn').text(mockCategory.id > 0 ? 'Cập nhật' : 'Thêm mới');
 
             // Store category ID in the modal for reference
-            $('#addCategoryModal').data('categoryId', categoryId);
+            $('#addCategoryModal').data('category-Id', categoryId);
 
             // Show the modal
             $('#addCategoryModal').modal('show');
         }
 
         // Delete category function
-        function deleteCategory(categoryId) {
+        async function deleteCategory(id) {
             // Prevent event propagation
             event.stopPropagation();
 
+            const $button = $(event.currentTarget) || this;
+            const objName = $button.closest('.tree-item').find('.tree-label').text().trim();
+
             Swal.fire({
-                title: 'Xác nhận xóa?',
-                text: 'Bạn có chắc chắn muốn xóa danh mục này?',
+                title: 'Xác nhận thay đổi?',
+                text: "Xóa " + objName + "",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
+                confirmButtonText: 'Xoá',
+                cancelButtonText: 'Huỷ'
             }).then((result) => {
-                if (result.isConfirmed) {
-                    // Here you would delete the category from the database
-
-                    Swal.fire(
-                        'Đã xóa!',
-                        'Danh mục đã được xóa thành công.',
-                        'success'
-                    );
-
-                    // Remove the category from the tree
-                    // This is just a simple example, you might need more complex logic
-                    $(`[data-id="category-${categoryId}"]`).parent().remove();
+                if (result.value) {
+                    //CALL AJAX TO DELETE
+                    $.ajax({
+                        url: systemURL + "ingredientCategory/api/delete",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ "id": id, "ingredientCategoryName": objName }),
+                        success: function (responseData) {
+                            // debugger;
+                            if (responseData.status == 200 && responseData.message === "SUCCESS") {
+                                Swal.fire(
+                                    'Thành công!',
+                                    'Đã xoá ' + objName + '.',
+                                    'success'
+                                );
+                                initIngredientCategories();
+                            }
+                        },
+                        error: function (e) {
+                            //console.log(e.message);
+                            Swal.fire(
+                                'Lỗi!',
+                                'Đã xảy ra lỗi, vui lòng thử lại',
+                                'error'
+                            );
+                        }
+                    });
                 }
-            });
+                else {
+                    // Remove loading indication
+                    submitButton.removeAttribute('data-kt-indicator');
+                    // Enable button
+                    submitButton.disabled = false;
+                }
+            })
         }
 
         // Edit ingredient function
-        function editIngredient(ingredientId) {
-            // Here you would fetch the ingredient data from the database
-            // For demo, we'll use mock data
-            const mockIngredient = {
-                id: ingredientId,
-                name: 'Nguyên liệu ' + ingredientId,
-                categoryId: '1-1',
-                unit: 'kg',
-                status: 'active',
-                quantity: 10,
-                minQuantity: 2,
-                description: 'Mô tả nguyên liệu ' + ingredientId,
-                supplierId: 1,
-                trackInventory: true
-            };
-
-            // Populate the modal with ingredient data
-            $('#ingredientName').val(mockIngredient.name);
-            $('#ingredientCategory').val(mockIngredient.categoryId);
-            $('#ingredientUnit').val(mockIngredient.unit);
-            $('#ingredientStatus').val(mockIngredient.status);
-            $('#ingredientQuantity').val(mockIngredient.quantity);
-            $('#ingredientMinQuantity').val(mockIngredient.minQuantity);
-            $('#ingredientDescription').val(mockIngredient.description);
-            $('#ingredientSupplier').val(mockIngredient.supplierId);
-            $('#trackInventory').prop('checked', mockIngredient.trackInventory);
-
-            // Change modal title and button text
-            $('#addIngredientModal .modal-title').text('Chỉnh sửa nguyên liệu');
-            $('#saveIngredientBtn').text('Cập nhật nguyên liệu');
-
-            // Store ingredient ID in the modal for reference
-            $('#addIngredientModal').data('ingredientId', ingredientId);
-
-            // Show the modal
-            $('#addIngredientModal').modal('show');
-        }
-
-        // Delete ingredient function
-        function deleteIngredient(ingredientId) {
-            Swal.fire({
-                title: 'Xác nhận xóa?',
-                text: 'Bạn có chắc chắn muốn xóa nguyên liệu này?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Here you would delete the ingredient from the database
-
-                    Swal.fire(
-                        'Đã xóa!',
-                        'Nguyên liệu đã được xóa thành công.',
-                        'success'
-                    );
-
-                    // Remove the ingredient from the view
-                    // This is just a simple example, you might need more complex logic
-                    // For grid view
-                    $(`#ingredientsGrid .card-ingredient`).filter(function() {
-                        return $(this).find('.btn-outline-danger').attr('onclick').includes(ingredientId);
-                    }).parent().remove();
-
-                    // For list view
-                    $(`#ingredientsList tbody tr`).filter(function() {
-                        return $(this).find('.btn-outline-danger').attr('onclick').includes(ingredientId);
-                    }).remove();
-                }
-            });
-        }
+        
 
         // Make functions globally accessible
-        window.editCategory = editCategory;
-        window.deleteCategory = deleteCategory;
-        window.editIngredient = editIngredient;
-        window.deleteIngredient = deleteIngredient;
-    });
+        // window.editCategory = editCategory;
+        // window.deleteCategory = deleteCategory;
+        // window.editIngredient = editIngredient;
+        // window.deleteIngredient = deleteIngredient;
+    //});
 </script>

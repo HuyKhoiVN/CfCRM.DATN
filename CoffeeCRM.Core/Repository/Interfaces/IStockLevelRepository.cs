@@ -7,6 +7,7 @@
     using CoffeeCRM.Core.Util;
     using CoffeeCRM.Core.Util.Parameters;
     using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.DTO;
 
 
     namespace CoffeeCRM.Core.Repository
@@ -31,6 +32,6 @@
 
             int Count();
 
-            Task <DTResult<StockLevel>> ListServerSide(StockLevelDTParameters parameters);
+            Task <DTResult<StockLevelDto>> ListServerSide(StockLevelDTParameters parameters);
         }
     }

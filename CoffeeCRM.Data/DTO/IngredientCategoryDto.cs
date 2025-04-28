@@ -14,6 +14,6 @@ namespace CoffeeCRM.Data.DTO
         public DateTime CreatedTime { get; set; } = DateTime.Now;
         public bool Active { get; set; } = true;
         public int? ParentCategory { get; set; }
-        public List<IngredientCategoryDto> Childs { get; set; } = new List<IngredientCategoryDto>();
+        public List<IngredientCategoryDto>? Childs { get; set; } = new List<IngredientCategoryDto>();
     }
 }

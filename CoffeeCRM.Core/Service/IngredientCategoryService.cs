@@ -75,6 +75,39 @@ namespace CoffeeCRM.Core.Service
             await ingredientCategoryRepository.Update(obj);
         }
 
+        public async Task<IngredientCategory> AddOrUpdate(IngredientCategoryDto dto)
+        {
+            var code = CodeConnvert.ConvertToCode(dto.IngredientCategoryName);
+            if (dto.Id > 0)
+            {
+                var existingCategory = await ingredientCategoryRepository.Detail(dto.Id);
+                if(existingCategory == null)
+                {
+                    throw new Exception("Category not found");
+                }
+
+                existingCategory.IngredientCategoryCode = code;
+                existingCategory.IngredientCategoryName = dto.IngredientCategoryName;
+                existingCategory.ParentCategory = dto.ParentCategory;
+                existingCategory.Active = true;
+                await ingredientCategoryRepository.Update(existingCategory);
+                return existingCategory;
+            }
+            else
+            {
+                var newCategory = new IngredientCategory
+                {
+                    IngredientCategoryCode = code,
+                    IngredientCategoryName = dto.IngredientCategoryName,
+                    Active = true,
+                    ParentCategory = dto.ParentCategory,
+                    CreatedTime = DateTime.Now
+                };
+                await ingredientCategoryRepository.Add(newCategory);
+                return newCategory;
+            }
+        }
+
         public async Task<List<IngredientCategoryDto>> GetIngredientCategoryTreeAsync()
         {
             // Lấy tất cả danh mục từ database

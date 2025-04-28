@@ -21,5 +21,7 @@ namespace CoffeeCRM.Data.DTO
         public string? IngredientCategoryName { get; set; }
         public string? SupplierName { get; set; }
         public string? UnitName { get; set; }
+        public int? TotalInvemtory { get; set; }
+        public string? InventoryStatus   { get; set; }
     }
 }

@@ -8,9 +8,9 @@
         using System;
         using System.Collections.Generic;
         using System.Threading.Tasks;
-        
-        namespace CoffeeCRM.Core.Service
-        {
+using CoffeeCRM.Data.DTO;
+namespace CoffeeCRM.Core.Service
+{
             public class StockLevelService : IStockLevelService
             {
                 IStockLevelRepository stockLevelRepository;
@@ -59,7 +59,7 @@
                     return await stockLevelRepository.ListPaging(pageIndex, pageSize);
                 }
         
-                public async Task<DTResult<StockLevel>> ListServerSide(StockLevelDTParameters parameters)
+                public async Task<DTResult<StockLevelDto>> ListServerSide(StockLevelDTParameters parameters)
                 {
                     return await stockLevelRepository.ListServerSide(parameters);
                 }

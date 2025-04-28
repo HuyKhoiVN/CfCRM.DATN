@@ -3769,7 +3769,7 @@ textarea.form-control-lg {
 .btn-outline-primary {
     --bs-btn-color: #009ef7;
     --bs-btn-border-color: #009ef7;
-    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-color: #ffffff;
     --bs-btn-hover-bg: #009ef7;
     --bs-btn-hover-border-color: #009ef7;
     --bs-btn-focus-shadow-rgb: 0, 158, 247;
@@ -3854,7 +3854,7 @@ textarea.form-control-lg {
 .btn-outline-danger {
     --bs-btn-color: #f1416c;
     --bs-btn-border-color: #f1416c;
-    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-color: #ffffff;
     --bs-btn-hover-bg: #f1416c;
     --bs-btn-hover-border-color: #f1416c;
     --bs-btn-focus-shadow-rgb: 241, 65, 108;
@@ -40514,7 +40514,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 }
 
 .btn {
-    --bs-btn-color: var(--bs-body-color);
+/*    --bs-btn-color: var(--bs-body-color);*/
     outline: none !important;
 }
 
@@ -56053,7 +56053,7 @@ label.rating-label:hover ~ .rating-label {
 i.bi, i[class^=fonticon-], i[class*=" fonticon-"], i[class^=fa-], i[class*=" fa-"], i[class^=la-], i[class*=" la-"] {
     line-height: 1;
     font-size: 1rem;
-    color: var(--bs-text-muted);
+/*    color: var(--bs-text-muted);*/
 }
 
 a {

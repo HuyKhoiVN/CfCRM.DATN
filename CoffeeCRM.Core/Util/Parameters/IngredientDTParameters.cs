@@ -9,5 +9,7 @@ namespace CoffeeCRM.Core.Util.Parameters
     public class IngredientDTParameters : DTParameters
     {
         public string SearchAll { get; set; } = "";
+        public int? CategoryId { get; set; } = null;
+        public bool? Warning { get; set; } = false;
     }
 }

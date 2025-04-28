@@ -10,6 +10,7 @@ using CoffeeCRM.Core.Util;
 using CoffeeCRM.Data.Constants;
 using CoffeeCRM.Core.Service;
 using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.DTO;
 
 namespace CfCRM.DATN.Controllers
 {
@@ -233,5 +234,20 @@ namespace CfCRM.DATN.Controllers
                 return BadRequest(e);
             }
         }
+
+        [HttpPost("api/addOrUpdate")]
+        public async Task<IActionResult> AddOrUpdate([FromBody] IngredientCategoryDto dto)
+        {
+            try
+            {
+                var result = await service.AddOrUpdate(dto);
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(result);
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }   
     }
 }

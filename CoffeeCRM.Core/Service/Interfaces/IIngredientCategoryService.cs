@@ -11,5 +11,6 @@ namespace CoffeeCRM.Core.Service
     {
         Task<DTResult<IngredientCategory>> ListServerSide(IngredientCategoryDTParameters parameters);
         Task<List<IngredientCategoryDto>> GetIngredientCategoryTreeAsync();
+        Task<IngredientCategory> AddOrUpdate(IngredientCategoryDto dto);
     }
 }

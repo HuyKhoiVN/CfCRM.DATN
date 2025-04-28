@@ -1,15 +1,13 @@
-
-        using CoffeeCRM.Data.Model;
-       using CoffeeCRM.Core.Util;
-        using CoffeeCRM.Core.Util.Parameters;
-        using CoffeeCRM.Data.ViewModels;
-        using System.Threading.Tasks;
-        
-        namespace CoffeeCRM.Core.Service
-        {
-            public interface IIngredientService : IBaseService<Ingredient>
-            {
-                Task<DTResult<Ingredient>> ListServerSide(IngredientDTParameters parameters);
-            }
-        }
-    
+using CoffeeCRM.Data.Model;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
+using System.Threading.Tasks;
+using CoffeeCRM.Data.DTO;
+namespace CoffeeCRM.Core.Service
+{
+    public interface IIngredientService : IBaseService<Ingredient>
+    {
+        Task<DTResult<IngredientDto>> ListServerSide(IngredientDTParameters parameters);
+    }
+}

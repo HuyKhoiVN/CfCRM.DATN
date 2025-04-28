@@ -21,8 +21,8 @@ namespace CoffeeCRM.Data.Model
         public int WarehouseId { get; set; }
         public DateTime LastUpdatedTime { get; set; }
 
-        public virtual Ingredient Ingredient { get; set; } = null!;
-        public virtual Warehouse Warehouse { get; set; } = null!;
+        public virtual Ingredient? Ingredient { get; set; } = null!;
+        public virtual Warehouse? Warehouse { get; set; } = null!;
         public virtual ICollection<InventoryDiscrepancy> InventoryDiscrepancies { get; set; }
         public virtual ICollection<StockTransactionDetail> StockTransactionDetails { get; set; }
     }
