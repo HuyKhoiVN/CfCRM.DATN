@@ -1,4 +1,4 @@
-﻿using CoffeeCRM.Core.Util;
+﻿using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

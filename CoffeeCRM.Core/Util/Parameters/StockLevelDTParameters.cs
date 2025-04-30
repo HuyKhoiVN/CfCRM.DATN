@@ -10,5 +10,6 @@ namespace CoffeeCRM.Core.Util.Parameters
     {
         public string SearchAll { get; set; } = "";
         public int? WarehouseId { get; set; } = null;
+        public bool isWarning { get; set; } = false;
     }
 }

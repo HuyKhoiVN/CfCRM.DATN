@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CoffeeCRM.Core.Repository.Interfaces;
 using CoffeeCRM.Core.Service.Interfaces;
 using CoffeeCRM.Core.Util.Parameters;
-using CoffeeCRM.Core.Util;
+using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
 using CoffeeCRM.Data.Model;
 
 namespace CoffeeCRM.Core.Service

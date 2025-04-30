@@ -1,4 +1,4 @@
-﻿using CoffeeCRM.Core.Util;
+﻿using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
 using CoffeeCRM.Data.Constants;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

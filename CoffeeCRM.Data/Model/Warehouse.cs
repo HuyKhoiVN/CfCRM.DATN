@@ -20,8 +20,8 @@ namespace CoffeeCRM.Data.Model
         public DateTime CreatedTime { get; set; }
         public bool Active { get; set; }
 
-        public virtual ICollection<InventoryAudit> InventoryAudits { get; set; }
-        public virtual ICollection<StockLevel> StockLevels { get; set; }
-        public virtual ICollection<StockTransaction> StockTransactions { get; set; }
+        public virtual ICollection<InventoryAudit>? InventoryAudits { get; set; }
+        public virtual ICollection<StockLevel>? StockLevels { get; set; }
+        public virtual ICollection<StockTransaction>? StockTransactions { get; set; }
     }
 }

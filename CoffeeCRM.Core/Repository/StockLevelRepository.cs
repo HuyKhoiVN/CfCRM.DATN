@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoffeeCRM.Core.Util;
+using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
 using System.Globalization;
@@ -181,6 +181,8 @@ namespace CoffeeCRM.Core.Repository
             var query = from row in db.StockLevels
                         join ingredient in db.Ingredients on row.IngredientId equals ingredient.Id into ingredientGroup
                         from igre in ingredientGroup.DefaultIfEmpty()
+                        join unit in db.Units on igre.UnitId equals unit.Id into unitGroup
+                        from un in unitGroup.DefaultIfEmpty()
                         join warehouse in db.Warehouses on row.WarehouseId equals warehouse.Id into warehouseGroup
                         from ware in warehouseGroup.DefaultIfEmpty()
                         where row.Active
@@ -188,9 +190,13 @@ namespace CoffeeCRM.Core.Repository
                         select new
                         {
                             row,
-                            IngredientName = igre.IngredientName,
+                            igre,
+                            un,
                             WarehouseName = ware.WarehouseName,
                         };
+
+            if (parameters.isWarning)
+                query = query.Where(c => c.row.Quantity <= 3);
 
             if (parameters.WarehouseId > 0)
             {
@@ -208,10 +214,10 @@ namespace CoffeeCRM.Core.Repository
                     EF.Functions.Collate(c.row.ExpirationDate.ToCustomString().ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
                     EF.Functions.Collate(c.row.UnitPrice.ToString().ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
                     EF.Functions.Collate(c.row.CreatedTime.ToCustomString().ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
-                    EF.Functions.Collate(c.row.Active.ToString().ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
                     EF.Functions.Collate(c.row.IngredientId.ToString().ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
                     EF.Functions.Collate(c.row.WarehouseId.ToString().ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
-                    EF.Functions.Collate(c.row.LastUpdatedTime.ToCustomString().ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General))
+                    EF.Functions.Collate(c.row.LastUpdatedTime.ToCustomString().ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
+                    EF.Functions.Collate(c.igre.IngredientName.ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General))
                 );
             }
             foreach (var item in parameters.Columns)
@@ -264,6 +270,9 @@ namespace CoffeeCRM.Core.Repository
                         case "ingredientId":
                             query = query.Where(c => c.row.IngredientId.ToString().Trim().Contains(fillter));
                             break;
+                        case "ingredientName":
+                            query = query.Where(c => c.igre.IngredientName.ToString().Trim().Contains(fillter));
+                            break;
                         case "warehouseId":
                             query = query.Where(c => c.row.WarehouseId.ToString().Trim().Contains(fillter));
                             break;
@@ -298,7 +307,11 @@ namespace CoffeeCRM.Core.Repository
                 IngredientId = c.row.IngredientId,
                 WarehouseId = c.row.WarehouseId,
                 LastUpdatedTime = c.row.LastUpdatedTime,
-
+                IngredientName = c.igre.IngredientName,
+                UnitName = c.un.UnitName,
+                TotalPrice = c.row.Quantity * c.row.UnitPrice,
+                Status = (c.row.Quantity == 0) ? "danger" : (c.row.Quantity <= 3 ? "warning" : "normal"),
+                WarehouseName = c.WarehouseName
             });
             //4. Sort
             query2 = query2.OrderByDynamic<StockLevelDto>(orderCritirea, orderDirectionASC ? LinqExtensions.Order.Asc : LinqExtensions.Order.Desc);

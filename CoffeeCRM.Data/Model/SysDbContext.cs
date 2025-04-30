@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CoffeeCRM.Data.Model
 {
@@ -45,6 +48,23 @@ namespace CoffeeCRM.Data.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDbFunction(typeof(CustomQuery).GetMethod(nameof(CustomQuery.ToCustomString))).HasTranslation(
+                e =>
+                {
+                    return new SqlFunctionExpression(functionName: "format", arguments: new[]{
+                                 e.First(),
+                                 new SqlFragmentExpression("'dd/MM/yyyy HH:mm:ss'")
+                            }, nullable: true, new List<bool>(), type: typeof(string), typeMapping: new StringTypeMapping("", DbType.String));
+                });
+
+            modelBuilder.HasDbFunction(typeof(CustomQuery).GetMethod(nameof(CustomQuery.ToDateString))).HasTranslation(
+                e =>
+                {
+                    return new SqlFunctionExpression(functionName: "format", arguments: new[]{
+                                 e.First(),
+                                 new SqlFragmentExpression("'dd/MM/yyyy'")
+                            }, nullable: true, new List<bool>(), type: typeof(string), typeMapping: new StringTypeMapping("", DbType.String));
+                });
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.ToTable("Account");

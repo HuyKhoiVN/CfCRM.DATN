@@ -2,7 +2,7 @@
         using CoffeeCRM.Data.Model;
         using CoffeeCRM.Core.Repository;
        
-       using CoffeeCRM.Core.Util;
+       using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
         using CoffeeCRM.Core.Util.Parameters;
         using CoffeeCRM.Data.ViewModels;
         using System;

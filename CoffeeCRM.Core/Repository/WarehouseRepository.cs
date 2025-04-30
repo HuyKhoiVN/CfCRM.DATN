@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoffeeCRM.Core.Util;
+using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
 using System.Globalization;
@@ -42,7 +42,7 @@ namespace CoffeeCRM.Core.Repository
                     from stock in stockGroup.DefaultIfEmpty()
                     join ingredient in db.Ingredients on stock.IngredientId equals ingredient.Id into ingredientGroup
                     from ing in ingredientGroup.DefaultIfEmpty()
-                    where (row.Active && stock.Active && ing.Active)
+                    where (row.Active && (stock == null || stock.Active) && (ing == null || ing.Active))
                     group new { row, stock, ing } by new
                     {
                         row.Id,
@@ -91,7 +91,7 @@ namespace CoffeeCRM.Core.Repository
                             from stock in stockGroup.DefaultIfEmpty()
                             join ingredient in db.Ingredients on stock.IngredientId equals ingredient.Id into ingredientGroup
                             from ing in ingredientGroup.DefaultIfEmpty()
-                            where (row.Active && row.Id == id && stock.Active && ing.Active)
+                            where (row.Active && row.Id == id && (stock == null || stock.Active) && (ing == null || ing.Active))
                             group new { row, stock, ing } by new
                             {
                                 row.Id,
@@ -257,7 +257,7 @@ namespace CoffeeCRM.Core.Repository
                         from sg in stockGroup.DefaultIfEmpty()
                         join ing in db.Ingredients on sg.IngredientId equals ing.Id into ingGroup
                         from ig in ingGroup.DefaultIfEmpty()
-                        where (w.Active && sg.Active && ig.Active)
+                        where (w.Active && (sg == null || sg.Active) && (ig == null || ig.Active))
                         group new { sg, ig } by new
                         {
                             w.Id,

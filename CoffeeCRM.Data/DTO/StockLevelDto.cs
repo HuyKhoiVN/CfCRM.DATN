@@ -13,6 +13,7 @@ namespace CoffeeCRM.Data.DTO
         public DateTime ExpirationDate { get; set; }
         public decimal UnitPrice { get; set; }
         public DateTime CreatedTime { get; set; }
+        public string? UnitName { get; set; }
         public bool Active { get; set; }
         public int IngredientId { get; set; }
         public string? IngredientName { get; set; }
@@ -20,5 +21,6 @@ namespace CoffeeCRM.Data.DTO
         public string? WarehouseName { get; set; }
         public DateTime LastUpdatedTime { get; set; }
         public decimal TotalPrice { get; set; }
+        public string Status { get; set; }
     }
 }
