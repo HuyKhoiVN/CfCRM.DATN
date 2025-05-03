@@ -170,6 +170,37 @@ namespace CoffeeCRM.Core.Repository
 
             return result;
         }
+
+        public async Task<List<IngredientDto>> ListBySupplier(int supplierId)
+        {
+            if(db != null)
+            {
+                var query = from i in db.Ingredients
+                            join s in db.Suppliers on i.SupplierId equals s.Id
+                            join u in db.Units on i.UnitId equals u.Id
+                            join ct in db.IngredientCategories on i.IngredientCategoryId equals ct.Id
+                            where i.Active && i.SupplierId == supplierId
+                            select new IngredientDto()
+                            {
+                                Id = i.Id,
+                                IngredientCode = i.IngredientCode,
+                                IngredientName = i.IngredientName,
+                                SelfLife = i.SelfLife,
+                                AveragePrice = i.AveragePrice,
+                                CreatedTime = i.CreatedTime,
+                                Active = i.Active,
+                                IngredientCategoryId = i.IngredientCategoryId,
+                                SupplierId = i.SupplierId,
+                                UnitId = i.UnitId,
+                                IngredientCategoryName = ct.IngredientCategoryName,
+                                SupplierName = s.SupplierName,
+                                UnitName = u.UnitName
+                            };
+                return await query.ToListAsync();
+            }
+            return null;
+        }
+
         public async Task<DTResult<IngredientDto>> ListServerSide(IngredientDTParameters parameters)
         {
             //0. Options

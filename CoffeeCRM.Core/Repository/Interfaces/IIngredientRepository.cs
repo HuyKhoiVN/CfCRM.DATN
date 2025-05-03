@@ -1,37 +1,38 @@
-
-    using CoffeeCRM.Data.Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
-    using CoffeeCRM.Core.Util.Parameters;
-    using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Data;
+using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
 using CoffeeCRM.Data.DTO;
 
-
-    namespace CoffeeCRM.Core.Repository
+namespace CoffeeCRM.Core.Repository
+{
+    public interface IIngredientRepository
     {
-        public interface IIngredientRepository
-        {
-            Task <List< Ingredient>> List();
+        Task<List<Ingredient>> List();
 
-            //Task <List< Ingredient>> Search(string keyword);
+        Task<List<IngredientDto>> ListBySupplier(int supplierId);
 
-            Task <List< Ingredient>> ListPaging(int pageIndex, int pageSize);
+        //Task <List< Ingredient>> Search(string keyword);
 
-            Task <Ingredient> Detail(long ? postId);
+        Task<List<Ingredient>> ListPaging(int pageIndex, int pageSize);
 
-            Task <Ingredient> Add(Ingredient Ingredient);
+        Task<Ingredient> Detail(long? postId);
 
-            Task Update(Ingredient Ingredient);
+        Task<Ingredient> Add(Ingredient Ingredient);
 
-            Task Delete(Ingredient Ingredient);
+        Task Update(Ingredient Ingredient);
 
-            Task <long> DeletePermanently(long ? IngredientId);
+        Task Delete(Ingredient Ingredient);
 
-            int Count();
+        Task<long> DeletePermanently(long? IngredientId);
 
-            Task <DTResult<IngredientDto>> ListServerSide(IngredientDTParameters parameters);
-        }
+        int Count();
+
+        Task<DTResult<IngredientDto>> ListServerSide(IngredientDTParameters parameters);
     }
+}

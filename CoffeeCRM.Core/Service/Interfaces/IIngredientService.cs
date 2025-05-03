@@ -9,5 +9,6 @@ namespace CoffeeCRM.Core.Service
     public interface IIngredientService : IBaseService<Ingredient>
     {
         Task<DTResult<IngredientDto>> ListServerSide(IngredientDTParameters parameters);
+        Task<List<IngredientDto>> ListBySupplier(int supplierId);
     }
 }

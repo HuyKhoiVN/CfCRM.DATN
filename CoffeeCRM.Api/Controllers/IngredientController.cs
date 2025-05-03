@@ -12,6 +12,7 @@
     using CoffeeCRM.Data.Constants;
     using CoffeeCRM.Core.Service;
     using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.DTO;
 
     namespace CfCRM.DATN.Controllers
     {
@@ -44,8 +45,28 @@
                     return BadRequest();
                 }
             }
-            
-            [HttpGet]
+
+        [HttpGet]
+        [Route("api/ListBySupplier")]
+        public async Task<IActionResult> ListBySupplier(int supplierId)
+        {
+            try
+            {
+                var dataList = await service.ListBySupplier(supplierId);
+                if (dataList == null || dataList.Count == 0)
+                {
+                    dataList = new List<IngredientDto>();
+                }
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList());
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
             [Route("api/Detail/{Id}")]
             public async Task<IActionResult> Detail(int? Id)
             {

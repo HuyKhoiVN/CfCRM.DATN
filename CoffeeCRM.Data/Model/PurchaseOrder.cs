@@ -17,9 +17,9 @@ namespace CoffeeCRM.Data.Model
         public DateTime CreatedTime { get; set; }
         public bool Active { get; set; }
         public int AccountId { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; set; } // ngày dự kiến nhận hàng
 
-        public virtual Account Account { get; set; } = null!;
+        public virtual Account? Account { get; set; } = null!;
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
     }
 }
