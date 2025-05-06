@@ -1,36 +1,42 @@
 
-    using CoffeeCRM.Data.Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
-    using CoffeeCRM.Core.Util.Parameters;
-    using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Data;
+using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using CoffeeCRM.Data.DTO;
 
 
-    namespace CoffeeCRM.Core.Repository
+namespace CoffeeCRM.Core.Repository
+{
+    public interface IStockTransactionRepository
     {
-        public interface IStockTransactionRepository
-        {
-            Task <List< StockTransaction>> List();
+        Task<List<StockTransaction>> List();
 
-            //Task <List< StockTransaction>> Search(string keyword);
+        //Task <List< StockTransaction>> Search(string keyword);
 
-            Task <List< StockTransaction>> ListPaging(int pageIndex, int pageSize);
+        Task<List<StockTransaction>> ListPaging(int pageIndex, int pageSize);
 
-            Task <StockTransaction> Detail(long ? postId);
+        Task<StockTransaction> Detail(long? postId);
 
-            Task <StockTransaction> Add(StockTransaction StockTransaction);
+        Task<StockTransaction> Add(StockTransaction StockTransaction);
 
-            Task Update(StockTransaction StockTransaction);
+        Task Update(StockTransaction StockTransaction);
 
-            Task Delete(StockTransaction StockTransaction);
+        Task Delete(StockTransaction StockTransaction);
 
-            Task <long> DeletePermanently(long ? StockTransactionId);
+        Task<long> DeletePermanently(long? StockTransactionId);
 
-            int Count();
+        int Count();
+        Task<List<StockTransactionImportDto>> GetTransactionByWarehouse(int warehouseId);
 
-            Task <DTResult<StockTransaction>> ListServerSide(StockTransactionDTParameters parameters);
-        }
+        Task<DTResult<StockTransaction>> ListServerSide(StockTransactionDTParameters parameters);
+
+        DatabaseFacade GetDatabase();
     }
+}

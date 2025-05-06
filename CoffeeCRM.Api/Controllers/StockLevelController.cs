@@ -1,4 +1,4 @@
-
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,8 @@ using CoffeeCRM.Core.Util;
 using CoffeeCRM.Data.Constants;
 using CoffeeCRM.Core.Service;
 using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.DTO;
+using CoffeeCRM.Core.Helper;
 
 namespace CfCRM.DATN.Controllers
 {
@@ -122,6 +124,34 @@ namespace CfCRM.DATN.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
+        [Route("api/AddNewStock")]
+        public async Task<IActionResult> AddNewStock([FromBody] StockLevel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //1. business logic
+
+                //data validation
+                if (model.Active == false)
+                {
+                    return BadRequest();
+                }
+                //2. add new object
+                try
+                {
+                    await service.AddNewStock(model);
+                    var coffeemanagementResponse = CoffeeManagementResponse.CREATED(model);
+                    return Created("", coffeemanagementResponse);
+                }
+                catch (Exception)
+                {
+
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
 
         [HttpPost]
         [Route("api/Update")]
@@ -218,6 +248,86 @@ namespace CfCRM.DATN.Controllers
             catch (Exception e)
             {
                 return BadRequest(e);
+            }
+        }
+
+        [HttpGet("api/GetIngredientStockSummary")]
+        public async Task<IActionResult> GetIngredientStockSummary(int warehouseId)
+        {
+            try
+            {
+                var summary = await service.GetIngredientStockSummaryByWarehouseAsync(warehouseId);
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(summary.Cast<object>().ToList());
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Đã xảy ra lỗi khi xử lý yêu cầu");
+            }
+        }
+
+        [HttpGet("api/GetStockLevelsByIngredient")]
+        public async Task<IActionResult> GetStockLevelsByIngredient(int warehouseId, int ingredientId)
+        {
+            try
+            {
+                var stockLevels = await service.GetStockLevelsByIngredientAsync(warehouseId, ingredientId);
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(stockLevels.Cast<object>().ToList());
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Đã xảy ra lỗi khi xử lý yêu cầu");
+            }
+        }
+
+        [HttpGet("api/GetStockLevelDetail")]
+        public async Task<IActionResult> GetStockLevelDetail(int stockLevelId)
+        {
+            try
+            {
+                var detail = await service.GetStockLevelDetailAsync(stockLevelId);
+                if (detail == null)
+                    return NotFound("Không tìm thấy lô hàng");
+
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(detail);
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Đã xảy ra lỗi khi xử lý yêu cầu");
+            }
+        }
+
+        [HttpPost("api/AdjustStockLevelQuantity")]
+        public async Task<IActionResult> AdjustStockLevelQuantity([FromBody] AdjustStockLevelDto adjustDto)
+        {
+            try
+            {
+                // In a real application, get the account ID from authentication
+                int accountId = this.GetLoggedInUserId();
+
+                var result = await service.AdjustStockLevelQuantityAsync(adjustDto, accountId);
+
+                if (result)
+                {
+                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(result);
+                    return Ok(coffeemanagementResponse);
+                }
+
+                return BadRequest(new { success = false, message = "Không thể điều chỉnh số lượng" });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Đã xảy ra lỗi khi xử lý yêu cầu" });
             }
         }
     }

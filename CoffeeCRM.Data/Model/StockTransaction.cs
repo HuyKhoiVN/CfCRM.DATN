@@ -22,8 +22,8 @@ namespace CoffeeCRM.Data.Model
         public int AccountId { get; set; }
         public DateTime TransactionDate { get; set; }
 
-        public virtual Account Account { get; set; } = null!;
-        public virtual Warehouse Warehouse { get; set; } = null!;
+        public virtual Account? Account { get; set; } = null!;
+        public virtual Warehouse? Warehouse { get; set; } = null!;
         public virtual ICollection<StockTransactionDetail> StockTransactionDetails { get; set; }
     }
 }

@@ -188,7 +188,7 @@ namespace CoffeeCRM.Core.Service
                             Note = "Hệ thống nhập kho tự động cho đơn nhập hàng " + purchaseOrder.PurchaseOrderCode,
                             TransactionType = TransactionTypeConst.IMPORT,
                             TotalMoney = purchaseOrder.TotalPrice,
-                            Status = PurchaseOrderStatusConst.COMPLETED,
+                            Status = TransactionStatusConst.COMPLETED,
                             CreatedTime = DateTime.Now,
                             Active = true,
                             WarehouseId = (int)dto.WarehouseId,

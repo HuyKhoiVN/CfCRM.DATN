@@ -489,6 +489,251 @@
         justify-content: space-between;
     }
 
+    .stock-level-detail {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-left: 4px solid var(--primary);
+        transition: all 0.3s;
+    }
+
+        .stock-level-detail:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .stock-level-detail.expired {
+            border-left-color: var(--danger);
+        }
+
+        .stock-level-detail.warning {
+            border-left-color: var(--warning);
+        }
+
+    .stock-level-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .stock-level-title {
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .stock-level-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+    }
+
+    .stock-level-info-item {
+        margin-bottom: 5px;
+    }
+
+    .stock-level-info-label {
+        font-size: 0.8rem;
+        color: var(--gray-500);
+        margin-bottom: 2px;
+    }
+
+    .stock-level-info-value {
+        font-weight: 500;
+    }
+
+    .stock-level-actions {
+        margin-top: 10px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    /* Ingredient Summary Card */
+    .ingredient-summary {
+        display: flex;
+        align-items: center;
+    }
+
+    .ingredient-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background-color: var(--primary-light);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.2rem;
+    }
+
+    .ingredient-info {
+        flex: 1;
+    }
+
+    .ingredient-name {
+        font-weight: 600;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .ingredient-meta {
+        font-size: 0.8rem;
+        color: var(--gray-500);
+    }
+
+    /* Adjustment Form */
+    .adjustment-form {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+    /* Expiration Badge */
+    .expiration-badge {
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+        .expiration-badge.expired {
+            background-color: rgba(255, 118, 117, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .expiration-badge.warning {
+            background-color: rgba(253, 203, 110, 0.1);
+            color: #d68000;
+            border: 1px solid var(--warning);
+        }
+
+        .expiration-badge.good {
+            background-color: rgba(0, 184, 148, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+    /* Transaction History Styles */
+    .transaction-history-container {
+        position: relative;
+        min-height: 200px;
+    }
+
+    .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .transaction-type {
+        font-weight: 500;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+        .transaction-type.purchase {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: #198754;
+        }
+
+        .transaction-type.sale {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+        }
+
+        .transaction-type.adjustment-in {
+            background-color: rgba(23, 162, 184, 0.1);
+            color: #17a2b8;
+        }
+
+        .transaction-type.adjustment-out {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .transaction-type.waste {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+    .transaction-quantity {
+        font-weight: 500;
+    }
+
+        .transaction-quantity.positive {
+            color: #198754;
+        }
+
+        .transaction-quantity.negative {
+            color: #dc3545;
+        }
+
+    /* Timeline styles for transaction history */
+    .transaction-timeline {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+        .transaction-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e9ecef;
+        }
+
+    .transaction-timeline-item {
+        position: relative;
+        padding-bottom: 1.5rem;
+    }
+
+        .transaction-timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .transaction-timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.25rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #adb5bd;
+        }
+
+        .transaction-timeline-item.purchase::before {
+            border-color: #198754;
+        }
+
+        .transaction-timeline-item.sale::before {
+            border-color: #0d6efd;
+        }
+
+        .transaction-timeline-item.adjustment-in::before {
+            border-color: #17a2b8;
+        }
+
+        .transaction-timeline-item.adjustment-out::before {
+            border-color: #ffc107;
+        }
+
+        .transaction-timeline-item.waste::before {
+            border-color: #dc3545;
+        }
+
     /* Animations */
         @@keyframes fadeIn {
         from
@@ -1922,6 +2167,227 @@
     </div>
 </div>
 
+<div class="modal fade" id="stockLevelDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-boxes me-2"></i>Chi tiết lô hàng: <span id="ingredientNameTitle">Cà phê Arabica</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Ingredient Summary -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="ingredient-summary">
+                            <div class="ingredient-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="ingredient-info">
+                                <h5 class="ingredient-name">Cà phê Arabica</h5>
+                                <div class="ingredient-meta">
+                                    <span class="me-3"><i class="fas fa-tag me-1"></i> ING-001</span>
+                                    <span class="me-3"><i class="fas fa-weight me-1"></i> Kg</span>
+                                    <span><i class="fas fa-warehouse me-1"></i> Kho chính</span>
+                                </div>
+                            </div>
+                            <div class="ms-auto text-end">
+                                <h4 class="mb-0 ingre-toal-quantity">25 Kg</h4>
+                                <div class="text-muted small">Tổng số lượng</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="stockBatchList">
+                    <!-- Stock Level Details -->
+                    <h6 class="mb-3">Danh sách lô hàng</h6>
+
+                    <!-- Stock Level 1 -->
+                    <div class="stock-level-detail">
+                        <div class="stock-level-header">
+                            <h6 class="stock-level-title">Lô #SL-001</h6>
+                            <span class="expiration-badge good">Còn hạn: 615 ngày</span>
+                        </div>
+                        <div class="stock-level-info">
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Số lượng</div>
+                                <div class="stock-level-info-value">15 Kg</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Đơn giá</div>
+                                <div class="stock-level-info-value">250,000 ₫</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Thành tiền</div>
+                                <div class="stock-level-info-value">3,750,000 ₫</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Hạn sử dụng</div>
+                                <div class="stock-level-info-value">31/12/2024</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Ngày nhập</div>
+                                <div class="stock-level-info-value">15/04/2023</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Đơn hàng</div>
+                                <div class="stock-level-info-value">PO-000123</div>
+                            </div>
+                        </div>
+                        <div class="stock-level-actions">
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#adjustForm1">
+                                <i class="fas fa-sliders-h me-1"></i> Điều chỉnh
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary view-history" data-stock-id="SL-001" data-batch-number="SL-001" data-bs-toggle="modal" data-bs-target="#transactionHistoryModal">
+                                <i class="fas fa-history me-1"></i> Lịch sử
+                            </button>
+                        </div>
+
+                        <!-- Adjustment Form (Collapsed by default) -->
+                        <!-- Adjustment Form (Collapsed by default) -->
+                        <div class="collapse mt-3" id="adjustForm1">
+                            <div class="adjustment-form" data-stock-id="SL-001">
+                                <h6 class="mb-3">Điều chỉnh số lượng</h6>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Số lượng hiện tại</label>
+                                            <input type="text" class="form-control current-quantity" value="15 Kg" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Số lượng mới</label>
+                                            <input type="number" class="form-control new-quantity" value="15" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Lý do điều chỉnh</label>
+                                            <select class="form-select adjustment-reason">
+                                                <option value="">-- Chọn lý do --</option>
+                                                <option value="Điều chỉnh số lượng">Điều chỉnh số lượng</option>
+                                                <option value="Hư hỏng">Hư hỏng</option>
+                                                <option value="Hết hạn">Hết hạn</option>
+                                                <option value="Khác">Khác</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ghi chú</label>
+                                    <textarea class="form-control adjustment-note" rows="2" placeholder="Nhập ghi chú cho việc điều chỉnh"></textarea>
+                                </div>
+                                <div class="text-end">
+                                    <button class="btn btn-secondary btn-sm me-2" data-bs-toggle="collapse" data-bs-target="#adjustForm1">Hủy</button>
+                                    <button class="btn btn-primary btn-sm">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stock Level 2 -->
+                    <div class="stock-level-detail">
+                        <div class="stock-level-header">
+                            <h6 class="stock-level-title">Lô #SL-002</h6>
+                            <span class="expiration-badge good">Còn hạn: 580 ngày</span>
+                        </div>
+                        <div class="stock-level-info">
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Số lượng</div>
+                                <div class="stock-level-info-value">10 Kg</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Đơn giá</div>
+                                <div class="stock-level-info-value">250,000 ₫</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Thành tiền</div>
+                                <div class="stock-level-info-value">2,500,000 ₫</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Hạn sử dụng</div>
+                                <div class="stock-level-info-value">25/11/2024</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Ngày nhập</div>
+                                <div class="stock-level-info-value">10/04/2023</div>
+                            </div>
+                            <div class="stock-level-info-item">
+                                <div class="stock-level-info-label">Đơn hàng</div>
+                                <div class="stock-level-info-value">PO-000145</div>
+                            </div>
+                        </div>
+                        <div class="stock-level-actions">
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#adjustForm2">
+                                <i class="fas fa-sliders-h me-1"></i> Điều chỉnh
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary view-history" data-stock-id="SL-002" data-batch-number="SL-002">
+                                <i class="fas fa-history me-1"></i> Lịch sử
+                            </button>
+                        </div>
+
+                        <!-- Adjustment Form (Collapsed by default) -->
+                        <div class="collapse mt-3" id="adjustForm2">
+                            <div class="adjustment-form">
+                                <h6 class="mb-3">Điều chỉnh số lượng</h6>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Số lượng hiện tại</label>
+                                            <input type="text" class="form-control" value="10 Kg" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Số lượng mới</label>
+                                            <input type="number" class="form-control" value="10" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Lý do điều chỉnh</label>
+                                            <select class="form-select">
+                                                <option value="correction">Điều chỉnh số lượng</option>
+                                                <option value="damage">Hư hỏng</option>
+                                                <option value="expired">Hết hạn</option>
+                                                <option value="other">Khác</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ghi chú</label>
+                                    <textarea class="form-control" rows="2" placeholder="Nhập ghi chú cho việc điều chỉnh"></textarea>
+                                </div>
+                                <div class="text-end">
+                                    <button class="btn btn-secondary btn-sm me-2" data-bs-toggle="collapse" data-bs-target="#adjustForm2">Hủy</button>
+                                    <button class="btn btn-primary btn-sm">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add New Stock Level Button -->
+                    <div class="text-center mt-4">
+                        <button class="btn btn-success" id="addNewBatchBtn">
+                            <i class="fas fa-plus me-1"></i> Thêm lô hàng mới
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="fas fa-file-excel me-1"></i> Xuất Excel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Stock Out Modal -->
 <div class="modal fade" id="stockOutModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -2163,6 +2629,72 @@
         </div>
     </div>
 </div>
+
+<!-- Transaction History Modal -->
+<div class="modal fade" id="transactionHistoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-history me-2"></i>Lịch sử giao dịch: Lô <span id="batchNumberTitle"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="transaction-history-container">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="mb-0">Lịch sử giao dịch</h6>
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-outline-secondary active" data-filter="all">Tất cả</button>
+                            <button type="button" class="btn btn-outline-secondary" data-filter="PURCHASE">Nhập hàng</button>
+                            <button type="button" class="btn btn-outline-secondary" data-filter="SALE">Xuất bán</button>
+                            <button type="button" class="btn btn-outline-secondary" data-filter="ADJUSTMENT">Điều chỉnh</button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover" id="transactionHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã giao dịch</th>
+                                    <th>Loại giao dịch</th>
+                                    <th>Số lượng</th>
+                                    <th>Ngày giao dịch</th>
+                                    <th>Ghi chú</th>
+                                    <th>Người tạo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionHistoryBody">
+                                <!-- Dữ liệu lịch sử giao dịch sẽ được thêm vào đây -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="noTransactions" class="text-center py-4 d-none">
+                        <div class="empty-state">
+                            <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Không có giao dịch nào cho lô hàng này</p>
+                        </div>
+                    </div>
+
+                    <div id="loadingTransactions" class="text-center py-4 d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Đang tải...</span>
+                        </div>
+                        <p class="mt-2">Đang tải dữ liệu...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="exportTransactionHistory">
+                    <i class="fas fa-file-excel me-1"></i> Xuất Excel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--begin:Base load data-->
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -2175,6 +2707,9 @@
     let warehouseUpdateId = 0;
     let warehouseTabId = 0;
     let regexFullName = /^[a-zA-Z0-9À-Ỹà-ỹ\s']+$/;
+    let currentTransactionHistory = null;
+    let currentStockId = null;  
+    let currentBatchNumber = null;
 
     $(document).ready(function() {
         initWarehousesDataTable();
@@ -2652,7 +3187,7 @@
                         updatingObj.createdTime = new Date();
                         
                         $.ajax({
-                            url: systemURL + "warehouse/api/add",
+                            url: systemURL + "warehouse/api/addNewStock",
                             type: "POST",
                             contentType: "application/json",
                             data: JSON.stringify(updatingObj),
@@ -2783,7 +3318,7 @@
 
         if (data.status === "danger") {
             $(row).addClass('table-danger');
-            $('td', row).eq(quantityColIndex).addClass('text-end text-danger fw-bold');
+            $('td', row).eq(quantityColIndex).addClass('text-danger fw-bold');
 
             // Thêm chữ " (Hết hạn)" vào ô expirationDate
             const $expCell = $('td', row).eq(expirationDateColIndex);
@@ -2817,7 +3352,7 @@
                 {
                         data: "quantity",
                     render: function (data, type, row, meta) {
-                        return "<span id='row" + row.id + "-column-id'>" + data + '<span>';
+                            return "<span id='row" + row.id + "-column-id'>" + data + '<span>';
                     }
                 },
                 {
@@ -2852,11 +3387,13 @@
                 {
                     data: 'id',
                     render: function (data, type, row, meta) {
+                            var rowJson = JSON.stringify(row).replace(/"/g, '&quot;');
                         var htmlActions = `<div class="dropdown">
                                                         <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="dropdown">
                                                             <i class="fas fa-ellipsis-h"></i>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#stockLevelDetailModal" data-ingredient-id="${row.ingredientId}" data-ing-obj="${rowJson}"-"><i class="fas fa-list-ul me-2"></i> Xem chi tiết lô</a></li>
                                                             <li><a class="dropdown-item" onclick='adjustQuanity(${row.id})'><i class="fas fa-sliders-h me-2"></i> Điều chỉnh số lượng</a></li>
                                                             <li><a class="dropdown-item" onclick='viewHistory(${row.id})'><i class="fas fa-eye me-2"></i> Xem lịch sử</a></li>
                                                         </ul>
@@ -2953,6 +3490,44 @@
                     $('#totalAmount').text('0 ₫');
                 });
             });
+
+            $('#stockLevelDetailModal').on('hidden.bs.modal', function () {
+        // Reset dữ liệu
+        currentIngredientId = null;
+        currentIngredientData = null;
+        currentStockBatches = [];
+
+        // Reset form điều chỉnh
+        $('.adjustment-form').each(function() {
+            const collapseId = $(this).closest('.collapse').attr('id');
+            if ($('#' + collapseId).hasClass('show')) {
+                $('#' + collapseId).collapse('hide');
+            }
+        });
+    });
+
+            $(document).on('click', 'a[data-bs-target="#stockLevelDetailModal"]', function(e) {
+                    const button = $(e.relatedTarget);
+                        const ingredientId = $(this).data('ingredient-id');
+                    const obj = $(this).data('ing-obj');
+                    currentIngredientData = obj;
+                    // Update modal title with ingredient name
+                    $('#ingredientNameTitle').text(obj.ingredientName);
+                    $('.ingre-toal-quantity').text(`${obj.quantity} ${obj.unitName}`);
+                    // In a real application, you would fetch the stock level details for this ingredient
+                    // For demo purposes, we're using static data
+
+                    // Update ingredient summary
+                    $('.ingredient-name').text(obj.ingredientName);
+                        let metaHtml = '';
+                                
+                                metaHtml += `<span class="me-3"><i class="fas fa-weight me-1"></i> ${obj.unitName || 'N/A'}</span>`;
+                                    metaHtml += `<span><i class="fas fa-warehouse me-1"></i> ${obj.warehouseName || 'N/A'}</span>`;
+                        $('.ingredient-meta').html(metaHtml);
+                        getStockBatches(obj.warehouseId, ingredientId)
+                });
+
+
 
     function confirmItemProcess() {
         const ingredient = $('#ingredient').val();
@@ -3222,7 +3797,6 @@
                 }
 
                 // In a real app, you would save the audit to the server
-formatCurrencyPrice
                 Swal.fire({
                     icon: 'success',
                     title: 'Thành công',
@@ -3519,4 +4093,721 @@ formatCurrencyPrice
         });
         return data;
     }
+</script>
+
+<script>
+
+    // Xử lý sự kiện khi click vào nút "Lịch sử"
+    $(document).on('click', '.view-history', function() {
+        const stockId = $(this).data('stock-id');
+        const batchNumber = $(this).data('batch-number');
+
+        // Lưu thông tin lô hàng hiện tại
+        currentStockId = stockId;
+        currentBatchNumber = batchNumber;
+
+        // Hiển thị số lô trong tiêu đề modal
+        $('#batchNumberTitle').text(batchNumber);
+
+        // Hiển thị loading
+        showTransactionHistoryLoading();
+
+        // Gọi API để lấy lịch sử giao dịch
+        getTransactionHistory(stockId);
+
+        // Hiển thị modal lịch sử giao dịch
+        $('#transactionHistoryModal').modal('show');
+    });
+
+    // Function hiển thị loading trong modal lịch sử giao dịch
+    function showTransactionHistoryLoading() {
+        $('#transactionHistoryBody').empty();
+        $('#noTransactions').addClass('d-none');
+        $('#loadingTransactions').removeClass('d-none');
+    }
+
+    // Function gọi API để lấy lịch sử giao dịch
+    function getTransactionHistory(stockId) {
+        $.ajax({
+            url: systemURL + "StockLevel/api/" + stockId + "/history",
+            type: "GET",
+            contentType: "application/json",
+            success: function(response) {
+                // Lưu dữ liệu vào biến toàn cục
+                currentTransactionHistory = response;
+
+                // Hiển thị dữ liệu lịch sử giao dịch
+                displayTransactionHistory(response);
+
+                // Ẩn loading
+                $('#loadingTransactions').addClass('d-none');
+            },
+            error: function(error) {
+                // Ẩn loading và hiển thị thông báo lỗi
+                $('#loadingTransactions').addClass('d-none');
+                $('#transactionHistoryBody').html('<tr><td colspan="7" class="text-center text-danger">Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.</td></tr>');
+                Swal.fire(
+                                'Lỗi!',
+                                'Đã xảy ra lỗi, vui lòng thử lại',
+                                'error'
+                            );
+            }
+        });
+    }
+
+    // Function hiển thị lịch sử giao dịch
+    function displayTransactionHistory(transactions) {
+        const tbody = $('#transactionHistoryBody');
+        tbody.empty();
+
+        if (transactions && transactions.length > 0) {
+            // Ẩn thông báo không có giao dịch
+            $('#noTransactions').addClass('d-none');
+
+            // Hiển thị dữ liệu giao dịch
+            transactions.forEach((transaction, index) => {
+                const row = $('<tr>');
+
+                // Xác định màu sắc và class dựa trên loại giao dịch
+                let typeClass = '';
+                let typeDisplay = '';
+                let quantityClass = transaction.quantity > 0 ? 'positive' : 'negative';
+                let quantityPrefix = transaction.quantity > 0 ? '+' : '';
+
+                switch (transaction.transactionType) {
+                    case 'PURCHASE':
+                        typeClass = 'purchase';
+                        typeDisplay = 'Nhập hàng';
+                        break;
+                    case 'SALE':
+                        typeClass = 'sale';
+                        typeDisplay = 'Xuất bán';
+                        break;
+                    case 'ADJUSTMENT_IN':
+                        typeClass = 'adjustment-in';
+                        typeDisplay = 'Điều chỉnh tăng';
+                        break;
+                    case 'ADJUSTMENT_OUT':
+                        typeClass = 'adjustment-out';
+                        typeDisplay = 'Điều chỉnh giảm';
+                        break;
+                    case 'CANCEL':
+                        typeClass = 'waste';
+                        typeDisplay = 'Hủy bỏ';
+                        break;
+                    default:
+                        typeDisplay = transaction.transactionType;
+                }
+
+                row.append(`<td>${index + 1}</td>`);
+                row.append(`<td>${transaction.transactionCode}</td>`);
+                row.append(`<td><span class="transaction-type ${typeClass}">${typeDisplay}</span></td>`);
+                row.append(`<td><span class="transaction-quantity ${quantityClass}">${quantityPrefix}${formatNumberSt(transaction.quantity)}</span></td>`);
+                row.append(`<td>${formatDateTimeSt(new Date(transaction.transactionDate))}</td>`);
+                row.append(`<td>${transaction.note || ''}</td>`);
+                row.append(`<td>${transaction.createdBy}</td>`);
+
+                tbody.append(row);
+            });
+        } else {
+            // Hiển thị thông báo không có giao dịch
+            $('#noTransactions').removeClass('d-none');
+        }
+    }
+
+    // Function lọc lịch sử giao dịch theo loại
+    function filterTransactionHistory(filterType) {
+        if (!currentTransactionHistory) return;
+
+        let filteredTransactions;
+
+        if (filterType === 'all') {
+            filteredTransactions = currentTransactionHistory;
+        } else {
+            filteredTransactions = currentTransactionHistory.filter(transaction =>
+                transaction.transactionType.includes(filterType)
+            );
+        }
+
+        displayTransactionHistory(filteredTransactions);
+    }
+
+    // Xử lý sự kiện khi click vào nút lọc
+    $(document).on('click', '.btn-group[data-filter] .btn', function() {
+        const filterType = $(this).data('filter');
+
+        // Cập nhật trạng thái active của các nút
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+
+        // Lọc dữ liệu
+        filterTransactionHistory(filterType);
+    });
+
+    // Function xuất lịch sử giao dịch ra Excel
+    function exportTransactionHistoryToExcel() {
+        if (!currentTransactionHistory || currentTransactionHistory.length === 0) {
+            Swal.fire(
+                                        'Cảnh báo!',
+                                        'Không có dữ liệu để xuất',
+                                        'warning'
+                                    );
+            return;
+        }
+
+        // Trong thực tế, bạn sẽ gọi API để xuất Excel
+        $.ajax({
+            url: systemURL + "StockLevel/api/" + currentStockId + "/export",
+            type: "GET",
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function(blob) {
+                // Tạo URL cho blob và tải xuống
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `lich-su-giao-dich-${currentBatchNumber}.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+
+                Swal.fire(
+                    'Thành công!',
+                    'Đã xuất file Excel thành công',
+                    'success'
+                );
+            },
+            error: function(error) {
+                Swal.fire(
+                    'Lỗi!',
+                    'Có lỗi xảy ra, vui lòng thử lại sau',
+                    'error'
+                );
+            }
+        });
+    }
+
+    // Xử lý sự kiện khi click vào nút xuất Excel
+    $(document).on('click', '#exportTransactionHistory', function() {
+        exportTransactionHistoryToExcel();
+    });
+
+    // Function định dạng số
+    function formatNumberSt(number) {
+        return new Intl.NumberFormat('vi-VN').format(number);
+    }
+
+    // Function định dạng ngày tháng (chỉ ngày)
+    function formatDate(date) {
+        return new Intl.DateTimeFormat('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }).format(date);
+    }
+
+    // Function định dạng ngày tháng (có giờ)
+    function formatDateTimeSt(date) {
+        return new Intl.DateTimeFormat('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        }).format(date);
+    }
+</script>
+
+<script>
+    let currentIngredientId = null;
+    let currentIngredientData = null;
+    let currentStockBatches = [];
+
+    async function getStockBatches(warehouseId, ingredientId) {
+        $.ajax({
+        url: systemURL + `StockLevel/api/GetStockLevelsByIngredient?warehouseId=${warehouseId}&ingredientId=${ingredientId}`,
+        type: "GET",
+        contentType: "application/json",
+        success: function(responseData) {
+            if (responseData.status == 200 && responseData.message === "SUCCESS" && responseData.data){
+                const data = responseData.data;
+                // Lưu danh sách lô hàng
+                currentStockBatches = data;
+
+                // Hiển thị danh sách lô hàng
+                displayStockBatches(data);
+            }
+        },
+        error: function(error) {
+            console.error("Lỗi khi lấy danh sách lô hàng:", error);
+
+            // Hiển thị thông báo không có lô hàng
+            const noStockHtml = `
+                <div class="text-center py-5">
+                    <div class="empty-state">
+                        <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Không có lô hàng nào hoặc đã xảy ra lỗi khi tải dữ liệu</p>
+                        <button class="btn btn-sm btn-primary mt-3" onclick="getStockBatches(${ingredientId})">
+                            <i class="fas fa-sync-alt me-1"></i> Thử lại
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Thêm vào sau tiêu đề "Danh sách lô hàng"
+            $('#stockBatchList h6.mb-3').after(noStockHtml);
+
+            Swal.fire(
+                                            'Lỗi!',
+                                            'Không thể tải danh sách lô hàng. Vui lòng thử lại sau.',
+                                            'error'
+                                        );
+        }
+    });
+    }
+        // Function hiển thị danh sách lô hàng
+    function displayStockBatches(stockBatches) {
+        // Xóa danh sách lô hàng cũ
+        $('#stockBatchList .stock-level-detail').remove();
+
+        // Kiểm tra nếu không có lô hàng
+        if (!stockBatches || stockBatches.length === 0) {
+            const noStockHtml = `
+                <div class="text-center py-5">
+                    <div class="empty-state">
+                        <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Không có lô hàng nào cho nguyên liệu này</p>
+                    </div>
+                </div>
+            `;
+
+            // Thêm vào sau tiêu đề "Danh sách lô hàng"
+            $('#stockBatchList h6.mb-3').after(noStockHtml);
+            return;
+        }
+
+        // Hiển thị từng lô hàng
+        stockBatches.forEach((batch, index) => {
+            // Tính số ngày còn lại đến hạn sử dụng
+            
+            const daysRemaining = batch.daysUntilExpiration;
+
+            // Xác định trạng thái hạn sử dụng
+            let expiryStatus = 'good';
+            let expiryText = `Còn hạn: ${daysRemaining} ngày`;
+
+            if (daysRemaining < 0) {
+                expiryStatus = 'expired';
+                expiryText = `Đã hết hạn: ${Math.abs(daysRemaining)} ngày`;
+            } else if (daysRemaining < 30) {
+                expiryStatus = 'warning';
+                expiryText = `Sắp hết hạn: ${daysRemaining} ngày`;
+            }
+
+            // Tính thành tiền
+            const totalPrice = (batch.quantity || 0) * (batch.unitPrice || 0);
+
+            // Tạo HTML cho lô hàng
+            const batchHtml = `
+                <div class="stock-level-detail" data-batch-id="${batch.id}">
+                    <div class="stock-level-header">
+                        <h6 class="stock-level-title">Lô #${'SL-' + (index + 1).toString().padStart(3, '0')}</h6>
+                        <span class="expiration-badge ${expiryStatus}">${expiryText}</span>
+                    </div>
+                    <div class="stock-level-info">
+                        <div class="stock-level-info-item">
+                            <div class="stock-level-info-label">Số lượng</div>
+                            <div class="stock-level-info-value">${formatNumber(batch.quantity || 0)} ${batch?.unitName || 'Kg'}</div>
+                        </div>
+                        <div class="stock-level-info-item">
+                            <div class="stock-level-info-label">Đơn giá</div>
+                            <div class="stock-level-info-value">${formatCurrencyPrice(batch.unitPrice || 0)}</div>
+                        </div>
+                        <div class="stock-level-info-item">
+                            <div class="stock-level-info-label">Thành tiền</div>
+                            <div class="stock-level-info-value">${formatCurrencyPrice(totalPrice)}</div>
+                        </div>
+                        <div class="stock-level-info-item">
+                            <div class="stock-level-info-label">Hạn sử dụng</div>
+                            <div class="stock-level-info-value">${formatDate(new Date(batch.expirationDate))}</div>
+                        </div>
+                        <div class="stock-level-info-item">
+                            <div class="stock-level-info-label">Ngày nhập</div>
+                            <div class="stock-level-info-value">${formatDate(new Date(batch.createdTime))}</div>
+                        </div>
+
+                    </div>
+                    <div class="stock-level-actions">
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#adjustForm${batch.id}">
+                            <i class="fas fa-sliders-h me-1"></i> Điều chỉnh
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary view-history" data-stock-id="${batch.id}" data-batch-number="${'SL-' + (index + 1).toString().padStart(3, '0')}">
+                            <i class="fas fa-history me-1"></i> Lịch sử
+                        </button>
+                    </div>
+
+                    <!-- Adjustment Form (Collapsed by default) -->
+                    <div class="collapse mt-3" id="adjustForm${batch.id}">
+                        <div class="adjustment-form" data-ing-unit="${batch.unitName}" data-stock-id="${batch.id}">
+                            <h6 class="mb-3">Điều chỉnh số lượng</h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Số lượng hiện tại</label>
+                                        <input type="text" class="form-control current-quantity" value="${formatNumber(batch.quantity || 0)} ${batch?.unitName || 'Kg'}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Số lượng mới</label>
+                                        <input type="number" class="form-control new-quantity" value="${batch.quantity || 0}" min="0" step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Lý do điều chỉnh</label>
+                                        <select class="form-select adjustment-reason">
+                                            <option value="">-- Chọn lý do --</option>
+                                            <option value="correction">Điều chỉnh số lượng</option>
+                                            <option value="damage">Hư hỏng</option>
+                                            <option value="expired">Hết hạn</option>
+                                            <option value="other">Khác</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ghi chú</label>
+                                <textarea class="form-control adjustment-note" rows="2" placeholder="Nhập ghi chú cho việc điều chỉnh"></textarea>
+                            </div>
+                            <div class="text-end">
+                                <button class="btn btn-secondary btn-sm me-2" data-bs-toggle="collapse" data-bs-target="#adjustForm${batch.id}">Hủy</button>
+                                <button class="btn btn-primary btn-sm save-adjustment">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Thêm vào sau tiêu đề "Danh sách lô hàng"
+            $('#stockBatchList h6.mb-3').after(batchHtml);
+        });
+
+        // Thêm nút "Thêm lô hàng mới" nếu chưa có
+        if ($('#stockBatchList .text-center.mt-4').length === 0) {
+            const addNewBatchButton = `
+                <div class="text-center mt-4">
+                    <button class="btn btn-success" id="addNewBatchBtn">
+                        <i class="fas fa-plus me-1"></i> Thêm lô hàng mới
+                    </button>
+                </div>
+            `;
+
+            // Thêm vào cuối danh sách lô hàng
+            $('#stockBatchList .stock-level-detail:last').after(addNewBatchButton);
+        }
+    }
+
+    // Xử lý sự kiện khi click vào nút "Lưu thay đổi" trong form điều chỉnh
+    $(document).on('click', '.save-adjustment', function() {
+        const formContainer = $(this).closest('.adjustment-form');
+        const stockId = formContainer.data('stock-id');
+        const unitNameBatch = formContainer.data('ing-unit');
+        const currentQuantityText = formContainer.find('.current-quantity').val();
+        const currentQuantity = parseFloat(currentQuantityText.replace(/[^\d.-]/g, ''));
+        const newQuantity = parseFloat(formContainer.find('.new-quantity').val());
+        const reason = formContainer.find('.adjustment-reason').val();
+        const note = formContainer.find('.adjustment-note').val();
+
+        // Validate input
+        if (isNaN(newQuantity) || newQuantity < 0) {
+            Swal.fire(
+                                        'Lỗi!',
+                                        'Số lượng mới không hợp lệ',
+                                        'error'
+                                    );
+            return;
+        }
+
+        if (!reason) {
+                Swal.fire(
+                    'Lỗi!',
+                    'Vui lòng chọn lý do điều chỉnh',
+                    'error'
+                );
+            return;
+        }
+
+        // Tạo object dữ liệu để gửi đi
+        const adjustData = {
+            stockLevelId: stockId,
+            newQuantity: newQuantity,
+            adjustmentReason: reason,
+            note: note
+        };
+
+        // Hiển thị loading
+        const saveButton = $(this);
+        saveButton.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Đang xử lý...');
+
+        // Gọi API để điều chỉnh số lượng
+        $.ajax({
+            url: systemURL + "StockLevel/api/AdjustStockLevelQuantity",
+            type: "POST",
+            contentType: 'application/json',
+                beforeSend: function (xhr) {
+                        if (localStorage.token) {
+                            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+                        }
+                    },
+            data: JSON.stringify(adjustData),
+            success: function(responseData) {
+                if (responseData.status == "200" && responseData.message === "SUCCESS") {
+                    // Đóng form điều chỉnh
+                    formContainer.closest('.collapse').collapse('hide');
+
+                    // Cập nhật số lượng hiển thị trên UI
+                    const stockLevelDetail = formContainer.closest('.stock-level-detail');
+                    stockLevelDetail.find('.stock-level-info-item:first-child .stock-level-info-value').text(formatNumberSt(newQuantity) + ' ' + (currentIngredientData?.unitName || 'Kg'));
+
+                    // Cập nhật thành tiền
+                    const unitPriceText = stockLevelDetail.find('.stock-level-info-item:nth-child(2) .stock-level-info-value').text();
+                    const unitPrice = parseFloat(unitPriceText.replace(/[^\d.-]/g, '')) / 1000;
+                    const totalPrice = newQuantity * unitPrice;
+                    stockLevelDetail.find('.stock-level-info-item:nth-child(3) .stock-level-info-value').text(formatCurrencyPrice(totalPrice));
+
+                    // Cập nhật tổng số lượng
+                    updateTotalQuantity(stockId, newQuantity - currentQuantity);
+
+                    // Hiển thị thông báo thành công
+                    Swal.fire(
+                                'Thành công!',
+                                'Điều chỉnh số lượng thành công',
+                                'success'
+                            );
+
+                    // Reset form
+                    formContainer.find('.new-quantity').val(newQuantity);
+                    formContainer.find('.adjustment-reason').val('');
+                    formContainer.find('.adjustment-note').val('');
+
+                    // Cập nhật giá trị hiện tại
+                    formContainer.find('.current-quantity').val(formatNumber(newQuantity) + ' ' + (unitNameBatch || 'Kg'));
+                } else {
+                    Swal.fire(
+                                'Lỗi!',
+                                'Không thể điều chỉnh số lượng',
+                                'error'
+                            );
+                }
+
+                // Bỏ loading
+                saveButton.prop('disabled', false).html('Lưu thay đổi');
+            },
+            error: function(error) {
+
+                // Hiển thị thông báo lỗi
+                if (error.responseJSON && error.responseJSON.message) {
+                    Swal.fire(
+                                'Lỗi!',
+                                `${error.responseJSON.message}`,
+                                'error'
+                            );
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Không thể điều chỉnh số lượng. Vui lòng thử lại sau.',
+                        'error'
+                    );
+                }
+
+                // Bỏ loading
+                saveButton.prop('disabled', false).html('Lưu thay đổi');
+            }
+        });
+    });
+
+    function updateTotalQuantity(stockId, quantityChange) {
+        // Tìm lô hàng trong danh sách hiện tại
+        const batchIndex = currentStockBatches.findIndex(batch => batch.id === stockId);
+
+        if (batchIndex !== -1) {
+            // Cập nhật số lượng trong danh sách
+            currentStockBatches[batchIndex].quantity += quantityChange;
+
+            // Tính lại tổng số lượng
+            displayTotalQuantity(currentStockBatches);
+        }
+    }
+
+    function displayTotalQuantity(stockBatches) {
+        // Tính tổng số lượng
+        let totalQuantity = 0;
+        if (stockBatches && stockBatches.length > 0) {
+            totalQuantity = stockBatches.reduce((sum, batch) => sum + (batch.quantity || 0), 0);
+        }
+
+        // Cập nhật hiển thị
+        $('.ms-auto h4').text(formatNumber(totalQuantity) + ' ' + (currentIngredientData?.unitName || 'Kg'));
+        $('.ms-auto .text-muted').text('Tổng số lượng');
+    }
+</script>
+
+<script>
+    $(document).on('click', '#addNewBatchBtn', function() {
+    // Hiển thị modal thêm lô hàng mới
+    showAddNewBatchModal();
+});
+
+    function showAddNewBatchModal() {
+        // Kiểm tra nếu modal đã tồn tại thì xóa đi
+        $('#addNewBatchModal').remove();
+
+        // Tạo HTML cho modal
+        const modalHtml = `
+            <div class="modal fade" id="addNewBatchModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="fas fa-plus me-2"></i>Thêm lô hàng mới
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addNewBatchForm">
+                                <div class="mb-3 d-none">
+                                    <label class="form-label">Mã lô hàng</label>
+                                    <input type="text" class="form-control" id="newBatchCode" placeholder="Nhập mã lô hàng">
+                                    <div class="form-text">Để trống để hệ thống tự sinh mã</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Số lượng <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="newBatchQuantity" placeholder="Nhập số lượng" required min="0" step="1">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Đơn giá <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="newBatchUnitPrice" placeholder="Nhập đơn giá" required min="0" step="1000">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Hạn sử dụng <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="newBatchExpiryDate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Mã đơn hàng</label>
+                                    <input type="text" class="form-control" id="newBatchPurchaseOrder" placeholder="Nhập mã đơn hàng">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ghi chú</label>
+                                    <textarea class="form-control" id="newBatchNote" rows="2" placeholder="Nhập ghi chú"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary" id="saveNewBatchBtn">
+                                <i class="fas fa-save me-1"></i> Lưu lô hàng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Thêm modal vào body
+        $('body').append(modalHtml);
+
+        // Thiết lập giá trị mặc định cho ngày hết hạn (1 năm sau)
+        const oneYearLater = new Date();
+        oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+        $('#newBatchExpiryDate').val(oneYearLater.toISOString().split('T')[0]);
+
+        // Hiển thị modal
+        const addNewBatchModal = new bootstrap.Modal(document.getElementById('addNewBatchModal'));
+        addNewBatchModal.show();
+
+        // Xử lý sự kiện khi click vào nút "Lưu lô hàng"
+        $('#saveNewBatchBtn').on('click', function() {
+            saveNewBatch();
+        });
+
+            function saveNewBatch() {
+        // Validate form
+        if (!$('#newBatchQuantity').val() || !$('#newBatchUnitPrice').val() || !$('#newBatchExpiryDate').val()) {
+            showToast('error', 'Lỗi', 'Vui lòng điền đầy đủ thông tin bắt buộc');
+            return;
+        }
+
+        // Lấy dữ liệu từ form
+        const newBatchData = {
+            ingredientId: currentIngredientData.ingredientId,
+            quantity: parseFloat($('#newBatchQuantity').val()),
+            unitPrice: parseFloat($('#newBatchUnitPrice').val()),
+                expirationDate: $('#newBatchExpiryDate').val(),
+                createdTime: formatDatetimeUpdate(moment(new Date(), 'DD/MM/YYYY').format('DD/MM/YYYY HH:mm:ss')),
+                active: true,
+                warehouseId: currentIngredientData.warehouseId,
+                        lastUpdatedTime: formatDatetimeUpdate(moment(new Date(), 'DD/MM/YYYY').format('DD/MM/YYYY HH:mm:ss'))
+        };
+
+        // Hiển thị loading
+        $('#saveNewBatchBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Đang xử lý...');
+
+        // Gọi API để thêm lô hàng mới
+        $.ajax({
+            url: systemURL + "StockLevel/api/add",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(newBatchData),
+                success: function(responseData) {
+                    if (responseData.status == 201 && responseData.message === "CREATED") {
+                    // Đóng modal
+                    $('#addNewBatchModal').modal('hide');
+
+                    // Hiển thị thông báo thành công
+                        showToast('success', 'Thành công', responseData.message || 'Thêm lô hàng mới thành công');
+
+                    // Cập nhật lại danh sách lô hàng
+                    getStockBatches(currentIngredientData.warehouseId, currentIngredientData.ingredientId);
+                } else {
+                        showToast('error', 'Lỗi', responseData.message || 'Không thể thêm lô hàng mới');
+
+                    // Bỏ loading
+                    $('#saveNewBatchBtn').prop('disabled', false).html('<i class="fas fa-save me-1"></i> Lưu lô hàng');
+                }
+            },
+            error: function(error) {
+                console.error("Lỗi khi thêm lô hàng mới:", error);
+
+                // Hiển thị thông báo lỗi
+                if (error.responseJSON && error.responseJSON.message) {
+                    showToast('error', 'Lỗi', error.responseJSON.message);
+                } else {
+                    showToast('error', 'Lỗi', 'Không thể thêm lô hàng mới. Vui lòng thử lại sau.');
+                }
+
+                // Bỏ loading
+                $('#saveNewBatchBtn').prop('disabled', false).html('<i class="fas fa-save me-1"></i> Lưu lô hàng');
+            }
+        });
+    }
+    }
+
+           function showToast(type, title, message) {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: type,        // 'success', 'error', 'warning', 'info', 'question'
+            title: title,
+            text: message,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+    }
+
+
 </script>
