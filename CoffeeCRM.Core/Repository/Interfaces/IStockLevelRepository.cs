@@ -31,6 +31,7 @@ namespace CoffeeCRM.Core.Repository
 
         Task<long> DeletePermanently(long? StockLevelId);
         DatabaseFacade GetDatabase();
+        Task<int> GetTotalQuantityByIngredient(int ingredientId, int warehouseId);
         int Count();
         Task<List<StockLevel>> GetByWarehouseId(int warehouseId);
         Task<DTResult<StockLevelDto>> ListServerSide(StockLevelDTParameters parameters);

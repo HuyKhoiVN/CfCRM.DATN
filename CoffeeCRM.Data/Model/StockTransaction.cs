@@ -21,6 +21,13 @@ namespace CoffeeCRM.Data.Model
         public int WarehouseId { get; set; }
         public int AccountId { get; set; }
         public DateTime TransactionDate { get; set; }
+        public DateTime? ApprovedDate { get; set; }
+        public int? ApprovedBy { get; set; }
+        public DateTime? CompletedDate { get; set; }
+        public int? CompletedBy { get; set; }
+        public DateTime? CanceledDate { get; set; }
+        public int? CanceledBy { get; set; }
+        public string? StatusHistory { get; set; }
 
         public virtual Account? Account { get; set; } = null!;
         public virtual Warehouse? Warehouse { get; set; } = null!;

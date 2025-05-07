@@ -485,6 +485,14 @@ namespace CoffeeCRM.Core.Repository
                 }
             }
         }
+
+        public async Task<int> GetTotalQuantityByIngredient(int ingredientId, int warehouseId)
+        {
+            return await db.StockLevels
+                .Where(x => x.IngredientId == ingredientId && x.WarehouseId == warehouseId && x.Active)
+                .SumAsync(x => x.Quantity);
+        }
+
         public DatabaseFacade GetDatabase()
         {
             return db.Database;
