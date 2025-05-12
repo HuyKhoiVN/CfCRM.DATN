@@ -1392,7 +1392,6 @@
             currentPurchase = mockData;
             // Simulate API call
             resetPurchaseOrderForm();
-            console.log('Editing purchase order:', id);
 
             // For demo purposes, use mock data
             setTimeout(function() {
@@ -1567,7 +1566,7 @@
             if (result.isConfirmed) {
                 const warehouseId = result.value;
                 updatingObj.warehouseId = warehouseId;
-                console.log(updatingObj);
+                
                 $.ajax({
                     url: systemURL + "purchaseOrder/api/UpdateStatus",
                     type: "POST",

@@ -3,6 +3,608 @@
         Layout = "_Admin_Layout";
     }
     <style>
+    :root {
+        --primary: #6c5ce7;
+        --primary-light: #a29bfe;
+        --primary-dark: #5a49d8;
+        --secondary: #fd79a8;
+        --success: #00b894;
+        --warning: #fdcb6e;
+        --danger: #ff7675;
+        --light: #f8f9fa;
+        --dark: #2d3436;
+        --gray-100: #f8f9fa;
+        --gray-200: #e9ecef;
+        --gray-300: #dee2e6;
+        --gray-400: #ced4da;
+        --gray-500: #adb5bd;
+        --border-radius: 10px;
+        --transition-speed: 0.3s;
+    }
+
+     /* Cards */
+        .card {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all var(--transition-speed);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 15px 20px;
+        }
+        
+        .card-header h5 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-footer {
+            background-color: white;
+            border-top: 1px solid var(--gray-200);
+            padding: 15px 20px;
+        }
+        
+        /* Stats Cards */
+        .stats-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all var(--transition-speed);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stats-card-info {
+            flex: 1;
+        }
+        
+        .stats-card-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .stats-card-label {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        /* Gradient Backgrounds */
+        .gradient-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        }
+        
+        .gradient-success {
+            background: linear-gradient(135deg, var(--success), #00cec9);
+        }
+        
+        .gradient-warning {
+            background: linear-gradient(135deg, var(--warning), #ffeaa7);
+        }
+        
+        .gradient-danger {
+            background: linear-gradient(135deg, var(--danger), #fab1a0);
+        }
+        
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+        }
+        
+        .search-input {
+            padding-left: 35px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-300);
+            transition: all var(--transition-speed);
+        }
+        
+        .search-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25);
+            border-color: var(--primary-light);
+        }
+        
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .table th {
+            font-weight: 600;
+            border-top: none;
+            background-color: var(--gray-100);
+            color: var(--primary-dark);
+            padding: 12px 15px;
+        }
+        
+        .table td {
+            vertical-align: middle;
+            padding: 12px 15px;
+        }
+        
+        .table tbody tr {
+            transition: all 0.2s;
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-speed);
+            color: white;
+            margin: 0 2px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-btn.edit {
+            background-color: var(--primary);
+        }
+        
+        .action-btn.delete {
+            background-color: var(--danger);
+        }
+        
+        .action-btn.view {
+            background-color: var(--success);
+        }
+        
+        /* Buttons */
+        .btn {
+            border-radius: 6px;
+            padding: 8px 15px;
+            font-weight: 500;
+            transition: all var(--transition-speed);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+        }
+        
+        .btn-primary:hover, .btn-primary:focus {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #00a383);
+            border: none;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #00b894, #009e7a);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 184, 148, 0.3);
+        }
+        
+        .btn-light {
+            background: var(--light);
+            border-color: var(--gray-300);
+        }
+        
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+        
+        /* Badges */
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 50rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        
+        .status-badge.paid {
+            background-color: rgba(0, 184, 148, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .status-badge.unpaid {
+            background-color: rgba(255, 118, 117, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        /* Modal */
+        .modal-content {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: calc(var(--border-radius) - 1px) calc(var(--border-radius) - 1px) 0 0;
+            border-bottom: none;
+            padding: 15px 20px;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid var(--gray-200);
+            padding: 15px 20px;
+        }
+        
+        /* Forms */
+        .form-control, .input-group-text {
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+        
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25);
+            border-color: var(--primary-light);
+        }
+        
+        .input-group-text {
+            background-color: #f8f9ff;
+            color: var(--primary);
+            border-color: var(--gray-300);
+        }
+        
+        .form-label {
+            color: var(--dark);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Debt Details */
+        .debt-detail-container {
+            padding: 1rem;
+        }
+        
+        .debt-card {
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            background: white;
+            border-left: 4px solid var(--primary);
+            transition: all var(--transition-speed);
+        }
+        
+        .debt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .debt-card.unpaid {
+            border-left-color: var(--danger);
+        }
+        
+        .debt-card.paid {
+            border-left-color: var(--success);
+        }
+        
+        .detail-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--gray-500);
+            margin-right: 0.5rem;
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .amount-container {
+            background: linear-gradient(135deg, #f8f9ff, #f0f3ff);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .debt-amount {
+            color: var(--danger);
+            font-weight: 700;
+            font-size: 2rem;
+        }
+        
+        /* Payment Modal */
+        .payment-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--success), #1e7e34);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        
+        .payment-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .payment-details {
+            background-color: #f8f9ff;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        
+        /* Supplier Profile Card */
+        .supplier-profile {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .supplier-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .supplier-info {
+            flex: 1;
+        }
+        
+        .supplier-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+            color: var(--dark);
+        }
+        
+        .supplier-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .supplier-meta-item {
+            display: flex;
+            align-items: center;
+            color: var(--gray-500);
+        }
+        
+        .supplier-meta-item i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+        
+        .supplier-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .supplier-stat-item {
+            background: rgba(108, 92, 231, 0.05);
+            padding: 10px;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+        
+        .supplier-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary);
+        }
+        
+        .supplier-stat-label {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin: 0;
+        }
+        
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 1px solid var(--gray-300);
+            margin-bottom: 20px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--gray-500);
+            padding: 10px 15px;
+            font-weight: 500;
+            border-radius: 0;
+            margin-right: 10px;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            background-color: transparent;
+        }
+        
+        /* Animations */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .animate-fade-in-delay-1 {
+            animation: fadeIn 0.3s ease-out 0.1s forwards;
+            opacity: 0;
+        }
+        
+        .animate-fade-in-delay-2 {
+            animation: fadeIn 0.3s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        
+        /* Responsive Adjustments */
+        @@media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-260px);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        @@media (max-width: 768px) {
+            .header-search {
+                display: none;
+            }
+            
+            .supplier-profile {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .supplier-meta {
+                justify-content: center;
+            }
+            
+            .supplier-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @@media (max-width: 576px) {
+            .card-body {
+                padding: 15px;
+            }
+            
+            .supplier-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .table-content {
             padding: 15px;
             background: var(--bs-app-header-base-bg-color);
@@ -61,8 +663,7 @@
                     @* begin attribute name *@
                     <thead>
                         <tr class="fw-bold fs-6 text-gray-800">
-                            <th style="text-align: center">STT</th>
-                            <th style="text-align: center">Mã nhà cung cấp</th>
+                        <th style="text-align: center; width: 60px">STT</th>
                             <th>Email/Sđt</th>
                             <th>Tên nhà cung cấp</th>
                             <th>Địa chỉ</th>
@@ -74,7 +675,7 @@
                 @* end attribute name *@
 
                 @* begin Fillter *@
-                    <thead>
+                    <thead class="d-none">
                         <tr class="fs-6">
                             <th></th> @* index *@
                             <th><input type="text" class="form-control tableheaderFillter" /></th> @* code *@
@@ -134,106 +735,93 @@
                     </tfoot>
                 </table>
             <!--end::Datatable-->
-            <div class="modal fade" id="modal-id">
+            <!-- Supplier Modal -->
+            <div class="modal fade" id="supplierModal" tabindex="-1" aria-labelledby="supplierModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title">Modal title</h3>
-
-                            <!--begin::Close-->
-                            <div id="iconClose" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close" style="color: red">
-                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                            </div>
-                            <!--end::Close-->
+                            <h5 class="modal-title" id="supplierModalLabel">
+                                <i class="fas fa-truck-field me-2"></i>
+                                <span id="modalTitle">Thêm nhà cung cấp mới</span>
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" id="iconClose"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="#">
+                            <form id="supplierForm">
                                 <div class="row">
-
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 mb-3">
                                         <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text w-25" id="basic-addon-id">Mã định danh</label>
-                                                <input readonly type="number" autocomplete="off" class="form-control input-id" id="supplier-id" placeholder="id" aria-label="id" aria-describedby="basic-addon-id" />
+                                            <label for="supplier-id" class="form-label">Mã định danh</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                                                <input readonly type="number" class="form-control" id="supplier-id" placeholder="ID tự động">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 mb-3">
                                         <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text w-25" id="basic-addon-supplierCode">Mã NCC</label>
-                                                <input readonly type="text" autocomplete="off" class="form-control input-supplierCode" id="supplier-supplierCode" placeholder="supplierCode" aria-label="supplierCode" aria-describedby="basic-addon-supplierCode" />
+                                            <label for="supplier-supplierCode" class="form-label">Mã nhà cung cấp</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                                                <input readonly type="text" class="form-control" id="supplier-supplierCode" placeholder="Mã tự động">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 mb-3">
                                         <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text w-25" id="basic-addon-contactInfo">Email/Sđt</label>
-                                                <input  type="text" autocomplete="off" class="form-control input-contactInfo" id="supplier-contactInfo" placeholder="contactInfo" aria-label="contactInfo" aria-describedby="basic-addon-contactInfo" />
+                                            <label for="supplier-supplierName" class="form-label">Tên nhà cung cấp <span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                                <input type="text" class="form-control" id="supplier-supplierName" placeholder="Nhập tên nhà cung cấp" required>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 mb-3">
                                         <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text w-25" id="basic-addon-supplierName">Họ tên</label>
-                                                <input type="text" autocomplete="off" class="form-control input-supplierName" id="supplier-supplierName" placeholder="supplierName" aria-label="supplierName" aria-describedby="basic-addon-supplierName" />
+                                            <label for="supplier-contactInfo" class="form-label">Email/Số điện thoại</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                                                <input type="text" class="form-control" id="supplier-contactInfo" placeholder="Nhập email hoặc số điện thoại">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 mb-3">
                                         <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text w-25" id="basic-addon-address">Địa chỉ</label>
-                                                <input type="text" autocomplete="off" class="form-control input-address" id="supplier-address" placeholder="address" aria-label="address" aria-describedby="basic-addon-address" />
+                                            <label for="supplier-address" class="form-label">Địa chỉ</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-location-dot"></i></span>
+                                                <input type="text" class="form-control" id="supplier-address" placeholder="Nhập địa chỉ">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6" style="display:none;">
+                                    <div class="col-md-6 mb-3">
                                         <div class="form-group">
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text w-25" id="basic-addon-active">Kích hoạt</label>
-                                                <input readonly type="bit" autocomplete="off" class="form-control input-active" id="supplier-active" placeholder="active" aria-label="active" aria-describedby="basic-addon-active" />
+                                            <label for="supplier-createdTime" class="form-label">Ngày tạo</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-calendar-days"></i></span>
+                                                <input readonly type="text" class="form-control" id="supplier-createdTime">
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-sm-6">
-                                        <div class='form-group'>
-                                            <div class="input-group input-group-solid mb-5">
-                                                <label class="input-group-text w-25" id="basic-addon-createdTime">Ngày tạo</label>
-                                                <div class='form-control date datetimepicker  input-createdTime' id='supplier-createdTimeDiv' style='padding:0px;'>
-                                                    <input readonly type='text' autocomplete="off" id="supplier-createdTime" required class="form-control datepicker" aria-label="createdTime" aria-describedby="basic-addon-createdTime" />
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
-
-
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" id="btnCloseModal"
-                                    data-bs-dismiss="modal">
-                                Đóng
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="btnCloseModal">
+                                <i class="fas fa-times me-1"></i> Đóng
                             </button>
                             <button type="button" class="btn btn-primary" id="btnUpdateItem">
                                 <span class="indicator-label">
-                                    Thêm mới
+                                    <i class="fas fa-save me-1"></i> Lưu
                                 </span>
-                                <span class="indicator-progress">
-                                    Đang tải... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                <span class="indicator-progress d-none">
+                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                    Đang xử lý...
                                 </span>
                             </button>
                         </div>
@@ -241,80 +829,424 @@
                 </div>
             </div>
             <!--end::Col-->
+            <!-- Debt List Modal -->
+            <!-- Debt List Modal -->
+            <div class="modal fade" id="debtListModal" tabindex="-1" aria-labelledby="debtListModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="debtListModalLabel">
+                                <i class="fas fa-money-bill-wave me-2"></i>
+                                <span>Danh sách công nợ</span>
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="supplier-profile mb-4">
+                                <div class="supplier-avatar">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="supplier-info">
+                                    <h3 class="supplier-name" id="debtSupplierName">Công ty TNHH ABC</h3>
+                                    <div class="supplier-meta">
+                                        <div class="supplier-meta-item">
+                                            <i class="fas fa-envelope"></i>
+                                            <span id="debtSupplierContact">abc@example.com | 0987654321</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="supplier-stats">
+                                        <div class="supplier-stat-item">
+                                            <h4 class="supplier-stat-value text-danger" id="debtSupplierTotal">15,000,000 ₫</h4>
+                                            <p class="supplier-stat-label">Tổng nợ</p>
+                                        </div>
+                                        <div class="supplier-stat-item">
+                                            <h4 class="supplier-stat-value text-success" id="paidAmount">10,000,000 ₫</h4>
+                                            <p class="supplier-stat-label">Đã thanh toán</p>
+                                        </div>
+                                        <div class="supplier-stat-item">
+                                            <h4 class="supplier-stat-value text-warning" id="unpaidCount">2</h4>
+                                            <p class="supplier-stat-label">Khoản nợ chưa thanh toán</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="position-relative">
+                                        <i class="fas fa-search position-absolute" style="left: 10px; top: 10px; color: #adb5bd;"></i>
+                                        <input type="text" class="form-control ps-4" placeholder="Tìm kiếm công nợ..." id="debtSearch">
+                                    </div>
+                                    <div class="btn-group ms-3">
+                                        <button type="button" class="btn btn-outline-secondary active" id="filterAll" data-filter="all">Tất cả</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="filterUnpaid" data-filter="unpaid">Chưa thanh toán</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="filterPaid" data-filter="paid">Đã thanh toán</button>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary" id="addDebtBtn">
+                                    <i class="fas fa-plus me-1"></i> Thêm khoản nợ
+                                </button>
+                            </div>
+
+                            <!-- Hidden DataTable for server-side processing -->
+                            <div style="display: none;">
+                                <table id="debtTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Mã công nợ</th>
+                                            <th>Tên khoản nợ</th>
+                                            <th>Số tiền</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data will be loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Card Container for displaying debt cards -->
+                            <div class="row" id="debtCardsContainer">
+                                <!-- Debt cards will be generated here -->
+                            </div>
+
+                            <!-- Custom Pagination (will be controlled by DataTables) -->
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div class="text-muted" id="debtTableInfo">
+                                    <!-- Table info will be displayed here -->
+                                </div>
+                                <div id="debtTablePagination">
+                                    <!-- Pagination will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-1"></i> Đóng
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                <i class="fas fa-file-excel me-1"></i> Xuất báo cáo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debt Detail Modal -->
+            <div class="modal fade" id="debtDetailModal" tabindex="-1" aria-labelledby="debtDetailModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="debtDetailModalLabel">
+                                <i class="fas fa-file-invoice-dollar me-2"></i>
+                                <span>Chi tiết khoản nợ</span>
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="debt-detail-container">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Mã khoản nợ:</span>
+                                            <span class="detail-value" id="debtDetailCode">CN001</span>
+                                        </div>
+                                        <div class="detail-item mt-2">
+                                            <span class="detail-label">Tên khoản nợ:</span>
+                                            <span class="detail-value" id="debtDetailName">Mua nguyên liệu tháng 1</span>
+                                        </div>
+                                        <div class="detail-item mt-2">
+                                            <span class="detail-label">Nhà cung cấp:</span>
+                                            <span class="detail-value" id="debtDetailSupplier">Công ty TNHH ABC</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Ngày tạo:</span>
+                                            <span class="detail-value" id="debtDetailCreatedDate">20/01/2023</span>
+                                        </div>
+                                        <div class="detail-item mt-2">
+                                            <span class="detail-label">Trạng thái:</span>
+                                            <span class="detail-value" id="debtDetailStatus">
+                                                <span class="status-badge unpaid">Chưa thanh toán</span>
+                                            </span>
+                                        </div>
+                                        <div class="detail-item mt-2" id="debtDetailPaidAtContainer">
+                                            <span class="detail-label">Ngày thanh toán:</span>
+                                            <span class="detail-value" id="debtDetailPaidAt"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Ghi chú:</span>
+                                            <p class="detail-value mt-2" id="debtDetailNote">Thanh toán cho đơn hàng nguyên liệu đầu vào</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="amount-container text-center p-4 rounded">
+                                            <h6 class="mb-2">Số tiền</h6>
+                                            <h3 class="debt-amount" id="debtDetailAmount">5,000,000 ₫</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <h6 class="mb-3">Lịch sử giao dịch</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Thời gian</th>
+                                                        <th>Hành động</th>
+                                                        <th>Người thực hiện</th>
+                                                        <th>Ghi chú</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>20/01/2023 09:15</td>
+                                                        <td>Tạo khoản nợ</td>
+                                                        <td>Admin</td>
+                                                        <td>Tạo mới khoản nợ</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-1"></i> Đóng
+                            </button>
+                            <button type="button" class="btn btn-success" id="btnRepayDebt">
+                                <i class="fas fa-money-bill-wave me-1"></i> Thanh toán
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
         <!--end::Content container-->
     </div>
+
+<div class="modal fade" id="repayDebtModal" tabindex="-1" aria-labelledby="repayDebtModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="repayDebtModalLabel">
+                    <i class="fas fa-money-bill-wave me-2"></i>
+                    <span>Thanh toán khoản nợ</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <div class="payment-icon">
+                        <i class="fas fa-hand-holding-dollar"></i>
+                    </div>
+                    <h4 class="mt-3">Xác nhận thanh toán</h4>
+                    <p class="text-muted">Bạn có chắc chắn muốn thanh toán khoản nợ này?</p>
+                </div>
+
+                <div class="payment-details p-3 rounded mb-3">
+                    <div class="row">
+                        <div class="col-6 text-start">
+                            <p class="mb-1">Mã khoản nợ:</p>
+                            <p class="mb-1">Tên khoản nợ:</p>
+                            <p class="mb-0">Số tiền:</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <p class="mb-1 fw-bold" id="repayDebtCode">CN001</p>
+                            <p class="mb-1 fw-bold" id="repayDebtName">Mua nguyên liệu tháng 1</p>
+                            <p class="mb-0 fw-bold text-danger" id="repayDebtAmount">5,000,000 ₫</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="repayDate" class="form-label">Ngày thanh toán</label>
+                    <input type="date" class="form-control" id="repayDate" value="">
+                </div>
+
+                <div class="mb-3">
+                    <label for="repayNote" class="form-label">Ghi chú thanh toán</label>
+                    <textarea class="form-control" id="repayNote" rows="3" placeholder="Nhập ghi chú thanh toán (nếu có)"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> Hủy
+                </button>
+                <button type="button" class="btn btn-success" id="btnConfirmRepay">
+                    <i class="fas fa-check me-1"></i> Xác nhận
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
     <!--begin:Base load data-->
 <script>
-    var showItem = ['id', 'supplierCode', 'contactInfo', 'supplierName', 'address', 'createdTime', 'totalDebt'];
-    var dataSource = [];
-    var updatingItemId = 0;
-    var editObj;
-    var tableUpdating = 0;
-    var table;
-    const submitButton = document.getElementById('btnUpdateItem');
-    submitButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        submitButton.setAttribute('data-kt-indicator', 'on');
-        // Disable button to avoid multiple click
-        submitButton.disabled = true;
-        // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-        updateItem(updatingItemId);
-    });
-    $('#search-input').on("input", function () {
+    let updatingItemId = 0;
+        let currentDebtId = 0;
+        let currentSupplierId = 0;
+        let table;
+        let debtTable;
+        let useApiData = true;
+
+                    const fakeSuppliers = [
+                {
+                    id: 1,
+                    supplierCode: "NCC001",
+                    supplierName: "Công ty TNHH ABC",
+                    contactInfo: "abc@example.com | 0987654321",
+                    address: "123 Đường Lê Lợi, Quận 1, TP.HCM",
+                    createdTime: "2023-01-15T08:30:00",
+                    totalDebt: 15000000,
+                    active: true
+                },
+                {
+                    id: 2,
+                    supplierCode: "NCC002",
+                    supplierName: "Công ty CP XYZ",
+                    contactInfo: "xyz@example.com | 0123456789",
+                    address: "456 Đường Nguyễn Huệ, Quận 1, TP.HCM",
+                    createdTime: "2023-02-20T10:15:00",
+                    totalDebt: 8500000,
+                    active: true
+                },
+                {
+                    id: 3,
+                    supplierCode: "NCC003",
+                    supplierName: "Doanh nghiệp tư nhân Minh Phát",
+                    contactInfo: "minhphat@example.com | 0909123456",
+                    address: "789 Đường Cách Mạng Tháng 8, Quận 3, TP.HCM",
+                    createdTime: "2023-03-10T14:45:00",
+                    totalDebt: 22000000,
+                    active: true
+                },
+                {
+                    id: 4,
+                    supplierCode: "NCC004",
+                    supplierName: "Công ty TNHH Thành Công",
+                    contactInfo: "thanhcong@example.com | 0918765432",
+                    address: "101 Đường Hai Bà Trưng, Quận 1, TP.HCM",
+                    createdTime: "2023-04-05T09:20:00",
+                    totalDebt: 0,
+                    active: true
+                },
+                {
+                    id: 5,
+                    supplierCode: "NCC005",
+                    supplierName: "Công ty CP Phát Đạt",
+                    contactInfo: "phatdat@example.com | 0977123456",
+                    address: "202 Đường Võ Văn Tần, Quận 3, TP.HCM",
+                    createdTime: "2023-05-12T11:30:00",
+                    totalDebt: 35000000,
+                    active: true
+                }
+            ];
+
+            // Fake data for debts
+            const fakeDebts = {
+        1: [
+            { id: 1, debtCode: "NCC001-2023", debtName: "Mua hàng tháng 1", createdTime: "2023-01-15", totalMoney: 1500000, note: "Thanh toán cuối tháng", isPaId: false, paIdAt: null },
+            { id: 2, debtCode: "NCC001-2023-2", debtName: "Mua hàng tháng 2", createdTime: "2023-02-20", totalMoney: 2000000, note: "Chuyển khoản", isPaId: true, paIdAt: "2023-02-28" },
+            { id: 3, debtCode: "NCC001-2023-3", debtName: "Mua hàng tháng 3", createdTime: "2023-03-25", totalMoney: 1800000, note: "Tiền mặt", isPaId: true, paIdAt: "2023-03-31" },
+            { id: 4, debtCode: "NCC001-2023-4", debtName: "Mua hàng tháng 4", createdTime: "2023-04-10", totalMoney: 2200000, note: "Công nợ tháng", isPaId: false, paIdAt: null },
+            { id: 5, debtCode: "NCC001-2023-5", debtName: "Mua hàng tháng 5", createdTime: "2023-05-18", totalMoney: 1900000, note: "Nợ từ tháng trước", isPaId: false, paIdAt: null },
+            { id: 6, debtCode: "NCC001-2023-6", debtName: "Mua hàng tháng 6", createdTime: "2023-06-05", totalMoney: 2500000, note: "Thanh toán sau", isPaId: false, paIdAt: null },
+            { id: 7, debtCode: "NCC001-2023-7", debtName: "Mua hàng tháng 7", createdTime: "2023-07-12", totalMoney: 2100000, note: "Giao hàng đợt 1", isPaId: true, paIdAt: "2023-07-20" },
+            { id: 8, debtCode: "NCC001-2023-8", debtName: "Mua hàng tháng 8", createdTime: "2023-08-01", totalMoney: 2300000, note: "Đợt giao hàng cuối", isPaId: true, paIdAt: "2023-08-10" },
+            { id: 9, debtCode: "NCC001-2023-9", debtName: "Mua hàng tháng 9", createdTime: "2023-09-08", totalMoney: 1700000, note: "Thanh toán 50%", isPaId: false, paIdAt: null },
+            { id: 10, debtCode: "NCC001-2023-10", debtName: "Mua hàng tháng 10", createdTime: "2023-10-22", totalMoney: 2600000, note: "Chưa thanh toán", isPaId: false, paIdAt: null }
+        ],
+        2: [
+            { id: 11, debtCode: "NCC002-2023-1", debtName: "Mua vật liệu xây dựng", createdTime: "2023-03-01", totalMoney: 3000000, note: "Thanh toán sau 30 ngày", isPaId: false, paIdAt: null },
+            { id: 12, debtCode: "NCC002-2023-2", debtName: "Mua xi măng", createdTime: "2023-04-15", totalMoney: 2500000, note: "Đã thanh toán bằng tiền mặt", isPaId: true, paIdAt: "2023-04-20" },
+            { id: 13, debtCode: "NCC002-2023-3", debtName: "Mua cát vàng", createdTime: "2023-05-10", totalMoney: 1800000, note: "Chuyển khoản vào tài khoản", isPaId: true, paIdAt: "2023-05-15" },
+            { id: 14, debtCode: "NCC002-2023-4", debtName: "Mua đá 1x2", createdTime: "2023-06-22", totalMoney: 2200000, note: "Thanh toán khi nhận hàng", isPaId: false, paIdAt: null },
+            { id: 15, debtCode: "NCC002-2023-5", debtName: "Mua gạch tuynel", createdTime: "2023-07-05", totalMoney: 2800000, note: "Nợ từ tháng trước", isPaId: false, paIdAt: null }
+        ]
+    };
+            // Document Ready
+
+
+
+        $('#search-input').on("input", function () {
         table.search($(this).val()).draw();
     });
     $(document).ready(function () {
-        // Load data
         loadData();
+        flatpickr("#supplier-createdTime", {
+                enableTime: true,
+                dateFormat: "d/m/Y H:i:S",
+                defaultDate: new Date(),
+                readOnly: true,
+            });
 
-        // Datetime picker
-        document.querySelectorAll(".datepicker").forEach(function (item) {
-            new tempusDominus.TempusDominus(item, datePickerOption);
-        })
-        $(".datepicker").on('dp.change', function (e) {
-            // console.log(this.value);
-            this.value = moment(this.value).format("YYYY-MM-DD HH:mm:ss");
-            // console.log(this.value);
-        });
-        //Flat pickr format
-        $("#filterCreatedTime_input").flatpickr({
-            dateFormat: "d/m/Y",
-            mode: "range",
-        });
-        $("#open-flatpickr").click(function () {
-            $("#filterCreatedTime_input").click();
-        });
-        $("#clear-flatpickr").click(function () {
-            $("#filterCreatedTime_input").val("");
-        });
+        // Set today's date as default for repay date
+            $('#repayDate').val(new Date().toISOString().split('T')[0]);
 
-        $('.dataSelect').select2();
+            // Search input event
+            $("#search-input").on("input", function () {
+                table.search($(this).val()).draw();
+            });
 
+            // Button click events
+            $("#btnCloseModal, #iconClose").click(() => {
+                clearModalData();
+            });
 
-        $("#btnTableSearch").click(function () {
-            tableSearch();
-        });
+            // Update button click event
+            $("#btnUpdateItem").click(function () {
+                $(this).find(".indicator-label").addClass("d-none");
+                $(this).find(".indicator-progress").removeClass("d-none");
+                $(this).prop("disabled", true);
 
-        $("#tableData thead:nth-child(2) tr th input").keypress(function (e) {
-            let key = e.which;
-            if (key == 13) {
-                $("#btnTableSearch").click();
-            }
-        });
-        $("#btnTableResetSearch").click(function () {
-            $(".tableheaderFillter").val("").trigger("change");
-            tableSearch();
-        });
-        $('#btnCloseModal').click(function () {
-            clearModalData();
-        });
+                updateItem(updatingItemId);
+            });
 
-        $('#iconClose').click(function () {
-            clearModalData();
-        });
+            // Repay debt button click
+            $("#btnRepayDebt").click(() => {
+                // Populate repay modal with current debt details
+                $("#repayDebtCode").text($("#debtDetailCode").text());
+                $("#repayDebtName").text($("#debtDetailName").text());
+                $("#repayDebtAmount").text($("#debtDetailAmount").text());
 
+                // Hide debt detail modal and show repay modal
+                $("#debtDetailModal").modal("hide");
+                $("#repayDebtModal").modal("show");
+            });
+
+            // Confirm repay button click
+            $("#btnConfirmRepay").click(() => {
+                repayDebt(currentDebtId);
+            });
+
+            // Generate supplier code from name
+            $("#supplier-supplierName").on("input", function () {
+                var name = $(this).val();
+                var code = generateSlCode(name);
+                $("#supplier-supplierCode").val(code);
+            });
+            
         
     });
     function loadData() {
@@ -350,13 +1282,7 @@
                         return `<div style="text-align:center;">${stt}</div>`; // Căn giữa
                     }
                 },
-                {
-                    data: 'supplierCode', // Mã nhà cung cấp
-                    title: 'Mã Nhà Cung Cấp',
-                    render: function (data) {
-                        return `<div style="font-weight:bold; color:#044688; text-align:center;">${data}</div>`; // Căn giữa và in đậm
-                    }
-                },
+                
                 {
                     data: 'supplierName', // Tên nhà cung cấp
                     title: 'Tên Nhà Cung Cấp'
@@ -390,31 +1316,17 @@
                     data: 'id',
                     render: function (data, type, row, meta) {
                         return `
-                                <div class='d-flex justify-content-center gap-2'>
-                                    <a title='Cập nhật' onclick='editItem(${row.id})' class='me-2 btn_manage'>
-                                        <span class='svg-icon-success svg-icon svg-icon-1 svg_teh009'>
-                                            <span class='svg-icon-primary svg-icon svg-icon-1'>
-                                                <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                    <path opacity='0.3' fill-rule='evenodd' clip-rule='evenodd' d='M2 4.63158C2 3.1782 3.1782 2 4.63158 2H13.47C14.0155 2 14.278 2.66919 13.8778 3.04006L12.4556 4.35821C11.9009 4.87228 11.1726 5.15789 10.4163 5.15789H7.1579C6.05333 5.15789 5.15789 6.05333 5.15789 7.1579V16.8421C5.15789 17.9467 6.05333 18.8421 7.1579 18.8421H16.8421C17.9467 18.8421 18.8421 17.9467 18.8421 16.8421V13.7518C18.8421 12.927 19.1817 12.1387 19.7809 11.572L20.9878 10.4308C21.3703 10.0691 22 10.3403 22 10.8668V19.3684C22 20.8218 20.8218 22 19.3684 22H4.63158C3.1782 22 2 20.8218 2 19.3684V4.63158Z' fill='currentColor'></path>
-                                                    <path d='M10.9256 11.1882C10.5351 10.7977 10.5351 10.1645 10.9256 9.77397L18.0669 2.6327C18.8479 1.85165 20.1143 1.85165 20.8953 2.6327L21.3665 3.10391C22.1476 3.88496 22.1476 5.15129 21.3665 5.93234L14.2252 13.0736C13.8347 13.4641 13.2016 13.4641 12.811 13.0736L10.9256 11.1882Z' fill='currentColor'></path>
-                                                    <path d='M8.82343 12.0064L8.08852 14.3348C7.8655 15.0414 8.46151 15.7366 9.19388 15.6242L11.8974 15.2092C12.4642 15.1222 12.6916 14.4278 12.2861 14.0223L9.98595 11.7221C9.61452 11.3507 8.98154 11.5055 8.82343 12.0064Z' fill='currentColor'></path>
-                                                </svg>
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <a title='Xóa' onclick='deleteItem(${row.id})' class='me-2 btn_manage'>
-                                        <span class='svg-icon-danger svg-icon svg-icon-1'>
-                                            <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z' fill='currentColor'></path>
-                                                <path opacity='0.5' d='M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z' fill='currentColor'></path>
-                                                <path opacity='0.5' d='M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z' fill='currentColor'></path>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                            <a title='Xem chi tiết' onclick='viewDetail(${row.id}, ${row.totalDebt})' class='btn_manage'>
-                                        <i class='fas fa-eye'></i>
-                                    </a>
-                                </div>
+                               <div class="d-flex justify-content-center">
+                                <button class="action-btn edit me-1" onclick="editItem(${row.id})" title="Cập nhật">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete me-1" onclick="deleteItem(${row.id})" title="Xóa">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                        <button class="action-btn view" onclick="viewDebts(${row.id}, '${row.supplierName}', '${row.contactInfo || ""}', ${row.totalDebt}, ${row.paidAmount}, ${row.unpaidCount })" title="Xem công nợ">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                             `;
                     }
                 },
@@ -437,264 +1349,790 @@
         });
     }
 
-    function generateSlCode(str) {
+        function initDebtTable(supplierId) {
+        if (debtTable) {
+            debtTable.destroy();
+        }
+
+        // Initialize DataTable with hidden table
+        debtTable = $("#debtTable").DataTable({
+            processing: true,
+            serverSide: true,
+            paging: true,
+            searching: true,
+            order: [[4, "desc"]], // Order by date desc
+            language: {
+                url: "/js/Vietnamese.json", // Adjust path as needed
+            },
+            dom: '<"#debtTableCustomControls">rt<"#debtTableCustomPagination">',
+            ajax: {
+                url: systemURL + "debt/api/list-server-side",
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                  data: function (d) {
+                                d.supplierId = supplierId;
+                                    d.searchAll = $('#debtSearch').val();
+                      // Add filter parameter if needed
+                      const activeFilter = $(".btn-group .active").data("filter");
+                      if (activeFilter === "paid") {
+                          d.isPaid = true;
+                      } else if (activeFilter === "unpaid") {
+                          d.isPaid = false;
+                      }
+                        return JSON.stringify(d);
+                          }
+                
+            },
+            columns: [
+                {
+                    data: "id",
+                    render: (data, type, row, meta) => {
+                        var info = debtTable.page.info();
+                        var stt = meta.row + 1 + info.page * info.length;
+                        return `<div class="text-center">${stt}</div>`;
+                    },
+                },
+                {
+                    data: "debtCode",
+                    title: "Mã công nợ",
+                },
+                {
+                    data: "debtName",
+                    title: "Tên khoản nợ",
+                    render: (data) => data || '<span class="text-muted">Không có tên</span>',
+                },
+                {
+                    data: "totalMoney",
+                    title: "Số tiền",
+                    render: (data) =>
+                        `<div class="text-end fw-bold text-danger">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(data)}</div>`,
+                },
+                {
+                    data: "createdTime",
+                    title: "Ngày tạo",
+                    render: (data) => `<div class="text-end">${moment(data).format("DD/MM/YYYY")}</div>`,
+                },
+                {
+                    data: "isPaId",
+                    title: "Trạng thái",
+                    render: (data) => {
+                        if (data) {
+                            return `<div class="text-center"><span class="status-badge paid">Đã thanh toán</span></div>`;
+                        } else {
+                            return `<div class="text-center"><span class="status-badge unpaid">Chưa thanh toán</span></div>`;
+                        }
+                    },
+                },
+                {
+                    data: "id",
+                    render: (data, type, row, meta) => {
+                        let buttons = `
+                            <div class="d-flex justify-content-center">
+                                <button class="action-btn view me-1" onclick="viewDebtDetail(${row.id})" title="Xem chi tiết">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                        `;
+
+                        // Only show repay button if debt is not paid
+                        if (!row.isPaId) {
+                            buttons += `
+                                <button class="action-btn edit" onclick="showRepayModal(${row.id}, '${row.debtCode}', '${row.debtName}', ${row.totalMoney})" title="Thanh toán">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </button>
+                            `;
+                        }
+
+                        buttons += `</div>`;
+                        return buttons;
+                    },
+                },
+            ],
+            columnDefs: [
+                { orderable: false, targets: [0, 6] },
+                { searchable: false, targets: [0, 5, 6] },
+            ],
+            // This is the key part - after each draw, convert the data to cards
+            drawCallback: function(settings) {
+                // Get the data from the DataTable
+                const data = debtTable.rows().data();
+                const container = $("#debtCardsContainer");
+
+                // Clear the container
+                container.empty();
+
+                // If no data, show empty state
+                if (data.length === 0) {
+                    container.html(`
+                        <div class="col-12 text-center py-5">
+                            <i class="fas fa-file-invoice-dollar text-muted" style="font-size: 3rem;"></i>
+                            <h5 class="mt-3">Không có khoản nợ nào</h5>
+                            <p class="text-muted">Nhà cung cấp này chưa có khoản nợ nào.</p>
+                        </div>
+                    `);
+                    return;
+                }
+
+                // Generate cards for each row of data
+                for (let i = 0; i < data.length; i++) {
+                    const debt = data[i];
+                    const isPaid = debt.isPaId;
+                    const cardClass = isPaid ? 'paid' : 'unpaid';
+
+                    const cardHtml = `
+                        <div class="col-md-6 mb-3">
+                            <div class="debt-card ${cardClass}">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0">${debt.debtCode}: ${debt.debtName}</h5>
+                                    <span class="status-badge ${cardClass}">${isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Ngày tạo:</span>
+                                            <span class="detail-value">${moment(debt.createdTime).format("DD/MM/YYYY")}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Số tiền:</span>
+                                            <span class="detail-value ${isPaid ? 'text-success' : 'text-danger'} fw-bold">
+                                                ${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(debt.totalMoney)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Ghi chú:</span>
+                                        <span class="detail-value">${debt.note || 'Không có ghi chú'}</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex ${isPaid ? 'justify-content-between align-items-center' : 'justify-content-end'}">
+                                    ${isPaid ?
+                                        `<div class="text-muted small">
+                                            <i class="fas fa-check-circle text-success me-1"></i> Đã thanh toán ngày: ${debt.paIdAt ? moment(debt.paIdAt).format("DD/MM/YYYY") : 'N/A'}
+                                        </div>` : ''
+                                    }
+                                    <div>
+                                        <button class="btn btn-outline-primary btn-sm me-2" onclick="viewDebtDetail(${debt.id})">
+                                            <i class="fas fa-eye me-1"></i> Chi tiết
+                                        </button>
+                                        ${!isPaid ?
+                                            `<button class="btn btn-success btn-sm" onclick="showRepayModal(${debt.id}, '${debt.debtCode}', '${debt.debtName}', ${debt.totalMoney})">
+                                                <i class="fas fa-money-bill-wave me-1"></i> Thanh toán
+                                            </button>` : ''
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    container.append(cardHtml);
+                }
+
+                // Update debt stats
+                //updateDebtStats(settings.json);
+
+                // Custom pagination
+                updateCustomPagination();
+            }
+        });
+
+        // Handle search input
+        $("#debtSearch").on("keyup", function() {
+            debtTable.search(this.value).draw();
+        });
+
+        // Handle filter buttons
+        $("#filterAll, #filterPaid, #filterUnpaid").on("click", function() {
+            $(".btn-group button").removeClass("active");
+            $(this).addClass("active");
+            debtTable.ajax.reload();
+        });
+    }
+
+    // Update debt statistics based on API response
+    function updateDebtStats(response) {
+        if (response && response.summary) {
+            const summary = response.summary;
+
+            // Update the stats in the UI
+            $("#debtSupplierTotal").text(new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(summary.totalDebt || 0));
+            $("#paidAmount").text(new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(summary.paidAmount || 0));
+            $("#unpaidCount").text(summary.unpaidCount || 0);
+        }
+    }
+
+    // Update custom pagination
+    function updateCustomPagination() {
+        const info = debtTable.page.info();
+
+        // Update table info text
+        $("#debtTableInfo").html(`Hiển thị ${info.start + 1} đến ${info.end} của ${info.recordsDisplay} khoản nợ`);
+
+        // Generate pagination
+        let paginationHtml = `<ul class="pagination mb-0">`;
+
+        // Previous button
+        paginationHtml += `
+            <li class="page-item ${info.page === 0 ? 'disabled' : ''}">
+                <a class="page-link" href="#" aria-label="Previous" ${info.page > 0 ? 'onclick="debtTable.page(\'previous\').draw(false); return false;"' : ''}>
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        `;
+
+        // Page numbers
+        const totalPages = info.pages;
+        const currentPage = info.page;
+
+        // Determine which page numbers to show
+        let startPage = Math.max(0, currentPage - 2);
+        let endPage = Math.min(totalPages - 1, currentPage + 2);
+
+        // Ensure we always show 5 pages if possible
+        if (endPage - startPage < 4) {
+            if (startPage === 0) {
+                endPage = Math.min(4, totalPages - 1);
+            } else if (endPage === totalPages - 1) {
+                startPage = Math.max(0, totalPages - 5);
+            }
+        }
+
+        // First page if not in range
+        if (startPage > 0) {
+            paginationHtml += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="debtTable.page(0).draw(false); return false;">1</a>
+                </li>
+            `;
+
+            if (startPage > 1) {
+                paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            }
+        }
+
+        // Page numbers
+        for (let i = startPage; i <= endPage; i++) {
+            paginationHtml += `
+                <li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="debtTable.page(${i}).draw(false); return false;">${i + 1}</a>
+                </li>
+            `;
+        }
+
+        // Last page if not in range
+        if (endPage < totalPages - 1) {
+            if (endPage < totalPages - 2) {
+                paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            }
+
+            paginationHtml += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="debtTable.page(${totalPages - 1}).draw(false); return false;">${totalPages}</a>
+                </li>
+            `;
+        }
+
+        // Next button
+        paginationHtml += `
+            <li class="page-item ${info.page === info.pages - 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" aria-label="Next" ${info.page < info.pages - 1 ? 'onclick="debtTable.page(\'next\').draw(false); return false;"' : ''}>
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        `;
+
+        paginationHtml += `</ul>`;
+
+        // Update pagination container
+        $("#debtTablePagination").html(paginationHtml);
+    }
+        
+        // Edit Supplier
+        async function editItem(id) {
+            updatingItemId = id;
+
+            // Show modal
+            $("#supplierModal").modal("show");
+
+            if (id > 0) {
+                // Edit existing supplier
+                let editObj;
+
+                if (useApiData) {
+                    editObj = await getItemById(id);
+                } else {
+                    editObj = fakeSuppliers.find(s => s.id === id);
+                }
+
+                $("#modalTitle").text("Cập nhật nhà cung cấp");
+                $("#btnUpdateItem").find(".indicator-label").html('<i class="fas fa-save me-1"></i> Cập nhật');
+
+                // Populate form
+                $("#supplier-id").val(editObj.id);
+                $("#supplier-supplierCode").val(editObj.supplierCode);
+                $("#supplier-contactInfo").val(editObj.contactInfo || "");
+                $("#supplier-supplierName").val(editObj.supplierName);
+                $("#supplier-address").val(editObj.address || "");
+                $("#supplier-createdTime").val(moment(editObj.createdTime).format("DD/MM/YYYY HH:mm:ss"));
+            } else {
+                // Create new supplier
+                $("#modalTitle").text("Thêm nhà cung cấp mới");
+                $("#btnUpdateItem").find(".indicator-label").html('<i class="fas fa-plus me-1"></i> Thêm mới');
+
+                // Clear form
+                $("#supplier-id").val("0");
+                $("#supplier-supplierCode").val("");
+                $("#supplier-contactInfo").val("");
+                $("#supplier-supplierName").val("");
+                $("#supplier-address").val("");
+                $("#supplier-createdTime").val(moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
+            }
+        }
+
+        // Update Supplier
+        async function updateItem(id) {
+            // Create object to send to API
+            const updatingObj = {
+                id: $("#supplier-id").val(),
+                supplierCode: $("#supplier-supplierCode").val() || generateSlCode($("#supplier-supplierName").val()),
+                contactInfo: $("#supplier-contactInfo").val(),
+                supplierName: $("#supplier-supplierName").val(),
+                address: $("#supplier-address").val(),
+                active: true,
+                createdTime: formatDatetimeUpdate($("#supplier-createdTime").val()),
+            };
+
+            // Validate required fields
+            if (!updatingObj.supplierName) {
+                Swal.fire({
+                    title: "Lỗi!",
+                    text: "Vui lòng nhập tên nhà cung cấp",
+                    icon: "error",
+                });
+                resetUpdateButton();
+                return;
+            }
+
+            if (useApiData) {
+                // Send to API
+                if (id > 0) {
+                    // Update existing
+                    $.ajax({
+                        url: systemURL + "supplier/api/update",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(updatingObj),
+                        success: (responseData) => {
+                            if (responseData.status == 200 && responseData.message === "SUCCESS") {
+                                Swal.fire({
+                                    title: "Thành công!",
+                                    text: "Đã cập nhật thông tin nhà cung cấp",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                });
+                                $("#supplierModal").modal("hide");
+                                reloadTable();
+                            }
+                            resetUpdateButton();
+                        },
+                        error: (e) => {
+                            Swal.fire({
+                                title: "Lỗi!",
+                                text: "Đã xảy ra lỗi, vui lòng thử lại",
+                                icon: "error",
+                            });
+                            resetUpdateButton();
+                        },
+                    });
+                } else {
+                    // Create new
+                    delete updatingObj.id;
+                    updatingObj.active = true;
+                    updatingObj.createdTime = new Date();
+
+                    $.ajax({
+                        url: systemURL + "supplier/api/add",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(updatingObj),
+                        success: (responseData) => {
+                            if (responseData.status == 201 && responseData.message === "CREATED") {
+                                Swal.fire({
+                                    title: "Thành công!",
+                                    text: "Đã thêm nhà cung cấp mới",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                });
+                                $("#supplierModal").modal("hide");
+                                reloadTable();
+                            }
+                            resetUpdateButton();
+                        },
+                        error: (e) => {
+                            Swal.fire({
+                                title: "Lỗi!",
+                                text: "Đã xảy ra lỗi, vui lòng thử lại",
+                                icon: "error",
+                            });
+                            resetUpdateButton();
+                        },
+                    });
+                }
+            } else {
+                // Use fake data
+                if (id > 0) {
+                    // Update existing supplier
+                    const index = fakeSuppliers.findIndex(s => s.id === parseInt(id));
+                    if (index !== -1) {
+                        fakeSuppliers[index] = {
+                            ...fakeSuppliers[index],
+                            supplierCode: updatingObj.supplierCode,
+                            supplierName: updatingObj.supplierName,
+                            contactInfo: updatingObj.contactInfo,
+                            address: updatingObj.address
+                        };
+                    }
+                } else {
+                    // Create new supplier
+                    const newId = Math.max(...fakeSuppliers.map(s => s.id)) + 1;
+                    fakeSuppliers.push({
+                        id: newId,
+                        supplierCode: updatingObj.supplierCode,
+                        supplierName: updatingObj.supplierName,
+                        contactInfo: updatingObj.contactInfo,
+                        address: updatingObj.address,
+                        createdTime: new Date().toISOString(),
+                        totalDebt: 0,
+                        active: true
+                    });
+                }
+
+                Swal.fire({
+                    title: "Thành công!",
+                    text: id > 0 ? "Đã cập nhật thông tin nhà cung cấp" : "Đã thêm nhà cung cấp mới",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                $("#supplierModal").modal("hide");
+
+                // Reload the page to see changes (in a real app you'd update the UI dynamically)
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+
+                resetUpdateButton();
+            }
+        }
+
+        // Delete Supplier
+        function deleteItem(id) {
+            Swal.fire({
+                title: "Xác nhận xóa?",
+                text: "Bạn có chắc chắn muốn xóa nhà cung cấp này?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Xóa",
+                cancelButtonText: "Hủy",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (useApiData) {
+                        $.ajax({
+                            url: systemURL + "supplier/api/delete",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify({ id: id }),
+                            success: (responseData) => {
+                                if (responseData.status == 200 && responseData.message === "SUCCESS") {
+                                    Swal.fire({
+                                        title: "Đã xóa!",
+                                        text: "Nhà cung cấp đã được xóa thành công",
+                                        icon: "success",
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                    });
+                                    reloadTable();
+                                }
+                            },
+                            error: (e) => {
+                                Swal.fire({
+                                    title: "Lỗi!",
+                                    text: "Đã xảy ra lỗi, vui lòng thử lại",
+                                    icon: "error",
+                                });
+                            },
+                        });
+                    } else {
+                        // Use fake data
+                        const index = fakeSuppliers.findIndex(s => s.id === id);
+                        if (index !== -1) {
+                            fakeSuppliers.splice(index, 1);
+                            Swal.fire({
+                                title: "Đã xóa!",
+                                text: "Nhà cung cấp đã được xóa thành công",
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+
+                            // Reload the page to see changes (in a real app you'd update the UI dynamically)
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1500);
+                        }
+                    }
+                }
+            });
+        }
+
+        // View Debts for a Supplier
+                    // View Debts for a Supplier
+        function viewDebts(supplierId, supplierName, contactInfo, totalDebt, paidAmount, unpaidCount) {
+        currentSupplierId = supplierId;
+
+        // Set supplier info in modal
+        $("#debtSupplierName").text(supplierName);
+        $("#debtSupplierContact").text(contactInfo || "Không có thông tin");
+        $("#debtSupplierTotal").text(new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalDebt));
+          $("#paidAmount").text(new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(paidAmount || 0));
+              $("#unpaidCount").text(unpaidCount || 0);
+          initDebtTable(supplierId);
+        // Show modal
+        $("#debtListModal").modal("show");
+
+        // Load debts for this supplier
+
+    }
+
+  // View Debt Detail
+        async function viewDebtDetail(debtId) {
+            currentDebtId = debtId;
+
+            try {
+                let debt;
+
+                if (useApiData) {
+                    // Get debt details from API
+                    const response = await $.ajax({
+                        url: systemURL + "debt/api/Detail/" + debtId,
+                        method: "GET",
+                    });
+
+                    if (response && response.data) {
+                        debt = response.data[0];
+                    }
+                } else {
+                    // Use fake data
+                    for (const supplierId in fakeDebts) {
+                        const found = fakeDebts[supplierId].find(d => d.id === debtId);
+                        if (found) {
+                            debt = found;
+                            break;
+                        }
+                    }
+                }
+
+                if (debt) {
+                    // Populate debt detail modal
+                    $("#debtDetailCode").text(debt.debtCode || debt.id);
+                    $("#debtDetailName").text(debt.debtName);
+                    $("#debtDetailSupplier").text($("#debtSupplierName").text());
+                    $("#debtDetailCreatedDate").text(moment(debt.createdTime).format("DD/MM/YYYY"));
+                    $("#debtDetailStatus").html(
+                        debt.isPaId
+                            ? '<span class="status-badge paid">Đã thanh toán</span>'
+                            : '<span class="status-badge unpaid">Chưa thanh toán</span>',
+                    );
+
+                    // Show/hide paid date
+                    if (debt.isPaId && debt.paIdAt) {
+                        $("#debtDetailPaidAt").text(moment(debt.paIdAt).format("DD/MM/YYYY"));
+                        $("#debtDetailPaidAtContainer").show();
+                    } else {
+                        $("#debtDetailPaidAtContainer").hide();
+                    }
+
+                    $("#debtDetailNote").text(debt.note || "Không có ghi chú");
+                    $("#debtDetailAmount").text(
+                              `${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(debt.totalMoney)}`,
+                    );
+
+                    // Show/hide repay button based on payment status
+                    if (debt.isPaId) {
+                        $("#btnRepayDebt").hide();
+                    } else {
+                        $("#btnRepayDebt").show();
+                    }
+
+                    // Show modal
+                    $("#debtDetailModal").modal("show");
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: "Lỗi!",
+                    text: "Không thể tải thông tin khoản nợ",
+                    icon: "error",
+                });
+            }
+        }
+
+        // Show Repay Modal
+        function showRepayModal(debtId, debtCode, debtName, amount) {
+            currentDebtId = debtId;
+
+            // Populate repay modal
+            $("#repayDebtCode").text(debtCode || debtId);
+            $("#repayDebtName").text(debtName);
+            $("#repayDebtAmount").text(new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount));
+
+            // Show modal
+            $("#repayDebtModal").modal("show");
+        }
+
+        // Repay Debt
+        async function repayDebt(debtId) {
+            try {
+                const repayDate = $("#repayDate").val();
+                const repayNote = $("#repayNote").val();
+
+                if (!repayDate) {
+                    Swal.fire({
+                        title: "Lỗi!",
+                        text: "Vui lòng chọn ngày thanh toán",
+                        icon: "error",
+                    });
+                    return;
+                }
+
+                if (useApiData) {
+                    // Call API to repay debt
+                    const response = await $.ajax({
+                        url: systemURL + "debt/api/repayment/" + debtId,
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            paIdAt: repayDate,
+                            note: repayNote
+                        })
+                    });
+
+                      if (response && response.message == "SUCCESS") {
+                        // Show success message
+                        Swal.fire({
+                            title: "Thành công!",
+                            text: "Đã thanh toán khoản nợ thành công",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+
+                        // Close modal
+                        $("#repayDebtModal").modal("hide");
+
+                        // Reload debt table
+                        debtTable.ajax.reload();
+
+                        // Reload main supplier table to update total debt
+                        reloadTable();
+                    }
+                } else {
+                    // Use fake data
+                    for (const supplierId in fakeDebts) {
+                        const index = fakeDebts[supplierId].findIndex(d => d.id === debtId);
+                        if (index !== -1) {
+                            // Update debt to paid
+                            fakeDebts[supplierId][index].isPaId = true;
+                            fakeDebts[supplierId][index].paIdAt = repayDate + "T00:00:00";
+
+                            // Update supplier total debt
+                            const supplierIndex = fakeSuppliers.findIndex(s => s.id === parseInt(supplierId));
+                            if (supplierIndex !== -1) {
+                                fakeSuppliers[supplierIndex].totalDebt -= fakeDebts[supplierId][index].totalMoney;
+                            }
+
+                            // Show success message
+                            Swal.fire({
+                                title: "Thành công!",
+                                text: "Đã thanh toán khoản nợ thành công",
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+
+                            // Close modal
+                            $("#repayDebtModal").modal("hide");
+
+                            // Reload the page to see changes (in a real app you'd update the UI dynamically)
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1500);
+
+                            break;
+                        }
+                    }
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: "Lỗi!",
+                    text: "Không thể thanh toán khoản nợ",
+                    icon: "error",
+                });
+            }
+        }
+
+        // Helper Functions
+        async function getItemById(id) {
+            try {
+                const response = await $.ajax({
+                    url: systemURL + "supplier/api/detail/" + id,
+                    method: "GET",
+                });
+                return response.data[0];
+            } catch (error) {
+                console.error("Error fetching supplier:", error);
+                return null;
+            }
+        }
+
+        function generateSlCode(str) {
             return str
                 .normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "")
                 .replace(/[^a-zA-Z0-9]/g, "")
                 .toLowerCase();
         }
+        
 
-    $('#supplier-supplierName').on('input', function () {
-                var name = $(this).val();
-                var code = generateSlCode(name);
-                $('#supplier-supplierCode').val(code);
-    });
-
-    async function editItem(id) {
-        updatingItemId = id;
-
-        $("#modal-id").modal('show');
-        if (id > 0) {
-            editObj = await getItemById(id);
-            $('#btnUpdateItem').text("Cập nhật");
-        }    
-
-        $("#supplier-id").val(id > 0 ? editObj.id : "0");
-        $("#supplier-supplierCode").val(id > 0 ? editObj.supplierCode : "0");
-        $("#supplier-contactInfo").val(id > 0 ? editObj.contactInfo : "");
-        $("#supplier-supplierName").val(id > 0 ? editObj.supplierName : "");
-        $("#supplier-address").val(id > 0 ? editObj.address : "");
-        $("#supplier-active").val(id > 0 ? editObj.active : "");
-        $("#supplier-createdTime").val(id > 0 ? moment(editObj.createdTime).format("DD/MM/YYYY HH:mm:ss") : moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
-
-        formatNumber();     
-    }
-    async function updateItem(id) {
-        var actionName = (id == 0 ? "Bạn muốn tạo mới" : "Cập nhật");
-        var obj;
-        if (id > 0) {
-            obj = await getItemById(id);
+        function clearModalData() {
+            updatingItemId = 0;
+            $("#btnUpdateItem").text("Tạo mới");
+            resetUpdateButton();
         }
-        let objName = id > 0 ? obj.name : "item";
-        validateInputNumber();
-        var updatingObj = {
-            "id": $("#supplier-id").val(),
-            "supplierCode": $("#supplier-supplierCode").val(),
-            "contactInfo": $("#supplier-contactInfo").val(),
-            "supplierName": $("#supplier-supplierName").val(),
-            "address": $("#supplier-address").val(),
-            "active": true,
-            "createdTime": formatDatetimeUpdate($("#supplier-createdTime").val()),
 
-        };
-        Swal.fire({
-            title: 'Xác nhận thay đổi?',
-            text: "" + actionName + " " + objName + "",
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#443',
-            confirmButtonText: 'Xác nhận',
-            cancelButtonText: 'Huỷ'
-        }).then((result) => {
-            if (result.value) {
-                $("#modal-id").modal('hide');
-                //CALL AJAX TO UPDATE
-                if (id > 0) {
-                    $.ajax({
-                        url: systemURL + "supplier/api/update",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(updatingObj),
-                        success: function (responseData) {
-                            // debugger;
-                            if (responseData.status == 200 && responseData.message === "SUCCESS") {
-                                Swal.fire(
-                                    'Thành Công!',
-                                    'Đã cập nhật "' + objName + '" ',
-                                    'success'
-                                );
-                                reGenTable();
-                                // Remove loading indication
-                                submitButton.removeAttribute('data-kt-indicator');
-                                // Enable button
-                                submitButton.disabled = false;
-                            }
-                        },
-                        error: function (e) {
-                            //console.log(e.message);
-                            Swal.fire(
-                                'Lỗi!',
-                                'Đã xảy ra lỗi, vui lòng thử lại',
-                                'error'
-                            );
-                            // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
-                            // Enable button
-                            submitButton.disabled = false;
-                        }
-                    });
-                };
-                //CALL AJAX TO CREATE
-                if (id == 0) {
-                    updatingObj.id = 1;
-                    delete updatingObj["id"]
-                    updatingObj.active = true;
-                    updatingObj.createdTime = new Date();
-                    console.log(updatingObj);
-                    $.ajax({
-                        url: systemURL + "supplier/api/add",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(updatingObj),
-                        success: function (responseData) {
-                            // debugger;
-                            if (responseData.status == 201 && responseData.message === "CREATED") {
-                                Swal.fire(
-                                    'Thành công!',
-                                    'Đã cập nhật dữ liệu',
-                                    'success'
-                                );
-                                updatingObj = responseData.data;
-                                reGenTable();
-                                // Remove loading indication
-                                submitButton.removeAttribute('data-kt-indicator');
-                                // Enable button
-                                submitButton.disabled = false;
-                            }
-                        },
-                        error: function (e) {
-                            //console.log(e.message);
-                            Swal.fire(
-                                'Lỗi!',
-                                'Đã xảy ra lỗi, vui lòng thử lại',
-                                'error'
-                            );
-                            // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
-                            // Enable button
-                            submitButton.disabled = false;
-                        }
-                    });
-                }
-            }
-            else {
-                // Remove loading indication
-                submitButton.removeAttribute('data-kt-indicator');
-                // Enable button
-                submitButton.disabled = false;
-            }
-        })
-    }
-    async function deleteItem(id) {
-        updatingObj = table.ajax.json().data.find(c => c.id == id);
-        let objName = id > 0 ? updatingObj.name : "item";
-        Swal.fire({
-            title: 'Xác nhận thay đổi?',
-            text: "Xóa " + objName + "",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Xoá',
-            cancelButtonText: 'Huỷ'
-        }).then((result) => {
-            if (result.value) {
-                //CALL AJAX TO DELETE
-                $.ajax({
-                    url: systemURL + "supplier/api/delete",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({ "id": id }),
-                    success: function (responseData) {
-                        // debugger;
-                        if (responseData.status == 200 && responseData.message === "SUCCESS") {
-                            Swal.fire(
-                                'Thành công!',
-                                'Đã xoá ' + updatingObj.name + '.',
-                                'success'
-                            );
-                            reGenTable();
-                        }
-                    },
-                    error: function (e) {
-                        //console.log(e.message);
-                        Swal.fire(
-                            'Lỗi!',
-                            'Đã xảy ra lỗi, vui lòng thử lại',
-                            'error'
-                        );
-                    }
-                });
+        function resetUpdateButton() {
+            $("#btnUpdateItem").find(".indicator-label").removeClass("d-none");
+            $("#btnUpdateItem").find(".indicator-progress").addClass("d-none");
+            $("#btnUpdateItem").prop("disabled", false);
+        }
 
+        function reloadTable() {
+            if (useApiData) {
+                table.ajax.reload();
+            } else {
+                location.reload();
             }
-            else {
-                // Remove loading indication
-                submitButton.removeAttribute('data-kt-indicator');
-                // Enable button
-                submitButton.disabled = false;
-            }
-        })
-    }
-    async function getItemById(id) {
-        var data;
-        await $.ajax({
-            url: systemURL + "supplier/api/detail/" + id,
-            method: "GET",
-            success: function (responseData) {
-                data = responseData.data[0];
-            },
-            error: function (e) {
-            },
-        });
-        return data;
-    }
-    function reGenTable() {
-        tableUpdating = 0;
-        table.destroy();
-        $(".tableHeaderFilter").val(null).trigger("change");
-        $("#tableData tbody").html('');
-        loadData();
-    }
-
-    function viewDetail(supplierId, totalDebt) {
-        // Gửi dữ liệu đến server qua AJAX POST
-        $.ajax({
-            url: systemURL + "debt/api/listdebt", // Endpoint xử lý dữ liệu trên server
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                supplierId: supplierId,
-                totalDebt: totalDebt
-            }),
-            success: function (response) {
-                // Chuyển hướng đến trang chi tiết
-                window.location.href = systemURL + `Debt/admin/List?supplierId=${supplierId}`;
-            },
-            error: function (xhr, status, error) {
-                alert('Có lỗi xảy ra khi gửi dữ liệu!');
-            }
-        });
-    }
-
-
-    function generateNewSupllierCode() {
-        let highestCodeNumber = 0;
-        $("#tableData tbody tr").each(function () {
-            const codeText = $(this).find("td:nth-child(2)").text().trim();
-            if (codeText.startsWith("NCC")) {
-                const codeNumber = parseInt(codeText.substring(3), 10);
-                highestCodeNumber = Math.max(highestCodeNumber, codeNumber);
-            }
-        });
-        $("#supplier-supplierCode").val("NCC" + (highestCodeNumber + 1).toString().padStart(6, "0"));
-    }
-
-    function clearModalData() {
-        updatingItemId = 0;
-        $('#btnUpdateItem').text("Tạo mới");
-    }
+        }
 </script>
 <!--end:Base load data-->
 <!--begin:setting in data table-->

@@ -59,6 +59,11 @@ namespace CoffeeCRM.Core.Service
             return await ingredientRepository.ListBySupplier(supplierId);
         }
 
+        public async Task<List<IngredientDto>> ListDto()
+        {
+            return await ingredientRepository.ListDto();
+        }
+
         public async Task<List<Ingredient>> ListPaging(int pageIndex, int pageSize)
         {
             return await ingredientRepository.ListPaging(pageIndex, pageSize);

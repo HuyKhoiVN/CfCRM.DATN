@@ -14,5 +14,6 @@ namespace CoffeeCRM.Data.Model
         public string? Note { get; set; }
         public bool CreateNewBatch { get; set; }
         public DateTime CreatedTime { get; set; }
+        public int? StockLevelId { get; set; }
     }
 }

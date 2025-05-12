@@ -96,6 +96,11 @@ namespace CoffeeCRM.Core.Service
             return await stockTransactionRepository.ListServerSide(parameters);
         }
 
+        public async Task<DTResult<StockTransactionImportDto>> ListServerSideByWarehouse(StockTransactionDTParameters parameters)
+        {
+            return await stockTransactionRepository.ListServerSideByWarehouse(parameters);
+        }
+
         //public async Task<List<StockTransaction>> Search(string keyword)
         //{
         //    return await stockTransactionRepository.Search(keyword);
@@ -106,18 +111,27 @@ namespace CoffeeCRM.Core.Service
             await stockTransactionRepository.Update(obj);
         }
 
+        public async Task<List<StockTransactionImportDto>> GetTransactionByWarehouse(int warehouseId)
+        {
+            return await stockTransactionRepository.GetTransactionByWarehouse(warehouseId);
+        }
+
+        #region Giao dịch và xử lý trạng thái
         public async Task<StockTransaction> AddNewTransaction(StockTransactionImportDto obj)
         {
-            if (obj.TransactionType != TransactionTypeConst.IMPORT && obj.TransactionType != TransactionTypeConst.EXPORT && obj.TransactionType != TransactionTypeConst.INVENTORY)
+            if (obj.TransactionType != TransactionTypeConst.IMPORT &&
+                obj.TransactionType != TransactionTypeConst.EXPORT &&
+                obj.TransactionType != TransactionTypeConst.INVENTORY)
             {
                 throw new Exception("Loại giao dịch không hợp lệ");
             }
+
             using (var transaction = stockTransactionRepository.GetDatabase().BeginTransaction())
             {
                 try
                 {
-                    StockTransaction st;
-                    st = new StockTransaction
+                    // Tạo giao dịch mới
+                    var st = new StockTransaction
                     {
                         StockTransactionCode = GenerateTransactionCode(obj.TransactionType),
                         Note = obj.Note,
@@ -131,47 +145,44 @@ namespace CoffeeCRM.Core.Service
                         TransactionDate = DateTime.Now
                     };
 
-                    // Thêm mới giao dịch
                     await stockTransactionRepository.Add(st);
                     if (st.Id <= 0)
                     {
                         throw new Exception("Lỗi khi thêm giao dịch");
                     }
 
-                    var stockLevels = await stockLevelRepository.GetByWarehouseId(st.WarehouseId) ?? new List<StockLevel>();
                     // Xử lý chi tiết giao dịch
+                    var stockLevels = await stockLevelRepository.GetByWarehouseId(st.WarehouseId) ?? new List<StockLevel>();
+                    decimal totalAmount = 0;
+
                     if (obj.Details != null && obj.Details.Any())
                     {
-                        decimal totalAmount = 0;
-
                         foreach (var detailDto in obj.Details)
                         {
                             if (obj.TransactionType == TransactionTypeConst.IMPORT)
                             {
-                                // Xử lý nhập kho
                                 await ProcessImportTransaction(st, detailDto, stockLevels);
                                 totalAmount += detailDto.Quantity * detailDto.UnitPrice;
                             }
                             else if (obj.TransactionType == TransactionTypeConst.EXPORT)
                             {
-                                // Xử lý xuất kho theo FIFO
-                                stockLevels = stockLevels.Where(x => x.IngredientId == detailDto.IngredientId && x.Quantity > 0).ToList();
-                                decimal itemTotal = await ProcessExportTransactionFIFO2(st, detailDto, stockLevels);
+                                var filteredStockLevels = stockLevels
+                                    .Where(x => x.IngredientId == detailDto.IngredientId && x.Quantity > 0)
+                                    .ToList();
+                                decimal itemTotal = await ProcessExportTransactionFIFO(st, detailDto, filteredStockLevels);
                                 totalAmount += itemTotal;
                             }
                             else if (obj.TransactionType == TransactionTypeConst.INVENTORY)
                             {
-                                // Xử lý kiểm kê
-                                await ProcessInventoryTransaction2(st, detailDto);
+                                await ProcessInventoryTransaction(st, detailDto);
                             }
                         }
 
-                        // Cập nhật tổng tiền cho giao dịch
+                        // Cập nhật tổng tiền
                         st.TotalMoney = totalAmount;
                         await stockTransactionRepository.Update(st);
                     }
 
-                    // Commit transaction
                     await transaction.CommitAsync();
                     return st;
                 }
@@ -183,260 +194,6 @@ namespace CoffeeCRM.Core.Service
             }
         }
 
-        // Phương thức sinh mã giao dịch tự động
-        private string GenerateTransactionCode(string transactionType)
-        {
-            string prefix;
-            switch (transactionType)
-            {
-                case TransactionTypeConst.IMPORT:
-                    prefix = "TX-IN";
-                    break;
-                case TransactionTypeConst.EXPORT:
-                    prefix = "TX-OUT";
-                    break;
-                case TransactionTypeConst.INVENTORY:
-                    prefix = "INV";
-                    break;
-                case TransactionTypeConst.ADJUSTMENT:
-                    prefix = "ADJ";
-                    break;
-                case TransactionTypeConst.ADJUSTMENT_IN:
-                    prefix = "ADJ";
-                    break;
-                case TransactionTypeConst.ADJUSTMENT_OUT:
-                    prefix = "ADJ";
-                    break;
-                default:
-                    prefix = "TRX";
-                    break;
-            }
-
-            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            return $"{prefix}-{timestamp}";
-        }
-
-        // Phương thức xử lý nhập kho
-        private async Task ProcessImportTransaction(StockTransaction st, StockTransactionDetailImportDto detail, List<StockLevel> stocks)
-        {
-            // Kiểm tra xem đã có StockLevel cho nguyên liệu và kho này chưa
-            var stockExit = stocks.Where(x => x.IngredientId == detail.IngredientId && x.ExpirationDate.Date == detail.ExpirationDate.Date)
-                            .OrderBy(x => x.Quantity).FirstOrDefault();
-            if (stockExit != null)
-            {
-                decimal totalValue = (stockExit.Quantity * stockExit.UnitPrice) + (detail.Quantity * detail.UnitPrice);
-                decimal totalQuantity = stockExit.Quantity + detail.Quantity;
-                decimal averagePrice = totalValue / totalQuantity;
-                decimal roundedAveragePrice = Math.Ceiling(averagePrice / 1000) * 1000;
-
-                stockExit.Quantity += detail.Quantity;
-                stockExit.LastUpdatedTime = DateTime.Now;
-                stockExit.UnitPrice = roundedAveragePrice;
-                await stockLevelRepository.Update(stockExit);
-
-                var std = await CreateSTD(st.Id, detail.Quantity, stockExit.Id);
-            }
-            else if (!detail.CreateNewBatch)
-            {
-                var stockBatch = stocks.Where(s => s.IngredientId == detail.IngredientId).OrderBy(x => x.Quantity).FirstOrDefault();
-                if (stockBatch != null)
-                {
-                    decimal totalValue = (stockBatch.Quantity * stockBatch.UnitPrice) + (detail.Quantity * detail.UnitPrice);
-                    decimal totalQuantity = stockBatch.Quantity + detail.Quantity;
-                    decimal averagePrice = totalValue / totalQuantity;
-                    decimal roundedAveragePrice = Math.Ceiling(averagePrice / 1000) * 1000;
-
-                    stockBatch.UnitPrice = roundedAveragePrice;
-                    stockBatch.Quantity += detail.Quantity;
-                    stockBatch.LastUpdatedTime = DateTime.Now;
-                    await stockLevelRepository.Update(stockBatch);
-
-                    var std = await CreateSTD(st.Id, detail.Quantity, stockBatch.Id);
-                }
-                else
-                {
-                    var stockLevel = await NewStockLevel(st.WarehouseId, detail);
-                    var std = await CreateSTD(st.Id, detail.Quantity, stockLevel.Id);
-                }
-            }
-            else
-            {
-                var stockLevel = await NewStockLevel(st.WarehouseId, detail);
-                var std = await CreateSTD(st.Id, detail.Quantity, stockLevel.Id);
-            }
-        }
-
-        // Phương thức xử lý xuất kho theo FIFO
-        private async Task<decimal> ProcessExportTransactionFIFO2(StockTransaction transaction, StockTransactionDetailImportDto detailDto, List<StockLevel> stockLevels)
-        {
-            decimal totalAmount = 0;
-            decimal remainingQuantity = detailDto.Quantity;
-
-            // Sắp xếp theo ngày tạo hoặc ngày hết hạn (FIFO)
-            stockLevels = stockLevels.OrderBy(sl => sl.ExpirationDate).ThenBy(sl => sl.CreatedTime).ToList();
-
-            if (stockLevels == null || !stockLevels.Any())
-            {
-                throw new Exception($"Không có tồn kho cho nguyên liệu ID: {detailDto.IngredientId}");
-            }
-
-            // Kiểm tra tổng số lượng có đủ không
-            int totalAvailable = stockLevels.Sum(sl => sl.Quantity);
-            if (totalAvailable < remainingQuantity)
-            {
-                throw new Exception($"Không đủ số lượng tồn kho cho nguyên liệu ID: {detailDto.IngredientId}. Yêu cầu: {remainingQuantity}, Hiện có: {totalAvailable}");
-            }
-
-            // Xuất kho theo FIFO
-            foreach (var stockLevel in stockLevels)
-            {
-                if (remainingQuantity <= 0)
-                    break;
-
-                var stUpdate = await stockLevelRepository.Detail(stockLevel.Id);
-
-                int quantityToTake = (int)Math.Min(stUpdate.Quantity, remainingQuantity);
-
-                // Tạo chi tiết giao dịch
-                var detail = new StockTransactionDetail
-                {
-                    StockTransactionId = transaction.Id,
-                    StockLevelId = stUpdate.Id,
-                    Quantity = quantityToTake,
-                    CreatedTime = DateTime.Now,
-                    Active = true
-                };
-
-                await stockTransactionDetailRepository.Add(detail);
-
-                // Cập nhật StockLevel
-                stUpdate.Quantity -= quantityToTake;
-                stUpdate.LastUpdatedTime = DateTime.Now;
-
-                // Nếu số lượng = 0, đánh dấu không còn hoạt động
-                if (stUpdate.Quantity <= 0)
-                {
-                    stUpdate.Active = false;
-                    await stockLevelRepository.Delete(stUpdate);
-                }
-                else
-                {
-                    await stockLevelRepository.Update(stUpdate);
-                }
-
-                // Cập nhật số lượng còn lại và tổng tiền
-                remainingQuantity -= quantityToTake;
-                totalAmount += quantityToTake * stockLevel.UnitPrice;
-            }
-
-            return totalAmount;
-        }
-
-        // Phương thức xử lý kiểm kê
-        private async Task ProcessInventoryTransaction2(StockTransaction transaction, StockTransactionDetailImportDto detailDto)
-        {
-            // Lấy StockLevel hiện tại
-            var stockLevel = await stockLevelRepository.Detail(detailDto.StockLevelId);
-
-            if (stockLevel == null)
-            {
-                throw new Exception($"Không tìm thấy StockLevel với ID: {detailDto.StockLevelId}");
-            }
-
-            // Tạo chi tiết giao dịch
-            var detail = new StockTransactionDetail
-            {
-                StockTransactionId = transaction.Id,
-                StockLevelId = stockLevel.Id,
-                Quantity = detailDto.Quantity, // Số lượng thực tế sau kiểm kê
-                CreatedTime = DateTime.Now,
-                Active = true
-            };
-
-            await stockTransactionDetailRepository.Add(detail);
-
-            // Tạo bản ghi kiểm kê
-            var inventoryAudit = new InventoryAudit
-            {
-                AuditCode = transaction.StockTransactionCode,
-                AuditDate = transaction.TransactionDate,
-                Auditor = transaction.Account.Username, // Giả sử Account có trường Username
-                Note = transaction.Note,
-                CreatedTime = DateTime.Now,
-                Active = true,
-                WarehouseId = transaction.WarehouseId
-            };
-
-            await inventoryAuditRepository.Add(inventoryAudit);
-
-            // Tạo bản ghi chênh lệch nếu có
-            if (stockLevel.Quantity != detailDto.Quantity)
-            {
-                var discrepancy = new InventoryDiscrepancy
-                {
-                    InventoryAuditId = inventoryAudit.Id,
-                    StockLevelId = stockLevel.Id,
-                    ExpectedQuantity = stockLevel.Quantity,
-                    ActualQuantity = detailDto.Quantity,
-                    DiscrepancyReason = detailDto.Note,
-                    CreatedTime = DateTime.Now,
-                    Active = true
-                };
-
-                await inventoryDiscrepancyRepository.Add(discrepancy);
-
-                // Cập nhật số lượng thực tế vào StockLevel
-                stockLevel.Quantity = detailDto.Quantity;
-                stockLevel.LastUpdatedTime = DateTime.Now;
-                await stockLevelRepository.Update(stockLevel);
-            }
-        }
-        private async Task<StockLevel> NewStockLevel(int warehouseId, StockTransactionDetailImportDto detail)
-        {
-            var stockLevel = new StockLevel
-            {
-                IngredientId = detail.IngredientId,
-                WarehouseId = warehouseId,
-                Quantity = detail.Quantity,
-                UnitPrice = detail.UnitPrice,
-                ExpirationDate = detail.ExpirationDate,
-                CreatedTime = DateTime.Now,
-                LastUpdatedTime = DateTime.Now,
-                Active = true
-            };
-            await stockLevelRepository.Add(stockLevel);
-            if (stockLevel.Id <= 0)
-            {
-                throw new Exception("Lỗi khi thêm chi tiết giao dịch");
-            }
-            return stockLevel;
-        }
-
-        private async Task<StockTransactionDetail> CreateSTD(int stId, int quantity, int stLevelId)
-        {
-            var std = new StockTransactionDetail
-            {
-                StockLevelId = stLevelId,
-                StockTransactionId = stId,
-                Quantity = quantity,
-                CreatedTime = DateTime.Now,
-                Active = true
-            };
-            await stockTransactionDetailRepository.Add(std);
-            if (std.Id <= 0)
-            {
-                throw new Exception("Lỗi khi thêm chi tiết giao dịch");
-            }
-            return std;
-        }
-
-        public async Task<List<StockTransactionImportDto>> GetTransactionByWarehouse(int warehouseId)
-        {
-            return await stockTransactionRepository.GetTransactionByWarehouse(warehouseId);
-        }
-
-        // new methods
-        // Phương thức thêm/cập nhật giao dịch với hỗ trợ trạng thái
         public async Task<StockTransaction> AddOrUpdateTransaction(StockTransactionImportDto obj)
         {
             // Xác định trạng thái ban đầu
@@ -514,7 +271,6 @@ namespace CoffeeCRM.Core.Service
             }
         }
 
-        // Phương thức cập nhật trạng thái
         public async Task<StockTransaction> UpdateTransactionStatus(int transactionId, string newStatus, int userId, string note = null)
         {
             using (var transaction = stockTransactionRepository.GetDatabase().BeginTransaction())
@@ -570,13 +326,16 @@ namespace CoffeeCRM.Core.Service
             }
         }
 
-        // Phương thức hủy giao dịch
         public async Task<StockTransaction> CancelTransaction(int transactionId, string cancelReason, int canceledBy)
         {
             return await UpdateTransactionStatus(transactionId, TransactionStatusConst.CANCELED, canceledBy, cancelReason);
         }
 
-        // Phương thức xem chi tiết giao dịch
+        public async Task<TransactionDetailViewModel> DetailForReview(int transactionId)
+        {
+            return await stockTransactionRepository.GetTransactionDetailForReview(transactionId);
+        }
+
         public async Task<TransactionDetailViewModel> GetTransactionDetailForReview(int transactionId)
         {
             // Lấy thông tin giao dịch
@@ -586,10 +345,8 @@ namespace CoffeeCRM.Core.Service
                 throw new Exception($"Không tìm thấy giao dịch với ID: {transactionId}");
             }
 
-            // Lấy thông tin kho
+            // Lấy thông tin kho và người tạo
             var warehouse = await warehouseRepository.Detail(transaction.WarehouseId);
-
-            // Lấy thông tin người tạo
             var creator = await accountRepository.Detail(transaction.AccountId);
 
             // Khởi tạo ViewModel
@@ -627,6 +384,7 @@ namespace CoffeeCRM.Core.Service
                     viewModel.Details.Add(new TransactionDetailItemViewModel
                     {
                         Id = detail.Id,
+                        StockLevelId = stockLevel.Id, // Thêm trường này để sử dụng trong kiểm kê
                         IngredientId = stockLevel.IngredientId,
                         IngredientName = ingredient.IngredientName,
                         IngredientCode = ingredient.IngredientCode,
@@ -649,7 +407,7 @@ namespace CoffeeCRM.Core.Service
                     var ingredient = await ingredientRepository.Detail(draft.IngredientId);
                     if (ingredient == null) continue;
 
-                    viewModel.Details.Add(new TransactionDetailItemViewModel
+                    var detailItem = new TransactionDetailItemViewModel
                     {
                         Id = draft.Id,
                         IngredientId = draft.IngredientId,
@@ -662,7 +420,24 @@ namespace CoffeeCRM.Core.Service
                         Unit = ingredient.Unit?.UnitName,
                         CreateNewBatch = draft.CreateNewBatch,
                         Note = draft.Note
-                    });
+                    };
+
+                    // Nếu là kiểm kê, cần thêm StockLevelId
+                    if (transaction.TransactionType == TransactionTypeConst.INVENTORY &&
+                        draft.StockLevelId.HasValue && draft.StockLevelId.Value > 0)
+                    {
+                        detailItem.StockLevelId = draft.StockLevelId.Value;
+
+                        // Lấy số lượng hiện tại của lô hàng để tính chênh lệch
+                        var stockLevel = await stockLevelRepository.Detail(draft.StockLevelId.Value);
+                        if (stockLevel != null)
+                        {
+                            detailItem.ExpectedQuantity = stockLevel.Quantity;
+                            detailItem.Discrepancy = draft.Quantity - stockLevel.Quantity;
+                        }
+                    }
+
+                    viewModel.Details.Add(detailItem);
                 }
             }
 
@@ -675,7 +450,7 @@ namespace CoffeeCRM.Core.Service
                     // Lấy tổng tồn kho hiện tại
                     var currentStock = await stockLevelRepository.GetTotalQuantityByIngredient(detail.IngredientId, transaction.WarehouseId);
                     detail.CurrentStock = currentStock;
-
+                                                  
                     // Kiểm tra nếu số lượng xuất lớn hơn tồn kho
                     if (detail.Quantity > currentStock)
                     {
@@ -685,25 +460,298 @@ namespace CoffeeCRM.Core.Service
                 }
             }
 
-            // Nếu là kiểm kê, thêm thông tin về tồn kho dự kiến
-            if (transaction.TransactionType == TransactionTypeConst.INVENTORY &&
-                (transaction.Status == TransactionStatusConst.DRAFT || transaction.Status == TransactionStatusConst.PENDING))
-            {
-                foreach (var detail in viewModel.Details)
-                {
-                    // Lấy tổng tồn kho hiện tại cho nguyên liệu này
-                    var currentStock = await stockLevelRepository.GetTotalQuantityByIngredient(detail.IngredientId, transaction.WarehouseId);
-                    detail.ExpectedQuantity = currentStock;
-                    detail.Discrepancy = detail.Quantity - currentStock;
-                }
-            }
-
             return viewModel;
         }
 
-        // Phương thức lưu chi tiết dự thảo
+        private void UpdateStatusHistory(StockTransaction st, string newStatus, int userId, string note)
+        {
+            var statusHistory = string.IsNullOrEmpty(st.StatusHistory)
+                ? new List<StatusHistoryItem>()
+                : JsonConvert.DeserializeObject<List<StatusHistoryItem>>(st.StatusHistory);
+
+            if (statusHistory == null)
+            {
+                statusHistory = new List<StatusHistoryItem>();
+            }
+
+            statusHistory.Add(new StatusHistoryItem
+            {
+                Status = newStatus,
+                Date = DateTime.Now,
+                UserId = userId,
+                Reason = note
+            });
+
+            st.StatusHistory = JsonConvert.SerializeObject(statusHistory);
+        }
+        #endregion
+
+        #region Xử lý giao dịch nhập/xuất kho
+        private string GenerateTransactionCode(string transactionType)
+        {
+            string prefix;
+            switch (transactionType)
+            {
+                case TransactionTypeConst.IMPORT:
+                    prefix = "TX-IN";
+                    break;
+                case TransactionTypeConst.EXPORT:
+                    prefix = "TX-OUT";
+                    break;
+                case TransactionTypeConst.INVENTORY:
+                    prefix = "INV";
+                    break;
+                case TransactionTypeConst.ADJUSTMENT:
+                case TransactionTypeConst.ADJUSTMENT_IN:
+                case TransactionTypeConst.ADJUSTMENT_OUT:
+                    prefix = "ADJ";
+                    break;
+                default:
+                    prefix = "TRX";
+                    break;
+            }
+
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            return $"{prefix}-{timestamp}";
+        }
+
+        private async Task ProcessImportTransaction(StockTransaction st, StockTransactionDetailImportDto detail, List<StockLevel> stocks)
+        {
+            // Kiểm tra xem đã có StockLevel cho nguyên liệu và kho này chưa với cùng ngày hết hạn
+            var stockExit = stocks
+                .Where(x => x.IngredientId == detail.IngredientId && x.ExpirationDate.Date == detail.ExpirationDate.Date)
+                .OrderBy(x => x.Quantity)
+                .FirstOrDefault();
+
+            if (stockExit != null && !detail.CreateNewBatch)
+            {
+                // Cập nhật StockLevel hiện có
+                decimal totalValue = (stockExit.Quantity * stockExit.UnitPrice) + (detail.Quantity * detail.UnitPrice);
+                decimal totalQuantity = stockExit.Quantity + detail.Quantity;
+                decimal averagePrice = totalValue / totalQuantity;
+                decimal roundedAveragePrice = Math.Ceiling(averagePrice / 1000) * 1000;
+
+                stockExit.Quantity += detail.Quantity;
+                stockExit.LastUpdatedTime = DateTime.Now;
+                stockExit.UnitPrice = roundedAveragePrice;
+                await stockLevelRepository.Update(stockExit);
+
+                await CreateSTD(st.Id, detail.Quantity, stockExit.Id);
+            }
+            else if (!detail.CreateNewBatch)
+            {
+                // Không có StockLevel với ngày hết hạn cụ thể, nhưng không yêu cầu tạo lô mới
+                // Tìm bất kỳ StockLevel nào của nguyên liệu này
+                var stockBatch = stocks
+                    .Where(s => s.IngredientId == detail.IngredientId)
+                    .OrderBy(x => x.Quantity)
+                    .FirstOrDefault();
+
+                if (stockBatch != null)
+                {
+                    // Cập nhật StockLevel hiện có
+                    decimal totalValue = (stockBatch.Quantity * stockBatch.UnitPrice) + (detail.Quantity * detail.UnitPrice);
+                    decimal totalQuantity = stockBatch.Quantity + detail.Quantity;
+                    decimal averagePrice = totalValue / totalQuantity;
+                    decimal roundedAveragePrice = Math.Ceiling(averagePrice / 1000) * 1000;
+
+                    stockBatch.UnitPrice = roundedAveragePrice;
+                    stockBatch.Quantity += detail.Quantity;
+                    stockBatch.LastUpdatedTime = DateTime.Now;
+                    await stockLevelRepository.Update(stockBatch);
+
+                    await CreateSTD(st.Id, detail.Quantity, stockBatch.Id);
+                }
+                else
+                {
+                    // Không có StockLevel nào, tạo mới
+                    var stockLevel = await NewStockLevel(st.WarehouseId, detail);
+                    await CreateSTD(st.Id, detail.Quantity, stockLevel.Id);
+                }
+            }
+            else
+            {
+                // Yêu cầu tạo lô mới
+                var stockLevel = await NewStockLevel(st.WarehouseId, detail);
+                await CreateSTD(st.Id, detail.Quantity, stockLevel.Id);
+            }
+        }
+
+        private async Task<decimal> ProcessExportTransactionFIFO(StockTransaction st, StockTransactionDetailImportDto detail, List<StockLevel> stockLevels)
+        {
+            int remainingQuantity = detail.Quantity;
+            decimal totalAmount = 0;
+
+            // Sắp xếp theo ngày hết hạn và ngày tạo (FIFO)
+            var sortedStockLevels = stockLevels
+                .Where(x => x.IngredientId == detail.IngredientId && x.Quantity > 0)
+                .OrderBy(x => x.ExpirationDate)
+                .ThenBy(x => x.CreatedTime)
+                .ToList();
+
+            if (!sortedStockLevels.Any())
+            {
+                throw new Exception($"Không đủ tồn kho cho nguyên liệu ID: {detail.IngredientId}");
+            }
+
+            // Kiểm tra tổng số lượng có đủ không
+            int totalAvailable = sortedStockLevels.Sum(sl => sl.Quantity);
+            if (totalAvailable < remainingQuantity)
+            {
+                throw new Exception($"Không đủ số lượng tồn kho cho nguyên liệu ID: {detail.IngredientId}. Yêu cầu: {remainingQuantity}, Hiện có: {totalAvailable}");
+            }
+
+            // Xuất kho theo FIFO
+            foreach (var stockLevel in sortedStockLevels)
+            {
+                if (remainingQuantity <= 0) break;
+
+                int quantityToDeduct = Math.Min(remainingQuantity, stockLevel.Quantity);
+                remainingQuantity -= quantityToDeduct;
+
+                // Cập nhật StockLevel
+                stockLevel.Quantity -= quantityToDeduct;
+                stockLevel.LastUpdatedTime = DateTime.Now;
+
+                if (stockLevel.Quantity <= 0)
+                {
+                    stockLevel.Active = false;
+                }
+
+                await stockLevelRepository.Update(stockLevel);
+
+                // Tạo chi tiết giao dịch
+                var transactionDetail = new StockTransactionDetail
+                {
+                    StockTransactionId = st.Id,
+                    StockLevelId = stockLevel.Id,
+                    Quantity = quantityToDeduct,
+                    CreatedTime = DateTime.Now,
+                    Active = true
+                };
+
+                await stockTransactionDetailRepository.Add(transactionDetail);
+
+                // Tính tổng tiền
+                totalAmount += quantityToDeduct * stockLevel.UnitPrice;
+            }
+
+            if (remainingQuantity > 0)
+            {
+                throw new Exception($"Không đủ tồn kho cho nguyên liệu ID: {detail.IngredientId}. Còn thiếu {remainingQuantity}");
+            }
+
+            return totalAmount;
+        }
+
+        private async Task ProcessInventoryTransaction(StockTransaction st, StockTransactionDetailImportDto detail)
+        {
+            // Lấy StockLevel cần kiểm kê
+            var stockLevel = await stockLevelRepository.Detail(detail.StockLevelId);
+            if (stockLevel == null)
+            {
+                throw new Exception($"Không tìm thấy StockLevel với ID: {detail.StockLevelId}");
+            }
+
+            // Tạo chi tiết giao dịch
+            var transactionDetail = new StockTransactionDetail
+            {
+                StockTransactionId = st.Id,
+                StockLevelId = stockLevel.Id,
+                Quantity = detail.Quantity, // Số lượng thực tế sau kiểm kê
+                CreatedTime = DateTime.Now,
+                Active = true,
+            };
+
+            await stockTransactionDetailRepository.Add(transactionDetail);
+
+            // Tạo bản ghi kiểm kê
+            var inventoryAudit = new InventoryAudit
+            {
+                AuditCode = st.StockTransactionCode,
+                AuditDate = st.TransactionDate,
+                Auditor = st.Account?.Username ?? st.AccountId.ToString(),
+                Note = st.Note,
+                CreatedTime = DateTime.Now,
+                Active = true,
+                WarehouseId = st.WarehouseId
+            };
+
+            await inventoryAuditRepository.Add(inventoryAudit);
+
+            // Tạo bản ghi chênh lệch nếu có
+            if (stockLevel.Quantity != detail.Quantity)
+            {
+                var discrepancy = new InventoryDiscrepancy
+                {
+                    InventoryAuditId = inventoryAudit.Id,
+                    StockLevelId = stockLevel.Id, // Sử dụng StockLevelId thay vì IngredientId
+                    ExpectedQuantity = stockLevel.Quantity,
+                    ActualQuantity = detail.Quantity,
+                    DiscrepancyReason = detail.Note,
+                    CreatedTime = DateTime.Now,
+                    Active = true
+                };
+
+                await inventoryDiscrepancyRepository.Add(discrepancy);
+
+                // Cập nhật số lượng thực tế vào StockLevel
+                stockLevel.Quantity = detail.Quantity;
+                stockLevel.LastUpdatedTime = DateTime.Now;
+                await stockLevelRepository.Update(stockLevel);
+            }
+        }
+
+        private async Task<StockLevel> NewStockLevel(int warehouseId, StockTransactionDetailImportDto detail)
+        {
+            var stockLevel = new StockLevel
+            {
+                IngredientId = detail.IngredientId,
+                WarehouseId = warehouseId,
+                Quantity = detail.Quantity,
+                UnitPrice = detail.UnitPrice,
+                ExpirationDate = detail.ExpirationDate,
+                CreatedTime = DateTime.Now,
+                LastUpdatedTime = DateTime.Now,
+                Active = true
+            };
+
+            await stockLevelRepository.Add(stockLevel);
+            if (stockLevel.Id <= 0)
+            {
+                throw new Exception("Lỗi khi thêm chi tiết tồn kho");
+            }
+
+            return stockLevel;
+        }
+
+        private async Task<StockTransactionDetail> CreateSTD(int stId, int quantity, int stLevelId)
+        {
+            var std = new StockTransactionDetail
+            {
+                StockLevelId = stLevelId,
+                StockTransactionId = stId,
+                Quantity = quantity,
+                CreatedTime = DateTime.Now,
+                Active = true
+            };
+
+            await stockTransactionDetailRepository.Add(std);
+            if (std.Id <= 0)
+            {
+                throw new Exception("Lỗi khi thêm chi tiết giao dịch");
+            }
+
+            return std;
+        }
+        #endregion
+
+        #region Xử lý giao dịch từ dự thảo
         private async Task SaveDraftDetails(int transactionId, List<StockTransactionDetailImportDto> details)
         {
+            if (details == null || !details.Any())
+                return;
+
             // Xóa chi tiết dự thảo cũ
             await draftDetailRepository.DeleteByTransactionId(transactionId);
 
@@ -714,6 +762,7 @@ namespace CoffeeCRM.Core.Service
                 {
                     StockTransactionId = transactionId,
                     IngredientId = detail.IngredientId,
+                    StockLevelId = detail.StockLevelId, // Quan trọng cho kiểm kê
                     Quantity = detail.Quantity,
                     UnitPrice = detail.UnitPrice,
                     ExpirationDate = detail.ExpirationDate,
@@ -726,76 +775,6 @@ namespace CoffeeCRM.Core.Service
             }
         }
 
-        // Phương thức xử lý giao dịch hoàn thành từ dự thảo
-        private async Task ProcessCompletedTransactionFromDraft(StockTransaction st)
-        {
-            // Lấy chi tiết dự thảo
-            var draftDetails = await draftDetailRepository.GetByTransactionId(st.Id);
-
-            if (draftDetails != null && draftDetails.Any())
-            {
-                // Chuyển đổi từ dự thảo sang DTO
-                var detailDtos = draftDetails.Select(d => new StockTransactionDetailImportDto
-                {
-                    IngredientId = d.IngredientId,
-                    Quantity = d.Quantity,
-                    UnitPrice = d.UnitPrice,
-                    ExpirationDate = d.ExpirationDate,
-                    Note = d.Note,
-                    CreateNewBatch = d.CreateNewBatch
-                }).ToList();
-
-                // Xử lý điều chỉnh kho
-                var stockLevels = await stockLevelRepository.GetByWarehouseId(st.WarehouseId) ?? new List<StockLevel>();
-                decimal totalAmount = 0;
-
-                foreach (var detailDto in detailDtos)
-                {
-                    if (st.TransactionType == TransactionTypeConst.IMPORT)
-                    {
-                        await ProcessImportTransaction(st, detailDto, stockLevels);
-                        totalAmount += detailDto.Quantity * detailDto.UnitPrice;
-                    }
-                    else if (st.TransactionType == TransactionTypeConst.EXPORT)
-                    {
-                        stockLevels = stockLevels.Where(x => x.IngredientId == detailDto.IngredientId && x.Quantity > 0).ToList();
-                        decimal itemTotal = await ProcessExportTransactionFIFO(st, detailDto, stockLevels);
-                        totalAmount += itemTotal;
-                    }
-                    else if (st.TransactionType == TransactionTypeConst.INVENTORY)
-                    {
-                        await ProcessInventoryTransaction(st, detailDto);
-                    }
-                }
-
-                // Cập nhật tổng tiền
-                st.TotalMoney = totalAmount;
-                await stockTransactionRepository.Update(st);
-
-                // Xóa chi tiết dự thảo sau khi đã xử lý
-                await draftDetailRepository.DeleteByTransactionId(st.Id);
-            }
-        }
-
-        // Cập nhật lịch sử trạng thái
-        private void UpdateStatusHistory(StockTransaction st, string newStatus, int userId, string note)
-        {
-            var statusHistory = string.IsNullOrEmpty(st.StatusHistory)
-                ? new List<StatusHistoryItem>()
-                : JsonConvert.DeserializeObject<List<StatusHistoryItem>>(st.StatusHistory);
-
-            statusHistory.Add(new StatusHistoryItem
-            {
-                Status = newStatus,
-                Date = DateTime.Now,
-                UserId = userId,
-                Reason = note
-            });
-
-            st.StatusHistory = JsonConvert.SerializeObject(statusHistory);
-        }
-
-        // Phương thức xử lý giao dịch hoàn thành
         private async Task ProcessCompletedTransaction(StockTransaction st, StockTransactionImportDto obj)
         {
             // Xử lý chi tiết giao dịch
@@ -826,142 +805,66 @@ namespace CoffeeCRM.Core.Service
             await stockTransactionRepository.Update(st);
         }
 
-        // Phương thức xử lý giao dịch xuất kho theo FIFO
-        private async Task<decimal> ProcessExportTransactionFIFO(StockTransaction st, StockTransactionDetailImportDto detail, List<StockLevel> stockLevels)
+        private async Task ProcessCompletedTransactionFromDraft(StockTransaction st)
         {
-            int remainingQuantity = detail.Quantity;
-            decimal totalAmount = 0;
+            // Lấy chi tiết dự thảo
+            var draftDetails = await draftDetailRepository.GetByTransactionId(st.Id);
 
-            // Sắp xếp theo ngày hết hạn và ngày tạo (FIFO)
-            var sortedStockLevels = stockLevels
-                .Where(x => x.IngredientId == detail.IngredientId && x.Quantity > 0)
-                .OrderBy(x => x.ExpirationDate)
-                .ThenBy(x => x.CreatedTime)
-                .ToList();
-
-            if (!sortedStockLevels.Any())
+            if (draftDetails != null && draftDetails.Any())
             {
-                throw new Exception($"Không đủ tồn kho cho nguyên liệu ID: {detail.IngredientId}");
-            }
-
-            foreach (var stockLevel in sortedStockLevels)
-            {
-                if (remainingQuantity <= 0) break;
-
-                int quantityToDeduct = Math.Min(remainingQuantity, stockLevel.Quantity);
-                remainingQuantity -= quantityToDeduct;
-
-                // Cập nhật StockLevel
-                stockLevel.Quantity -= quantityToDeduct;
-                stockLevel.LastUpdatedTime = DateTime.Now;
-
-                await stockLevelRepository.Update(stockLevel);
-
-                // Tạo chi tiết giao dịch
-                var transactionDetail = new StockTransactionDetail
+                // Chuyển đổi từ dự thảo sang DTO
+                var detailDtos = draftDetails.Select(d => new StockTransactionDetailImportDto
                 {
-                    StockTransactionId = st.Id,
-                    StockLevelId = stockLevel.Id,
-                    Quantity = quantityToDeduct,
-                    CreatedTime = DateTime.Now,
-                    Active = true
-                };
+                    IngredientId = d.IngredientId,
+                    StockLevelId = d.StockLevelId, // Quan trọng cho kiểm kê
+                    Quantity = d.Quantity,
+                    UnitPrice = d.UnitPrice,
+                    ExpirationDate = d.ExpirationDate,
+                    Note = d.Note,
+                    CreateNewBatch = d.CreateNewBatch
+                }).ToList();
 
-                await stockTransactionDetailRepository.Add(transactionDetail);
+                // Xử lý điều chỉnh kho
+                var stockLevels = await stockLevelRepository.GetByWarehouseId(st.WarehouseId) ?? new List<StockLevel>();
+                decimal totalAmount = 0;
 
-                // Tính tổng tiền
-                totalAmount += quantityToDeduct * stockLevel.UnitPrice;
-            }
-
-            if (remainingQuantity > 0)
-            {
-                throw new Exception($"Không đủ tồn kho cho nguyên liệu ID: {detail.IngredientId}. Còn thiếu {remainingQuantity}");
-            }
-
-            return totalAmount;
-        }
-
-        // Phương thức xử lý giao dịch kiểm kê
-        private async Task ProcessInventoryTransaction(StockTransaction st, StockTransactionDetailImportDto detail)
-        {
-            // Lấy tổng số lượng hiện tại
-            int currentQuantity = await stockLevelRepository.GetTotalQuantityByIngredient(detail.IngredientId, st.WarehouseId);
-            int discrepancy = detail.Quantity - currentQuantity;
-
-            // Tạo bản ghi kiểm kê
-            var inventoryAudit = new InventoryAudit
-            {
-                AuditCode = st.StockTransactionCode,
-                AuditDate = st.CompletedDate ?? DateTime.Now,
-                Auditor = st.AccountId.ToString(), // Hoặc lấy từ Account nếu có
-                Note = st.Note,
-                CreatedTime = DateTime.Now,
-                Active = true,
-                WarehouseId = st.WarehouseId
-            };
-
-            await inventoryAuditRepository.Add(inventoryAudit);
-
-            // Nếu có chênh lệch, tạo bản ghi chênh lệch
-            if (discrepancy != 0)
-            {
-                var inventoryDiscrepancy = new InventoryDiscrepancy
+                foreach (var detailDto in detailDtos)
                 {
-                    InventoryAuditId = inventoryAudit.Id,
-                    StockLevelId = detail.IngredientId, // Thêm trường này vào model nếu chưa có
-                    ExpectedQuantity = currentQuantity,
-                    ActualQuantity = detail.Quantity,
-                    DiscrepancyReason = detail.Note,
-                    CreatedTime = DateTime.Now,
-                    Active = true
-                };
-
-                await inventoryDiscrepancyRepository.Add(inventoryDiscrepancy);
-
-                // Điều chỉnh tồn kho nếu có chênh lệch
-                if (discrepancy > 0)
-                {
-                    // Thêm vào kho nếu thừa
-                    var stockLevel = new StockLevel
+                    if (st.TransactionType == TransactionTypeConst.IMPORT)
                     {
-                        IngredientId = detail.IngredientId,
-                        WarehouseId = st.WarehouseId,
-                        Quantity = discrepancy,
-                        UnitPrice = detail.UnitPrice,
-                        ExpirationDate = detail.ExpirationDate,
-                        CreatedTime = DateTime.Now,
-                        LastUpdatedTime = DateTime.Now,
-                        Active = true
-                    };
-
-                    await stockLevelRepository.Add(stockLevel);
-                }
-                else if (discrepancy < 0)
-                {
-                    // Giảm từ kho nếu thiếu (sử dụng FIFO)
-                    var stockLevels = await stockLevelRepository.GetByWarehouseId(st.WarehouseId);
-                    stockLevels = stockLevels.Where(x => x.IngredientId == detail.IngredientId && x.Quantity > 0)
-                        .OrderBy(x => x.ExpirationDate)
-                        .ThenBy(x => x.CreatedTime)
-                        .ToList();
-
-                    int remainingToDeduct = Math.Abs(discrepancy);
-
-                    foreach (var stockLevel in stockLevels)
+                        await ProcessImportTransaction(st, detailDto, stockLevels);
+                        totalAmount += detailDto.Quantity * detailDto.UnitPrice;
+                    }
+                    else if (st.TransactionType == TransactionTypeConst.EXPORT)
                     {
-                        if (remainingToDeduct <= 0) break;
-
-                        int quantityToDeduct = Math.Min(remainingToDeduct, stockLevel.Quantity);
-                        remainingToDeduct -= quantityToDeduct;
-
-                        stockLevel.Quantity -= quantityToDeduct;
-                        stockLevel.LastUpdatedTime = DateTime.Now;
-
-                        await stockLevelRepository.Update(stockLevel);
+                        var filteredStockLevels = stockLevels.Where(x => x.IngredientId == detailDto.IngredientId && x.Quantity > 0).ToList();
+                        decimal itemTotal = await ProcessExportTransactionFIFO(st, detailDto, filteredStockLevels);
+                        totalAmount += itemTotal;
+                    }
+                    else if (st.TransactionType == TransactionTypeConst.INVENTORY)
+                    {
+                        await ProcessInventoryTransaction(st, detailDto);
                     }
                 }
+
+                // Cập nhật tổng tiền
+                st.TotalMoney = totalAmount;
+                await stockTransactionRepository.Update(st);
+
+                // Xóa chi tiết dự thảo sau khi đã xử lý
+                await draftDetailRepository.DeleteByTransactionId(st.Id);
             }
         }
+        #endregion
+    }
+
+    // Lớp StatusHistoryItem để lưu trữ lịch sử trạng thái
+    public class StatusHistoryItem
+    {
+        public string Status { get; set; }
+        public DateTime Date { get; set; }
+        public int UserId { get; set; }
+        public string Reason { get; set; }
     }
 }
 

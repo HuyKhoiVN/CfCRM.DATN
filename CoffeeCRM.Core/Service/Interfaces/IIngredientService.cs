@@ -10,5 +10,6 @@ namespace CoffeeCRM.Core.Service
     {
         Task<DTResult<IngredientDto>> ListServerSide(IngredientDTParameters parameters);
         Task<List<IngredientDto>> ListBySupplier(int supplierId);
+        Task<List<IngredientDto>> ListDto();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoffeeCRM.Data.Constants;
+using Npgsql.Replication.PgOutput;
 
 namespace CoffeeCRM.Data.DTO
 {
@@ -36,13 +37,13 @@ namespace CoffeeCRM.Data.DTO
     public partial class StockTransactionDetailImportDto
     {
         public int Id { get; set; }
-        public int StockLevelId { get; set; }
+        public int? StockLevelId { get; set; }
         public int IngredientId { get; set; }
         public string? IngredientName { get; set; }
         public int StockTransactionId { get; set; }
         public int Quantity { get; set; }
         public bool CreateNewBatch { get; set; }
-        public decimal UnitPrice { get; set; } 
+        public decimal UnitPrice { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime CreatedTime { get; set; }
         public string? Note { get; set; }
@@ -100,6 +101,7 @@ namespace CoffeeCRM.Data.DTO
         public int IngredientId { get; set; }
         public string IngredientName { get; set; }
         public string IngredientCode { get; set; }
+        public int? StockLevelId { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
@@ -123,4 +125,20 @@ namespace CoffeeCRM.Data.DTO
         public int UserId { get; set; }
         public string Reason { get; set; }
     }
+
+    public class UpdateStatusVM
+    {
+        public int transactionId { get; set; }
+        public string newStatus { get; set; }
+        public int userId { get; set; }
+        public string? note { get; set; }
+    }
+
+    public class CancelTransactionVM
+    {
+        public int transactionId { get; set; }
+        public string cancelReason { get; set; }
+        public int canceledBy { get; set; }
+    }
 }
+

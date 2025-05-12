@@ -12,5 +12,11 @@ namespace CoffeeCRM.Core.Service
         Task<DTResult<StockTransaction>> ListServerSide(StockTransactionDTParameters parameters);
         Task<StockTransaction> AddNewTransaction(StockTransactionImportDto obj);
         Task<List<StockTransactionImportDto>> GetTransactionByWarehouse(int warehouseId);
+        Task<StockTransaction> AddOrUpdateTransaction(StockTransactionImportDto obj);
+        Task<StockTransaction> UpdateTransactionStatus(int transactionId, string newStatus, int userId, string note = null);
+        Task<StockTransaction> CancelTransaction(int transactionId, string cancelReason, int canceledBy);
+        Task<TransactionDetailViewModel> GetTransactionDetailForReview(int transactionId);
+        Task<DTResult<StockTransactionImportDto>> ListServerSideByWarehouse(StockTransactionDTParameters parameters);
+        Task<TransactionDetailViewModel> DetailForReview(int transactionId);
     }
 }

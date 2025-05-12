@@ -16,6 +16,7 @@ namespace CoffeeCRM.Core.Repository
         Task<List<Ingredient>> List();
 
         Task<List<IngredientDto>> ListBySupplier(int supplierId);
+        Task<List<IngredientDto>> ListDto();
 
         //Task <List< Ingredient>> Search(string keyword);
 

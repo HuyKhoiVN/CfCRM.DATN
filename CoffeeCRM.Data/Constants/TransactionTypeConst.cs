@@ -24,6 +24,6 @@ namespace CoffeeCRM.Data.Constants
         public const string PENDING = "pending";
         public const string APPROVED = "approved";
         public const string COMPLETED = "completed";
-        public const string CANCELED = "cancelled";
+        public const string CANCELED = "canceled";
     }
 }

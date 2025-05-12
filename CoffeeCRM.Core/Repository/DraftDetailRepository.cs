@@ -102,7 +102,7 @@ namespace CoffeeCRM.Core.Repository
                 db.Entry(obj).Property(x => x.ExpirationDate).IsModified = true;
                 db.Entry(obj).Property(x => x.Note).IsModified = true;
                 db.Entry(obj).Property(x => x.CreateNewBatch).IsModified = true;
-
+                db.Entry(obj).Property(x => x.StockLevelId).IsModified = true;
                 //Commit the transaction
                 await db.SaveChangesAsync();
             }
