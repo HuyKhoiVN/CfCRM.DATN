@@ -239,10 +239,16 @@ namespace CfCRM.DATN.Controllers
                     var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(model);
                     return Created("", coffeemanagementResponse);
                 }
-                catch (Exception)
+                catch(BadHttpRequestException e)
+                {
+                    var cfRes = CoffeeManagementResponse.BAD_REQUEST(e.Message);
+                    return BadRequest(cfRes);
+                }
+                catch (Exception e)
                 {
 
-                    return BadRequest();
+                    var cfRes = CoffeeManagementResponse.BAD_REQUEST(e.Message);
+                    return BadRequest(cfRes);
                 }
             }
             return BadRequest();

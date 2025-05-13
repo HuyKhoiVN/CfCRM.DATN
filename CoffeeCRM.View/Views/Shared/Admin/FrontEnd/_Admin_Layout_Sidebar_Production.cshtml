@@ -67,45 +67,93 @@
                  data-kt-menu-expand="false">
 
                 @{
-
                     // Định nghĩa danh sách menu
-                    var menuList = new List<MenuItem>
+                    var salesMenuItems = new List<MenuItem>
                 {
-                new MenuItem { Url = "coffee/admin/dashboard", Name = "Thống kê" },
-                new MenuItem { Url = "booking/admin/tablelist", Name = "Quản lý đặt bàn" },
-                new MenuItem { Url = "invoice/admin/list", Name = "Quản lý hóa đơn" },
-                new MenuItem { Url = "account/admin/list", Name = "Quản lý tài khoản" },
-                new MenuItem { Url = "ingredient/admin/list", Name = "Quản lý nguyên liệu" },
-                new MenuItem { Url = "ingredientcategory/admin/list", Name = "Danh mục nguyên liệu" },
-                new MenuItem { Url = "dish/admin/list", Name = "Quản lý món ăn" },
-                new MenuItem { Url = "dishcategory/admin/list", Name = "Quản lý nhóm món" },
-                new MenuItem { Url = "warehouse/admin/list", Name = "Quản lý kho hàng" },
-                new MenuItem { Url = "purchaseOrder/admin/list", Name = "Quản lý nhập hàng" },
-                new MenuItem { Url = "supplier/admin/list", Name = "Quản lý nhà cung cấp" },
-                new MenuItem { Url = "cashflow/admin/list", Name = "Quản lý dòng tiền" }
+                new MenuItem { Url = "coffee/admin/dashboard", Name = "Thống kê", Icon = "bi bi-bar-chart-fill" },
+                new MenuItem { Url = "booking/admin/tablelist", Name = "Quản lý đặt bàn", Icon = "bi bi-calendar-check-fill" },
+                new MenuItem { Url = "invoice/admin/list", Name = "Quản lý hóa đơn", Icon = "bi bi-receipt" },
+                new MenuItem { Url = "purchaseOrder/admin/list", Name = "Quản lý nhập hàng", Icon = "bi bi-box-seam" },
+                new MenuItem { Url = "warehouse/admin/list", Name = "Quản lý kho hàng", Icon = "bi bi-building" }
+                };
+
+                    var adminMenuItems = new List<MenuItem>
+                {
+                new MenuItem { Url = "account/admin/list", Name = "Quản lý tài khoản", Icon = "bi bi-people-fill" },
+                new MenuItem { Url = "ingredient/admin/list", Name = "Quản lý nguyên liệu", Icon = "bi bi-egg-fill" },
+                new MenuItem { Url = "dish/admin/list", Name = "Quản lý món ăn", Icon = "bi bi-cup-hot-fill" },
+                new MenuItem { Url = "dishcategory/admin/list", Name = "Quản lý nhóm món", Icon = "bi bi-collection" },
+                new MenuItem { Url = "supplier/admin/list", Name = "Quản lý nhà cung cấp", Icon = "bi bi-truck" },
+                new MenuItem { Url = "cashflow/admin/list", Name = "Quản lý dòng tiền", Icon = "bi bi-cash-stack" }
                 };
 
                     var roleId = ViewBag.RoleId; // Lấy RoleId từ ViewBag
-                                                 // Điều kiện phân quyền hiển thị menu
 
-                    foreach (var item1 in menuList)
+                    // Hiển thị tiêu đề phần Bán hàng
+                    bool showSalesSection = (roleId == RoleConst.WAITER || roleId == RoleConst.BARTENDER ||
+                    roleId == RoleConst.MANAGER || roleId == RoleConst.ADMIN);
+
+                    if (showSalesSection)
                     {
-                        // Kiểm tra điều kiện RoleId và menu cần hiển thị
-                        if ((roleId == RoleConst.BARTENDER && item1.Url == "booking/admin/tablebooking") ||
-                        (roleId == RoleConst.WAITER && item1.Url == "booking/admin/tablebooking") ||
-                        (roleId == RoleConst.MANAGER) ||  // Manager có thể xem tất cả menu
-                        (roleId == RoleConst.ADMIN)) // Admin có thể xem tất cả menu
+                        <div class="menu-item pt-5">
+                            <div class="menu-content">
+                                <span class="menu-heading fw-bold text-uppercase fs-7">Bán hàng</span>
+                            </div>
+                        </div>
+
+                        foreach (var item in salesMenuItems)
                         {
-                            // Tạo menu phẳng (không có menu con)
+                            bool showMenuItem = false;
+
+                            // Kiểm tra quyền truy cập cho từng vai trò
+                            if (roleId == RoleConst.WAITER &&
+                            (item.Url == "purchaseOrder/admin/list" ||
+                            item.Url == "warehouse/admin/list" ||
+                            item.Url == "booking/admin/tablelist" ||
+                            item.Url == "invoice/admin/list"))
+                            {
+                                showMenuItem = true;
+                            }
+                            else if (roleId == RoleConst.BARTENDER && item.Url == "booking/admin/tablelist")
+                            {
+                                showMenuItem = true;
+                            }
+                            else if (roleId == RoleConst.MANAGER || roleId == RoleConst.ADMIN)
+                            {
+                                showMenuItem = true;
+                            }
+
+                            if (showMenuItem)
+                            {
+                                <div class="menu-item">
+                                    <a class="menu-link" href="/@item.Url">
+                                        <span class="menu-icon">
+                                            <i class="@item.Icon"></i>
+                                        </span>
+                                        <span class="menu-title">@item.Name</span>
+                                    </a>
+                                </div>
+                            }
+                        }
+                    }
+
+                    // Hiển thị tiêu đề phần Quản trị (chỉ cho MANAGER và ADMIN)
+                    if (roleId == RoleConst.MANAGER || roleId == RoleConst.ADMIN)
+                    {
+                        <div class="menu-item pt-5">
+                            <div class="menu-content">
+                                <span class="menu-heading fw-bold text-uppercase fs-7">Quản trị</span>
+                            </div>
+                        </div>
+
+                        foreach (var item in adminMenuItems)
+                        {
                             <div class="menu-item">
-                                <a class="menu-link" href="/@item1.Url">
+                                <a class="menu-link" href="/@item.Url">
                                     <span class="menu-icon">
-                                        <i class="">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
+                                        <i class="@item.Icon"></i>
                                     </span>
-                                    <span class="menu-title">@item1.Name</span>
+                                    <span class="menu-title">@item.Name</span>
                                 </a>
                             </div>
                         }

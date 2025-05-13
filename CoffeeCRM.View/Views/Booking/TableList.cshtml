@@ -1813,10 +1813,10 @@
                         error: function (e) {
                             //console.log(e.message);
                             Swal.fire(
-                                'Lỗi!',
-                                'Đã xảy ra lỗi, vui lòng thử lại',
-                                'error'
-                            );
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi, vui lòng thử lại',
+                                    'error'
+                                );
                             // Remove loading indication
                             submitButton.removeAttribute('data-kt-indicator');
                             // Enable button
@@ -2061,8 +2061,8 @@
         function handleBookingError(xhr) {
             let errorMessage = 'Đã xảy ra lỗi khi lưu thông tin đặt bàn. Vui lòng thử lại sau.';
 
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                errorMessage = xhr.responseJSON.message;
+            if (xhr.responseJSON && xhr.responseJSON.data) {
+                errorMessage = xhr.responseJSON.data[0];
             }
 
             Swal.fire({

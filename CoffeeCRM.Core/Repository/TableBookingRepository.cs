@@ -10,6 +10,7 @@ using CoffeeCRM.Data.ViewModels;
 using System.Globalization;
 using CoffeeCRM.Data.Constants;
 using CoffeeCRM.Data.DTO;
+using SkiaSharp;
 
 namespace CoffeeCRM.Core.Repository
 {
@@ -131,6 +132,23 @@ namespace CoffeeCRM.Core.Repository
 
             return result;
         }
+
+        public async Task<bool> IsBookingTimeConflict(DateTime bookingTime, int tableId, int? excludeId = null)
+        {
+            var fromTime = bookingTime.AddHours(-2);
+            var toTime = bookingTime.AddHours(2);
+
+            var query = db.TableBookings
+                .Where(x => x.TableId == tableId && x.BookingTime >= fromTime && x.BookingTime <= toTime && x.Active && x.BookingStatus == TableBookingConst.CONFIRMED);
+
+            if (excludeId.HasValue)
+            {
+                query = query.Where(x => x.Id != excludeId.Value);
+            }
+
+            return await query.AnyAsync();
+        }
+
 
 
         public int Count()
