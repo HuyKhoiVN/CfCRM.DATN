@@ -7,51 +7,49 @@ using CoffeeCRM.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using CoffeeCRM.Data.DTO;
 using CoffeeCRM.Data.Constants;
-using NetTopologySuite.Noding;
-using Humanizer;
-using CfCRM.View.Models.ViewModels;
-using System.Collections;
 using Newtonsoft.Json;
 using CoffeeCRM.Core.Repository.Interfaces;
 
 namespace CoffeeCRM.Core.Service
 {
-    public class StockTransactionService : IStockTransactionService
+    public class StockTransactionServiceTemp
     {
-        IStockTransactionRepository stockTransactionRepository;
-        IStockTransactionDetailRepository stockTransactionDetailRepository;
-        IStockLevelRepository stockLevelRepository;
-        IInventoryDiscrepancyRepository inventoryDiscrepancyRepository;
-        IInventoryAuditRepository inventoryAuditRepository;
-        IIngredientRepository ingredientRepository;
-        IDraftDetailRepository draftDetailRepository;
-        IWarehouseRepository warehouseRepository;
-        IAccountRepository accountRepository;
+        private readonly IStockTransactionRepository stockTransactionRepository;
+        private readonly IStockTransactionDetailRepository stockTransactionDetailRepository;
+        private readonly IStockLevelRepository stockLevelRepository;
+        private readonly IInventoryDiscrepancyRepository inventoryDiscrepancyRepository;
+        private readonly IInventoryAuditRepository inventoryAuditRepository;
+        private readonly IIngredientRepository ingredientRepository;
+        private readonly IDraftDetailRepository draftDetailRepository;
+        private readonly IWarehouseRepository warehouseRepository;
+        private readonly IAccountRepository accountRepository;
 
-        public StockTransactionService(
-            IStockTransactionRepository _stockTransactionRepository,
-            IStockTransactionDetailRepository _stockTransactionDetailRepository,
-            IStockLevelRepository _stockLevelRepository,
-            IInventoryDiscrepancyRepository _inventoryDiscrepancyRepository,
-            IInventoryAuditRepository _inventoryAuditRepository,
-            IIngredientRepository _ingredientRepository,
-            IDraftDetailRepository _draftDetailRepository,
-            IWarehouseRepository _warehouseRepository,
-            IAccountRepository _accountRepository
-            )
+        public StockTransactionServiceTemp(
+            IStockTransactionRepository stockTransactionRepository,
+            IStockTransactionDetailRepository stockTransactionDetailRepository,
+            IStockLevelRepository stockLevelRepository,
+            IInventoryDiscrepancyRepository inventoryDiscrepancyRepository,
+            IInventoryAuditRepository inventoryAuditRepository,
+            IIngredientRepository ingredientRepository,
+            IDraftDetailRepository draftDetailRepository,
+            IWarehouseRepository warehouseRepository,
+            IAccountRepository accountRepository)
         {
-            stockTransactionRepository = _stockTransactionRepository;
-            stockTransactionDetailRepository = _stockTransactionDetailRepository;
-            stockLevelRepository = _stockLevelRepository;
-            inventoryDiscrepancyRepository = _inventoryDiscrepancyRepository;
-            inventoryAuditRepository = _inventoryAuditRepository;
-            ingredientRepository = _ingredientRepository;
-            draftDetailRepository = _draftDetailRepository;
-            warehouseRepository = _warehouseRepository;
-            accountRepository = _accountRepository;
+            this.stockTransactionRepository = stockTransactionRepository;
+            this.stockTransactionDetailRepository = stockTransactionDetailRepository;
+            this.stockLevelRepository = stockLevelRepository;
+            this.inventoryDiscrepancyRepository = inventoryDiscrepancyRepository;
+            this.inventoryAuditRepository = inventoryAuditRepository;
+            this.ingredientRepository = ingredientRepository;
+            this.draftDetailRepository = draftDetailRepository;
+            this.warehouseRepository = warehouseRepository;
+            this.accountRepository = accountRepository;
         }
+
+        #region Phương thức cơ bản
         public async Task Add(StockTransaction obj)
         {
             obj.Active = true;
@@ -61,8 +59,7 @@ namespace CoffeeCRM.Core.Service
 
         public int Count()
         {
-            var result = stockTransactionRepository.Count();
-            return result;
+            return stockTransactionRepository.Count();
         }
 
         public async Task Delete(StockTransaction obj)
@@ -96,16 +93,6 @@ namespace CoffeeCRM.Core.Service
             return await stockTransactionRepository.ListServerSide(parameters);
         }
 
-        public async Task<DTResult<StockTransactionImportDto>> ListServerSideByWarehouse(StockTransactionDTParameters parameters)
-        {
-            return await stockTransactionRepository.ListServerSideByWarehouse(parameters);
-        }
-
-        //public async Task<List<StockTransaction>> Search(string keyword)
-        //{
-        //    return await stockTransactionRepository.Search(keyword);
-        //}
-
         public async Task Update(StockTransaction obj)
         {
             await stockTransactionRepository.Update(obj);
@@ -115,6 +102,7 @@ namespace CoffeeCRM.Core.Service
         {
             return await stockTransactionRepository.GetTransactionByWarehouse(warehouseId);
         }
+        #endregion
 
         #region Giao dịch và xử lý trạng thái
         public async Task<StockTransaction> AddNewTransaction(StockTransactionImportDto obj)
@@ -331,11 +319,6 @@ namespace CoffeeCRM.Core.Service
             return await UpdateTransactionStatus(transactionId, TransactionStatusConst.CANCELED, canceledBy, cancelReason);
         }
 
-        public async Task<TransactionDetailViewModel> DetailForReview(int transactionId)
-        {
-            return await stockTransactionRepository.GetTransactionDetailForReview(transactionId);
-        }
-
         public async Task<TransactionDetailViewModel> GetTransactionDetailForReview(int transactionId)
         {
             // Lấy thông tin giao dịch
@@ -450,7 +433,7 @@ namespace CoffeeCRM.Core.Service
                     // Lấy tổng tồn kho hiện tại
                     var currentStock = await stockLevelRepository.GetTotalQuantityByIngredient(detail.IngredientId, transaction.WarehouseId);
                     detail.CurrentStock = currentStock;
-                                                  
+
                     // Kiểm tra nếu số lượng xuất lớn hơn tồn kho
                     if (detail.Quantity > currentStock)
                     {
@@ -466,15 +449,15 @@ namespace CoffeeCRM.Core.Service
         private void UpdateStatusHistory(StockTransaction st, string newStatus, int userId, string note)
         {
             var statusHistory = string.IsNullOrEmpty(st.StatusHistory)
-                ? new List<StatusHistoryItem>()
-                : JsonConvert.DeserializeObject<List<StatusHistoryItem>>(st.StatusHistory);
+                ? new List<StatusHistoryItemV2>()
+                : JsonConvert.DeserializeObject<List<StatusHistoryItemV2>>(st.StatusHistory);
 
             if (statusHistory == null)
             {
-                statusHistory = new List<StatusHistoryItem>();
+                statusHistory = new List<StatusHistoryItemV2>();
             }
 
-            statusHistory.Add(new StatusHistoryItem
+            statusHistory.Add(new StatusHistoryItemV2
             {
                 Status = newStatus,
                 Date = DateTime.Now,
@@ -858,8 +841,8 @@ namespace CoffeeCRM.Core.Service
         #endregion
     }
 
-    // Lớp StatusHistoryItem để lưu trữ lịch sử trạng thái
-    public class StatusHistoryItem
+    // Lớp StatusHistoryItemV2 để lưu trữ lịch sử trạng thái
+    public class StatusHistoryItemV2
     {
         public string Status { get; set; }
         public DateTime Date { get; set; }
@@ -867,4 +850,3 @@ namespace CoffeeCRM.Core.Service
         public string Reason { get; set; }
     }
 }
-

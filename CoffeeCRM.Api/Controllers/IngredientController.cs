@@ -67,6 +67,26 @@ using CoffeeCRM.Data.DTO;
         }
 
         [HttpGet]
+        [Route("api/ListDto")]
+        public async Task<IActionResult> ListDto()
+        {
+            try
+            {
+                var dataList = await service.ListDto();
+                if (dataList == null || dataList.Count == 0)
+                {
+                    dataList = new List<IngredientDto>();
+                }
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList.Cast<object>().ToList());
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
             [Route("api/Detail/{Id}")]
             public async Task<IActionResult> Detail(int? Id)
             {

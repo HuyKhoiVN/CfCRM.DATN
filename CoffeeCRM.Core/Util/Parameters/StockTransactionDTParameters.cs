@@ -9,5 +9,6 @@ namespace CoffeeCRM.Core.Util.Parameters
     public class StockTransactionDTParameters : DTParameters
     {
         public string SearchAll { get; set; } = "";
+        public int? WarehouseId { get; set; }
     }
 }

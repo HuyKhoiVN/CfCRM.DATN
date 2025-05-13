@@ -123,19 +123,11 @@ namespace CoffeeCRM.Core.Service
                     }
                     
                     await purchaseOrderRepository.Update(purchaseOrder);
-                    if(dto.PaymentStatus == PurchaseOrderStatusConst.APPROVED 
-                        || dto.PaymentStatus == PurchaseOrderStatusConst.CANCELLED
-                        || dto.PaymentStatus == PurchaseOrderStatusConst.COMPLETED)
-                    {
-                        purchaseOrder.PaymentStatus = dto.PaymentStatus;
-                        await purchaseOrderRepository.Update(purchaseOrder);  
-                    }
-                    else
-                    {
-                        await transaction.RollbackAsync();
-                        throw new BadRequestException("PaymentStatus not found");
-                    }
-                    if(dto.PaymentStatus == PurchaseOrderStatusConst.COMPLETED)
+
+                    purchaseOrder.PaymentStatus = dto.PaymentStatus;
+                    await purchaseOrderRepository.Update(purchaseOrder);
+
+                    if (dto.PaymentStatus == PurchaseOrderStatusConst.COMPLETED)
                     {
                         if(dto.WarehouseId == null || dto.WarehouseId <= 0)
                         {
@@ -263,6 +255,9 @@ namespace CoffeeCRM.Core.Service
                     var description = string.Empty;
                     switch(dto.PaymentStatus)
                     {
+                        case PurchaseOrderStatusConst.PENDING:
+                            description = "Đơn hàng được gửi";
+                            break;
                         case PurchaseOrderStatusConst.APPROVED:
                             description = "Đơn nhập hàng đã được duyệt";
                             break;

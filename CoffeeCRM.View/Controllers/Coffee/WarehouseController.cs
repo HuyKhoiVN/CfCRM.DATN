@@ -15,7 +15,7 @@ namespace CfCRM.View.Controllers
 
         [HttpGet]
         [Route("warehouse/List")]
-        public async Task<IActionResult> WarehouseList()
+        public async Task<IActionResult> List()
         {
             return View();
         }

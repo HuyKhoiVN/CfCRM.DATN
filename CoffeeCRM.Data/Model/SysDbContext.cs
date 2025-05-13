@@ -10,6 +10,7 @@ namespace CoffeeCRM.Data.Model
 {
     public partial class SysDbContext : DbContext
     {
+
         public SysDbContext(DbContextOptions<SysDbContext> options)
             : base(options)
         {
@@ -40,6 +41,7 @@ namespace CoffeeCRM.Data.Model
         public virtual DbSet<StockLevel> StockLevels { get; set; } = null!;
         public virtual DbSet<StockTransaction> StockTransactions { get; set; } = null!;
         public virtual DbSet<StockTransactionDetail> StockTransactionDetails { get; set; } = null!;
+        public virtual DbSet<StockTransactionDraftDetail> StockTransactionDraftDetails { get; set; } = null!;
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
         public virtual DbSet<Table> Tables { get; set; } = null!;
         public virtual DbSet<TableBooking> TableBookings { get; set; } = null!;
@@ -65,6 +67,8 @@ namespace CoffeeCRM.Data.Model
                                  new SqlFragmentExpression("'dd/MM/yyyy'")
                             }, nullable: true, new List<bool>(), type: typeof(string), typeMapping: new StringTypeMapping("", DbType.String));
                 });
+            modelBuilder.UseCollation("Latin1_General_CI_AS");
+
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.ToTable("Account");
@@ -596,6 +600,12 @@ namespace CoffeeCRM.Data.Model
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.ApprovedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CanceledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CompletedDate).HasColumnType("datetime");
+
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Status).HasMaxLength(100);
@@ -644,6 +654,25 @@ namespace CoffeeCRM.Data.Model
                     .HasForeignKey(d => d.StockTransactionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__StockTran__Stock__236943A5");
+            });
+
+            modelBuilder.Entity<StockTransactionDraftDetail>(entity =>
+            {
+                entity.ToTable("StockTransactionDraftDetail");
+
+                entity.HasIndex(e => e.IngredientId, "IX_StockTransactionDraftDetail_IngredientId");
+
+                entity.HasIndex(e => e.StockLevelId, "IX_StockTransactionDraftDetail_StockLevelId");
+
+                entity.HasIndex(e => e.StockTransactionId, "IX_StockTransactionDraftDetail_StockTransactionId");
+
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.ExpirationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Note).HasMaxLength(500);
+
+                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
             });
 
             modelBuilder.Entity<Supplier>(entity =>

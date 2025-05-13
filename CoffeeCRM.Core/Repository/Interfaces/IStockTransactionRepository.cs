@@ -36,7 +36,8 @@ namespace CoffeeCRM.Core.Repository
         Task<List<StockTransactionImportDto>> GetTransactionByWarehouse(int warehouseId);
 
         Task<DTResult<StockTransaction>> ListServerSide(StockTransactionDTParameters parameters);
-
+        Task<DTResult<StockTransactionImportDto>> ListServerSideByWarehouse(StockTransactionDTParameters parameters);
         DatabaseFacade GetDatabase();
+        Task<TransactionDetailViewModel> GetTransactionDetailForReview(int transactionId);
     }
 }

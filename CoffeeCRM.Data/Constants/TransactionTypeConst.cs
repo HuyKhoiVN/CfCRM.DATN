@@ -20,9 +20,10 @@ namespace CoffeeCRM.Data.Constants
 
     public static class TransactionStatusConst
     {
+        public const string DRAFT = "draft";
         public const string PENDING = "pending";
         public const string APPROVED = "approved";
         public const string COMPLETED = "completed";
-        public const string CANCELLED = "cancelled";
+        public const string CANCELED = "canceled";
     }
 }

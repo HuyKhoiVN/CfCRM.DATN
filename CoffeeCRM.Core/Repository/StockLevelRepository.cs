@@ -348,7 +348,11 @@ namespace CoffeeCRM.Core.Repository
                             IngredientName = g.Key.IngredientName,
                             UnitName = g.Key.UnitName,
                             TotalQuantity = g.Sum(x => x.sl.Quantity),
-                            AveragePrice = g.Sum(x => x.sl.Quantity * x.sl.UnitPrice) / g.Sum(x => x.sl.Quantity),
+                            AveragePrice = (int)(Math.Round(
+    g.Where(x => x.sl.UnitPrice > 0).Sum(x => x.sl.Quantity * x.sl.UnitPrice)
+    / g.Where(x => x.sl.UnitPrice > 0).Sum(x => x.sl.Quantity),
+    0, MidpointRounding.AwayFromZero
+) / 1000) * 1000,
                             TotalValue = g.Sum(x => x.sl.Quantity * x.sl.UnitPrice),
                             EarliestExpirationDate = g.Min(x => x.sl.ExpirationDate),
                             BatchCount = g.Count()
@@ -485,6 +489,14 @@ namespace CoffeeCRM.Core.Repository
                 }
             }
         }
+
+        public async Task<int> GetTotalQuantityByIngredient(int ingredientId, int warehouseId)
+        {
+            return await db.StockLevels
+                .Where(x => x.IngredientId == ingredientId && x.WarehouseId == warehouseId && x.Active)
+                .SumAsync(x => x.Quantity);
+        }
+
         public DatabaseFacade GetDatabase()
         {
             return db.Database;

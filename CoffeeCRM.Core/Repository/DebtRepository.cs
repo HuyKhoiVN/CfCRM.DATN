@@ -10,6 +10,8 @@ using CoffeeCRM.Data;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using CoffeeCRM.Data.DTO;
 
 namespace CoffeeCRM.Core.Repository
 {
@@ -67,6 +69,23 @@ namespace CoffeeCRM.Core.Repository
                 ).Skip(offSet).Take(pageSize).ToListAsync();
             }
             return null;
+        }
+
+        public DatabaseFacade GetDatabase()
+        {
+            if (db != null)
+            {
+                return db.Database;
+            }
+            return null;
+        }
+
+        public async Task<List<Debt>> GetDebtsBySupplierIdAsync(int supplierId)
+        {
+            var query = from d in db.Debts
+                        where d.Active && d.SupplierId == supplierId
+                        select d;
+            return await query.ToListAsync();
         }
 
 
@@ -166,7 +185,7 @@ namespace CoffeeCRM.Core.Repository
 
             return result;
         }
-        public async Task<DTResult<Debt>> ListServerSide(DebtDTParameters parameters)
+        public async Task<DTResult<DebtDto>> ListServerSide(DebtDTParameters parameters)
         {
             //0. Options
             string searchAll = parameters.SearchAll.Trim();//Trim text
@@ -178,6 +197,9 @@ namespace CoffeeCRM.Core.Repository
                 orderCritirea = parameters.Columns[parameters.Order[0].Column].Data;
                 orderDirectionASC = parameters.Order[0].Dir == DTOrderDir.ASC;
             }
+
+            
+
             //1. Join
             var query = from row in db.Debts
 
@@ -189,7 +211,18 @@ namespace CoffeeCRM.Core.Repository
                             row
                         };
 
+            if (parameters.SupplierId != null && parameters.SupplierId > 0)
+            {
+                query = query.Where(x => x.row.SupplierId == parameters.SupplierId);
+            }
+
+            if(parameters.IsPaid != null)
+            {
+                query = query.Where(x => x.row.IsPaId == parameters.IsPaid);
+            }
+
             recordTotal = await query.CountAsync();
+
             //2. Fillter
             if (!String.IsNullOrEmpty(searchAll))
             {
@@ -259,7 +292,7 @@ EF.Functions.Collate(c.row.SupplierId.ToString().ToLower(), SQLParams.Latin_Gene
             }
 
             //3.Query second
-            var query2 = query.Select(c => new Debt()
+            var query2 = query.Select(c => new DebtDto()
             {
                 Id = c.row.Id,
                 DebtCode = c.row.DebtCode,
@@ -271,13 +304,12 @@ EF.Functions.Collate(c.row.SupplierId.ToString().ToLower(), SQLParams.Latin_Gene
                 CreatedTime = c.row.CreatedTime,
                 Active = c.row.Active,
                 SupplierId = c.row.SupplierId,
-
             });
             //4. Sort
-            query2 = query2.OrderByDynamic<Debt>(orderCritirea, orderDirectionASC ? LinqExtensions.Order.Asc : LinqExtensions.Order.Desc);
+            query2 = query2.OrderByDynamic<DebtDto>(orderCritirea, orderDirectionASC ? LinqExtensions.Order.Asc : LinqExtensions.Order.Desc);
             recordFiltered = await query2.CountAsync();
             //5. Return data
-            return new DTResult<Debt>()
+            return new DTResult<DebtDto>()
             {
                 data = await query2.Skip(parameters.Start).Take(parameters.Length).ToListAsync(),
                 draw = parameters.Draw,

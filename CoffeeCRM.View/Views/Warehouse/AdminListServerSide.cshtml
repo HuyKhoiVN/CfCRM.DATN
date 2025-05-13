@@ -44,6 +44,12 @@
         text-align: center;
     }
 
+    .badge {
+        color: #fff;
+        padding: 0.5em 0.8em;
+        font-weight: 500;
+        border-radius: 0.375rem;
+    }
 
     .table-content {
         padding: 15px;
@@ -850,6 +856,241 @@
         font-size: 1.2rem;
     }
 
+        .badge-draft {
+            background-color: var(--gray-300);
+            color: var(--dark);
+        }
+
+        .badge-pending {
+            background-color: var(--warning);
+            color: #333;
+        }
+
+        .badge-completed {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .badge-canceled {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .badge-import {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .badge-export {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .badge-inventory {
+            background-color: var(--warning);
+            color: #333;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+            .timeline::before {
+                content: '';
+                position: absolute;
+                left: 10px;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background-color: var(--gray-300);
+            }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+            .timeline-item:last-child {
+                margin-bottom: 0;
+            }
+
+        .timeline-marker {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+        }
+
+            .timeline-marker.draft {
+                background-color: var(--gray-400);
+            }
+
+            .timeline-marker.pending {
+                background-color: var(--warning);
+            }
+
+            .timeline-marker.completed {
+                background-color: var(--success);
+            }
+
+            .timeline-marker.canceled {
+                background-color: var(--danger);
+            }
+
+        .timeline-content {
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: 8px;
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .timeline-text {
+            font-size: 0.9rem;
+            color: var(--gray-700);
+        }
+
+        .form-select.status-draft {
+            border-color: var(--gray-400);
+        }
+
+        .form-select.status-pending {
+            border-color: var(--warning);
+        }
+
+        .form-select.status-completed {
+            border-color: var(--success);
+        }
+
+        .form-select.status-canceled {
+            border-color: var(--danger);
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--primary);
+        }
+
+        .nav-pills .nav-link {
+            color: var(--dark);
+        }
+
+            .nav-pills .nav-link.active {
+                color: white;
+            }
+
+        .detail-row {
+            margin-bottom: 10px;
+            display: flex;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            min-width: 150px;
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .detail-badge {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .detail-badge-success {
+            background-color: rgba(0, 184, 148, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .detail-badge-warning {
+            background-color: rgba(253, 203, 110, 0.1);
+            color: #d68000;
+            border: 1px solid var(--warning);
+        }
+
+        .detail-badge-danger {
+            background-color: rgba(255, 118, 117, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        /* Custom styles for select2 */
+        .select2-container--bootstrap-5 .select2-selection {
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+        }
+
+        .select2-container--bootstrap-5.select2-container--focus .select2-selection,
+        .select2-container--bootstrap-5.select2-container--open .select2-selection {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .select2-container--bootstrap-5 .select2-dropdown {
+            border-color: #86b7fe;
+            border-radius: .25rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+            padding: .375rem .75rem;
+            color: #212529;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--single {
+            height: calc(1.5em + .75rem + 2px);
+        }
+
+        .modal-body.scrollable {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .spinner-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .spinner-container p {
+                margin-top: 10px;
+                font-weight: 500;
+            }
+
     }
 </style>
 
@@ -1344,8 +1585,17 @@
             </div>
         </div>
 
+        
+
         <!-- Warehouses Page -->
         <div class="page-content" id="warehousesPage">
+
+            <div class="spinner-overlay d-none" id="loadingSpinner">
+                <div class="spinner-container">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p>Đang xử lý...</p>
+                </div>
+            </div>
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="d-flex align-items-center position-relative my-1">
                     <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
@@ -1847,7 +2097,7 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="transactionsTableactionWarehouse">
                                     <thead>
                                         <tr>
                                             <th>Mã giao dịch</th>
@@ -1990,6 +2240,160 @@
     <!--end::Content container-->
 </div>
 
+<div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <span id="transactionTypeIcon"><i class="fas fa-exchange-alt"></i></span>
+                    Chi tiết giao dịch: <span id="transactionCodeTitle"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body scrollable">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Thông tin chung</h6>
+                                <span class="badge" id="transactionStatusBadge"></span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="detail-row">
+                                            <div class="detail-label">Mã giao dịch:</div>
+                                            <div class="detail-value" id="detailTransactionCode"></div>
+                                        </div>
+                                        <div class="detail-row">
+                                            <div class="detail-label">Loại giao dịch:</div>
+                                            <div class="detail-value" id="detailTransactionType"></div>
+                                        </div>
+                                        <div class="detail-row">
+                                            <div class="detail-label">Trạng thái:</div>
+                                            <div class="detail-value" id="detailTransactionStatus"></div>
+                                        </div>
+                                        <div class="detail-row">
+                                            <div class="detail-label">Kho:</div>
+                                            <div class="detail-value" id="detailWarehouse"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-row">
+                                            <div class="detail-label">Ngày tạo:</div>
+                                            <div class="detail-value" id="detailCreatedDate"></div>
+                                        </div>
+                                        <div class="detail-row">
+                                            <div class="detail-label">Người tạo:</div>
+                                            <div class="detail-value" id="detailCreatedBy"></div>
+                                        </div>
+                                        <div class="detail-row">
+                                            <div class="detail-label">Tổng tiền:</div>
+                                            <div class="detail-value" id="detailTotalAmount"></div>
+                                        </div>
+                                        <div class="detail-row">
+                                            <div class="detail-label">Ghi chú:</div>
+                                            <div class="detail-value" id="detailNote"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">Chi tiết giao dịch</h6>
+                            </div>
+                            <div class="card-body px-0 py-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover m-0" id="detailItemsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Mã NL</th>
+                                                <th>Tên nguyên liệu</th>
+                                                <th>Đơn vị</th>
+                                                <th class="text-end">Số lượng</th>
+                                                <th class="text-end">Đơn giá</th>
+                                                <th class="text-end">Thành tiền</th>
+                                                <th>Hạn sử dụng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="detailItemsBody">
+                                            <!-- Dữ liệu sẽ được load bằng AJAX -->
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="6" class="text-end fw-bold">Tổng cộng:</td>
+                                                <td class="text-end fw-bold" id="detailGrandTotal"></td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- Hiển thị thông tin kiểm kê nếu là giao dịch kiểm kê -->
+                                <div id="inventoryDetailSection" class="p-3 d-none">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <span id="inventoryDetailInfo"></span>
+                                    </div>
+
+                                    <div class="table-responsive mt-3">
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nguyên liệu</th>
+                                                    <th class="text-end">Số lượng hệ thống</th>
+                                                    <th class="text-end">Số lượng thực tế</th>
+                                                    <th class="text-end">Chênh lệch</th>
+                                                    <th>Lý do</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="inventoryDetailTable">
+                                                <!-- Dữ liệu sẽ được load bằng AJAX -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">Thao tác</h6>
+                            </div>
+                            <div class="card-body">
+                                <div id="transactionActions">
+                                    <!-- Các nút thao tác sẽ được thêm bằng JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">Lịch sử trạng thái</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="timeline" id="statusTimeline">
+                                    <!-- Lịch sử trạng thái sẽ được thêm bằng JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="printTransactionBtn">
+                    <i class="fas fa-print me-1"></i> In phiếu
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Add Warehouse Modal -->
 <div class="modal fade" id="addWarehouseModal" >
     <div class="modal-dialog modal-dialog-scrollable">
@@ -2072,6 +2476,7 @@
                             <label for="transactionCode" class="form-label">Mã phiếu</label>
                             <input type="text" class="form-control" id="transactionCode" value="TX-IN-20230427-001" readonly>
                         </div>
+                        <input type="hidden" id="transactionImportId" value="0">
                         <div class="col-md-6">
                             <label for="transactionDate" class="form-label">Ngày giao dịch</label>
                             <input type="text" class="form-control" id="transactionDate" value="27/04/2023" readonly>
@@ -2122,6 +2527,16 @@
                                     </div>
                                 </div>
 
+                                <div class="row mb-3">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="newBatch">
+                                        <label class="form-check-label" for="newBatch">
+                                            Tạo tồn kho mới
+                                        </label>
+                                    </div>
+
+                                </div>
+
                                 <div class="d-flex justify-content-end">
                                     <button type="button" class="btn btn-success me-2" id="confirmItemBtn">Thêm</button>
                                     <button type="button" class="btn btn-secondary" id="cancelItemBtn">Hủy</button>
@@ -2137,6 +2552,7 @@
                                         <th>Nguyên liệu</th>
                                         <th>Đơn vị</th>
                                         <th class="text-end">Số lượng</th>
+                                        <th>Hạn sử dụng</th>
                                         <th class="text-end">Đơn giá</th>
                                         <th class="text-end">Thành tiền</th>
                                         <th></th>
@@ -2153,15 +2569,16 @@
                                         <td class="text-end fw-bold" id="totalAmount">0 ₫</td>
                                         <td></td>
                                     </tr>
-                                </tfoot>
+                                </tfoot>            
                             </table>
                         </div>
                     </div>
-                </form>
-            </div>
+                </form> 
+            </div>      
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" id="saveTransactionBtn">Lưu</button>
+                <button type="button" class="btn btn-success" id="saveDrafTransactionBtn"><i class="fas fa-save"></i>Lưu nháp</button>
+                <button type="button" class="btn btn-primary" id="saveTransactionBtn"><i class="fas fa-paper-plane"></i>Lưu và gửi</button>
             </div>
         </div>
     </div>
@@ -2204,172 +2621,7 @@
                     <!-- Stock Level Details -->
                     <h6 class="mb-3">Danh sách lô hàng</h6>
 
-                    <!-- Stock Level 1 -->
-                    <div class="stock-level-detail">
-                        <div class="stock-level-header">
-                            <h6 class="stock-level-title">Lô #SL-001</h6>
-                            <span class="expiration-badge good">Còn hạn: 615 ngày</span>
-                        </div>
-                        <div class="stock-level-info">
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Số lượng</div>
-                                <div class="stock-level-info-value">15 Kg</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Đơn giá</div>
-                                <div class="stock-level-info-value">250,000 ₫</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Thành tiền</div>
-                                <div class="stock-level-info-value">3,750,000 ₫</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Hạn sử dụng</div>
-                                <div class="stock-level-info-value">31/12/2024</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Ngày nhập</div>
-                                <div class="stock-level-info-value">15/04/2023</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Đơn hàng</div>
-                                <div class="stock-level-info-value">PO-000123</div>
-                            </div>
-                        </div>
-                        <div class="stock-level-actions">
-                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#adjustForm1">
-                                <i class="fas fa-sliders-h me-1"></i> Điều chỉnh
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary view-history" data-stock-id="SL-001" data-batch-number="SL-001" data-bs-toggle="modal" data-bs-target="#transactionHistoryModal">
-                                <i class="fas fa-history me-1"></i> Lịch sử
-                            </button>
-                        </div>
-
-                        <!-- Adjustment Form (Collapsed by default) -->
-                        <!-- Adjustment Form (Collapsed by default) -->
-                        <div class="collapse mt-3" id="adjustForm1">
-                            <div class="adjustment-form" data-stock-id="SL-001">
-                                <h6 class="mb-3">Điều chỉnh số lượng</h6>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">Số lượng hiện tại</label>
-                                            <input type="text" class="form-control current-quantity" value="15 Kg" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">Số lượng mới</label>
-                                            <input type="number" class="form-control new-quantity" value="15" min="0">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">Lý do điều chỉnh</label>
-                                            <select class="form-select adjustment-reason">
-                                                <option value="">-- Chọn lý do --</option>
-                                                <option value="Điều chỉnh số lượng">Điều chỉnh số lượng</option>
-                                                <option value="Hư hỏng">Hư hỏng</option>
-                                                <option value="Hết hạn">Hết hạn</option>
-                                                <option value="Khác">Khác</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Ghi chú</label>
-                                    <textarea class="form-control adjustment-note" rows="2" placeholder="Nhập ghi chú cho việc điều chỉnh"></textarea>
-                                </div>
-                                <div class="text-end">
-                                    <button class="btn btn-secondary btn-sm me-2" data-bs-toggle="collapse" data-bs-target="#adjustForm1">Hủy</button>
-                                    <button class="btn btn-primary btn-sm">Lưu thay đổi</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Stock Level 2 -->
-                    <div class="stock-level-detail">
-                        <div class="stock-level-header">
-                            <h6 class="stock-level-title">Lô #SL-002</h6>
-                            <span class="expiration-badge good">Còn hạn: 580 ngày</span>
-                        </div>
-                        <div class="stock-level-info">
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Số lượng</div>
-                                <div class="stock-level-info-value">10 Kg</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Đơn giá</div>
-                                <div class="stock-level-info-value">250,000 ₫</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Thành tiền</div>
-                                <div class="stock-level-info-value">2,500,000 ₫</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Hạn sử dụng</div>
-                                <div class="stock-level-info-value">25/11/2024</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Ngày nhập</div>
-                                <div class="stock-level-info-value">10/04/2023</div>
-                            </div>
-                            <div class="stock-level-info-item">
-                                <div class="stock-level-info-label">Đơn hàng</div>
-                                <div class="stock-level-info-value">PO-000145</div>
-                            </div>
-                        </div>
-                        <div class="stock-level-actions">
-                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#adjustForm2">
-                                <i class="fas fa-sliders-h me-1"></i> Điều chỉnh
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary view-history" data-stock-id="SL-002" data-batch-number="SL-002">
-                                <i class="fas fa-history me-1"></i> Lịch sử
-                            </button>
-                        </div>
-
-                        <!-- Adjustment Form (Collapsed by default) -->
-                        <div class="collapse mt-3" id="adjustForm2">
-                            <div class="adjustment-form">
-                                <h6 class="mb-3">Điều chỉnh số lượng</h6>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">Số lượng hiện tại</label>
-                                            <input type="text" class="form-control" value="10 Kg" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">Số lượng mới</label>
-                                            <input type="number" class="form-control" value="10" min="0">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">Lý do điều chỉnh</label>
-                                            <select class="form-select">
-                                                <option value="correction">Điều chỉnh số lượng</option>
-                                                <option value="damage">Hư hỏng</option>
-                                                <option value="expired">Hết hạn</option>
-                                                <option value="other">Khác</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Ghi chú</label>
-                                    <textarea class="form-control" rows="2" placeholder="Nhập ghi chú cho việc điều chỉnh"></textarea>
-                                </div>
-                                <div class="text-end">
-                                    <button class="btn btn-secondary btn-sm me-2" data-bs-toggle="collapse" data-bs-target="#adjustForm2">Hủy</button>
-                                    <button class="btn btn-primary btn-sm">Lưu thay đổi</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    
                     <!-- Add New Stock Level Button -->
                     <div class="text-center mt-4">
                         <button class="btn btn-success" id="addNewBatchBtn">
@@ -2408,6 +2660,8 @@
                             <input type="text" class="form-control" id="outTransactionDate" value="27/04/2023" readonly>
                         </div>
                     </div>
+
+                    <input type="hidden" id="transactionExportId" value="0">
 
                     <div class="mb-3">
                         <label for="outTransactionNote" class="form-label">Ghi chú</label>
@@ -2449,11 +2703,11 @@
                                     <div class="col-md-6">
                                         <label for="outReason" class="form-label">Lý do xuất</label>
                                         <select class="form-select" id="outReason">
-                                            <option value="production">Sản xuất</option>
-                                            <option value="transfer">Chuyển kho</option>
-                                            <option value="damage">Hư hỏng</option>
-                                            <option value="expired">Hết hạn</option>
-                                            <option value="other">Khác</option>
+                                            <option value="Sản xuất">Sản xuất</option>
+                                            <option value="Chuyển kho">Chuyển kho</option>
+                                            <option value="Hư hỏng">Hư hỏng</option>
+                                            <option value="Hết hạn">Hết hạn</option>
+                                            <option value="Khác">Khác</option>
                                         </select>
                                     </div>
                                 </div>
@@ -2475,6 +2729,7 @@
                                         <th class="text-end">Số lượng</th>
                                         <th class="text-end">Đơn giá</th>
                                         <th class="text-end">Thành tiền</th>
+                                        <th>Lý do</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -2497,7 +2752,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" id="saveOutTransactionBtn">Lưu</button>
+                <button type="button" class="btn btn-success" id="saveOutDrafTransactionBtn"><i class="fas fa-save"></i>Lưu nháp</button>
+                <button type="button" class="btn btn-primary" id="saveOutTransactionBtn"><i class="fas fa-paper-plane"></i>Lưu và gửi</button>
             </div>
         </div>
     </div>
@@ -2695,6 +2951,105 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Hủy phiếu -->
+<div class="modal fade" id="cancelTransactionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hủy phiếu giao dịch</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="cancelTransactionForm">
+                    <input type="hidden" id="cancelTransactionId">
+
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Bạn có chắc chắn muốn hủy phiếu giao dịch này không? Hành động này không thể hoàn tác.
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="cancelReason" class="form-label">Lý do hủy <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="cancelReason" rows="3" placeholder="Vui lòng nhập lý do hủy phiếu" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="confirmCancelBtn">
+                    <i class="fas fa-trash-alt me-1"></i> Xác nhận hủy
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xóa phiếu -->
+<div class="modal fade" id="deleteTransactionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xóa phiếu giao dịch</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="deleteTransactionId">
+
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Bạn có chắc chắn muốn xóa phiếu giao dịch này không? Hành động này không thể hoàn tác và chỉ nên thực hiện với các phiếu ở trạng thái nháp.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                    <i class="fas fa-trash-alt me-1"></i> Xác nhận xóa
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateStatusModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cập nhật trạng thái giao dịch</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateStatusForm">
+                    <input type="hidden" id="statusTransactionId">
+
+                    <div class="mb-3">
+                        <label for="newStatus" class="form-label">Trạng thái mới</label>
+                        <select class="form-select" id="newStatus">
+                            <option value="pending">Chờ xử lý</option>
+                            <option value="completed">Hoàn thành</option>
+                        </select>
+                    </div>
+
+                    <div class="alert alert-primary">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Bạn có chắc chắn muốn cập nhật trạng thái phiếu giao dịch này không? Hành động này sẽ tạo các thay đổi với kho hàng.
+                    </div>
+
+                    <div class="mb-3" id="reasonWrapper">
+                        <label for="statusNote" class="form-label">Ghi chú</label>
+                        <textarea class="form-control" id="statusNote" rows="3" placeholder="Nhập lý do cập nhật trạng thái"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="saveStatusBtn">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!--begin:Base load data-->
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -3026,10 +3381,15 @@
         destroyTables();  
 
         initStockLevelTb();
+
+        loadAllTransaction();
+
+        getIngredientStockSummary();
     }
 
     function destroyTables() {
             $('#tableStockLevel').DataTable().destroy();
+            $('#transactionsTableactionWarehouse').DataTable().destroy();
     }
 
     // Back to warehouses list
@@ -3466,32 +3826,8 @@
                     $('#itemsTable tbody').html('<tr><td colspan="7" class="text-center py-3 muted-color">Chưa có nguyên liệu nào được thêm</td></tr>');
                 }
             });
-    // Save transaction
-            $('#saveTransactionBtn').click(function() {
-                if ($('#itemsTable tbody tr').length === 0 || $('#itemsTable tbody tr td').attr('colspan')) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Vui lòng thêm ít nhất một nguyên liệu!'
-                    });
-                    return;
-                }
 
-                // In a real app, you would save the transaction to the server
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công',
-                    text: 'Đã tạo phiếu nhập kho thành công!'
-                }).then(() => {
-                    $('#stockInModal').modal('hide');
-                    $('#stockInForm')[0].reset();
-                    $('#itemsTable tbody').html('<tr><td colspan="7" class="text-center py-3 muted-color">Chưa có nguyên liệu nào được thêm</td></tr>');
-                    $('#totalAmount').text('0 ₫');
-                });
-            });
-
-            $('#stockLevelDetailModal').on('hidden.bs.modal', function () {
+    $('#stockLevelDetailModal').on('hidden.bs.modal', function () {
         // Reset dữ liệu
         currentIngredientId = null;
         currentIngredientData = null;
@@ -3534,6 +3870,8 @@
                 const ingredientText = $('#ingredient option:selected').text();
                 const quantity = $('#quantity').val();
                 const unitPrice = $('#unitPrice').val();
+                const exDate = $('#expirationDate').val();
+                const newBatch = $('#newBatch').is(':checked');
 
                 if (!ingredient || quantity <= 0 || unitPrice <= 0) {
                     Swal.fire({
@@ -3544,10 +3882,12 @@
                     return;
                 }
 
-                // Extract ingredient name and unit
+                const match1 = ingredientText.match(/^(.*?)\s*-\s*([\d.,]+.*₫)\s*\((.*?)\)$/);
+
+                    // Extract ingredient name and unit
                 const ingredientParts = ingredientText.split(' (');
-                const ingredientName = ingredientParts[0];
-                const unit = ingredientParts[1].replace(')', '');
+                const ingredientName = match1[1].trim();
+                const unit = match1[3].trim();
 
                 // Calculate total
                 const total = quantity * unitPrice;
@@ -3561,11 +3901,12 @@
                 }
 
                 const newRow = `
-                    <tr>
+                    <tr data-newbatch='${newBatch}' data-ingredient-id="${ingredient}" data-item-id="0">
                         <td>${rowIndex + 1}</td>
                         <td>${ingredientName}</td>
                         <td>${unit}</td>
                         <td class="text-end">${quantity}</td>
+                        <td>${exDate}</td>
                         <td class="text-end">${formatCurrencyPrice(unitPrice)}</td>
                         <td class="text-end">${formatCurrencyPrice(total)}</td>
                         <td class="text-end">
@@ -3605,6 +3946,7 @@
                 const ingredientText = $('#outIngredient option:selected').text();
                 const quantity = $('#outQuantity').val();
                 const unitPrice = $('#outUnitPrice').val() || 0;
+                const note = $('#outReason').val() || '';
 
                 if (!ingredient || quantity <= 0) {
                     Swal.fire({
@@ -3614,12 +3956,22 @@
                     });
                     return;
                 }
-
+                const match2 = ingredientText.match(/^(.*?)\s*-\s*còn\s*(\d+)\s*\(([^)]+)\)$/);
                 // Extract ingredient name and unit
                 const ingredientParts = ingredientText.split(' (');
                 const ingredientNameParts = ingredientParts[0].split(' - ');
-                const ingredientName = ingredientNameParts[0];
-                const unit = ingredientParts[1].replace(')', '');
+                const ingredientName = match2[1];
+                const unit = match2[3];
+                const avaiable = match2[2];
+
+                if(quantity > avaiable) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Số lượng xuất kho vượt quá giới hạn!'
+                    });
+                    return;
+                }
 
                 // Calculate total
                 const total = quantity * unitPrice;
@@ -3633,13 +3985,14 @@
                 }
 
                 const newRow = `
-                    <tr>
+                    <tr data-ingredient-id="${ingredient}" data-item-id="0">
                         <td>${rowIndex + 1}</td>
                         <td>${ingredientName}</td>
                         <td>${unit}</td>
                         <td class="text-end">${quantity}</td>
                         <td class="text-end">${formatCurrencyPrice(unitPrice)}</td>
                         <td class="text-end">${formatCurrencyPrice(total)}</td>
+                        <td>${note}</td>
                         <td class="text-end">
                             <button type="button" class="btn btn-sm btn-icon btn-danger remove-out-item">
                                 <i class="fas fa-trash-alt"></i>
@@ -3679,31 +4032,6 @@
                 if ($('#outItemsTable tbody tr').length === 0) {
                     $('#outItemsTable tbody').html('<tr><td colspan="7" class="text-center py-3 muted-color">Chưa có nguyên liệu nào được thêm</td></tr>');
                 }
-            });
-
-            // Save out transaction
-            $('#saveOutTransactionBtn').click(function() {
-                if ($('#outItemsTable tbody tr').length === 0 || $('#outItemsTable tbody tr td').attr('colspan')) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Vui lòng thêm ít nhất một nguyên liệu!'
-                    });
-                    return;
-                }
-
-                // In a real app, you would save the transaction to the server
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công',
-                    text: 'Đã tạo phiếu xuất kho thành công!'
-                }).then(() => {
-                    $('#stockOutModal').modal('hide');
-                    $('#stockOutForm')[0].reset();
-                    $('#outItemsTable tbody').html('<tr><td colspan="7" class="text-center py-3 muted-color">Chưa có nguyên liệu nào được thêm</td></tr>');
-                    $('#outTotalAmount').text('0 ₫');
-                });
             });
 
             // Audit Modal
@@ -4444,7 +4772,7 @@
                         <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#adjustForm${batch.id}">
                             <i class="fas fa-sliders-h me-1"></i> Điều chỉnh
                         </button>
-                        <button class="btn btn-sm btn-outline-secondary view-history" data-stock-id="${batch.id}" data-batch-number="${'SL-' + (index + 1).toString().padStart(3, '0')}">
+                        <button class="btn btn-sm btn-outline-secondary view-history d-none" data-stock-id="${batch.id}" data-batch-number="${'SL-' + (index + 1).toString().padStart(3, '0')}">
                             <i class="fas fa-history me-1"></i> Lịch sử
                         </button>
                     </div>
@@ -4809,5 +5137,1093 @@
         });
     }
 
+
+</script>
+
+<script>
+    const API_URL = systemURL + "StockTransaction/api/";
+    const STATUS_TYPES = {
+        draft: "Nháp",
+        pending: "Chờ xử lý",
+        completed: "Hoàn thành",
+        canceled: "Đã hủy"
+    };
+    const TRANSACTION_TYPES = {
+        IMPORT: "Nhập kho",
+        EXPORT: "Xuất kho",
+        INVENTORY: "Kiểm kê"
+    };
+
+     // Các bảng dữ liệu
+    let transactionsTable;
+    let draftTransactionsTable;
+    let pendingTransactionsTable;
+    let completedTransactionsTable;
+    let canceledTransactionsTable;
+
+    // Dữ liệu cache
+    let warehouseList = [];
+    let ingredientList = [];
+    let currentTransaction = null;
+    let currentItems = [];
+
+    let userData = localStorage.getItem('profile');
+    let user = JSON.parse(userData);
+
+    let currentAccountId = user.id;
+
+    $(document).ready(function() {
+        loadIngredients();
+        // Setup sự kiện cho modal cập nhật trạng thái
+        setupUpdateStatusModal();
+
+        // Setup sự kiện cho modal hủy phiếu
+        setupCancelTransactionModal();
+
+        // Setup sự kiện cho modal xóa phiếu
+        setupDeleteTransactionModal();
+    });
+
+    $('[data-bs-target="#stockOutModal"]').on('click', function () {
+        resetExportForm()
+    });
+
+    // Gắn sự kiện click vào nút Nhập kho
+    $('[data-bs-target="#stockInModal"]').on('click', function () {
+        // Reset form
+        resetImportForm();
+    });
+
+    function loadIngredients() {
+            setTimeout(function () {
+                $.ajax({
+                    url: systemURL + `ingredient/api/listDto`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        const ingredients = response.data || [];
+
+                        let options = '<option value="">-- Chọn nguyên liệu --</option>';
+
+                        ingredients.forEach(function(ingredient) {
+                            options += `<option value="${ingredient.id}" data-avgprice="${ingredient.averagePrice}">${ingredient.ingredientName} - ${formatCurrencyPrice(ingredient.averagePrice)} (${ingredient.unitName})</option>`;
+                        });
+
+                        $('#ingredient').html(options).trigger('change');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Không thể tải danh sách nhà cung cấp:', error);
+                    }
+                });
+            }, 300);
+        }
+    $(document).on('change', '#ingredient', function () {
+        const selectedOption = $(this).find('option:selected');
+        const value = parseInt(selectedOption.val());
+        const avgPrice = selectedOption.data('avgprice');
+        const roundedPrice = Math.round(avgPrice / 1000) * 1000;
+
+        if (value > 0 && avgPrice != null) {
+            $('#unitPrice').val(roundedPrice);
+        } else {
+            $('#unitPrice').val('');
+        }
+    });
+
+
+    function getIngredientStockSummary() {
+        setTimeout(function () {
+                $.ajax({
+                    url: systemURL + `stockLevel/api/getIngredientStockSummary?warehouseId=${warehouseTabId}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        const ingredients = response.data || [];
+
+                        let options = '<option value="">-- Chọn nguyên liệu --</option>';
+
+                        ingredients.forEach(function(ingredient) {
+                            options += `<option value="${ingredient.ingredientId}" data-avgprice="${ingredient.averagePrice}">${ingredient.ingredientName} - còn ${ingredient.totalQuantity}(${ingredient.unitName})</option>`;
+                        });
+
+                        $('#outIngredient').html(options).trigger('change');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Không thể tải danh sách nhà cung cấp:', error);
+                    }
+                });
+            }, 300);
+    }
+
+    $(document).on('change', '#outIngredient', function () {
+        const selectedOption = $(this).find('option:selected');
+        const value = parseInt(selectedOption.val());
+        const avgPrice = selectedOption.data('avgprice');
+        const roundedPrice = Math.round(avgPrice / 1000) * 1000;
+
+        if (value > 0 && roundedPrice != null) {
+            $('#outUnitPrice').val(roundedPrice);
+        } else {
+            $('#outUnitPrice').val('');
+        }
+    });
+
+        $('#search-input-transaction').on("input",function () {
+            transactionsTable.search($(this).val()).draw();
+    });
+
+    function loadAllTransaction() {
+        transactionsTable = $('#transactionsTableactionWarehouse').DataTable({
+            processing: true,
+            serverSide: true,
+            paging: true,
+                    searching: { regex: true },
+                    order: [2, 1],
+                    "oLanguage": {
+                        "sUrl": "/js/Vietnamese.json"
+                    },
+            ajax: {
+                        url: systemURL + "stockTransaction/api/list-server-side-warehouse",
+                        type: "POST",
+                        contentType: "application/json",
+
+                        dataType: "json",
+                        // beforeSend: function(xhr) {
+                        // 	xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+                        // },
+                        data: function (d) {
+                            d.searchAll = $("#search-input-transaction").val();
+                            d.warehouseId = warehouseTabId;
+                            return JSON.stringify(d);
+                        }
+                    },
+            columns: [
+                { data: 'stockTransactionCode' },
+                {
+                    data: 'transactionType',
+                    render: function(data) {
+                        switch(data) {
+                            case 'IMPORT':
+                                return '<span class="badge bg-success">Nhập kho</span>';
+                            case 'EXPORT':
+                                return '<span class="badge bg-danger">Xuất kho</span>';
+                            case 'ADJUSTMENT':
+                                return '<span class="badge bg-warning">Điều chỉnh</span>';
+                                case 'ADJUSTMENT_IN':
+                                return '<span class="badge bg-warning ">Điều chỉnh</span>';
+                                case 'ADJUSTMENT_OUT':
+                                return '<span class="badge bg-warning">Điều chỉnh</span>';
+                            default:
+                                return data;
+                        }
+                    }
+                },
+                {
+                    data: 'createdTime',
+                    render: function(data) {
+                        return moment(data).format('DD/MM/YYYY HH:mm');
+                    }
+                },
+                {
+                    data: 'totalMoney',
+                    render: function(data) {
+                        return formatCurrencyPrice(data);
+                    },
+                    className: 'text-end'
+                },
+                {
+                    data: 'status',
+                    render: function(data) {
+                        return renderStatus(data);
+                    }
+                },
+                { data: 'accountName' },
+                { data: 'note' },
+                {
+                    data: 'id',
+                    render: function(data, type, row) {
+                        return renderActions(data, row.status);
+                    },
+                    orderable: false,
+                    className: 'text-center'
+                }
+            ],
+            language: {
+                "sUrl": "/js/Vietnamese.json"
+            }
+        });
+    }
+
+    function renderStatus(status) {
+            let badgeClass = '';
+            let statusText = '';
+            let icon = '';
+
+            switch (status.toLowerCase()) {
+                case 'draft':
+                    badgeClass = 'bg-info';
+                    statusText = 'Nháp';
+                    icon = 'fa-file';
+                    break;
+                case 'pending':
+                    badgeClass = 'bg-primary';
+                    statusText = 'Đã gửi';
+                    icon = 'fa-paper-plane';
+                    break;
+                case 'approved':
+                    badgeClass = 'bg-info';
+                    statusText = 'Đã xác nhận';
+                    icon = 'fa-check';
+                    break;
+                case 'completed':
+                    badgeClass = 'bg-success';
+                    statusText = 'Hoàn thành';
+                    icon = 'fa-truck-loading';
+                    break;
+                case 'canceled':
+                    badgeClass = 'bg-danger';
+                    statusText = 'Đã hủy';
+                    icon = 'fa-times';
+                    break;
+                default:
+                    badgeClass = 'bg-secondary';
+                    statusText = status;
+                    icon = 'fa-question';
+            }
+
+            return `<span class="badge ${badgeClass}"><i class="fas ${icon} me-1"></i>${statusText}</span>`;
+        }
+
+        function getStatusText(status) {
+            switch (status) {
+                case 'draft': return 'Nháp';
+                case 'pending': return 'Đã gửi';
+                case 'approved': return 'Đã xác nhận';
+                case 'completed': return 'Đã nhận hàng';
+                case 'canceled': return 'Đã hủy';
+                default: return status;
+            }
+        }
+
+        function renderActions(id, status) {
+            let actions = `
+                <button type="button" class="btn btn-sm btn-info me-1 btn-view" data-id="${id}" title="Xem chi tiết">
+                    <i class="fas fa-eye"></i>
+                </button>
+            `;
+
+            if (status === 'draft') {
+                actions += `
+                    <button type="button" class="btn btn-sm btn-primary me-1 btn-edit" data-id="${id}" title="Chỉnh sửa">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="${id}" title="Xóa">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+            }
+
+            return actions;
+        }
+
+        $(document).on('click', '.btn-view', function() {
+            const id = $(this).data('id');
+            viewTransaction(id);
+        });
+
+        $(document).on('click', '.btn-edit', function() {
+            const id = $(this).data('id');
+            editTransaction(id);
+        });
+
+        function viewTransaction(id) {
+            // Show loading
+            $('#loadingSpinner').removeClass('d-none');
+
+            // Load transaction details
+            $.ajax({
+                url: API_URL + `DetailForReview/${id}`,
+                type: "GET",
+                success: function(response) {
+                    $('#loadingSpinner').addClass('d-none');
+
+                    if (response && response.status == 200) {
+                        currentTransaction = response.data[0];
+
+                        // Populate modal with transaction details
+                        populateTransactionDetailModal(currentTransaction);
+
+                        // Show modal
+                        $('#transactionDetailModal').modal('show');
+                    } else {
+                        showToast('error', 'Lỗi', 'Không thể tải thông tin giao dịch');
+                    }
+                },
+                error: function() {
+                    $('#loadingSpinner').addClass('d-none');
+                    showToast('error', 'Lỗi', 'Không thể tải thông tin giao dịch');
+                }
+            });
+        }
+    
+        $('#saveDrafTransactionBtn').click(async function() {
+            if ($('#itemsTable tbody tr').length === 0 || $('#itemsTable tbody tr td').attr('colspan')) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Vui lòng thêm ít nhất một nguyên liệu!'
+                        });
+                        return;
+            }
+
+                var obj = saveImportTrans('draft');
+                await saveTransaction(obj);
+                $('#stockInModal').modal('hide');
+        });
+
+        // Save and Send
+        $('#saveTransactionBtn').click(async function() {
+            if ($('#itemsTable tbody tr').length === 0 || $('#itemsTable tbody tr td').attr('colspan')) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Vui lòng thêm ít nhất một nguyên liệu!'
+                    });
+                    return;
+            }
+
+            var obj = saveImportTrans('pending');
+            await saveTransaction(obj);
+            $('#stockInModal').modal('hide');
+        });
+
+    // Save out transaction
+                $('#saveOutDrafTransactionBtn').click(async function() {
+                    if ($('#outItemsTable tbody tr').length === 0 || $('#outItemsTable tbody tr td').attr('colspan')) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Vui lòng thêm ít nhất một nguyên liệu!'
+                        });
+                        return;
+                    }
+
+                     var obj = saveExportTrans('draft');
+                     await saveTransaction(obj);
+
+                    $('#stockOutModal').modal('hide');
+                });
+        $('#saveOutTransactionBtn').click(async function() {
+                    if ($('#outItemsTable tbody tr').length === 0 || $('#outItemsTable tbody tr td').attr('colspan')) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Vui lòng thêm ít nhất một nguyên liệu!'
+                        });
+                        return;
+                    }
+
+                     var obj = saveExportTrans('pending');
+                     await saveTransaction(obj);
+
+                    $('#stockOutModal').modal('hide');
+                });
+
+    function saveImportTrans(statusText) {
+        const transactionType = 'IMPORT';
+        const warehouseId = warehouseTabId;
+        const status = statusText ? statusText : 'draf';
+        const totalPrice = $('#totalAmount').text().replace(/[^\d]/g, '') || 0;
+        const newDate = formatDatetimeUpdate(moment(new Date(), 'DD/MM/YYYY').format('DD/MM/YYYY HH:mm:ss'));
+
+        const items = [];
+        $('#itemsTable tbody tr').each(function() {
+                const itemId = $(this).data('item-id');
+                    const ingredientId = $(this).data('ingredient-id');
+                    const quantity = parseInt($(this).find('td:eq(3)').text());
+                    const unitPrice = parseFloat($(this).find('td:eq(5)').text().replace(/[^\d]/g, ''));  
+                    const exDate = $(this).find('td:eq(4)').text();
+                    const expirationDate = exDate ? formatDatetimeUpdate(moment(exDate, 'YYYY-MM-DD').format('DD/MM/YYYY HH:mm:ss')) : null;
+                    const newBatch = $(this).data('newbatch');
+
+                    items.push({
+                        id: itemId ? itemId : 0,
+                        ingredientId: ingredientId,
+                        stockTransactionId: 0,
+                        quantity: quantity,
+                        unitPrice: unitPrice,
+                        createNewBatch: newBatch,
+                        expirationDate: expirationDate,
+                        createdTime: newDate,
+                        active: true
+                    });
+            });
+
+        const transaction = {
+            id: parseInt($('#transactionImportId').val()) || 0,
+            transactionType: transactionType,
+            warehouseId: parseInt(warehouseId),
+            status: status,
+            note: $('#transactionNote').val(),
+            totalMoney: totalPrice,
+            accountId: currentAccountId,          
+            createdTime: newDate,
+            active: true,
+            transactionDate: newDate,
+            details: items
+        };
+        return transaction;
+    }
+
+    function saveExportTrans(statusText){
+        const transactionType = 'EXPORT';
+        const warehouseId = warehouseTabId;
+        const status = statusText ? statusText : 'draf';
+        const totalPrice = $('#outTotalAmount').text().replace(/[^\d]/g, '');
+        const newDate = formatDatetimeUpdate(moment(new Date(), 'DD/MM/YYYY').format('DD/MM/YYYY HH:mm:ss'));
+
+        const items = [];
+        $('#outItemsTable tbody tr').each(function() {
+                const itemId = $(this).data('item-id');
+                    const ingredientId = $(this).data('ingredient-id');
+                    const quantity = parseInt($(this).find('td:eq(3)').text());
+                    const unitPrice = parseFloat($(this).find('td:eq(4)').text().replace(/[^\d]/g, ''));
+
+                    items.push({
+                        id: itemId ? itemId : 0,
+                        ingredientId: ingredientId,
+                        stockTransactionId: 0,
+                        quantity: quantity,
+                        unitPrice: unitPrice,
+                        createNewBatch: false,
+                        expirationDate: newDate,
+                        createdTime: newDate,
+                        active: true
+                    });
+            });
+
+        const transaction = {
+            id: parseInt($('#transactionExportId').val()) || 0,
+            transactionType: transactionType,
+            warehouseId: parseInt(warehouseId),
+            status: status,
+            note: $('#outTransactionNote').val(),
+            totalMoney: totalPrice,
+            accountId: currentAccountId,
+            createdTime: newDate,
+            active: true,
+            transactionDate: newDate,
+            details: items
+        };
+        return transaction;
+    }
+
+    async function saveTransaction(transaction) {
+        $('#loadingSpinner').removeClass('d-none');
+
+        // Send API request
+        $.ajax({
+            url: API_URL + "AddOrUpdate",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(transaction),
+            success: function(response) {
+                $('#loadingSpinner').addClass('d-none');
+
+                if (response && response.status == 200) {
+                    // Show success message
+                    showToast('success', 'Thành công', 'Đã lưu giao dịch thành công!');
+
+                    // Reload tables
+                    reloadAllTables();
+                } else {
+                    showToast('error', 'Lỗi', response?.message || 'Có lỗi xảy ra khi lưu giao dịch');
+                }
+            },
+            error: function(xhr) {
+                $('#loadingSpinner').addClass('d-none');
+                showToast('error', 'Lỗi', xhr.responseJSON?.message || 'Có lỗi xảy ra khi lưu giao dịch');
+            }
+        });
+    }
+
+    function reloadAllTables() {
+        transactionsTable.ajax.reload();
+        stockTable.ajax.reload();
+    }
+
+    function populateTransactionDetailModal(transaction) {
+        // Set transaction code in title
+        $('#transactionCodeTitle').text(transaction.transactionCode);
+
+        // Set icon based on transaction type
+        let icon = '<i class="fas fa-exchange-alt"></i>';
+        if (transaction.transactionType === 'IMPORT') {
+            icon = '<i class="fas fa-file-import"></i>';
+        } else if (transaction.transactionType === 'EXPORT') {
+            icon = '<i class="fas fa-file-export"></i>';
+        } else if (transaction.transactionType === 'INVENTORY') {
+            icon = '<i class="fas fa-clipboard-check"></i>';
+        }
+        $('#transactionTypeIcon').html(icon);
+
+        // Set status badge
+        let badgeClass = '';
+        if (transaction.status === 'draft') badgeClass = 'bg-info';
+        else if (transaction.status === 'pending') badgeClass = 'bg-primary';
+        else if (transaction.status === 'completed' || transaction.status === 'completed') badgeClass = 'bg-success';
+        else if (transaction.status === 'canceled' || transaction.status === 'canceled' | transaction.status === 'canceled') badgeClass = 'bg-danger';
+
+        $('#transactionStatusBadge').attr('class', 'badge ' + badgeClass).text(STATUS_TYPES[transaction.status] || transaction.status);
+
+        // Set transaction details
+        $('#detailTransactionCode').text(transaction.transactionCode);
+        $('#detailTransactionType').text(TRANSACTION_TYPES[transaction.transactionType] || transaction.transactionType);
+        $('#detailTransactionStatus').text(STATUS_TYPES[transaction.status] || transaction.status);
+        $('#detailWarehouse').text(transaction.warehouseName);
+        $('#detailCreatedDate').text(moment(transaction.createdDate).format('DD/MM/YYYY HH:mm'));
+        $('#detailCreatedBy').text(transaction.createdBy);
+        $('#detailTotalAmount').text(formatCurrencyPrice(transaction.totalMoney));
+        $('#detailNote').text(transaction.note || '');
+
+        // Populate items table
+        populateDetailItemsTable(transaction.details);
+
+        // Populate status timeline
+        populateStatusTimeline(transaction);
+
+        // Show/hide inventory detail section
+        if (transaction.transactionType === 'INVENTORY') {
+            $('#inventoryDetailSection').removeClass('d-none');
+            populateInventoryDetails(transaction.details);
+        } else {
+            $('#inventoryDetailSection').addClass('d-none');
+        }
+
+        // Populate actions buttons
+        populateTransactionActions(transaction);
+    }
+
+    function populateDetailItemsTable(details) {
+        const tbody = $('#detailItemsBody');
+        tbody.empty();
+
+        let totalAmount = 0;
+
+        if (details && details.length > 0) {
+            details.forEach((detail, index) => {
+                const totalPrice = detail.quantity * detail.unitPrice;
+                totalAmount += totalPrice;
+
+                tbody.append(`
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${detail.ingredientCode || ''}</td>
+                        <td>${detail.ingredientName}</td>
+                        <td>${detail.unit || ''}</td>
+                        <td class="text-end">${detail.quantity}</td>
+                        <td class="text-end">${formatCurrencyPrice(detail.unitPrice)}</td>
+                        <td class="text-end">${formatCurrencyPrice(totalPrice)}</td>
+                        <td>${detail.expirationDate ? moment(detail.expirationDate).format('DD/MM/YYYY') : ''}</td>
+                    </tr>
+                `);
+            });
+        } else {
+            tbody.append(`
+                <tr>
+                    <td colspan="8" class="text-center py-3 text-muted">Không có chi tiết giao dịch</td>
+                </tr>
+            `);
+        }
+
+        // Set grand total
+        $('#detailGrandTotal').text(formatCurrencyPrice(totalAmount));
+    }
+
+    function populateStatusTimeline(transaction) {
+        const timeline = $('#statusTimeline');
+        timeline.empty();
+
+        // Add created status
+        timeline.append(`
+            <div class="timeline-item">
+                <div class="timeline-marker draft">
+                    <i class="fas fa-pencil-alt fa-xs"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-date">${moment(transaction.createdDate).format('DD/MM/YYYY HH:mm')}</div>
+                    <div class="timeline-title">Tạo phiếu</div>
+                    <div class="timeline-text">Phiếu được tạo bởi ${transaction.createdBy}</div>
+                </div>
+            </div>
+        `);
+
+        // Parse and add status history
+        if (transaction.statusHistory) {
+            try {
+                const history = JSON.parse(transaction.statusHistory);
+
+                if (Array.isArray(history)) {
+                    // Sort by date
+                    history.sort((a, b) => new Date(a.Date) - new Date(b.Date));
+
+                    history.forEach(item => {
+                        let markerClass = '';
+                        let iconClass = '';
+
+                        if (item.Status === 'pending') {
+                            markerClass = 'pending';
+                            iconClass = 'clock';
+                        } else if (item.Status === 'completed') {
+                            markerClass = 'completed';
+                            iconClass = 'check';
+                        } else if (item.Status === 'canceled') {
+                            markerClass = 'canceled';
+                            iconClass = 'times';
+                        }
+
+                        timeline.append(`
+                            <div class="timeline-item">
+                                <div class="timeline-marker ${markerClass}">
+                                    <i class="fas fa-${iconClass} fa-xs"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date">${moment(item.Date).format('DD/MM/YYYY HH:mm')}</div>
+                                    <div class="timeline-title">Cập nhật trạng thái: ${STATUS_TYPES[item.Status] || item.Status}</div>
+                                    ${item.Reason ? `<div class="timeline-text">Lý do: ${item.Reason}</div>` : ''}
+                                </div>
+                            </div>
+                        `);
+                    });
+                }
+            } catch (e) {
+                console.error("Error parsing status history:", e);
+            }
+        }
+    }
+
+    function populateTransactionActions(transaction) {
+        const actionsDiv = $('#transactionActions');
+        actionsDiv.empty();
+
+        if (transaction.status === 'draft') {
+            actionsDiv.append(`
+                <button class="btn btn-primary w-100 mb-2 edit-transaction" data-id="${transaction.id}">
+                    <i class="fas fa-edit me-1"></i> Chỉnh sửa phiếu
+                </button>
+                <button class="btn btn-success w-100 mb-2 update-to-pending" data-id="${transaction.id}">
+                    <i class="fas fa-paper-plane me-1"></i> Gửi phê duyệt
+                </button>
+                <button class="btn btn-info w-100 mb-2 update-to-completed" data-id="${transaction.id}">
+                    <i class="fas fa-check-circle me-1"></i> Hoàn thành ngay
+                </button>
+                <button class="btn btn-danger w-100 mb-2 cancel-transaction" data-id="${transaction.id}">
+                    <i class="fas fa-ban me-1"></i> Hủy phiếu
+                </button>
+                <button class="btn btn-outline-danger w-100 delete-transaction" data-id="${transaction.id}">
+                    <i class="fas fa-trash-alt me-1"></i> Xóa phiếu
+                </button>
+            `);
+        } else if (transaction.status === 'pending') {
+            actionsDiv.append(`
+                <button class="btn btn-success w-100 mb-2 update-to-completed" data-id="${transaction.id}">
+                    <i class="fas fa-check-circle me-1"></i> Phê duyệt và hoàn thành
+                </button>
+                <button class="btn btn-danger w-100 cancel-transaction" data-id="${transaction.id}">
+                    <i class="fas fa-ban me-1"></i> Từ chối phê duyệt
+                </button>
+            `);
+        } else {
+            actionsDiv.append(`
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Phiếu ở trạng thái ${STATUS_TYPES[transaction.status] || transaction.status} không thể thực hiện thao tác thêm.
+                </div>
+            `);
+        }
+
+        // Add event handlers
+        actionsDiv.find('.edit-transaction').on('click', function() {
+            const id = $(this).data('id');
+            $('#transactionDetailModal').modal('hide');
+            editTransaction(id);
+        });
+
+        actionsDiv.find('.update-to-pending').on('click', function() {
+            const id = $(this).data('id');
+            $('#transactionDetailModal').modal('hide');
+            showUpdateStatusModal(id, 'pending');
+        });
+
+        actionsDiv.find('.update-to-completed').on('click', function() {
+            const id = $(this).data('id');
+            $('#transactionDetailModal').modal('hide');
+            showUpdateStatusModal(id, 'completed');
+        });
+
+        actionsDiv.find('.cancel-transaction').on('click', function() {
+            const id = $(this).data('id');
+            $('#transactionDetailModal').modal('hide');
+            showCancelTransactionModal(id);
+        });
+
+        actionsDiv.find('.delete-transaction').on('click', function() {
+            const id = $(this).data('id');
+            $('#transactionDetailModal').modal('hide');
+            showDeleteTransactionModal(id);
+        });
+    }
+
+    function editTransaction(id) {
+            // Show loading
+            $('#loadingSpinner').removeClass('d-none');
+
+            // Load transaction details
+            $.ajax({
+                url: API_URL + `DetailForReview/${id}`,
+                type: "GET",
+                success: function(response) {
+                    $('#loadingSpinner').addClass('d-none');
+
+                    if (response && response.status == 200) {
+                        const transaction = response.data[0];
+
+                        // Set title
+                        let title = '';
+                        if (transaction.transactionType == 'IMPORT'){
+                            editImportTrans(transaction);
+                        }
+                        else if (transaction.transactionType == 'EXPORT'){
+                            editExportTrans(transaction);
+                        }
+                        else if (transaction.transactionType == 'INVENTORY') title = 'Chỉnh sửa phiếu kiểm kê';
+
+                        
+                    } else {
+                        showToast('error', 'Lỗi', 'Không thể tải thông tin giao dịch');
+                    }
+                },
+                error: function() {
+                    $('#loadingSpinner').addClass('d-none');
+                    showToast('error', 'Lỗi', 'Không thể tải thông tin giao dịch');
+                }
+            });
+        }
+
+        function editImportTrans(transaction) {
+            resetImportForm();
+             $('#transactionImportId').val(transaction.id);
+             $('#transactionCode').val(transaction.transactionCode);
+             $('#transactionNote').val(transaction.note || '');
+             $('#totalAmount').text(formatCurrencyPrice(transaction.totalMoney || 0));
+
+             const formattedDate = transaction.transactionDate
+                                        ? moment(transaction.transactionDate).format('YYYY-MM-DD')
+                                        : '';
+
+             $('#transactionDate').val(formattedDate);
+
+             if (transaction.details && transaction.details.length > 0) {
+                        transaction.details.forEach(function(item) {
+                            addItemImportForm(item);
+                        });
+             }
+
+             $('#stockInModal h5').text('Chỉnh sửa phiếu nhập kho')
+
+             $('#stockInModal').modal('show');
+        }
+
+        function addItemImportForm(objDetail) {
+             $('#itemsTable tbody').empty();
+                const rowCount = $('#itemsTable tbody tr').length;
+                const newRow = `
+                    <tr data-newbatch='${objDetail.createNewBatch}' data-ingredient-id="${objDetail.ingredientId}" data-item-id="${objDetail.id}">
+                        <td>${rowCount + 1}</td>
+                        <td>${objDetail.ingredientName}</td>
+                        <td>${objDetail.unit}</td>
+                        <td class="text-end">${objDetail.quantity}</td>
+                        <td>${objDetail.expirationDate}</td>
+                        <td class="text-end">${formatCurrencyPrice(objDetail.unitPrice)}</td>
+                        <td class="text-end">${formatCurrencyPrice(objDetail.unitPrice * objDetail.quantity)}</td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-sm btn-icon btn-danger remove-item">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+
+                $('#itemsTable tbody').append(newRow);
+
+                // Update total amount
+                updateTotalAmount();
+        }
+
+        function editExportTrans(transaction) {
+            resetExportForm();
+            $('#transactionExportId').val(transaction.id);
+             $('#outTransactionCode').val(transaction.transactionCode);
+             $('#outTransactionNote').val(transaction.note || '');
+             $('#outTotalAmount').text(formatCurrencyPrice(transaction.totalMoney || 0));
+
+             const formattedDate = transaction.transactionDate
+                                        ? moment(transaction.transactionDate).format('YYYY-MM-DD')
+                                        : '';
+
+             $('#outTransactionDate').val(formattedDate);
+
+             if (transaction.details && transaction.details.length > 0) {
+                        transaction.details.forEach(function(item) {
+                            addItemExportForm(item);
+                        });
+             }
+
+             $('#stockOutModal h5').text('Chỉnh sửa phiếu nhập kho')
+
+             $('#stockOutModal').modal('show');
+        }
+
+        function addItemExportForm(objDetail) {
+            $('#outItemsTable tbody').empty();
+                const rowCount = $('#outItemsTable tbody tr').length;
+                const newRow = `
+                    <tr data-ingredient-id="${objDetail.ingredientId}" data-item-id="${objDetail.id}">
+                        <td>${rowCount + 1}</td>
+                        <td>${objDetail.ingredientName}</td>
+                        <td>${objDetail.unit || ''}</td>
+                        <td class="text-end">${objDetail.quantity}</td>
+                        <td class="text-end">${formatCurrencyPrice(objDetail.unitPrice)}</td>
+                        <td class="text-end">${formatCurrencyPrice(objDetail.quantity * objDetail.unitPrice)}</td>
+                        <td>${objDetail.note || ''}</td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-sm btn-icon btn-danger remove-out-item">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>`;
+
+                $('#outItemsTable tbody').append(newRow);
+
+                // Update total amount
+                updateOutTotalAmount();
+        }
+
+        // Thiết lập sự kiện cho modal hủy phiếu
+    function setupCancelTransactionModal() {
+        // Xử lý nút xác nhận hủy
+        $('#confirmCancelBtn').on('click', function() {
+            const transactionId = $('#cancelTransactionId').val();
+            const cancelReason = $('#cancelReason').val();
+
+            // Validate
+            if (!cancelReason) {
+                showToast('error', 'Lỗi', 'Vui lòng nhập lý do hủy phiếu');
+                return;
+            }
+
+            // Show loading
+            $('#loadingSpinner').removeClass('d-none');
+
+            // Cancel transaction
+            $.ajax({
+                url: API_URL + "Cancel",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    transactionId: transactionId,
+                    cancelReason: cancelReason,
+                    canceledBy: currentAccountId
+                }),
+                success: function(response) {
+                    $('#loadingSpinner').addClass('d-none');
+
+                    if (response && response.status == 200) {
+                        // Close modal
+                        $('#cancelTransactionModal').modal('hide');
+
+                        // Show success message
+                        showToast('success', 'Thành công', 'Đã hủy phiếu thành công!');
+
+                        // Reload tables
+                        reloadAllTables();
+                    } else {
+                        showToast('error', 'Lỗi', response?.message || 'Có lỗi xảy ra khi hủy phiếu');
+                    }
+                },
+                error: function(xhr) {
+                    $('#loadingSpinner').addClass('d-none');
+                    showToast('error', 'Lỗi', xhr.responseJSON?.message || 'Có lỗi xảy ra khi hủy phiếu');
+                }
+            });
+        });
+    }
+
+    // Hiển thị modal hủy phiếu
+    function showCancelTransactionModal(transactionId) {
+        // Reset form
+        $('#cancelTransactionId').val(transactionId);
+        $('#cancelReason').val('');
+
+        // Show modal
+        $('#cancelTransactionModal').modal('show');
+    }
+
+
+     // Thiết lập sự kiện cho modal xóa phiếu
+    function setupDeleteTransactionModal() {
+        // Xử lý nút xác nhận xóa
+        $('#confirmDeleteBtn').on('click', async function() {
+            const transactionId = $('#deleteTransactionId').val();
+
+            // Show loading
+            $('#loadingSpinner').removeClass('d-none');
+
+            let obj = await detailTransactionById(transactionId);
+
+            // Delete transaction
+            $.ajax({
+                url: API_URL + "Delete",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(obj),
+                success: function(response) {
+                    $('#loadingSpinner').addClass('d-none');
+
+                    if (response && response.status == 200) {
+                        // Close modal
+                        $('#deleteTransactionModal').modal('hide');
+
+                        // Show success message
+                        showToast('success', 'Thành công', 'Đã xóa phiếu thành công!');
+
+                        // Reload tables
+                        reloadAllTables();
+                    } else {
+                        showToast('error', 'Lỗi', response?.message || 'Có lỗi xảy ra khi xóa phiếu');
+                    }
+                },
+                error: function(xhr) {
+                    $('#loadingSpinner').addClass('d-none');
+                    showToast('error', 'Lỗi', xhr.responseJSON?.message || 'Có lỗi xảy ra khi xóa phiếu');
+                }
+            });
+        });
+    }
+
+    // Hiển thị modal xóa phiếu
+    function showDeleteTransactionModal(transactionId) {
+        // Reset form
+        $('#deleteTransactionId').val(transactionId);
+
+        // Show modal
+        $('#deleteTransactionModal').modal('show');
+    }
+
+    function setupUpdateStatusModal() {
+
+        // Xử lý nút lưu thay đổi
+        $('#saveStatusBtn').on('click', function() {
+            const transactionId = $('#statusTransactionId').val();
+            const newStatus = $('#newStatus').val();
+            const note = $('#statusNote').val();
+
+            // Validate
+            if (newStatus === 'CANCELED' && !note) {
+                showToast('error', 'Lỗi', 'Vui lòng nhập lý do hủy phiếu');
+                return;
+            }
+
+            // Show loading
+            $('#loadingSpinner').removeClass('d-none');
+
+            // Update status
+            $.ajax({
+                url: API_URL + "UpdateStatus",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    transactionId: transactionId,
+                    newStatus: newStatus,
+                    userId: currentAccountId,
+                    note: note
+                }),
+                success: function(response) {
+                    $('#loadingSpinner').addClass('d-none');
+
+                    if (response && response.status == 200) {
+                        // Close modal
+                        $('#updateStatusModal').modal('hide');
+
+                        // Show success message
+                        showToast('success', 'Thành công', 'Đã cập nhật trạng thái thành công!');
+
+                        // Reload tables
+                        reloadAllTables();
+                    } else {
+                        showToast('error', 'Lỗi', response?.message || 'Có lỗi xảy ra khi cập nhật trạng thái');
+                    }
+                },
+                error: function(xhr) {
+                    $('#loadingSpinner').addClass('d-none');
+                    showToast('error', 'Lỗi', xhr.responseJSON?.message || 'Có lỗi xảy ra khi cập nhật trạng thái');
+                }
+            });
+        });
+    }
+
+    // Hiển thị modal cập nhật trạng thái
+    function showUpdateStatusModal(transactionId, statusVal) {
+        // Reset form
+        $('#statusTransactionId').val(transactionId);
+        $('#newStatus').val(statusVal);
+        $('#statusNote').val('');
+        $('#updateStatusModal').modal('show');      
+    }
+    
+        function resetImportForm() {
+            $('#stockInModal h5').text('Tạo mới phiếu nhập kho');
+            $('#transactionImportId').val('0');
+            $('#stockInForm')[0].reset();
+
+            // Reset bảng nguyên liệu
+            $('#itemsTable tbody').html(
+                '<tr><td colspan="7" class="text-center py-3 muted-color">Chưa có nguyên liệu nào được thêm</td></tr>'
+            );
+
+            // Reset tổng tiền
+            $('#totalAmount').text('0 ₫');
+            $('#transactionDate').val(moment(new Date(), 'DD/MM/YYYY').format('DD/MM/YYYY'));
+
+            // Ngày hết hạn +1 năm
+            const expiration = new Date();
+            expiration.setFullYear(expiration.getFullYear() + 1);
+            const yyyy = expiration.getFullYear();
+            const mm = String(expiration.getMonth() + 1).padStart(2, '0');
+            const dd = String(expiration.getDate()).padStart(2, '0');
+            $('#expirationDate').val(`${yyyy}-${mm}-${dd}`);
+        }
+
+        function resetExportForm() {
+            $('#stockOutModal h5').text('Tạo mới phiếu xuất kho');
+            $('#transactionExportId').val('0');
+            $('#stockOutForm')[0].reset();
+            $('#outItemsTable tbody').html('<tr><td colspan="7" class="text-center py-3 muted-color">Chưa có nguyên liệu nào được thêm</td></tr>');
+            $('#outTotalAmount').text('0 ₫');
+            $('#outTransactionDate').val(moment(new Date(), 'DD/MM/YYYY').format('DD/MM/YYYY'));
+        }
+    async function detailTransactionById(id) {
+                var data;
+                await $.ajax({
+                    url: systemURL + "StockTransaction/api/detail/" + id,
+                    method: "GET",
+                    success: function (responseData) {
+                        data = responseData.data[0];
+                    },
+                    error: function (e) {
+                    },
+                });
+                return data;
+            }
 
 </script>

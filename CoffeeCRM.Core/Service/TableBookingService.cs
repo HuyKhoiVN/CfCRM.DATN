@@ -1,4 +1,4 @@
-
+﻿
 using CoffeeCRM.Data.Model;
 using CoffeeCRM.Core.Repository;
 
@@ -76,6 +76,11 @@ namespace CoffeeCRM.Core.Service
 
         public async Task<bool> AddOrUpdate(TableBookingDto obj)
         {
+            var isConflict = await tableBookingRepository.IsBookingTimeConflict(obj.BookingTime, obj.TableId, obj.Id == 0 ? null : obj.Id);
+            if (isConflict)
+            {
+                throw new BadRequestException("Thời gian đã có người đặt bàn, vui lòng chọn thời gian khác");
+            }
             if (obj.Id == 0)
             {
 
