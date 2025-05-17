@@ -537,6 +537,18 @@
             color: var(--danger);
         }
 
+    .bg-import {
+        background-color: rgba(76, 201, 240, 0.1) !important;
+    }
+
+    .bg-export {
+        background-color: rgba(249, 65, 68, 0.1) !important;
+    }
+
+    .bg-adjust {
+        background-color: #fff8e1 !important; /* vàng nhạt */
+    }
+
     .inventory-movement-info {
         flex: 1;
     }
@@ -668,6 +680,58 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--gray-500);
         }
+
+    .chart-loading {
+        text-align: center;
+        padding: 20px;
+        display: none;
+    }
+
+    .chart-error {
+        background-color: #fee2e2;
+        color: #ef4444;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        display: none;
+    }
+
+    .chart-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #7f8c8d;
+    }
+
+    .chart-info-value {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-left: 5px;
+    }
+
+    .chart-details {
+        margin-top: 20px;
+    }
+
+    .color-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+    }
+
+    .table-sm {
+        font-size: 14px;
+    }
+
+    .date-range {
+        font-size: 14px;
+        color: #7f8c8d;
+        margin-bottom: 10px;
+    }
 </style>
 <div id="kt_app_content" class="app-content  flex-column-fluid ">
     <!--begin::Content container-->
@@ -761,7 +825,15 @@
                             </div>
                         </div>
                         <div class="dashboard-section-content">
-                            <div class="chart-container" id="revenueChart"></div>
+                            <div id="revenueChartError" class="chart-error">
+                                <i class="fas fa-exclamation-circle me-2"></i> Có lỗi xảy ra khi tải dữ liệu biểu đồ. Vui lòng thử lại sau.
+                            </div>
+
+                            <div id="revenueChartLoading" class="chart-loading">
+                                <i class="fas fa-spinner fa-spin me-2"></i> Đang tải dữ liệu biểu đồ...
+                            </div>
+
+                            <div id="revenueChart"></div>
                         </div>
                     </div>
                 </div>
@@ -772,7 +844,52 @@
                             <h2 class="dashboard-section-title">Phân loại đơn hàng</h2>
                         </div>
                         <div class="dashboard-section-content">
-                            <div class="chart-container" id="orderTypeChart"></div>
+                            <div class="chart-container" >
+                                <div class="chart-card">
+                                    <div class="chart-header d-none">
+                                        <div class="chart-title">Tỉ lệ món theo nhóm món</div>
+                                        <div class="chart-actions">
+                                            <button id="ingredientCategory7DaysBtn" class="chart-btn">7 ngày</button>
+                                            <button id="ingredientCategory30DaysBtn" class="chart-btn active">30 ngày</button>
+                                            <button id="ingredientCategoryAllTimeBtn" class="chart-btn">Tất cả</button>
+                                        </div>
+                                    </div>
+
+                                    <div id="ingredientCategoryChartError" class="chart-error">
+                                        <i class="fas fa-exclamation-circle me-2"></i> Có lỗi xảy ra khi tải dữ liệu biểu đồ. Vui lòng thử lại sau.
+                                    </div>
+
+                                    <div id="ingredientCategoryChartLoading" class="chart-loading">
+                                        <i class="fas fa-spinner fa-spin me-2"></i> Đang tải dữ liệu biểu đồ...
+                                    </div>
+
+                                    <div id="ingredientCategoryChart"></div>
+
+                                    <div class="chart-info">
+                                        <span>Tổng số món đã bán:</span>
+                                        <span id="totalIngredientsSold" class="chart-info-value">0</span>
+                                    </div>
+
+                                    <!-- Bảng chi tiết -->
+                                    <div class="chart-details">
+                                        <h6>Chi tiết theo nhóm món</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nhóm món</th>
+                                                        <th class="text-end">Số lượng</th>
+                                                        <th class="text-end">Tỉ lệ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="ingredientCategoryTableBody">
+                                                    <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -784,9 +901,9 @@
                     <div class="dashboard-section">
                         <div class="dashboard-section-header">
                             <h2 class="dashboard-section-title">Món ăn bán chạy</h2>
-                            <button class="btn btn-sm btn-outline-primary">Xem tất cả</button>
+                            <button class="btn btn-sm btn-outline-primary" id="viewAllDishesBtn">Xem tất cả</button>
                         </div>
-                        <div class="dashboard-section-content">
+                        <div class="dashboard-section-content" id="popularDish">
                             <div class="popular-dish">
                                 <div class="popular-dish-image">
                                     <img src="https://via.placeholder.com/60x60" alt="Bún bò Huế">
@@ -861,88 +978,46 @@
                 </div>
 
                 <div class="col-lg-6 mb-4">
-                    <div class="dashboard-section">
+                    <div class="dashboard-section" id="recent-stock-transactions">
                         <div class="dashboard-section-header">
                             <h2 class="dashboard-section-title">Biến động kho gần đây</h2>
-                            <button class="btn btn-sm btn-outline-primary">Xem tất cả</button>
+                            <button id="view-all-stock-transactions" class="btn btn-sm btn-outline-primary">Xem tất cả</button>
                         </div>
-                        <div class="dashboard-section-content">
-                            <div class="inventory-movement">
-                                <div class="inventory-movement-icon in">
-                                    <i class="fas fa-arrow-down"></i>
-                                </div>
-                                <div class="inventory-movement-info">
-                                    <div class="inventory-movement-title">Nhập kho: Thịt bò</div>
-                                    <div class="inventory-movement-details">
-                                        <span>Nhà cung cấp: Thịt sạch ABC</span> •
-                                        <span>15/05/2023 08:30</span>
-                                    </div>
-                                </div>
-                                <div class="inventory-movement-quantity in">+25kg</div>
-                            </div>
+                        <div class="dashboard-section-content" id="recent-transactions-content">
+                            <!-- Dữ liệu động sẽ được đổ vào đây -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            <div class="inventory-movement">
-                                <div class="inventory-movement-icon out">
-                                    <i class="fas fa-arrow-up"></i>
-                                </div>
-                                <div class="inventory-movement-info">
-                                    <div class="inventory-movement-title">Xuất kho: Rau xanh</div>
-                                    <div class="inventory-movement-details">
-                                        <span>Bộ phận: Bếp chính</span> •
-                                        <span>15/05/2023 09:15</span>
-                                    </div>
-                                </div>
-                                <div class="inventory-movement-quantity out">-8kg</div>
-                            </div>
-
-                            <div class="inventory-movement">
-                                <div class="inventory-movement-icon in">
-                                    <i class="fas fa-arrow-down"></i>
-                                </div>
-                                <div class="inventory-movement-info">
-                                    <div class="inventory-movement-title">Nhập kho: Gia vị</div>
-                                    <div class="inventory-movement-details">
-                                        <span>Nhà cung cấp: Gia vị Việt</span> •
-                                        <span>15/05/2023 10:45</span>
-                                    </div>
-                                </div>
-                                <div class="inventory-movement-quantity in">+15 gói</div>
-                            </div>
-
-                            <div class="inventory-movement">
-                                <div class="inventory-movement-icon out">
-                                    <i class="fas fa-arrow-up"></i>
-                                </div>
-                                <div class="inventory-movement-info">
-                                    <div class="inventory-movement-title">Xuất kho: Thịt gà</div>
-                                    <div class="inventory-movement-details">
-                                        <span>Bộ phận: Bếp phụ</span> •
-                                        <span>15/05/2023 11:30</span>
-                                    </div>
-                                </div>
-                                <div class="inventory-movement-quantity out">-12kg</div>
-                            </div>
-
-                            <div class="inventory-movement">
-                                <div class="inventory-movement-icon in">
-                                    <i class="fas fa-arrow-down"></i>
-                                </div>
-                                <div class="inventory-movement-info">
-                                    <div class="inventory-movement-title">Nhập kho: Hải sản</div>
-                                    <div class="inventory-movement-details">
-                                        <span>Nhà cung cấp: Hải sản tươi XYZ</span> •
-                                        <span>15/05/2023 13:15</span>
-                                    </div>
-                                </div>
-                                <div class="inventory-movement-quantity in">+18kg</div>
-                            </div>
+            <div class="modal fade" id="stockTransactionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Tất cả giao dịch kho</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="stockTransactionTable" class="table table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Loại giao dịch</th>
+                                        <th>Nguyên liệu</th>
+                                        <th>Người tạo</th>
+                                        <th>Thời gian</th>
+                                        <th>Số lượng</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Inventory Status -->
-            <div class="row">
+            <div class="row d-none">
                 <div class="col-12 mb-4">
                     <div class="dashboard-section">
                         <div class="dashboard-section-header">
@@ -1508,66 +1583,34 @@
                     <div class="dashboard-section">
                         <div class="dashboard-section-header">
                             <h2 class="dashboard-section-title">Nhân viên</h2>
-                            <button class="btn btn-sm btn-outline-primary">Xem tất cả</button>
                         </div>
+
+                        <!-- DataTable ẩn để lấy dữ liệu -->
+                        <table id="accountDataTable" class="d-none">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>FullName</th>
+                                    <th>Username</th>
+                                    <th>Photo</th>
+                                    <th>RoleName</th>
+                                    <th>TotalInvoice</th>
+                                    <th>TotalInvoiceValue</th>
+                                    <th>TotalPurchaseOrder</th>
+                                    <th>TotalPurchaseOrderValue</th>
+                                    <th>TotalDishOrder</th>
+                                    <th>TotalTableBooking</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                        <!-- Vùng hiển thị card -->
                         <div class="dashboard-section-content">
-                            <div class="staff-cards">
-                                <div class="staff-card">
-                                    <div class="staff-avatar">
-                                        <img src="https://via.placeholder.com/80x80" alt="Nguyễn Văn A">
-                                    </div>
-                                    <div class="staff-name">Nguyễn Văn A</div>
-                                    <div class="staff-position">Quản lý</div>
-                                    <div class="staff-stats">
-                                        <div class="staff-stat">
-                                            <div class="staff-stat-value">95%</div>
-                                            <div class="staff-stat-label">Hiệu suất</div>
-                                        </div>
-                                        <div class="staff-stat">
-                                            <div class="staff-stat-value">28</div>
-                                            <div class="staff-stat-label">Đơn hàng</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline-primary mt-2">Xem chi tiết</button>
-                                </div>
+                            <div id="staffCardsContainer" class="staff-cards"></div>
 
-                                <div class="staff-card">
-                                    <div class="staff-avatar">
-                                        <img src="https://via.placeholder.com/80x80" alt="Trần Thị B">
-                                    </div>
-                                    <div class="staff-name">Trần Thị B</div>
-                                    <div class="staff-position">Đầu bếp</div>
-                                    <div class="staff-stats">
-                                        <div class="staff-stat">
-                                            <div class="staff-stat-value">92%</div>
-                                            <div class="staff-stat-label">Hiệu suất</div>
-                                        </div>
-                                        <div class="staff-stat">
-                                            <div class="staff-stat-value">45</div>
-                                            <div class="staff-stat-label">Món ăn</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline-primary mt-2">Xem chi tiết</button>
-                                </div>
-
-                                <div class="staff-card">
-                                    <div class="staff-avatar">
-                                        <img src="https://via.placeholder.com/80x80" alt="Lê Văn C">
-                                    </div>
-                                    <div class="staff-name">Lê Văn C</div>
-                                    <div class="staff-position">Phục vụ</div>
-                                    <div class="staff-stats">
-                                        <div class="staff-stat">
-                                            <div class="staff-stat-value">88%</div>
-                                            <div class="staff-stat-label">Hiệu suất</div>
-                                        </div>
-                                        <div class="staff-stat">
-                                            <div class="staff-stat-value">32</div>
-                                            <div class="staff-stat-label">Đơn hàng</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline-primary mt-2">Xem chi tiết</button>
-                                </div>
+                            <!-- Phân trang -->
+                            <div class="d-flex justify-content-end mt-3">
+                                <ul id="staffPagination" class="pagination pagination-sm"></ul>
                             </div>
                         </div>
                     </div>
@@ -1577,101 +1620,33 @@
                     <div class="dashboard-section">
                         <div class="dashboard-section-header">
                             <h2 class="dashboard-section-title">Nhà cung cấp</h2>
-                            <button class="btn btn-sm btn-outline-primary">Xem tất cả</button>
+                            
                         </div>
+                        <!-- DataTable ẩn để lấy dữ liệu -->
+                        <table id="supplierDataTable" class="d-none">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>SupplierCode</th>
+                                    <th>SupplierName</th>
+                                    <th>ContactInfo</th>
+                                    <th>Address</th>
+                                    <th>CreatedTime</th>
+                                    <th>TotalDebt</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                        <!-- Vùng hiển thị card -->
                         <div class="dashboard-section-content">
-                            <div class="supplier-cards">
-                                <div class="supplier-card">
-                                    <div class="supplier-header">
-                                        <div class="supplier-logo">
-                                            <i class="fas fa-drumstick-bite"></i>
-                                        </div>
-                                        <div class="supplier-info">
-                                            <div class="supplier-name">Thịt sạch ABC</div>
-                                            <div class="supplier-category">Thịt tươi sống</div>
-                                        </div>
-                                    </div>
-                                    <div class="supplier-contact">
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-phone"></i>
-                                            <span>0987654321</span>
-                                        </div>
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-envelope"></i>
-                                            <span>contact@thitsachabc.com</span>
-                                        </div>
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            <span>123 Đường Lê Lợi, Quận 1, TP.HCM</span>
-                                        </div>
-                                    </div>
-                                    <div class="supplier-status">
-                                        <span class="status-badge active">Đang hoạt động</span>
-                                        <button class="btn btn-sm btn-outline-primary">Đặt hàng</button>
-                                    </div>
-                                </div>
+                            <div id="supplierCardsContainer" class="supplier-cards"></div>
 
-                                <div class="supplier-card">
-                                    <div class="supplier-header">
-                                        <div class="supplier-logo">
-                                            <i class="fas fa-seedling"></i>
-                                        </div>
-                                        <div class="supplier-info">
-                                            <div class="supplier-name">Rau sạch 123</div>
-                                            <div class="supplier-category">Rau củ quả</div>
-                                        </div>
-                                    </div>
-                                    <div class="supplier-contact">
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-phone"></i>
-                                            <span>0123456789</span>
-                                        </div>
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-envelope"></i>
-                                            <span>info@rausach123.com</span>
-                                        </div>
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            <span>456 Đường Nguyễn Huệ, Quận 1, TP.HCM</span>
-                                        </div>
-                                    </div>
-                                    <div class="supplier-status">
-                                        <span class="status-badge active">Đang hoạt động</span>
-                                        <button class="btn btn-sm btn-outline-primary">Đặt hàng</button>
-                                    </div>
-                                </div>
-
-                                <div class="supplier-card">
-                                    <div class="supplier-header">
-                                        <div class="supplier-logo">
-                                            <i class="fas fa-fish"></i>
-                                        </div>
-                                        <div class="supplier-info">
-                                            <div class="supplier-name">Hải sản tươi XYZ</div>
-                                            <div class="supplier-category">Hải sản</div>
-                                        </div>
-                                    </div>
-                                    <div class="supplier-contact">
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-phone"></i>
-                                            <span>0909123456</span>
-                                        </div>
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-envelope"></i>
-                                            <span>sales@haisantuoi.com</span>
-                                        </div>
-                                        <div class="supplier-contact-item">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            <span>789 Đường Võ Văn Tần, Quận 3, TP.HCM</span>
-                                        </div>
-                                    </div>
-                                    <div class="supplier-status">
-                                        <span class="status-badge active">Đang hoạt động</span>
-                                        <button class="btn btn-sm btn-outline-primary">Đặt hàng</button>
-                                    </div>
-                                </div>
+                            <!-- Phân trang -->
+                            <div class="d-flex justify-content-end mt-3">
+                                <ul id="supplierPagination" class="pagination pagination-sm"></ul>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -1682,6 +1657,231 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"></script>
 
     <script>
+        const staffPerPage = 4; // Hiển thị 4 nhân viên mỗi trang
+        let staffDataCache = [];
+
+        function initAccountDataTable() {
+            $('#accountDataTable').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: true,
+                info: false,      // Tắt thông báo "Showing 1 to 6 of 6 records"
+        lengthChange: false, // Tắt dropdown chọn số bản ghi mỗi trang
+        pagingType: "simple_numbers", // Kiểu phân trang đơn giản
+        dom: "<'row'<'col-sm-12'tr>>",
+                pageLength: 1000, // Lấy nhiều để phân trang client
+                ajax: {
+                    url: systemURL + "account/api/list-server-side-summary",
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: function (d) {
+                        d.searchAll = "";
+                        return JSON.stringify(d);
+                    }
+                },
+                columns: [
+                    { data: "id" },
+                    { data: "fullName" },
+                    { data: "username" },
+                    { data: "photo" },
+                    { data: "roleName" },
+                    { data: "totalInvoice" },
+                    { data: "totalInvoiceValue" },
+                    { data: "totalPurchaseOrder" },
+                    { data: "totalPurchaseOrderValue" },
+                    { data: "totalDishOrder" },
+                    { data: "totalTableBooking" }
+                ],
+                drawCallback: function (settings) {
+                    const data = settings.json?.data || [];
+                    staffDataCache = data;
+                    renderStaffCards(1);
+                }
+            });
+        }
+
+        function renderStaffCards(page) {
+            const startIndex = (page - 1) * staffPerPage;
+            const endIndex = startIndex + staffPerPage;
+            const currentStaff = staffDataCache.slice(startIndex, endIndex);
+            const $container = $('#staffCardsContainer');
+            $container.empty();
+
+            currentStaff.forEach(staff => {
+                const defaultPhoto = "/images/default/authdefaultimage.png";
+                const imgSrc = staff.photo ? `${systemURL}${staff.photo}` : defaultPhoto;
+                const cardHtml = `
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <img src="${imgSrc}" alt="${staff.fullName}">
+                    </div>
+                    <div class="staff-name">${staff.fullName}</div>
+                    <div class="staff-position">${staff.roleName}</div>
+                    <div class="staff-stats">
+                        <div class="staff-stat">
+                            <div class="staff-stat-value">${staff.totalInvoice}</div>
+                            <div class="staff-stat-label">Hóa đơn</div>
+                        </div>
+                        <div class="staff-stat">
+                            <div class="staff-stat-value">${staff.totalDishOrder}</div>
+                            <div class="staff-stat-label">Tổng order</div>
+                        </div>
+                        <div class="staff-stat">
+                            <div class="staff-stat-value">${staff.totalPurchaseOrder}</div>
+                            <div class="staff-stat-label">Nhập hàng</div>
+                        </div>
+                    </div>
+                    <div class="staff-stats">
+                        <div class="staff-stat">
+                            <div class="staff-stat-value">${formatCurrencyDB(staff.totalInvoiceValue)}</div>
+                            <div class="staff-stat-label">Doanh thu</div>
+                        </div>
+                        <div class="staff-stat">
+                                    <div class="staff-stat-value">${staff.totalTableBooking}</div>
+                                    <div class="staff-stat-label">Đặt bàn</div>
+                        </div>
+                        <div class="staff-stat">
+                            <div class="staff-stat-value">${formatCurrencyDB(staff.totalPurchaseOrderValue)}</div>
+                            <div class="staff-stat-label">Giá trị nhập</div>
+                        </div>
+                    </div>
+                </div>`;
+
+                $container.append(cardHtml);
+            });
+
+            renderStaffPagination(page);
+        }
+
+        function renderStaffPagination(currentPage) {
+            const totalPages = Math.ceil(staffDataCache.length / staffPerPage);
+            const $pagination = $('#staffPagination');
+            $pagination.empty();
+
+            // Nút Previous
+            $pagination.append(`
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="renderStaffCards(${currentPage - 1}); return false;">&laquo;</a>
+                </li>`);
+
+            // Các nút số trang
+            for (let i = 1; i <= totalPages; i++) {
+                $pagination.append(`
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="renderStaffCards(${i}); return false;">${i}</a>
+                    </li>`);
+            }
+
+            // Nút Next
+            $pagination.append(`
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="renderStaffCards(${currentPage + 1}); return false;">&raquo;</a>
+                </li>`);
+        }
+
+        $(document).ready(function () {
+            initAccountDataTable();
+        });
+    </script>
+
+    <script>
+        const suppliersPerPage = 6;
+        let supplierDataCache = [];
+
+        function initSupplierDataTable() {
+            $('#supplierDataTable').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: true,
+                info: false,      // Tắt thông báo "Showing 1 to 6 of 6 records"
+        lengthChange: false, // Tắt dropdown chọn số bản ghi mỗi trang
+        pagingType: "simple_numbers", // Kiểu phân trang đơn giản
+        dom: "<'row'<'col-sm-12'tr>>",
+                pageLength: 1000, // Lấy nhiều để phân trang client
+                ajax: {
+                    url: systemURL + "supplier/api/list-server-side",
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: function (d) {
+                        d.searchAll = "";
+                        return JSON.stringify(d);
+                    }
+                },
+                columns: [
+                    { data: "id" },
+                    { data: "supplierCode" },
+                    { data: "supplierName" },
+                    { data: "contactInfo" },
+                    { data: "address" },
+                    { data: "createdTime" },
+                    { data: "totalDebt" }
+                ],
+                drawCallback: function (settings) {
+                    const data = settings.json?.data || [];
+                    supplierDataCache = data;
+                    renderSupplierCards(1);
+                }
+            });
+        }
+
+        function renderSupplierCards(page) {
+            const startIndex = (page - 1) * suppliersPerPage;
+            const endIndex = startIndex + suppliersPerPage;
+            const currentSuppliers = supplierDataCache.slice(startIndex, endIndex);
+            const $container = $('#supplierCardsContainer');
+            $container.empty();
+
+            currentSuppliers.forEach(s => {
+                const cardHtml = `
+                <div class="supplier-card">
+                    <div class="supplier-header">
+                        <div class="supplier-logo">
+                            <i class="fas fa-truck-loading"></i>
+                        </div>
+                        <div class="supplier-info">
+                            <div class="supplier-name fw-bold">${s.supplierName}</div>
+                            <div class="supplier-category">${s.supplierCode}</div>
+                        </div>
+                    </div>
+                    <div class="supplier-contact">
+                        <div class="supplier-contact-item"><i class="fas fa-phone"></i> <span>${s.contactInfo}</span></div>
+                        <div class="supplier-contact-item"><i class="fas fa-map-marker-alt"></i> <span>${s.address}</span></div>
+                    </div>
+                    <div class="supplier-status d-flex justify-content-between align-items-center mt-2">
+                        <span class="text-danger fw-bold">Tổng nợ: ${formatCurrencyDB(s.totalDebt)}</span>
+                    </div>
+                </div>`;
+                 
+                $container.append(cardHtml);
+            });
+
+            renderPagination(page);
+        }
+
+        function renderPagination(currentPage) {
+            const totalPages = Math.ceil(supplierDataCache.length / suppliersPerPage);
+            const $pagination = $('#supplierPagination');
+            $pagination.empty();
+
+            for (let i = 1; i <= totalPages; i++) {
+                $pagination.append(`
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="renderSupplierCards(${i}); return false;">${i}</a>
+                    </li>`);
+            }
+        }
+        $(document).ready(function () {
+            initSupplierDataTable();
+        });
+
+    </script>
+
+    <script>
+        let dishTable;
         // Initialize DataTables
         $(document).ready(function() {
             $('#inventoryTable').DataTable({
@@ -1710,143 +1910,602 @@
                 lengthMenu: [5, 10, 25, 50],
                 responsive: true
             });
+
+                  initRevenueChart()
+
+                // Thiết lập sự kiện cho các nút chuyển đổi thời gian
+                setupTimeRangeButtons()
+
+                        initIngredientCategoryChart()
+
+          // Thiết lập sự kiện cho nút lọc
+          setupFilterButtons()
+
+                loadPopularDishes();
+                loadRecentStockTransactions();
+
+        // Xử lý sự kiện khi click vào nút "Xem tất cả"
+        $("#viewAllDishesBtn").on("click", () => {
+          openPopularDishesModal()
+        })
         });
 
-        // Revenue Chart
-        var revenueOptions = {
-            series: [{
-                name: 'Doanh thu',
-                type: 'column',
-                data: [11500000, 9800000, 12300000, 10500000, 14200000, 15800000, 12580000]
-            }, {
-                name: 'Đơn hàng',
-                type: 'line',
-                data: [65, 58, 72, 63, 78, 82, 85]
-            }],
+                function initRevenueChart() {
+          // Tạo tùy chọn biểu đồ mặc định
+          var revenueOptions = {
+            series: [
+              {
+                name: "Doanh thu",
+                type: "column",
+                data: [],
+              },
+              {
+                name: "Đơn hàng",
+                type: "line",
+                data: [],
+              },
+            ],
             chart: {
-                height: 350,
-                type: 'line',
-                toolbar: {
-                    show: false
-                }
+              height: 350,
+              type: "line",
+              toolbar: {
+                show: false,
+              },
             },
             stroke: {
-                width: [0, 3],
-                curve: 'smooth'
+              width: [0, 3],
+              curve: "smooth",
             },
             plotOptions: {
-                bar: {
-                    columnWidth: '60%',
-                    borderRadius: 5
-                }
+              bar: {
+                columnWidth: "60%",
+                borderRadius: 5,
+              },
             },
             fill: {
-                opacity: [0.85, 1],
-                gradient: {
-                    inverseColors: false,
-                    shade: 'light',
-                    type: "vertical",
-                    opacityFrom: 0.85,
-                    opacityTo: 0.55,
-                    stops: [0, 100, 100, 100]
-                }
+              opacity: [0.85, 1],
+              gradient: {
+                inverseColors: false,
+                shade: "light",
+                type: "vertical",
+                opacityFrom: 0.85,
+                opacityTo: 0.55,
+                stops: [0, 100, 100, 100],
+              },
             },
             markers: {
-                size: 4,
-                colors: ['#4cc9f0'],
-                strokeColors: '#fff',
-                strokeWidth: 2,
-                hover: {
-                    size: 7,
-                }
+              size: 4,
+              colors: ["#4cc9f0"],
+              strokeColors: "#fff",
+              strokeWidth: 2,
+              hover: {
+                size: 7,
+              },
             },
             xaxis: {
-                categories: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+              categories: [],
             },
-            yaxis: [{
+            yaxis: [
+              {
                 title: {
-                    text: 'Doanh thu (VNĐ)',
+                  text: "Doanh thu (VNĐ)",
                 },
                 labels: {
-                    formatter: function(val) {
-                        return val.toLocaleString('vi-VN') + ' ₫';
-                    }
-                }
-            }, {
+                  formatter: (val) => val.toLocaleString("vi-VN") + " ₫",
+                },
+              },
+              {
                 opposite: true,
                 title: {
-                    text: 'Đơn hàng'
-                }
-            }],
+                  text: "Đơn hàng",
+                },
+              },
+            ],
             tooltip: {
-                shared: true,
-                intersect: false,
-                y: [{
-                    formatter: function(y) {
-                        if (typeof y !== "undefined") {
-                            return y.toLocaleString('vi-VN') + " ₫";
-                        }
-                        return y;
+              shared: true,
+              intersect: false,
+              y: [
+                {
+                  formatter: (y) => {
+                    if (typeof y !== "undefined") {
+                      return y.toLocaleString("vi-VN") + " ₫"
                     }
-                }, {
-                    formatter: function(y) {
-                        if (typeof y !== "undefined") {
-                            return y + " đơn";
-                        }
-                        return y;
+                    return y
+                  },
+                },
+                {
+                  formatter: (y) => {
+                    if (typeof y !== "undefined") {
+                      return y + " đơn"
                     }
-                }]
+                    return y
+                  },
+                },
+              ],
             },
-            colors: ['#4361ee', '#4cc9f0']
-        };
+            colors: ["#4361ee", "#4cc9f0"],
+          }
 
-        var revenueChart = new ApexCharts(document.querySelector("#revenueChart"), revenueOptions);
-        revenueChart.render();
+          // Khởi tạo biểu đồ
+          window.revenueChart = new ApexCharts(document.querySelector("#revenueChart"), revenueOptions)
+          window.revenueChart.render()
 
-        // Order Type Chart
-        var orderTypeOptions = {
-            series: [45, 30, 25],
+          // Tải dữ liệu mặc định (tuần)
+          fetchRevenueData("week")
+        }
+
+        function setupTimeRangeButtons() {
+          // Thiết lập sự kiện cho nút tuần
+          $("#revenueWeekBtn").on("click", function () {
+            $(this).addClass("active")
+            $("#revenueMonthBtn").removeClass("active")
+            $("#revenueYearBtn").removeClass("active")
+            fetchRevenueData("week")
+          })
+
+          // Thiết lập sự kiện cho nút tháng
+          $("#revenueMonthBtn").on("click", function () {
+            $(this).addClass("active")
+            $("#revenueWeekBtn").removeClass("active")
+            $("#revenueYearBtn").removeClass("active")
+            fetchRevenueData("month")
+          })
+
+          // Thiết lập sự kiện cho nút năm
+          $("#revenueYearBtn").on("click", function () {
+            $(this).addClass("active")
+            $("#revenueWeekBtn").removeClass("active")
+            $("#revenueMonthBtn").removeClass("active")
+            fetchRevenueData("year")
+          })
+        }
+
+        function fetchRevenueData(period) {
+          // Hiển thị trạng thái đang tải
+          $("#revenueChartLoading").show()
+
+          // Gọi API để lấy dữ liệu biểu đồ
+          $.ajax({
+            url: systemURL + `statistics/api/revenue`,
+            type: "GET",
+            data: {
+              period: period,
+            },
+            success: (response) => {
+              if (response.status == 200 && response.data) {
+                // Cập nhật biểu đồ với dữ liệu mới
+                window.revenueChart.updateOptions({
+                  series: [
+                    {
+                      name: "Doanh thu",
+                      type: "column",
+                      data: response.data[0].revenue,
+                    },
+                    {
+                      name: "Đơn hàng",
+                      type: "line",
+                      data: response.data[0].orders,
+                    },
+                  ],
+                  xaxis: {
+                    categories: response.data[0].labels,
+                  },
+                })
+              } else {
+                console.error("Lỗi khi tải dữ liệu biểu đồ:", response.message)
+                showChartError()
+              }
+
+              // Ẩn trạng thái đang tải
+              $("#revenueChartLoading").hide()
+            },
+            error: (xhr, status, error) => {
+              console.error("Lỗi khi gọi API:", error)
+              showChartError()
+
+              // Ẩn trạng thái đang tải
+              $("#revenueChartLoading").hide()
+            },
+          })
+        }
+
+        function showChartError() {
+          // Hiển thị thông báo lỗi
+          $("#revenueChartError").show()
+
+          // Tự động ẩn sau 5 giây
+          setTimeout(() => {
+            $("#revenueChartError").fadeOut()
+          }, 5000)
+        }
+
+                function initIngredientCategoryChart() {
+          // Tạo tùy chọn biểu đồ mặc định
+          var ingredientCategoryOptions = {
+            series: [],
             chart: {
-                type: 'donut',
-                height: 350
+              type: "donut",
+              height: 350,
             },
-            labels: ['Tại quán', 'Mang đi', 'Giao hàng'],
-            colors: ['#4361ee', '#f72585', '#4cc9f0'],
+            labels: [],
+            colors: [],
             legend: {
-                position: 'bottom'
+              position: "bottom",
             },
             plotOptions: {
-                pie: {
-                    donut: {
-                        size: '65%',
-                        labels: {
-                            show: true,
-                            total: {
-                                show: true,
-                                label: 'Tổng đơn',
-                                formatter: function(w) {
-                                    return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-                                }
-                            }
-                        }
-                    }
-                }
+              pie: {
+                donut: {
+                  size: "65%",
+                  labels: {
+                    show: true,
+                    total: {
+                      show: true,
+                      label: "Tổng món",
+                      formatter: (w) => w.globals.seriesTotals.reduce((a, b) => a + b, 0),
+                    },
+                  },
+                },
+              },
             },
-            responsive: [{
+            responsive: [
+              {
                 breakpoint: 480,
                 options: {
-                    chart: {
-                        height: 300
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        };
+                  chart: {
+                    height: 300,
+                  },
+                  legend: {
+                    position: "bottom",
+                  },
+                },
+              },
+            ],
+            tooltip: {
+              y: {
+                formatter: (val) => val + " món",
+              },
+            },
+            dataLabels: {
+              formatter: (val, opts) => {
+                return opts.w.config.labels[opts.seriesIndex] + ": " + val.toFixed(1) + "%"
+              },
+            },
+            states: {
+              hover: {
+                filter: {
+                  type: "darken",
+                  value: 0.9,
+                },
+              },
+              active: {
+                filter: {
+                  type: "darken",
+                  value: 0.4,
+                },
+              },
+            },
+          }
 
-        var orderTypeChart = new ApexCharts(document.querySelector("#orderTypeChart"), orderTypeOptions);
-        orderTypeChart.render();
+          // Khởi tạo biểu đồ
+          window.ingredientCategoryChart = new ApexCharts(
+            document.querySelector("#ingredientCategoryChart"),
+            ingredientCategoryOptions,
+          )
+          window.ingredientCategoryChart.render()
+
+          // Tải dữ liệu mặc định (30 ngày gần nhất)
+          fetchIngredientCategoryData()
+        }
+
+        function setupFilterButtons() {
+          // Thiết lập sự kiện cho nút 7 ngày
+          $("#ingredientCategory7DaysBtn").on("click", function () {
+            $(this).addClass("active")
+            $("#ingredientCategory30DaysBtn").removeClass("active")
+            $("#ingredientCategoryAllTimeBtn").removeClass("active")
+
+            const endDate = new Date()
+            const startDate = new Date()
+            startDate.setDate(startDate.getDate() - 7)
+
+            fetchIngredientCategoryData(startDate, endDate)
+          })
+
+          // Thiết lập sự kiện cho nút 30 ngày
+          $("#ingredientCategory30DaysBtn").on("click", function () {
+            $(this).addClass("active")
+            $("#ingredientCategory7DaysBtn").removeClass("active")
+            $("#ingredientCategoryAllTimeBtn").removeClass("active")
+
+            const endDate = new Date()
+            const startDate = new Date()
+            startDate.setDate(startDate.getDate() - 30)
+
+            fetchIngredientCategoryData(startDate, endDate)
+          })
+
+          // Thiết lập sự kiện cho nút tất cả
+          $("#ingredientCategoryAllTimeBtn").on("click", function () {
+            $(this).addClass("active")
+            $("#ingredientCategory7DaysBtn").removeClass("active")
+            $("#ingredientCategory30DaysBtn").removeClass("active")
+
+            fetchIngredientCategoryData(null, null)
+          })
+        }
+
+        function fetchIngredientCategoryData(startDate = null, endDate = null) {
+          // Hiển thị trạng thái đang tải
+          $("#ingredientCategoryChartLoading").show()
+          $("#ingredientCategoryChartError").hide()
+
+          // Chuẩn bị tham số
+          const params = {
+            topCategories: 8, // Lấy top 8 nhóm món
+          }
+
+          // Thêm tham số ngày nếu có
+          if (startDate) {
+            params.startDate = formatDateDB(startDate)
+          }
+          if (endDate) {
+            params.endDate = formatDateDB(endDate)
+          }
+
+          // Gọi API để lấy dữ liệu biểu đồ
+          $.ajax({
+            url: systemURL + "statistics/api/ingredient-categories",
+            type: "GET",
+            data: params,
+            success: (response) => {
+              if (response.status == 200 && response.data) {
+                // Cập nhật biểu đồ với dữ liệu mới
+                window.ingredientCategoryChart.updateOptions({
+                  series: response.data[0].values,
+                  labels: response.data[0].labels,
+                  colors: response.data[0].colors,
+                })
+
+                // Cập nhật tổng số món
+                $("#totalIngredientsSold").text(response.data[0].total.toLocaleString("vi-VN"))
+
+                // Cập nhật bảng chi tiết
+                updateIngredientCategoryTable(response.data[0])
+              } else {
+                showIngredientChartError()
+              }
+
+              // Ẩn trạng thái đang tải
+              $("#ingredientCategoryChartLoading").hide()
+            },
+            error: (xhr, status, error) => {
+              console.error("Lỗi khi gọi API:", error)
+              showIngredientChartError()
+
+              // Ẩn trạng thái đang tải
+              $("#ingredientCategoryChartLoading").hide()
+            },
+          })
+        }
+
+        function updateIngredientCategoryTable(data) {
+          const tableBody = $("#ingredientCategoryTableBody")
+          tableBody.empty()
+
+          // Tính tổng số lượng
+          const total = data.values.reduce((sum, value) => sum + value, 0)
+
+          // Thêm dữ liệu vào bảng
+          data.labels.forEach((label, index) => {
+            const value = data.values[index]
+            const percentage = ((value / total) * 100).toFixed(1)
+            const color = data.colors[index]
+
+            const row = `
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="color-indicator" style="background-color: ${color}"></div>
+                    <span>${label}</span>
+                  </div>
+                </td>
+                <td class="text-end">${value.toLocaleString("vi-VN")}</td>
+                <td class="text-end">${percentage}%</td>
+              </tr>
+            `
+
+            tableBody.append(row)
+          })
+        }
+
+        function formatDateDB(date) {
+          return date.toISOString().split("T")[0]
+        }
+
+        function showIngredientChartError() {
+          // Hiển thị thông báo lỗi
+          $("#ingredientCategoryChartError").show()
+
+          // Tự động ẩn sau 5 giây
+          setTimeout(() => {
+            $("#ingredientCategoryChartError").fadeOut()
+          }, 5000)
+        }
+
+                function loadPopularDishes() {
+          $.ajax({
+            url: systemURL + "Dish/api/popular",
+            type: "GET",
+            data: {
+              count: 5,
+            },
+            success: (response) => {
+              if (response.status == 200 && response.data) {
+                renderPopularDishes(response.data[0])
+              } else {
+                showErrorDish("Không thể tải dữ liệu món ăn bán chạy: " + response.message)
+              }
+            },
+            error: (xhr, status, error) => {
+              showErrorDish("Lỗi kết nối đến máy chủ. Vui lòng thử lại sau.")
+              console.error("Error loading popular dishes:", error)
+            },
+          })
+        }
+
+        function renderPopularDishes(dishes) {
+          const container = $("#popularDish")
+          container.empty()
+
+          if (!dishes || dishes.length === 0) {
+            container.html('<div class="alert alert-info">Không có dữ liệu món ăn bán chạy.</div>')
+            return
+          }
+
+          // Hiển thị từng món ăn bán chạy
+          dishes.forEach((dish) => {
+            const dishElement = `
+                    <div class="popular-dish">
+                        <div class="popular-dish-image">
+                            <img src="${systemURL}${dish.photo || "https://via.placeholder.com/60x60"}" alt="${dish.dishName}">
+                        </div>
+                        <div class="popular-dish-info">
+                            <div class="popular-dish-name">${dish.dishName}</div>
+                            <div class="popular-dish-category">${dish.categoryName}</div>
+                            <div class="popular-dish-stats">
+                                <div class="popular-dish-price">${formatCurrencyDB(dish.price)}</div>
+                                <div class="popular-dish-sales">Đã bán: ${dish.salesCount} trong tháng</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+            container.append(dishElement)
+          })
+        }
+
+
+        function openPopularDishesModal() {
+          // Kiểm tra xem modal đã tồn tại chưa
+          if ($("#popularDishesModal").length === 0) {
+            // Tạo modal nếu chưa tồn tại
+            const modalHtml = `
+                    <div class="modal fade" id="popularDishesModal" tabindex="-1" aria-labelledby="popularDishesModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="popularDishesModalLabel">Danh sách món ăn và số lượng bán ra</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table id="dishesDataTable" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mã món</th>
+                                                    <th>Tên món</th>
+                                                    <th>Danh mục</th>
+                                                    <th>Giá</th>
+                                                    <th>Số lượng bán ra</th>
+                                                    <th>Ngày tạo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Dữ liệu sẽ được thêm bằng DataTables -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+            $("body").append(modalHtml)
+          }
+
+          // Khởi tạo DataTable nếu chưa được khởi tạo
+          if (!$.fn.DataTable.isDataTable("#dishesDataTable")) {
+            initDishesDataTable()
+          } else {
+            // Nếu DataTable đã được khởi tạo, reload dữ liệu
+            $("#dishesDataTable").DataTable().ajax.reload()
+          }
+
+          // Hiển thị modal
+          var popularDishesModal = new bootstrap.Modal(document.getElementById("popularDishesModal"))
+          popularDishesModal.show()
+        }
+
+        function initDishesDataTable() {
+          dishTable = $('#dishesDataTable').DataTable({
+                processing: true,
+                serverSide: true,
+                paging: true,
+                searching: { regex: true },
+                "oLanguage": {
+                    "sUrl": "/js/Vietnamese.json"
+                },
+                ajax: {
+                    url: systemURL + "dish/api/list-popular-server-side",
+                    type: "POST",
+                    contentType: "application/json",
+
+                    dataType: "json",
+                    // beforeSend: function(xhr) {
+                    // 	xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+                    // },
+                    data: function (d) {
+                        d.searchAll = "";
+                        return JSON.stringify(d);
+                    }
+                },
+                columns: [
+              { data: "dishCode" },
+              { data: "dishName" },
+              { data: "categoryName" },
+              {
+                data: "price",
+                render: (data) => formatCurrencyDB(data),
+              },
+              { data: "salesCount" },
+              {
+                data: "createdTime",
+                render: (data) => formatDateDB(new Date(data)),
+              },
+            ],
+            order: [[4, 1]], // Sắp xếp theo số lượng bán ra giảm dần
+           columnDefs: [
+                        { targets: "no-sort", orderable: false },
+                        { targets: "no-search", searchable: false },
+                        { orderable: false, targets: [-1, 0] },
+                    ],
+                    aLengthMenu: [
+                        [10, 25, 50, 100],
+                        [10, 25, 50, 100]
+                    ]
+          })
+        }
+
+                function formatCurrencyDB(amount) {
+          return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount)
+        }
+
+        function showErrorDish(message) {
+          const container = $("#popularDish")
+          container.html(`
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    ${message}
+                </div>
+                <button class="btn btn-primary mt-3" onclick="loadPopularDishes()">
+                    <i class="fas fa-sync-alt me-2"></i> Thử lại
+                </button>
+            `)
+        }
 
         // Ingredient Category Chart
         var ingredientCategoryOptions = {
@@ -1902,71 +2561,7 @@
 
         var ingredientCategoryChart = new ApexCharts(document.querySelector("#ingredientCategoryChart"), ingredientCategoryOptions);
         ingredientCategoryChart.render();
-
-        // Toggle Revenue Chart Period
-        document.getElementById('revenueWeekBtn').addEventListener('click', function() {
-            this.classList.add('active');
-            document.getElementById('revenueMonthBtn').classList.remove('active');
-            document.getElementById('revenueYearBtn').classList.remove('active');
-
-            revenueChart.updateOptions({
-                series: [{
-                    name: 'Doanh thu',
-                    type: 'column',
-                    data: [11500000, 9800000, 12300000, 10500000, 14200000, 15800000, 12580000]
-                }, {
-                    name: 'Đơn hàng',
-                    type: 'line',
-                    data: [65, 58, 72, 63, 78, 82, 85]
-                }],
-                xaxis: {
-                    categories: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-                }
-            });
-        });
-
-        document.getElementById('revenueMonthBtn').addEventListener('click', function() {
-            this.classList.add('active');
-            document.getElementById('revenueWeekBtn').classList.remove('active');
-            document.getElementById('revenueYearBtn').classList.remove('active');
-
-            revenueChart.updateOptions({
-                series: [{
-                    name: 'Doanh thu',
-                    type: 'column',
-                    data: [85000000, 92000000, 78000000, 105000000, 88000000, 95000000, 110000000, 98000000, 115000000, 105000000, 120000000, 125000000, 118000000, 130000000, 122000000]
-                }, {
-                    name: 'Đơn hàng',
-                    type: 'line',
-                    data: [450, 480, 420, 520, 460, 490, 540, 510, 560, 530, 580, 600, 570, 620, 590]
-                }],
-                xaxis: {
-                    categories: ['01/05', '02/05', '03/05', '04/05', '05/05', '06/05', '07/05', '08/05', '09/05', '10/05', '11/05', '12/05', '13/05', '14/05', '15/05'],
-                }
-            });
-        });
-
-        document.getElementById('revenueYearBtn').addEventListener('click', function() {
-            this.classList.add('active');
-            document.getElementById('revenueWeekBtn').classList.remove('active');
-            document.getElementById('revenueMonthBtn').classList.remove('active');
-
-            revenueChart.updateOptions({
-                series: [{
-                    name: 'Doanh thu',
-                    type: 'column',
-                    data: [320000000, 350000000, 380000000, 420000000, 450000000, 480000000, 520000000, 550000000, 580000000, 610000000, 640000000, 680000000]
-                }, {
-                    name: 'Đơn hàng',
-                    type: 'line',
-                    data: [1800, 1950, 2100, 2300, 2450, 2600, 2750, 2900, 3050, 3200, 3350, 3500]
-                }],
-                xaxis: {
-                    categories: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-                }
-            });
-        });
-
+ 
         // Fake API Data
         const fakeApiData = {
             // API mẫu cho thống kê tổng quan
@@ -2129,7 +2724,7 @@
                             id: 1,
                             name: 'Nguyễn Văn A',
                             position: 'Quản lý',
-                            avatar: 'https://via.placeholder.com/80x80',
+                            avatar: ' ',
                             performance: 95,
                             orders: 28,
                             status: 'active'
@@ -2138,7 +2733,7 @@
                             id: 2,
                             name: 'Trần Thị B',
                             position: 'Đầu bếp',
-                            avatar: 'https://via.placeholder.com/80x80',
+                            avatar: ' ',
                             performance: 92,
                             dishes: 45,
                             status: 'active'
@@ -2188,5 +2783,123 @@
                 }
             }
         };
+
+        function loadRecentStockTransactions() {
+            $.ajax({
+                url: systemURL + "stockTransactionDetail/api/RecentTrans?number=5",
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    const content = $('#recent-transactions-content');
+                    content.empty();
+
+                    if (response && response.data && response.data.length > 0) {
+                        response.data.forEach(item => {
+                            const html = `
+                            <div class="inventory-movement">
+                                <div class="inventory-movement-icon ${item.cssClass}">
+                                    <i class="fas ${item.icon}"></i>
+                                </div>
+                                <div class="inventory-movement-info">
+                                    <div class="inventory-movement-title">${item.transactionType}: ${item.ingredientName}</div>
+                                    <div class="inventory-movement-details">
+                                        <span>${item.createdBy}</span> •
+                                        <span>${moment(item.createdTime).format("DD/MM/YYYY HH:mm")}</span>
+                                    </div>
+                                </div>
+                                <div class="inventory-movement-quantity ${item.cssClass}">
+                                    ${(item.cssClass.includes('out') ? '-' : '+')}${item.quantity}
+                                </div>
+                            </div>`;
+                            content.append(html);
+                        });
+                    } else {
+                        content.append("<p class='text-muted'>Không có giao dịch gần đây.</p>");
+                    }
+                },
+                error: function () {
+                    $('#recent-transactions-content').html("<p class='text-danger'>Lỗi khi tải dữ liệu.</p>");
+                }
+            });
+        }
+
+        function initStockTransactionDataTable() {
+            $('#stockTransactionTable').DataTable({
+                processing: true,
+                serverSide: true,
+                paging: true,
+                searching: { regex: true },
+                language: {
+                    url: "/js/Vietnamese.json"
+                },
+                ajax: {
+                    url: systemURL + "stockTransactionDetail/api/list-server-side-summary",
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: function (d) {
+                        d.searchAll = "";
+                        return JSON.stringify(d);
+                    }
+                },
+                      columns: [
+          {
+            data: "transactionType",
+            render: function (data, type, row) {
+              const icon = row.icon || "fa-exchange-alt";
+              const cssClass = row.cssClass.includes("out") ? "text-success" : "text-danger"
+              return `<i class="fas ${icon} me-2 ${cssClass} font-weight-bold"></i><span  class="${cssClass} font-weight-bold">${data}</span>`;
+            }
+          },
+          { data: "ingredientName" },
+          { data: "createdBy" },
+          {
+            data: "createdTime",
+            render: function (data) {
+              return moment(data).format("DD/MM/YYYY HH:mm");
+            }
+          },
+          {
+            data: "quantity",
+            render: function (data, type, row) {
+              const sign = row.cssClass.includes("out") ? "-" : "+";
+              const cls = row.cssClass.includes("out") ? "text-danger" : "text-success";
+              return `<span class="${cls}">${sign}${data}</span>`;
+            }
+          }
+        ],
+        rowCallback: function (row, data) {
+                  $(row).removeClass('bg-import bg-export bg-adjust');
+
+                  if (data.transactionType.includes("Nhập")) {
+                    $(row).addClass("bg-import");
+                  } else if (data.transactionType.includes("Xuất")) {
+                    $(row).addClass("bg-export");
+                  } else {
+                    $(row).addClass("bg-adjust");
+                  }
+        },
+                order: [[3, "desc"]],
+                columnDefs: [
+                    { targets: "no-sort", orderable: false },
+                    { targets: "no-search", searchable: false },
+                ],
+                aLengthMenu: [
+                    [10, 25, 50, 100],
+                    [10, 25, 50, 100]
+                ]
+            });
+        }
+
+        $('#view-all-stock-transactions').on('click', function () {
+            $('#stockTransactionModal').modal('show');
+
+            if (!$.fn.DataTable.isDataTable('#stockTransactionTable')) {
+                initStockTransactionDataTable();
+            } else {
+                $('#stockTransactionTable').DataTable().ajax.reload();
+            }
+        });
+
     </script>
 </div>

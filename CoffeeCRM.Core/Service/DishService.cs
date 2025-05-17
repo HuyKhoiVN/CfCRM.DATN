@@ -11,6 +11,8 @@ using Google.Apis.Logging;
 using Microsoft.Extensions.Logging;
 using CoffeeCRM.Data.DTO;
 using CoffeeCRM.Core.Helper;
+using Microsoft.Extensions.Caching.Memory;
+using NuGet.Protocol.Core.Types;
 
 namespace CoffeeCRM.Core.Service
 {
@@ -18,14 +20,17 @@ namespace CoffeeCRM.Core.Service
     {
         IDishRepository dishRepository;
         private readonly ILogger<DishService> _logger;
+        private readonly IMemoryCache _cache;
 
         public DishService(
             IDishRepository _dishRepository
-            , ILogger<DishService> logger
+            , ILogger<DishService> logger,
+            IMemoryCache cache
             )
         {
             dishRepository = _dishRepository;
             _logger = logger;
+            _cache = cache;
         }
         public async Task Add(Dish obj)
         {
@@ -81,6 +86,50 @@ namespace CoffeeCRM.Core.Service
             }
         }
 
+        public async Task<List<PopularDishModel>> GetTopPopularDishesAsync(int count, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            try
+            {
+                // Tạo cache key dựa trên tham số
+                string cacheKey = $"TopPopularDishes_{count}_{startDate}_{endDate}";
+
+                // Kiểm tra cache
+                if (_cache.TryGetValue(cacheKey, out List<PopularDishModel> cachedData))
+                {
+                    return cachedData;
+                }
+
+                // Lấy dữ liệu từ repository
+                var result = await dishRepository.GetTopPopularDishesAsync(count, startDate, endDate);
+
+                // Lưu vào cache trong 10 phút
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+
+                _cache.Set(cacheKey, result, cacheOptions);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting top popular dishes");
+                throw;
+            }
+        }
+
+        public async Task<DTResult<PopularDishModel>> ListPopularServerSide(DishDTParameters parameters)
+        {
+            try
+            {
+                // Không cache kết quả DataTables vì mỗi request có thể khác nhau
+                return await dishRepository.ListPopularServerSide(parameters);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting dishes list server side");
+                throw;
+            }
+        }
         public int Count()
         {
             var result = dishRepository.Count();

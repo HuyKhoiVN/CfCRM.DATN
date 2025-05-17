@@ -10,5 +10,7 @@ namespace CoffeeCRM.Core.Service
     public interface IStatisticsService : IScoped
     {
         Task<List<StatisticModel>> GetDashboardStatisticsAsync();
+        Task<RevenueChartData> GetRevenueChartDataAsync(RevenueChartRequest request);
+        Task<IngredientCategoryStatsData> GetIngredientCategoryStatsAsync(IngredientCategoryStatsRequest request);
     }
 }

@@ -71,7 +71,263 @@
         max-width: 50px !important;
         text-align: center !important;
     }
+
+    .table-content {
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
+        margin-bottom: 30px;
+    }
+
+    #tableData {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+        #tableData th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 15px;
+        }
+
+        #tableData td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        #tableData tbody tr {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+            #tableData tbody tr:hover {
+                background-color: #f8f9fa;
+                transform: translateY(-2px);
+                box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.05);
+            }
+
+    .form-control {
+        border-radius: 5px;
+        padding: 10px 15px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+        background-color: #4361ee;
+        border-color: #4361ee;
+    }
+
+        .btn-primary:hover {
+            background-color: #3a56d4;
+            border-color: #3a56d4;
+        }
+
+    .btn-success {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+    }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+
+    .modal-content {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #e9ecef;
+        padding: 15px 20px;
+        background-color: #f8f9fa;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .card {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 15px 20px;
+        font-weight: 600;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    /* Thiết kế cho bảng chi tiết hóa đơn */
+    #tableInvoiceDetail {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        #tableInvoiceDetail th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        #tableInvoiceDetail td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        #tableInvoiceDetail tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        #tableInvoiceDetail tfoot td {
+            font-weight: 600;
+            background-color: #f8f9fa;
+            border-top: 2px solid #e9ecef;
+        }
+
+    /* Thiết kế cho QR code */
+    .qr-code-container {
+        text-align: center;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
+    }
+
+        .qr-code-container img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+    /* Thiết kế cho badge trạng thái */
+    .badge {
+        padding: 8px 12px;
+        border-radius: 30px;
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+
+    .badge-success {
+        background-color: #d1f8d9;
+        color: #27ae60;
+    }
+
+    .badge-warning {
+        background-color: #ffefd5;
+        color: #f39c12;
+    }
+
+    .badge-danger {
+        background-color: #fad2d2;
+        color: #e74c3c;
+    }
+
+    /* Thiết kế cho select */
+    .form-select {
+        display: block;
+        width: 100%;
+        padding: 10px 15px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+        .form-select:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+    /* Thêm hoặc cập nhật CSS sau vào phần style của bạn */
+    .qr-code-container {
+        text-align: center;
+        padding: 15px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0.15rem 0.5rem rgba(33, 40, 50, 0.1);
+        margin-top: 15px;
+    }
+
+        .qr-code-container img {
+            max-width: 150px; /* Giảm kích thước tối đa xuống 150px */
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .qr-code-container p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .qr-code-container .small {
+            font-size: 0.8rem;
+        }
 </style>
+
 <div id="kt_app_content" class="app-content  flex-column-fluid ">
     <!--begin::Content container-->
     <div id="kt_app_content_container" class="app-container  container-fluid ">
@@ -192,123 +448,136 @@
                                 <i class="ki-duotone ki-cross fs-1 text-danger"><span class="path1"></span><span class="path2"></span></i>
                             </div>
                         </div>
-                        <div class="modal-body">
-                            <form action="#">
-                                <div class="row">
-                                    <div class="col-xl ">
-                                        <div class="col-xl" id="tablePayment">
-                                            <div style="text-align: center;">
-                                                <h2>CHI TIẾT HÓA ĐƠN</h2>
-
-                                            </div>
-                                            <!-- Thông tin hóa đơn -->
-                                            <div class="mb-4 ">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group input-group-solid mb-5">
-                                                            <label class="input-group-text  " id="basic-addon-invoiceCode"><strong>Mã hóa đơn:</strong></label>
-                                                            <input type="text" disabled autocomplete="off" class="form-control input-invoiceCode" id="invoice-invoiceCode" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class='form-group'>
-                                                        <div class="input-group input-group-solid mb-5">
-                                                            <label class="input-group-text" id="basic-addon-createdTime">Ngày tạo</label>
-                                                            <div class='form-control date datetimepicker  input-createdTime' id='invoice-createdTimeDiv' style='padding:0px;'>
-                                                                <input type='text' autocomplete="off" id="invoice-createdTime" required class="form-control datepicker" aria-label="createdTime" aria-describedby="basic-addon-createdTime" disabled />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                               
-                                                
-                                                <div class="d-none col-sm-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group input-group-solid mb-5">
-                                                            <label class="input-group-text" id="basic-addon-id">Mã</label>
-                                                            <input readonly type="number" autocomplete="off" class="form-control input-id" id="accoutId" aria-label="id" aria-describedby="basic-addon-id" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group input-group-solid mb-5">
-                                                            <label class="input-group-text  " id="basic-addon-accoutId"><strong>Thu ngân:</strong></label>
-                                                            <input type="text" autocomplete="off" class="form-control input-invoiceCode" id="invoice-accoutId" aria-label="invoiceCode" aria-describedby="basic-addon-invoiceCode" disabled />
-                                                        </div>
-                                                    </div>
+            <div class="modal-body">
+                <form action="#">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Thông tin hóa đơn</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Mã hóa đơn</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-receipt"></i></span>
+                                                    <input type="text" disabled autocomplete="off" class="form-control" id="invoice-invoiceCode">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="card">
-                                                <div class="card-block table-border-style">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-hover display" id="tableInvoiceDetail">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th class="column-name">Tên sản phẩm</th>
-                                                                    <th class="column-price">Số lượng</th>
-                                                                    <th class="column-quantity">Giá</th>
-                                                                    <th class="column-price">Thành tiền</th>
-                                                                    @* <th class="column-action-2">Thao tác</th> *@
-                                                                </tr>
-                                                            </thead>
-                                                            @* <thead id="rowSearch" class="d-none">
-                                                            <tr>
-                                                            <td><input type='text' class='form-control tableHeaderFilter' /></td>
-                                                            <td><input type='text' class='form-control tableHeaderFilter' /></td>
-                                                            <td><input type='text' class='form-control tableHeaderFilter' /></td>
-                                                            <td><input type='text' class='form-control tableHeaderFilter' /></td>
-
-                                                            <td class="text-center">
-                                                            <button id="btnTableSearch" class="btn btn-primary custom-btn-table me-1" title="Tìm kiếm">
-                                                            <i class="fas fa-search"></i>
-                                                            </button>
-                                                            <button id="btnTableResetSearch" class="btn btn-secondary custom-btn-table" title="Reset">
-                                                            <i class="fas fa-times"></i>
-                                                            </button>
-                                                            </td>
-                                                            </tr>
-                                                            </thead> *@
-                                                            <tbody>
-                                                                
-                                                            </tbody>
-                                                            <tfoot>
-                                                               
-                                                                <tr>
-                                                                    <td colspan="4" class="text-end">
-                                                                        <strong style="margin-right: 10px;">Tổng thanh toán (10% VAT):</strong>
-                                                                        <input disabled type="text" id="invoice-totalMoney" class="form-control d-inline-block" style="width: 150px;" />
-                                                                    </td>
-                                                                </tr>
-                                                            </tfoot>
-                                                        </table>
-                                                    </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Ngày tạo</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                                    <input type="text" autocomplete="off" id="invoice-createdTime" class="form-control datepicker" disabled>
                                                 </div>
-                                                <!-- Table end -->
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Phương thức thanh toán -->
-                                    
-                                    <!-- Nút hành động -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Thu ngân</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                    <input type="text" autocomplete="off" class="form-control" id="invoice-accoutId" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Trạng thái thanh toán</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                                                    <input type="text" class="form-control" id="invoice-paymentStatus" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3" id="paymentMethodSection">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Phương thức thanh toán</label>
+                                                <select class="form-select" id="invoice-paymentMethod">
+                                                                <option value="Tiền mặt">Tiền mặt</option>
+                                                                <option value="Chuyển khoản">Chuyển khoản</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-none">
+                                        <input type="hidden" id="invoice-id">
+                                        <input type="hidden" id="accoutId">
+                                    </div>
                                 </div>
+                            </div>
 
-                            </form>
+                            <!-- QR Code Section -->
+                                        <!-- QR Code Section -->
+                                        <div id="qrCodeSection" class="qr-code-container" style="display: none;">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-10 col-lg-8">
+                                                    <img id="qrCodeImage" src="/placeholder.svg" alt="QR Code" class="img-fluid">
+                                                    <p class="mb-1">Quét mã QR để thanh toán</p>
+                                                    <p class="small text-muted">Vietcombank - Số tài khoản: 103138853</p>
+                                                </div>
+                                            </div>
+                                        </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default"
-                                    data-bs-dismiss="modal">
-                                Đóng
-                            </button>
-                           
+
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Chi tiết hóa đơn</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table" id="tableInvoiceDetail">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên sản phẩm</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Giá</th>
+                                                    <th>Thành tiền</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3" class="text-end">
+                                                        <strong>Tổng thanh toán:</strong>
+                                                    </td>
+                                                    <td>
+                                                        <strong id="invoice-totalMoney"></strong>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Thay thế phần modal-footer hiện tại bằng đoạn mã này -->
+            <div class="modal-footer">
+                <button type="button" id="btnCancelInvoice" class="btn btn-danger" style="display: none;">
+                    <i class="fas fa-times-circle me-2"></i>Hủy hóa đơn
+                </button>
+                <button type="button" id="btnConfirmPayment" class="btn btn-success" style="display: none;">
+                    <i class="fas fa-check-circle me-2"></i>Xác nhận thanh toán
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Đóng
+                </button>
+            </div>
                     </div>
                 </div>
             </div>
@@ -473,6 +742,7 @@
             }
         });
     }
+        // Thay thế hàm editItem hiện tại bằng đoạn mã này
     async function editItem(id) {
         updatingItemId = id;
         tableInvoiceDetail = $("#tableInvoiceDetail");
@@ -488,28 +758,306 @@
                 return;
             }
 
+            // Lưu dữ liệu hóa đơn vào biến toàn cục để sử dụng khi cập nhật
+            window.currentInvoice = editObj;
+
             // Điền dữ liệu vào modal
             $("#invoice-id").val(editObj.id || "0");
             $("#invoice-invoiceCode").val(editObj.invoiceCode || "");
-            $("#invoice-totalMoney").val(editObj.totalMoney.toLocaleString() || "");
+            $("#invoice-totalMoney").text(formatCurrencyIV(editObj.totalMoney) || "0 VND");
             $("#invoice-accoutId").val(editObj.cashierName || "");
+            $("#invoice-paymentStatus").val(editObj.paymentStatus || "");
             $("#invoice-createdTime").val(
                 moment(editObj.createdTime).format("DD/MM/YYYY HH:mm:ss")
             );
+
+            // Thiết lập phương thức thanh toán
+            if (editObj.paymentMethodId) {
+                $("#invoice-paymentMethod").val(editObj.paymentMethodId);
+            }
+
+            // Xử lý hiển thị QR code nếu phương thức thanh toán là chuyển khoản
+            handlePaymentMethodChange();
 
             // Cập nhật danh sách món ăn
             let detailHtml = "";
             editObj.invoiceDetails.forEach((item) => {
                 detailHtml += `
-            <tr>
-              <td>${item.dishName}</td>
-              <td>${item.quantity}</td>
-              <td>${item.unitPrice.toLocaleString()} VND</td>
-              <td>${(item.quantity * item.unitPrice).toLocaleString()} VND</td>
-            </tr>`;
+                <tr>
+                  <td>${item.dishName}</td>
+                  <td>${item.quantity}</td>
+                  <td>${formatCurrencyIV(item.unitPrice)}</td>
+                  <td>${formatCurrencyIV(item.quantity * item.unitPrice)}</td>
+                </tr>`;
             });
             $("#tableInvoiceDetail tbody").html(detailHtml);
+
+            // Hiển thị/ẩn các nút hành động dựa vào trạng thái thanh toán
+            if (editObj.paymentStatus === "Chờ thanh toán") {
+                $("#btnConfirmPayment").show();
+                $("#btnCancelInvoice").show();
+                $("#paymentMethodSection").show();
+            } else {
+                $("#btnConfirmPayment").hide();
+                $("#btnCancelInvoice").hide();
+                $("#paymentMethodSection").hide();
+            }
+
+            // Thiết lập sự kiện cho các nút
+            setupButtonEvents();
         }
+    }
+
+    // Thêm các hàm mới
+    function formatCurrencyIV(amount) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
+
+    function handlePaymentMethodChange() {
+        const paymentMethod = $("#invoice-paymentMethod").val();
+
+        if (paymentMethod === "Chuyển khoản" && $("#invoice-paymentStatus").val() === "Chờ thanh toán") {
+            // Nếu là chuyển khoản và chưa thanh toán, hiển thị QR code
+            const invoiceCode = $("#invoice-invoiceCode").val();
+            const totalMoney = window.currentInvoice.totalMoney;
+            const qrImageUrl = `https://img.vietqr.io/image/VCB-1031388895-compact.png?amount=${totalMoney}&addInfo=THANHTOAN${invoiceCode}`;
+            $("#qrCodeImage").attr("src", qrImageUrl);
+            $("#qrCodeSection").show();
+        } else {
+            // Nếu không, ẩn QR code
+            $("#qrCodeSection").hide();
+        }
+    }
+
+    function setupButtonEvents() {
+        // Sự kiện khi thay đổi phương thức thanh toán
+        $("#invoice-paymentMethod").off("change").on("change", handlePaymentMethodChange);
+
+        // Nút xác nhận thanh toán
+        $("#btnConfirmPayment").off("click").on("click", function() {
+            confirmPayment();
+        });
+
+        // Nút hủy hóa đơn
+        $("#btnCancelInvoice").off("click").on("click", function() {
+            cancelInvoice();
+        });
+    }
+
+    function confirmPayment() {
+        Swal.fire({
+            title: 'Xác nhận thanh toán?',
+            text: "Bạn có chắc chắn muốn xác nhận thanh toán hóa đơn này?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Cập nhật dữ liệu hóa đơn
+                const updatedInvoice = { ...window.currentInvoice };
+                updatedInvoice.paymentStatus = "Đã thanh toán";
+                updatedInvoice.paymentMethod = $("#invoice-paymentMethod").val();
+
+                // Gọi API cập nhật
+                $.ajax({
+                    url: systemURL + "invoice/api/UpdateStatus",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(updatedInvoice),
+                    success: function(response) {
+                        if (response.status == 200 && response.message === "SUCCESS") {
+                            Swal.fire(
+                                'Thành công!',
+                                'Hóa đơn đã được xác nhận thanh toán.',
+                                'success'
+                            );
+                            $("#modal-id").modal("hide");
+                            reGenTable();
+                        } else {
+                            Swal.fire(
+                                'Lỗi!',
+                                'Có lỗi xảy ra khi xác nhận thanh toán.',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function(error) {
+                        Swal.fire(
+                            'Lỗi!',
+                            'Có lỗi xảy ra khi xác nhận thanh toán.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
+    function cancelInvoice() {
+        Swal.fire({
+            title: 'Xác nhận hủy hóa đơn?',
+            text: "Bạn có chắc chắn muốn hủy hóa đơn này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hủy hóa đơn',
+            cancelButtonText: 'Không'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Cập nhật dữ liệu hóa đơn
+                const updatedInvoice = { ...window.currentInvoice };
+                updatedInvoice.paymentStatus = "Đã hủy";
+
+                // Gọi API cập nhật
+                $.ajax({
+                    url: systemURL + "invoice/api/UpdateStatus",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(updatedInvoice),
+                    success: function(response) {
+                        if (response.status == 200 && response.message === "SUCCESS") {
+                            Swal.fire(
+                                'Thành công!',
+                                'Hóa đơn đã được hủy.',
+                                'success'
+                            );
+                            $("#modal-id").modal("hide");
+                            reGenTable();
+                        } else {
+                            Swal.fire(
+                                'Lỗi!',
+                                'Có lỗi xảy ra khi hủy hóa đơn.',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function(error) {
+                        Swal.fire(
+                            'Lỗi!',
+                            'Có lỗi xảy ra khi hủy hóa đơn.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
+    // Cập nhật hàm initTable để hiển thị trạng thái thanh toán đẹp hơn
+    function initTable() {
+        table = $('#tableData').DataTable({
+            processing: true,
+            serverSide: true,
+            paging: true,
+            searching: { regex: true },
+            order: [7, 'desc'],
+            "oLanguage": {
+                "sUrl": "/js/Vietnamese.json"
+            },
+            ajax: {
+                url: systemURL + "invoice/api/list-server-side",
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: function (d) {
+                    d.searchAll = $("#search-input").val();
+                    return JSON.stringify(d);
+                }
+            },
+            columns: [
+                {
+                    data: 'id',
+                    render: function (data, type, row, meta) {
+                        var info = table.page.info();
+                        var stt = meta.row + 1 + info.page * info.length;
+                        return stt;
+                    }
+                },
+                {
+                    data: "invoiceCode",
+                    render: function (data, type, row, meta) {
+                        return `<span class="fw-bold text-primary">${data}</span>`;
+                    }
+                },
+                {
+                    data: "totalMoney",
+                    render: function (data, type, row, meta) {
+                        return formatCurrencyIV(data);
+                    }
+                },
+                {
+                    data: "paymentStatus",
+                    render: function (data, type, row, meta) {
+                        let badgeClass = "";
+                        let icon = "";
+
+                        if (data === "Đã thanh toán") {
+                            badgeClass = "badge-success";
+                            icon = '<i class="fas fa-check-circle me-1"></i>';
+                        } else if (data === "Chờ thanh toán") {
+                            badgeClass = "badge-warning";
+                            icon = '<i class="fas fa-clock me-1"></i>';
+                        } else if (data === "Đã hủy") {
+                            badgeClass = "badge-danger";
+                            icon = '<i class="fas fa-times-circle me-1"></i>';
+                        }
+
+                        return `<span class="badge ${badgeClass}">${icon}${data}</span>`;
+                    }
+                },
+                {
+                    data: "paymentMethod",
+                    render: function (data, type, row, meta) {
+                        let icon = data.includes("Tiền mặt") ?
+                            '<i class="fas fa-money-bill-wave me-1"></i>' :
+                            '<i class="fas fa-credit-card me-1"></i>';
+
+                        return `<span>${icon}${data}</span>`;
+                    }
+                },
+                {
+                    data: "accountId",
+                    render: function (data, type, row, meta) {
+                        return `<span><i class="fas fa-user me-1"></i>${data}</span>`;
+                    }
+                },
+                {
+                    data: "createdTime",
+                    render: function (data) {
+                        var displayValue = moment(data).format("DD/MM/YYYY HH:mm:ss");
+                        return `<span><i class="fas fa-calendar-alt me-1"></i>${displayValue}</span>`;
+                    }
+                },
+                {
+                    data: 'id',
+                    render: function (data, type, row, meta) {
+                        return `<div class="d-flex justify-content-center gap-2">
+                            <button title="Xem chi tiết" onclick="editItem(${row.id})" class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>`;
+                    }
+                },
+            ],
+            columnDefs: [
+                { targets: "no-sort", orderable: false },
+                { targets: "no-search", searchable: false },
+                { orderable: false, targets: [-1, 0] },
+            ],
+            aLengthMenu: [
+                [10, 25, 50, 100],
+                [10, 25, 50, 100]
+            ],
+            drawCallback: function () {
+                $('#tableData tfoot').html("");
+                $("#tableData thead:nth-child(1) tr").clone(true).appendTo("#tableData tfoot");
+                $('#tableData tfoot tr').addClass("border-top");
+            }
+        });
     }
 
     async function updateItem(id) {
@@ -526,7 +1074,7 @@
             "totalMoney": $("#invoice-totalMoney").val(),
             "paymentStatus": $("#invoice-paymentStatus").val(),
             "active": $("#invoice-active").val() == '' ? 'true' : 'false',
-            "paymentMethodId": $("#invoice-paymentMethodId").val(),
+            "paymentMethod": $("#invoice-paymentMethodId").val(),
             "accountId": $("#invoice-accountId").val(),
             "createdTime": formatDatetimeUpdate($("#invoice-createdTime").val()),
 

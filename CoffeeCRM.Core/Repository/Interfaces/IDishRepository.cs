@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Data;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
 using CfCRM.View.Models.ViewModels;
+using CoffeeCRM.Data.DTO;
 
 
 namespace CoffeeCRM.Core.Repository
@@ -33,5 +35,7 @@ namespace CoffeeCRM.Core.Repository
         int Count();
 
         Task<DTResult<DishViewModel>> ListServerSide(DishDTParameters parameters);
+        Task<List<PopularDishModel>> GetTopPopularDishesAsync(int count, DateTime? startDate = null, DateTime? endDate = null);
+        Task<DTResult<PopularDishModel>> ListPopularServerSide(DishDTParameters parameters);
     }
 }

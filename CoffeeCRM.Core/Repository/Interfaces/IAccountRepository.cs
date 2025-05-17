@@ -34,6 +34,7 @@ namespace CoffeeCRM.Core.Repository
 
         int Count();
         Task<DTResult<AccountDto>> ListServerSide(AccountDTParameters parameters);
+        Task<DTResult<AccountSummaryDto>> ListServerSideSummary(AccountDTParameters parameters);
         Task<Account> Login(LoginDto obj);
     }
 }

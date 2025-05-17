@@ -8,6 +8,7 @@ using CoffeeCRM.Core.Util;
 using CoffeeCRM.Data;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.DTO;
 
 
 namespace CoffeeCRM.Core.Repository
@@ -34,5 +35,7 @@ namespace CoffeeCRM.Core.Repository
         int Count();
 
         Task<DTResult<StockTransactionDetail>> ListServerSide(StockTransactionDetailDTParameters parameters);
+        Task<DTResult<StockTransactionDetailDto>> ListServerSideSummary(StockTransactionDetailDTParameters parameters);
+        Task<List<StockTransactionDetailDto>> GetRecentStockTransactions(int number);
     }
 }

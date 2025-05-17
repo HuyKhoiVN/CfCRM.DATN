@@ -309,6 +309,7 @@ EF.Functions.Collate(c.row.TotalGuest.ToString().ToLower(), SQLParams.Latin_Gene
                                                           {
                                                               Id = d.Id,
                                                               Quantity = d.Quantity,
+                                                              InvoiceId = row.Id,
                                                               UnitPrice = d.UnitPrice,
                                                               DishName = (from dish in db.Dishes where dish.Id == d.DishId && dish.Active == true select dish.DishName).FirstOrDefault(),
                                                               DishId = d.DishId

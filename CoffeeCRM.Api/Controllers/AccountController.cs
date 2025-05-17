@@ -238,5 +238,20 @@ namespace CfCRM.DATN.Controllers
                 return BadRequest(e);
             }
         }
+
+        [HttpPost]
+        [Route("api/list-server-side-summary")]
+        public async Task<IActionResult> ListServerSideSummary([FromBody] AccountDTParameters parameters)
+        {
+            try
+            {
+                var data = await service.ListServerSideSummary(parameters);
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
     }
 }

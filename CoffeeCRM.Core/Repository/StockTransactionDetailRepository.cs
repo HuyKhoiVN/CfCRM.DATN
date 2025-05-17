@@ -1,4 +1,4 @@
-
+﻿
 using CoffeeCRM.Data.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +11,8 @@ using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
 using System.Globalization;
 using System.Security.Cryptography;
+using CoffeeCRM.Data.DTO;
+using CoffeeCRM.Data.Constants;
 
 namespace CoffeeCRM.Core.Repository
 {
@@ -280,6 +282,136 @@ EF.Functions.Collate(c.row.Active.ToString().ToLower(), SQLParams.Latin_General)
                 return new List<StockTransactionDetail>();
             }
         }
+
+        public async Task<DTResult<StockTransactionDetailDto>> ListServerSideSummary(StockTransactionDetailDTParameters parameters)
+        {
+            string searchAll = parameters.SearchAll.Trim();
+            string orderCritirea = "CreatedTime";
+            bool orderDirectionASC = true;
+
+            if (parameters.Order != null)
+            {
+                orderCritirea = parameters.Columns[parameters.Order[0].Column].Data;
+                orderDirectionASC = parameters.Order[0].Dir == DTOrderDir.ASC;
+            }
+
+            // Join thủ công với điều kiện: Active = true, StockTransaction.Status = 'Hoàn Thành'
+            var query = from detail in db.StockTransactionDetails
+                        join stockLevel in db.StockLevels on detail.StockLevelId equals stockLevel.Id
+                        join ingredient in db.Ingredients on stockLevel.IngredientId equals ingredient.Id
+                        join transaction in db.StockTransactions on detail.StockTransactionId equals transaction.Id
+                        join account in db.Accounts on transaction.AccountId equals account.Id
+                        where detail.Active &&
+                              detail.StockLevelId != null &&
+                              transaction.Status == TransactionStatusConst.COMPLETED
+                        select new StockTransactionDetailDto
+                        {
+                            TransactionType = transaction.TransactionType == TransactionTypeConst.IMPORT ? "Nhập kho" :
+                                              transaction.TransactionType == TransactionTypeConst.EXPORT ? "Xuất kho" : "Điều chỉnh",
+                            IngredientName = ingredient.IngredientName,
+                            CreatedBy = account.FullName,
+                            CreatedTime = transaction.CreatedTime,
+                            Quantity = detail.Quantity,
+                            Icon = transaction.TransactionType == TransactionTypeConst.IMPORT || transaction.TransactionType == TransactionTypeConst.ADJUSTMENT_IN ? "fa-arrow-up" :
+                                   transaction.TransactionType == TransactionTypeConst.EXPORT || transaction.TransactionType == TransactionTypeConst.ADJUSTMENT_OUT ? "fa-arrow-down" :
+                                   "fa-exchange-alt",
+                            CssClass = transaction.TransactionType == TransactionTypeConst.IMPORT || transaction.TransactionType == TransactionTypeConst.ADJUSTMENT_IN
+                                       ? "inventory-movement-icon"
+                                       : "inventory-movement-icon out"
+                        };
+
+            int recordTotal = await query.CountAsync();
+
+            // Tìm kiếm toàn cục
+            if (!string.IsNullOrEmpty(searchAll))
+            {
+                searchAll = searchAll.ToLower();
+                query = query.Where(c =>
+                    EF.Functions.Collate(c.IngredientName.ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
+                    EF.Functions.Collate(c.CreatedBy.ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General)) ||
+                    EF.Functions.Collate(c.TransactionType.ToLower(), SQLParams.Latin_General).Contains(EF.Functions.Collate(searchAll, SQLParams.Latin_General))
+                );
+            }
+
+            // Bộ lọc theo cột
+            foreach (var item in parameters.Columns)
+            {
+                var filter = item.Search.Value.Trim();
+                if (filter.Length > 0)
+                {
+                    switch (item.Data)
+                    {
+                        case "transactionType":
+                            query = query.Where(c => c.TransactionType.Contains(filter));
+                            break;
+                        case "ingredientName":
+                            query = query.Where(c => c.IngredientName.Contains(filter));
+                            break;
+                        case "createdBy":
+                            query = query.Where(c => c.CreatedBy.Contains(filter));
+                            break;
+                        case "createdTime":
+                            if (filter.Contains(" - "))
+                            {
+                                var dates = filter.Split(" - ");
+                                var startDate = DateTime.ParseExact(dates[0], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                                var endDate = DateTime.ParseExact(dates[1], "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1).AddSeconds(-1);
+                                query = query.Where(c => c.CreatedTime >= startDate && c.CreatedTime <= endDate);
+                            }
+                            else
+                            {
+                                var date = DateTime.ParseExact(filter, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                                query = query.Where(c => c.CreatedTime.Date == date.Date);
+                            }
+                            break;
+                    }
+                }
+            }
+
+            // Sắp xếp
+            query = query.OrderByDynamic(orderCritirea, orderDirectionASC ? LinqExtensions.Order.Asc : LinqExtensions.Order.Desc);
+
+            int recordFiltered = await query.CountAsync();
+
+            return new DTResult<StockTransactionDetailDto>
+            {
+                data = await query.Skip(parameters.Start).Take(parameters.Length).ToListAsync(),
+                draw = parameters.Draw,
+                recordsFiltered = recordFiltered,
+                recordsTotal = recordTotal
+            };
+        }
+
+        public async Task<List<StockTransactionDetailDto>> GetRecentStockTransactions(int number)
+        {
+            var query = from detail in db.StockTransactionDetails
+                        join stockLevel in db.StockLevels on detail.StockLevelId equals stockLevel.Id
+                        join ingredient in db.Ingredients on stockLevel.IngredientId equals ingredient.Id
+                        join transaction in db.StockTransactions on detail.StockTransactionId equals transaction.Id
+                        join account in db.Accounts on transaction.AccountId equals account.Id
+                        where detail.Active &&
+                              detail.StockLevelId != null &&
+                              transaction.Status == TransactionStatusConst.COMPLETED
+                        orderby transaction.CreatedTime descending
+                        select new StockTransactionDetailDto
+                        {
+                            TransactionType = transaction.TransactionType == TransactionTypeConst.IMPORT ? "Nhập kho" :
+                                              transaction.TransactionType == TransactionTypeConst.EXPORT ? "Xuất kho" : "Điều chỉnh",
+                            IngredientName = ingredient.IngredientName,
+                            CreatedBy = account.FullName,
+                            CreatedTime = transaction.CreatedTime,
+                            Quantity = detail.Quantity,
+                            Icon = transaction.TransactionType == TransactionTypeConst.IMPORT || transaction.TransactionType == TransactionTypeConst.ADJUSTMENT_IN ? "fa-arrow-up" :
+                                   transaction.TransactionType == TransactionTypeConst.EXPORT || transaction.TransactionType == TransactionTypeConst.ADJUSTMENT_OUT ? "fa-arrow-down" :
+                                   "fa-exchange-alt",
+                            CssClass = transaction.TransactionType == TransactionTypeConst.IMPORT || transaction.TransactionType == TransactionTypeConst.ADJUSTMENT_IN
+                                       ? "inventory-movement-icon in"
+                                       : "inventory-movement-icon out"
+                        };
+
+            return await query.Take(number).ToListAsync();
+        }
+
     }
 }
 

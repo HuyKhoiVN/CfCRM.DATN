@@ -36,4 +36,23 @@ namespace CoffeeCRM.Data.DTO
         public decimal TotalCashHandled { get; set; } // Tính từ CashFlow
         public int TotalBookings { get; set; } // Tính từ TableBooking
     }
+
+    public class AccountSummaryDto
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; }
+        public string Username { get; set; }
+        public string? Photo { get; set; }
+        public string RoleName { get; set; }
+
+        public int TotalInvoice { get; set; }
+        public decimal TotalInvoiceValue { get; set; }
+
+        public int TotalPurchaseOrder { get; set; }
+        public decimal TotalPurchaseOrderValue { get; set; }
+
+        public int TotalDishOrder { get; set; }
+        public int TotalTableBooking { get; set; }
+    }
+
 }

@@ -1,4 +1,4 @@
-
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -151,6 +151,45 @@ namespace CfCRM.DATN.Controllers
                 }
             }
             return BadRequest();
+        }
+
+        [HttpGet("api/popular")]
+        public async Task<IActionResult> GetPopularDishes(
+            [FromQuery] int count = 5,
+            [FromQuery] DateTime? startDate = null,
+            [FromQuery] DateTime? endDate = null)
+        {
+            try
+            {
+                var dishes = await service.GetTopPopularDishesAsync(count, startDate, endDate);
+
+                var res = CoffeeManagementResponse.SUCCESS(dishes);
+
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(CoffeeManagementResponse.BAD_REQUEST(ex.Message));
+            }
+        }
+
+        [HttpPost("api/list-popular-server-side")]
+        public async Task<IActionResult> ListPopularServerSide([FromBody] DishDTParameters parameters)
+        {
+            try
+            {
+                var result = await service.ListPopularServerSide(parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+                if (ex.GetType().FullName == "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException")
+                {
+                    return NotFound();
+                }
+                return BadRequest(CoffeeManagementResponse.BAD_REQUEST(ex.Message));
+            }
         }
 
 

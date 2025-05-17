@@ -247,6 +247,32 @@ namespace CfCRM.DATN.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPost]
+        [Route("api/UpdateStatus")]
+        public async Task<IActionResult> UpdateStatus([FromBody] InvoiceViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var invoiceCreated = await service.UpdateStatus(model);
+                    if (invoiceCreated == null)
+                    {
+                        return BadRequest();
+                    }
+                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(invoiceCreated);
+                    return Created("", coffeemanagementResponse);
+                }
+                catch (Exception)
+                {
+
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
         [HttpGet]
         [Route("api/InvoiceDetailVM")]
         public async Task<IActionResult> DetailVM(int invoiceId)

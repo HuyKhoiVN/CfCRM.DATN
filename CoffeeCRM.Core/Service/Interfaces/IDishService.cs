@@ -12,5 +12,7 @@ namespace CoffeeCRM.Core.Service
         Task<DTResult<DishViewModel>> ListServerSide(DishDTParameters parameters);
         Task<List<Dish>> Search(Select2VM selectVM);
         Task AddOrUpdateDto(DishDto dto);
+        Task<List<PopularDishModel>> GetTopPopularDishesAsync(int count, DateTime? startDate = null, DateTime? endDate = null);
+        Task<DTResult<PopularDishModel>> ListPopularServerSide(DishDTParameters parameters);
     }
 }

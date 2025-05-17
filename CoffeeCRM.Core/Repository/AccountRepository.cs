@@ -5,11 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Data;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
 using System.Globalization;
 using CoffeeCRM.Data.DTO;
+using SkiaSharp;
+using CoffeeCRM.Data.Constants;
 
 namespace CoffeeCRM.Core.Repository
 {
@@ -348,6 +351,122 @@ namespace CoffeeCRM.Core.Repository
                 select a
                 ).ToListAsync();
             return account;
+        }
+
+        public async Task<DTResult<AccountSummaryDto>> ListServerSideSummary(AccountDTParameters parameters)
+        {
+            //0. Options
+            string searchAll = parameters.SearchAll.Trim();//Trim text
+            string orderCritirea = "Id";//Set default critirea
+            int recordTotal, recordFiltered;
+            bool orderDirectionASC = true;//Set default ascending
+            if (parameters.Order != null)
+            {
+                orderCritirea = parameters.Columns[parameters.Order[0].Column].Data;
+                orderDirectionASC = parameters.Order[0].Dir == DTOrderDir.ASC;
+            }
+            //1. Join
+            var now = DateTime.Now;
+            var startOfMonth = new DateTime(now.Year, now.Month, 1);
+            var endOfMonth = startOfMonth.AddMonths(1);
+
+            var query = from acc in db.Accounts where acc.Active
+                        join role in db.Roles on acc.RoleId equals role.Id into roleGroup
+                        from role in roleGroup.DefaultIfEmpty()
+                        select new AccountSummaryDto
+                        {
+                            Id = acc.Id,
+                            FullName = acc.FullName,
+                            Username = acc.Username,
+                            Photo = acc.Photo,
+                            RoleName = role != null ? role.RoleName : "N/A"
+                        };
+
+
+            recordTotal = await query.CountAsync();
+            //2. Fillter
+            if (!String.IsNullOrEmpty(searchAll))
+            {
+                searchAll = searchAll.ToLower();
+                query = query.Where(x =>
+                                x.FullName.Contains(searchAll) ||
+                                x.Username.Contains(searchAll) ||
+                                x.RoleName.Contains(searchAll));
+
+            }
+
+            var pagedData = await query
+                                .Skip(parameters.Start)
+                                .Take(parameters.Length)
+                                .ToListAsync();
+            var accountIds = pagedData.Select(x => x.Id).ToList();
+
+            var invoiceStats = await db.Invoices
+       .Where(x => x.Active
+           && accountIds.Contains(x.AccountId)
+           && x.CreatedTime >= startOfMonth && x.CreatedTime < endOfMonth)
+       .GroupBy(x => x.AccountId)
+       .Select(g => new {
+           AccountId = g.Key,
+           Total = g.Count(),
+           TotalValue = g.Sum(x => x.TotalMoney)
+       }).ToListAsync();
+
+            var poStats = await db.PurchaseOrders
+                .Where(x => x.PaymentStatus == PurchaseOrderStatusConst.COMPLETED
+                    && accountIds.Contains(x.AccountId)
+                    && x.CreatedTime >= startOfMonth && x.CreatedTime < endOfMonth)
+                .GroupBy(x => x.AccountId)
+                .Select(g => new {
+                    AccountId = g.Key,
+                    Total = g.Count(),
+                    TotalValue = g.Sum(x => x.TotalPrice)
+                }).ToListAsync();
+
+            var orderStats = await db.DishOrders
+                .Where(x => x.DishOrderStatusId != DishOrderStatudConst.CANCEL
+                    && accountIds.Contains(x.AccountId)
+                    && x.CreatedTime >= startOfMonth && x.CreatedTime < endOfMonth)
+                .GroupBy(x => x.AccountId)
+                .Select(g => new {
+                    AccountId = g.Key,
+                    Total = g.Count()
+                }).ToListAsync();
+
+            var bookingStats = await db.TableBookings
+                .Where(x => accountIds.Contains(x.AccountId)
+                    && x.CreatedTime >= startOfMonth && x.CreatedTime < endOfMonth)
+                .GroupBy(x => x.AccountId)
+                .Select(g => new {
+                    AccountId = g.Key,
+                    Total = g.Count()
+                }).ToListAsync();
+
+
+            //3.Query second
+            foreach (var acc in pagedData)
+            {
+                acc.TotalInvoice = invoiceStats.FirstOrDefault(x => x.AccountId == acc.Id)?.Total ?? 0;
+                acc.TotalInvoiceValue = invoiceStats.FirstOrDefault(x => x.AccountId == acc.Id)?.TotalValue ?? 0;
+
+                acc.TotalPurchaseOrder = poStats.FirstOrDefault(x => x.AccountId == acc.Id)?.Total ?? 0;
+                acc.TotalPurchaseOrderValue = poStats.FirstOrDefault(x => x.AccountId == acc.Id)?.TotalValue ?? 0;
+
+                acc.TotalDishOrder = orderStats.FirstOrDefault(x => x.AccountId == acc.Id)?.Total ?? 0;
+                acc.TotalTableBooking = bookingStats.FirstOrDefault(x => x.AccountId == acc.Id)?.Total ?? 0;
+            }
+
+            //4. Sort
+           
+            recordFiltered = pagedData.Count();
+            //5. Return data
+            return new DTResult<AccountSummaryDto>()
+            {
+                data = pagedData,
+                draw = parameters.Draw,
+                recordsFiltered = recordFiltered,
+                recordsTotal = recordTotal
+            };
         }
     }
 }

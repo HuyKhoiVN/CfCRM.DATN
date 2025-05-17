@@ -11,5 +11,6 @@ namespace CoffeeCRM.Core.Service
         Task<DTResult<Invoice>> ListServerSide(InvoiceDTParameters parameters);
         Task<InvoiceVM> InvoiceDetailById(int invoiceId);
         Task<InvoiceViewModel> AddOrUpdateVM(InvoiceViewModel model);
+        Task<InvoiceViewModel> UpdateStatus(InvoiceViewModel model);
     }
 }
