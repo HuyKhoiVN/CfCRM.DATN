@@ -6,16 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using CoffeeCRM.Core.Repository.Interfaces;
 using CoffeeCRM.Data.DTO;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CoffeeCRM.Core.Service
 {
     public class StatisticsService : IStatisticsService
     {
         private readonly IStatisticsRepository _repository;
+        IMemoryCache _cache;
 
-        public StatisticsService(IStatisticsRepository repository)
+        public StatisticsService(IStatisticsRepository repository, IMemoryCache cache)
         {
             _repository = repository;
+            _cache = cache;
         }
 
         public async Task<List<StatisticModel>> GetDashboardStatisticsAsync()
@@ -97,6 +100,103 @@ namespace CoffeeCRM.Core.Service
             });
 
             return statistics;
+        }
+
+        public async Task<RevenueChartData> GetRevenueChartDataAsync(RevenueChartRequest request)
+        {
+            // Xác định ngày bắt đầu và kết thúc dựa trên period nếu không được cung cấp
+            DateTime startDate = request.StartDate ?? DateTime.Today;
+            DateTime endDate = request.EndDate ?? DateTime.Today;
+
+            if (request.StartDate == null || request.EndDate == null)
+            {
+                switch (request.Period.ToLower())
+                {
+                    case "week":
+                        // Lấy ngày đầu tuần (thứ 2)
+                        int diff = (7 + (startDate.DayOfWeek - DayOfWeek.Monday)) % 7;
+                        startDate = startDate.AddDays(-diff);
+                        endDate = startDate.AddDays(6); // Chủ nhật
+                        break;
+
+                    case "month":
+                        // Lấy 15 ngày gần nhất
+                        startDate = DateTime.Today.AddDays(-14);
+                        endDate = DateTime.Today;
+                        break;
+
+                    case "year":
+                        // Lấy cả năm hiện tại
+                        startDate = new DateTime(DateTime.Today.Year, 1, 1);
+                        endDate = new DateTime(DateTime.Today.Year, 12, 31);
+                        break;
+                }
+            }
+
+            // Lấy dữ liệu từ repository
+            var labels = await _repository.GetDateLabelsByPeriodAsync(request.Period, startDate, endDate);
+            var revenue = await _repository.GetRevenueByPeriodAsync(request.Period, startDate, endDate);
+            var orders = await _repository.GetOrderCountByPeriodAsync(request.Period, startDate, endDate);
+
+            return new RevenueChartData
+            {
+                Labels = labels,
+                Revenue = revenue,
+                Orders = orders
+            };
+        }
+
+        public async Task<IngredientCategoryStatsData> GetIngredientCategoryStatsAsync(IngredientCategoryStatsRequest request)
+        {
+            // Tạo cache key dựa trên tham số
+            string cacheKey = $"IngredientCategoryStats_{request.StartDate}_{request.EndDate}_{request.TopCategories}";
+
+            // Kiểm tra cache
+            if (_cache.TryGetValue(cacheKey, out IngredientCategoryStatsData cachedData))
+            {
+                return cachedData;
+            }
+
+            try
+            {
+                // Xác định ngày bắt đầu và kết thúc
+                DateTime startDate = request.StartDate ?? DateTime.Today.AddDays(-30); // Mặc định 30 ngày gần nhất
+                DateTime endDate = request.EndDate ?? DateTime.Today;
+                int topCategories = request.TopCategories ?? 5; // Mặc định lấy top 5
+
+                // Lấy dữ liệu từ repository
+                var categoryStats = await _repository.GetIngredientCategoryStatsAsync(startDate, endDate, topCategories);
+
+                // Tạo danh sách màu sắc cho biểu đồ
+                var colors = new List<string> {
+                    "#4361ee", "#f72585", "#4cc9f0", "#3a0ca3", "#7209b7",
+                    "#560bad", "#480ca8", "#3f37c9", "#4895ef", "#4cc9f0"
+                };
+
+                // Tính tổng số lượng
+                int total = categoryStats.Sum(stat => stat.Quantity);
+
+                // Tạo dữ liệu trả về
+                var result = new IngredientCategoryStatsData
+                {
+                    Labels = categoryStats.Select(stat => stat.IngredientCategoryName).ToList(),
+                    Values = categoryStats.Select(stat => stat.Quantity).ToList(),
+                    Colors = colors.Take(categoryStats.Count).ToList(),
+                    Total = total
+                };
+
+                // Lưu vào cache trong 10 phút
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+
+                _cache.Set(cacheKey, result, cacheOptions);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private decimal CalculatePercentChange(decimal current, decimal previous)

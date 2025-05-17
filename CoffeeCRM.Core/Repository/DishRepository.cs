@@ -1,4 +1,4 @@
-
+﻿
 using CoffeeCRM.Data.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -287,6 +287,193 @@ EF.Functions.Collate(c.row.DishName.ToLower(), SQLParams.Latin_General).Contains
                 draw = parameters.Draw,
                 recordsFiltered = recordFiltered,
                 recordsTotal = recordTotal
+            };
+        }
+
+        public async Task<List<PopularDishModel>> GetTopPopularDishesAsync(int count, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            // Mặc định lấy dữ liệu trong tháng hiện tại nếu không có ngày được chỉ định
+            startDate ??= new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            endDate ??= DateTime.Now;
+
+            // Sử dụng LINQ để lấy top món ăn bán chạy
+            var query = from invoiceDetail in db.InvoiceDetails
+                        join invoice in db.Invoices on invoiceDetail.InvoiceId equals invoice.Id
+                        join dish in db.Dishes on invoiceDetail.DishId equals dish.Id
+                        join category in db.DishCategories on dish.DishCategoryId equals category.Id
+                        where invoice.CreatedTime >= startDate && invoice.CreatedTime <= endDate
+                        && dish.Active == true
+                        group new { invoiceDetail, dish, category } by new { dish.Id, dish.DishCode, dish.DishName, dish.Price, dish.Photo, dish.CreatedTime, dish.Active, category.DishCateogryName } into g
+                        select new PopularDishModel
+                        {
+                            Id = g.Key.Id,
+                            DishCode = g.Key.DishCode,
+                            DishName = g.Key.DishName,
+                            Price = g.Key.Price,
+                            Photo = g.Key.Photo,
+                            CategoryName = g.Key.DishCateogryName,
+                            SalesCount = g.Sum(x => x.invoiceDetail.Quantity),
+                            CreatedTime = g.Key.CreatedTime,
+                            Active = g.Key.Active
+                        };
+
+            // Sắp xếp theo số lượng bán ra giảm dần và lấy top {count} món
+            return await query.OrderByDescending(d => d.SalesCount)
+                             .Take(count)
+                             .ToListAsync();
+        }
+
+        public async Task<DTResult<PopularDishModel>> ListPopularServerSide(DishDTParameters parameters)
+        {
+            string searchAll = parameters.SearchAll.Trim();
+            string orderCriteria = "Id";
+            bool orderDirectionASC = true;
+
+            if (parameters.Order != null)
+            {
+                orderCriteria = parameters.Columns[parameters.Order[0].Column].Data;
+                orderDirectionASC = parameters.Order[0].Dir == DTOrderDir.ASC;
+            }
+
+            // Lấy tất cả món ăn và số lượng bán ra
+            var baseQuery = from dish in db.Dishes
+                            join category in db.DishCategories on dish.DishCategoryId equals category.Id
+                            where dish.Active == true
+                            select new
+                            {
+                                dish.Id,
+                                dish.DishCode,
+                                dish.DishName,
+                                dish.Price,
+                                dish.Photo,
+                                dish.CreatedTime,
+                                dish.Active,
+                                CategoryName = category.DishCateogryName
+                            };
+
+            int recordsTotal = await baseQuery.CountAsync();
+
+            // Áp dụng tìm kiếm tổng quát
+            if (!string.IsNullOrEmpty(searchAll))
+            {
+                searchAll = searchAll.ToLower();
+                baseQuery = baseQuery.Where(c =>
+                    c.DishCode.ToLower().Contains(searchAll) ||
+                    c.DishName.ToLower().Contains(searchAll) ||
+                    c.CategoryName.ToLower().Contains(searchAll)
+                );
+            }
+
+            // Áp dụng tìm kiếm theo cột
+            foreach (var column in parameters.Columns)
+            {
+                var filter = column.Search?.Value?.Trim() ?? "";
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    switch (column.Data.ToLower())
+                    {
+                        case "dishcode":
+                            baseQuery = baseQuery.Where(c => c.DishCode.Contains(filter));
+                            break;
+                        case "dishname":
+                            baseQuery = baseQuery.Where(c => c.DishName.Contains(filter));
+                            break;
+                        case "price":
+                            if (decimal.TryParse(filter, out var price))
+                            {
+                                baseQuery = baseQuery.Where(c => c.Price == price);
+                            }
+                            break;
+                        case "categoryname":
+                            baseQuery = baseQuery.Where(c => c.CategoryName.Contains(filter));
+                            break;
+                    }
+                }
+            }
+
+            // Lấy số lượng bán ra cho mỗi món ăn
+            var salesQuery = from invoiceDetail in db.InvoiceDetails
+                             join invoice in db.Invoices on invoiceDetail.InvoiceId equals invoice.Id
+                             group invoiceDetail by invoiceDetail.DishId into g
+                             select new
+                             {
+                                 DishId = g.Key,
+                                 SalesCount = g.Sum(x => x.Quantity)
+                             };
+
+            // Thực hiện truy vấn cơ sở trước
+            var filteredBaseQuery = baseQuery;
+            int recordsFiltered = await filteredBaseQuery.CountAsync();
+
+            // Áp dụng sắp xếp cho truy vấn cơ sở
+            IQueryable<dynamic> orderedBaseQuery;
+            switch (orderCriteria.ToLower())
+            {
+                case "id":
+                    orderedBaseQuery = orderDirectionASC ? filteredBaseQuery.OrderBy(x => x.Id) : filteredBaseQuery.OrderByDescending(x => x.Id);
+                    break;
+                case "dishcode":
+                    orderedBaseQuery = orderDirectionASC ? filteredBaseQuery.OrderBy(x => x.DishCode) : filteredBaseQuery.OrderByDescending(x => x.DishCode);
+                    break;
+                case "dishname":
+                    orderedBaseQuery = orderDirectionASC ? filteredBaseQuery.OrderBy(x => x.DishName) : filteredBaseQuery.OrderByDescending(x => x.DishName);
+                    break;
+                case "price":
+                    orderedBaseQuery = orderDirectionASC ? filteredBaseQuery.OrderBy(x => x.Price) : filteredBaseQuery.OrderByDescending(x => x.Price);
+                    break;
+                case "categoryname":
+                    orderedBaseQuery = orderDirectionASC ? filteredBaseQuery.OrderBy(x => x.CategoryName) : filteredBaseQuery.OrderByDescending(x => x.CategoryName);
+                    break;
+                case "createdtime":
+                    orderedBaseQuery = orderDirectionASC ? filteredBaseQuery.OrderBy(x => x.CreatedTime) : filteredBaseQuery.OrderByDescending(x => x.CreatedTime);
+                    break;
+                default:
+                    orderedBaseQuery = orderDirectionASC ? filteredBaseQuery.OrderBy(x => x.Id) : filteredBaseQuery.OrderByDescending(x => x.Id);
+                    break;
+            }
+
+            // Phân trang và lấy dữ liệu
+            var pagedBaseData = await orderedBaseQuery
+                .Skip(parameters.Start)
+                .Take(parameters.Length)
+                .ToListAsync();
+
+            // Lấy tất cả ID của món ăn đã phân trang
+            var dishIds = pagedBaseData.Select(x => x.Id).ToList();
+
+            // Lấy số lượng bán ra chỉ cho các món ăn đã phân trang
+            var salesData = await salesQuery
+                .Where(s => dishIds.Contains(s.DishId))
+                .ToDictionaryAsync(s => s.DishId, s => s.SalesCount);
+
+            // Kết hợp dữ liệu
+            var result = pagedBaseData.Select(item => new PopularDishModel
+            {
+                Id = item.Id,
+                DishCode = item.DishCode,
+                DishName = item.DishName,
+                Price = item.Price,
+                Photo = item.Photo,
+                CategoryName = item.CategoryName,
+                SalesCount = salesData.ContainsKey(item.Id) ? salesData[item.Id] : 0,
+                CreatedTime = item.CreatedTime,
+                Active = item.Active
+            }).ToList();
+
+            // Nếu sắp xếp theo SalesCount, cần sắp xếp lại sau khi đã kết hợp dữ liệu
+            if (orderCriteria.ToLower() == "salescount")
+            {
+                result = orderDirectionASC
+                    ? result.OrderBy(x => x.SalesCount).ToList()
+                    : result.OrderByDescending(x => x.SalesCount).ToList();
+            }
+
+            return new DTResult<PopularDishModel>
+            {
+                draw = parameters.Draw,
+                recordsTotal = recordsTotal,
+                recordsFiltered = recordsFiltered,
+                data = result
             };
         }
     }

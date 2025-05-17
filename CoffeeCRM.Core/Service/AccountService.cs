@@ -242,6 +242,11 @@ namespace CoffeeCRM.Core.Service
             return await accountRepository.ListServerSide(parameters);
         }
 
+        public async Task<DTResult<AccountSummaryDto>> ListServerSideSummary(AccountDTParameters parameters)
+        {
+            return await accountRepository.ListServerSideSummary(parameters);
+        }
+
         //public async Task<List<Account>> Search(string keyword)
         //{
         //    return await accountRepository.Search(keyword);

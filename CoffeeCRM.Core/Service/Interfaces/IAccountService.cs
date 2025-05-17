@@ -11,6 +11,7 @@ namespace CoffeeCRM.Core.Service
     public interface IAccountService : IBaseService<Account>
     {
         Task<DTResult<AccountDto>> ListServerSide(AccountDTParameters parameters);
+        Task<DTResult<AccountSummaryDto>> ListServerSideSummary(AccountDTParameters parameters);
         Task<CoffeeManagementResponse> Login(LoginDto model);
         Task AddOrUpdate(AccountCreateDto dto);
         Task AddDto(AccountCreateDto dto);

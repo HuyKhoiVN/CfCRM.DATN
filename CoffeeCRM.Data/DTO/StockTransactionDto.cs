@@ -140,5 +140,17 @@ namespace CoffeeCRM.Data.DTO
         public string cancelReason { get; set; }
         public int canceledBy { get; set; }
     }
+
+    public class StockTransactionDetailDto
+    {
+        public string TransactionType { get; set; } // Nhập kho, Xuất kho, Điều chỉnh
+        public string IngredientName { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public decimal Quantity { get; set; }
+        public string Icon { get; set; }
+        public string CssClass { get; set; }
+    }
+
 }
 
