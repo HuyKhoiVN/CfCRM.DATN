@@ -176,6 +176,11 @@ namespace CoffeeCRM.Core.Service
         {
             await dishRepository.Update(obj);
         }
+
+        public async Task<DishStaticDto> GetDishStatisticsAsync()
+        {
+            return await dishRepository.GetDishStatisticsAsync();
+        }
     }
 }
 

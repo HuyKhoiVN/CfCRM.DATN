@@ -575,8 +575,8 @@
             <div class="d-flex justify-content-between align-items-center">
                 <!-- Filter bên trái -->
                 <div class="floor-selector d-flex gap-2">
-                    <button class="floor-btn active">Tất cả</button>
-                    <button class="floor-btn">Tầng 1</button>
+
+                    <button class="floor-btn active">Tầng 1</button>
                     <button class="floor-btn">Tầng 2</button>
                     <button class="floor-btn">Tầng 3</button>
                 </div>
@@ -2215,6 +2215,11 @@
     let allTables = [];
     let allTableOrigins = [];
 
+        $(".filter-section .btn-primary").on("click", () => {
+      filterTables()
+    })
+
+
     function loadTableList() {
         allTables = [];
         $.ajax({
@@ -2224,7 +2229,7 @@
                 if (response.status === "200") {
                     allTables = response.data;
                     allTableOrigins = response.data;
-                    renderTables(allTables);
+                    filterTables();
                 }
             },
             error: function (xhr) {
@@ -2232,33 +2237,58 @@
             }
         });
     }
+        function filterTables() {
+      const selectedFloor = $("#floorSelect").val()
+      const selectedStatus = $("#statusFilter").val()
+      const selectedOrder = $("#orderFilter").val()
 
-    $("#floorSelect").on("change", function () {
-        renderTables(allTables);
-    });
+      const container = $("#tableOrganization")
+      container.empty()
 
-    function renderTables(tables) {
-        const selectedFloor = $("#floorSelect").val();
-        const container = $("#tableOrganization");
-        container.empty();
+      // Lọc bàn theo các điều kiện
+      const filteredTables = allTables.filter((table) => {
+        const match = table.tableCode.match(/TB-(\d{3})-(\d+)/)
+        if (!match) return false
 
-        const filteredTables = tables.filter(table => {
-            const match = table.tableCode.match(/TB-(\d{3})-(\d+)/);
-            if (!match) return false;
-            const floor = parseInt(match[1].charAt(0));
-            return floor == selectedFloor;
-        });
+        // Lọc theo tầng
+        const floor = Number.parseInt(match[1].charAt(0))
+        if (floor != selectedFloor && selectedFloor !== "all") return false
 
-        if (filteredTables.length === 0) {
-            container.html('<div class="col-12 text-center text-muted">Không có bàn nào.</div>');
-            return;
+        // Lọc theo trạng thái bàn
+        if (selectedStatus !== "all") {
+          if (selectedStatus === "empty" && table.tableStatus !== "available") return false
+          if (selectedStatus === "occupied" && table.tableStatus !== "occupied") return false
+          if (selectedStatus === "reserved" && table.tableStatus !== "booked") return false
         }
 
-        filteredTables.forEach(table => {
-            const card = getTableCard(table.tableName, table.id, table.tableCode, table.tableStatus, table.totalBooking, table.lastBookingTime);
-            container.append(card);
-        });
+        // Lọc theo số hóa đơn
+        if (selectedOrder !== "all") {
+          const hasOrder = table.totalBooking > 0
+          if (selectedOrder === "with-order" && !hasOrder) return false
+          if (selectedOrder === "no-order" && hasOrder) return false
+        }
+
+        return true
+      })
+
+      if (filteredTables.length === 0) {
+        container.html('<div class="col-12 text-center text-muted">Không có bàn nào phù hợp với điều kiện lọc.</div>')
+        return
+      }
+
+      filteredTables.forEach((table) => {
+        const card = getTableCard(
+          table.tableName,
+          table.id,
+          table.tableCode,
+          table.tableStatus,
+          table.totalBooking,
+          table.lastBookingTime,
+        )
+        container.append(card)
+      })
     }
+
 
     function getTableCard(tableName, id, tableCode, status, totalBooking, lastBookingTime) {
         const idTbMenu = "menu" + id;

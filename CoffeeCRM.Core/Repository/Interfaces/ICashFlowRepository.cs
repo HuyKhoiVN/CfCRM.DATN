@@ -1,36 +1,38 @@
 
-    using CoffeeCRM.Data.Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
-    using CoffeeCRM.Core.Util.Parameters;
-    using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Data;
+using CoffeeCRM.Core.Util.Parameters;
+using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Data.DTO;
 
 
-    namespace CoffeeCRM.Core.Repository
+namespace CoffeeCRM.Core.Repository
+{
+    public interface ICashFlowRepository
     {
-        public interface ICashFlowRepository
-        {
-            Task <List< CashFlow>> List();
+        Task<List<CashFlow>> List();
 
-            //Task <List< CashFlow>> Search(string keyword);
+        //Task <List< CashFlow>> Search(string keyword);
 
-            Task <List< CashFlow>> ListPaging(int pageIndex, int pageSize);
+        Task<List<CashFlow>> ListPaging(int pageIndex, int pageSize);
 
-            Task <CashFlow> Detail(long ? postId);
+        Task<CashFlow> Detail(long? postId);
 
-            Task <CashFlow> Add(CashFlow CashFlow);
+        Task<CashFlow> Add(CashFlow CashFlow);
 
-            Task Update(CashFlow CashFlow);
+        Task Update(CashFlow CashFlow);
 
-            Task Delete(CashFlow CashFlow);
+        Task Delete(CashFlow CashFlow);
 
-            Task <long> DeletePermanently(long ? CashFlowId);
+        Task<long> DeletePermanently(long? CashFlowId);
 
-            int Count();
+        int Count();
 
-            Task <DTResult<CashFlow>> ListServerSide(CashFlowDTParameters parameters);
-        }
+        Task<DTResult<CashFlowBaseDto>> ListServerSide(CashFlowDTParameters parameters);
     }
+}

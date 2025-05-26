@@ -204,6 +204,11 @@ namespace CoffeeCRM.Core.Repository
 
             recordTotal = await query.CountAsync();
 
+            if (parameters.DishCategoryId.HasValue && parameters.DishCategoryId.Value > 0)
+            {
+                query = query.Where(c => c.row.DishCategoryId == parameters.DishCategoryId.Value);
+            }   
+
             if (!String.IsNullOrEmpty(searchAll))
             {
                 searchAll = searchAll.ToLower();
@@ -476,6 +481,27 @@ EF.Functions.Collate(c.row.DishName.ToLower(), SQLParams.Latin_General).Contains
                 data = result
             };
         }
+
+        public async Task<DishStaticDto> GetDishStatisticsAsync()
+        {
+            var totalDishCate = await db.DishCategories.CountAsync();
+            var totalDish = await db.Dishes.CountAsync();
+
+            int avgDishPrice = 0;
+            if (await db.Dishes.AnyAsync())
+            {
+                var avg = await db.Dishes.AverageAsync(d => d.Price); // avg là decimal
+                avgDishPrice = (int)Math.Round(avg / 1000m, MidpointRounding.AwayFromZero) * 1000;
+            }
+
+            return new DishStaticDto
+            {
+                TotalDishCate = totalDishCate,
+                TotalDish = totalDish,
+                AvgDishPrice = avgDishPrice
+            };
+        }
+
     }
 }
 

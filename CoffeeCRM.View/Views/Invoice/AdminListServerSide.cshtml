@@ -326,6 +326,87 @@
         .qr-code-container .small {
             font-size: 0.8rem;
         }
+
+    /* CSS cho trang in */
+    @@media print {
+        body *
+
+    {
+        visibility: hidden;
+    }
+
+    .print-content, .print-content * {
+        visibility: visible;
+    }
+
+    .print-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .print-invoice {
+        font-family: 'Times New Roman', serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+    }
+
+    .print-header {
+        text-align: center;
+        border-bottom: 2px solid #000;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
+
+    .print-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+
+    .print-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    .print-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
+
+        .print-table th,
+        .print-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .print-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+    .print-footer {
+        margin-top: 50px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .signature-box {
+        text-align: center;
+        width: 200px;
+    }
+
+    }
 </style>
 
 <div id="kt_app_content" class="app-content  flex-column-fluid ">
@@ -520,7 +601,7 @@
                                         <div id="qrCodeSection" class="qr-code-container" style="display: none;">
                                             <div class="row justify-content-center">
                                                 <div class="col-md-10 col-lg-8">
-                                                    <img id="qrCodeImage" src="/placeholder.svg" alt="QR Code" class="img-fluid">
+                                                    <img id="qrCodeImage" src="" alt="QR Code" class="img-fluid">
                                                     <p class="mb-1">Quét mã QR để thanh toán</p>
                                                     <p class="small text-muted">Vietcombank - Số tài khoản: 103138853</p>
                                                 </div>
@@ -568,6 +649,9 @@
 
             <!-- Thay thế phần modal-footer hiện tại bằng đoạn mã này -->
             <div class="modal-footer">
+                            <button type="button" id="btnPrintInvoice" class="btn btn-info">
+                                <i class="fas fa-print me-2"></i>In hóa đơn
+                            </button>
                 <button type="button" id="btnCancelInvoice" class="btn btn-danger" style="display: none;">
                     <i class="fas fa-times-circle me-2"></i>Hủy hóa đơn
                 </button>
@@ -842,6 +926,10 @@
         $("#btnCancelInvoice").off("click").on("click", function() {
             cancelInvoice();
         });
+
+        $("#btnPrintInvoice").off("click").on("click", function() {
+        printInvoice();
+    });
     }
 
     function confirmPayment() {
@@ -1251,6 +1339,240 @@
     
 </script>
 <!--end:Base load data-->
+
+<script>
+        // Function in hóa đơn
+        // Function in hóa đơn - sử dụng Blob URL (thay thế hoàn toàn function cũ)
+        function printInvoice() {
+        if (!window.currentInvoice) {
+            Swal.fire('Lỗi', 'Không tìm thấy dữ liệu hóa đơn để in', 'error');
+            return;
+        }
+
+        const invoice = window.currentInvoice;
+        const printContent = generatePrintContent(invoice);
+
+        const cssContent = `
+            body {
+                font-family: 'Times New Roman', serif;
+                margin: 0;
+                padding: 20px;
+                line-height: 1.6;
+            }
+            .print-invoice {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .print-header {
+                text-align: center;
+                border-bottom: 2px solid #000;
+                padding-bottom: 20px;
+                margin-bottom: 30px;
+            }
+            .print-title {
+                font-size: 24px;
+                font-weight: bold;
+                margin: 10px 0;
+            }
+            .company-info {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            .print-info {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 30px;
+            }
+            .info-section {
+                flex: 1;
+            }
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 30px;
+            }
+            .print-table th,
+            .print-table td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: left;
+            }
+            .print-table th {
+                background-color: #f0f0f0;
+                font-weight: bold;
+                text-align: center;
+            }
+            .text-right { text-align: right; }
+            .text-center { text-align: center; }
+            .total-row {
+                font-weight: bold;
+                background-color: #f9f9f9;
+            }
+            .print-footer {
+                margin-top: 50px;
+                display: flex;
+                justify-content: space-between;
+            }
+            .signature-box {
+                text-align: center;
+                width: 200px;
+            }
+            .signature-line {
+                border-top: 1px solid #000;
+                margin-top: 60px;
+                padding-top: 5px;
+            }
+    @@media print {
+                body { margin: 0; }
+                .no-print { display: none; }
+            }
+        `;
+
+        const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Hóa đơn - ${invoice.invoiceCode}</title>
+        <style>${cssContent}</style>
+    </head>
+    <body>
+        ${printContent}
+        <div class="no-print" style="text-align: center; margin-top: 20px;">
+            <button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">In hóa đơn</button>
+            <button onclick="window.close()" style="padding: 10px 20px; font-size: 16px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Đóng</button>
+        </div>
+    </body>
+    </html>
+    `;
+
+        const encodedHtml = btoa(unescape(encodeURIComponent(htmlContent)));
+        const printWindow = window.open(`data:text/html;base64,${encodedHtml}`, '_blank');
+
+        // Tự động in khi load xong
+        if (printWindow) {
+            printWindow.onload = function () {
+                setTimeout(() => {
+                    printWindow.print();
+                }, 500);
+            };
+        }
+    }
+
+    // Function tạo nội dung HTML cho in
+    function generatePrintContent(invoice) {
+        // Tạo bảng chi tiết món ăn
+        let itemsHtml = '';
+        let totalAmount = 0;
+
+        invoice.invoiceDetails.forEach((item, index) => {
+            const itemTotal = item.quantity * item.unitPrice;
+            totalAmount += itemTotal;
+
+            itemsHtml += `
+                <tr>
+                    <td class="text-center">${index + 1}</td>
+                    <td>${item.dishName}</td>
+                    <td class="text-center">${item.quantity}</td>
+                    <td class="text-right">${formatCurrencyForPrint(item.unitPrice)}</td>
+                    <td class="text-right">${formatCurrencyForPrint(itemTotal)}</td>
+                </tr>
+            `;
+        });
+
+        return `
+            <div class="print-invoice">
+                <div class="print-header">
+                    <div class="company-info">
+                        <strong>QUÁN CAFE ABC</strong><br>
+                        Địa chỉ: 123 Đường ABC, Quận XYZ, TP.HCM<br>
+                        Điện thoại: 0123.456.789 | Email: info@cafe-abc.com
+                    </div>
+                    <div class="print-title">HÓA ĐƠN THANH TOÁN</div>
+                    <div>Mã hóa đơn: <strong>${invoice.invoiceCode}</strong></div>
+                </div>
+
+                <div class="print-info">
+                    <div class="info-section">
+                        <strong>Thông tin hóa đơn:</strong><br>
+                        Ngày tạo: ${moment(invoice.createdTime).format('DD/MM/YYYY HH:mm:ss')}<br>
+                        Thu ngân: ${invoice.cashierName || 'N/A'}<br>
+                        Trạng thái: ${invoice.paymentStatus}
+                    </div>
+                    <div class="info-section">
+                        <strong>Thông tin thanh toán:</strong><br>
+                        Phương thức: ${invoice.paymentMethod || 'Chưa xác định'}<br>
+                        Tổng tiền: <strong>${formatCurrencyForPrint(invoice.totalMoney)}</strong>
+                    </div>
+                </div>
+
+                <table class="print-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">STT</th>
+                            <th>Tên món</th>
+                            <th style="width: 80px;">SL</th>
+                            <th style="width: 120px;">Đơn giá</th>
+                            <th style="width: 120px;">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itemsHtml}
+                        <tr class="total-row">
+                            <td colspan="4" class="text-right"><strong>TỔNG CỘNG:</strong></td>
+                            <td class="text-right"><strong>${formatCurrencyForPrint(invoice.totalMoney)}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-bottom: 30px;">
+                    <strong>Số tiền bằng chữ:</strong> ${numberToWords(invoice.totalMoney)} đồng
+                </div>
+
+                <div class="print-footer">
+                    <div class="signature-box">
+                        <strong>Khách hàng</strong>
+                        <div class="signature-line">Ký, ghi rõ họ tên</div>
+                    </div>
+                    <div class="signature-box">
+                        <strong>Thu ngân</strong>
+                        <div class="signature-line">${invoice.cashierName || ''}</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px; font-style: italic;">
+                    Cảm ơn quý khách và hẹn gặp lại!
+                </div>
+            </div>
+        `;
+    }
+
+    // Function format tiền tệ cho in
+    function formatCurrencyForPrint(amount) {
+        return new Intl.NumberFormat('vi-VN').format(amount) + ' ₫';
+    }
+
+    // Function chuyển số thành chữ (đơn giản)
+    function numberToWords(num) {
+        if (num === 0) return "Không";
+
+        const ones = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+        const tens = ["", "", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi"];
+        const scales = ["", "nghìn", "triệu", "tỷ"];
+
+        // Đây là implementation đơn giản, bạn có thể sử dụng thư viện chuyên dụng
+        if (num < 1000) {
+            return num.toString();
+        } else if (num < 1000000) {
+            return Math.floor(num / 1000) + " nghìn " + (num % 1000 > 0 ? (num % 1000) : "");
+        } else if (num < 1000000000) {
+            return Math.floor(num / 1000000) + " triệu " + (num % 1000000 > 0 ? Math.floor((num % 1000000) / 1000) + " nghìn" : "");
+        }
+
+        return num.toLocaleString('vi-VN');
+    }
+</script>
+
 <!--begin:setting in data table-->
 <script>
     function tableSearch() {
