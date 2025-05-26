@@ -11,6 +11,7 @@ using CoffeeCRM.Data.Constants;
 using CoffeeCRM.Core.Repository.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using CoffeeCRM.Data.DTO;
+using NetTopologySuite.Noding;
 
 namespace CoffeeCRM.Core.Service
 {
@@ -431,7 +432,7 @@ namespace CoffeeCRM.Core.Service
                         return null;
                     }
                     //invoice.PaymentMethod = model.PaymentMethod;
-                    invoice.PaymentStatus = model.PaymentStatus; // calcel or paid
+                    invoice.PaymentStatus = model.PaymentStatus; 
                     invoice.PaymentMethod = model.PaymentMethod; 
 
                     await invoiceRepository.Update(invoice);
@@ -460,6 +461,52 @@ namespace CoffeeCRM.Core.Service
                 {
                     await transaction.RollbackAsync();
                     return null;
+                }
+            }
+        }
+
+        public async Task PaymentSuccess(int id, string transCode)
+        {
+            // invoice - invoiceCode
+            using (var transaction = invoiceRepository.GetDatabase().BeginTransaction())
+            {
+                try
+                {
+                    if (id <= 0)
+                    {
+                        throw new BadRequestException("ID không tồn tại");
+                    }
+
+                    var invoice = await invoiceRepository.Detail(id);
+                    if (invoice == null)
+                    {
+                        await transaction.RollbackAsync();
+                        return;
+                    }
+
+                    invoice.PaymentStatus = PaymentStatusStringConst.PAID;
+                    await invoiceRepository.Update(invoice);
+
+                    CashFlow cflow = new CashFlow();
+                    cflow.TotalMoney = invoice.TotalMoney;
+                    cflow.FlowType = CashFlowConst.CASH_FLOW_TYPE_INCOME;
+                    cflow.Note = "Hóa đơn bán hàng";
+                    cflow.CreatedTime = DateTime.Now;
+                    cflow.Active = true;
+                    cflow.AccountId = 1;
+                    await cashFlowRepository.Add(cflow);
+                    if (cflow.Id <= 0)
+                    {
+                        await transaction.RollbackAsync();
+                        return;
+                    }
+
+                    await transaction.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return;
                 }
             }
         }

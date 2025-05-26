@@ -298,5 +298,27 @@ namespace CfCRM.DATN.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPost]
+        [Route("api/PaymentSuccess")]
+        public async Task<IActionResult> PaymentSuccess(int id, string invoiceCode)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await service.PaymentSuccess(id, invoiceCode);
+                    
+                    var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS();
+                    return Created("", coffeemanagementResponse);
+                }
+                catch (Exception)
+                {
+
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
     }
 }

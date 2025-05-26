@@ -12,5 +12,6 @@ namespace CoffeeCRM.Core.Service
         Task<InvoiceVM> InvoiceDetailById(int invoiceId);
         Task<InvoiceViewModel> AddOrUpdateVM(InvoiceViewModel model);
         Task<InvoiceViewModel> UpdateStatus(InvoiceViewModel model);
+        Task PaymentSuccess(int id, string transCode);
     }
 }
