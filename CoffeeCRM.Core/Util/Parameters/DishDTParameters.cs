@@ -9,5 +9,6 @@ namespace CoffeeCRM.Core.Util.Parameters
     public class DishDTParameters : DTParameters
     {
         public string SearchAll { get; set; } = "";
+        public int? DishCategoryId { get; set; }
     }
 }

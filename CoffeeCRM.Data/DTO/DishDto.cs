@@ -18,4 +18,11 @@ namespace CoffeeCRM.Data.DTO
         public int DishCategoryId { get; set; }
         public string? DishCategoryName { get; set; } = null!;
     }
+
+    public class DishStaticDto
+    {
+        public int TotalDishCate { get; set; }
+        public int TotalDish { get; set; }
+        public int AvgDishPrice { get; set; }
+    }
 }

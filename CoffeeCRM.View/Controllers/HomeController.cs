@@ -16,7 +16,7 @@ namespace CfCRM.View.Controllers
 
         public IActionResult Index()
         {
-            return Redirect("/account/admin/list");
+            return Redirect("/booking/admin/tablelist");
         }
 
         public IActionResult Privacy()

@@ -4,913 +4,1448 @@
 @{
     ViewData["ViewName"] = "Món ăn";
 }
-<style>
-    .table-content {
-        padding: 15px;
-        background: var(--bs-app-header-base-bg-color);
-        border-radius: 8px;
-    }
 
-    table thead tr th {
-        white-space: nowrap;
-    }
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-dark: #3730a3;
+            --secondary-color: #f8fafc;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
 
-    #tableData thead tr th:nth-child(1),
-    #tableData tbody tr td:nth-child(1),
-    #tableData tfoot tr th:nth-child(1) {
-        text-align: center;
-        width: 20px !important;
-        max-width: 20px !important;
-    }
+      
 
-    #tableData thead tr th:nth-child(2),
-    #tableData tbody tr td:nth-child(2),
-    #tableData tfoot tr th:nth-child(2) {
-        width: 200px !important;
-        max-width: 200px !important;
-        padding-left: 20px !important;
-    }
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
 
-    #tableData thead tr th:nth-child(3),
-    #tableData tbody tr td:nth-child(3),
-    #tableData tfoot tr th:nth-child(3) {
-        width: 150px !important;
-        max-width: 150px !important;
-    @* text-align: center !important; *@
-    }
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
 
-    #tableData thead tr th:nth-child(4),
-    #tableData tbody tr td:nth-child(4),
-    #tableData tfoot tr th:nth-child(4) {
-        width: 150px !important;
-        max-width: 150px !important;
-    @* text-align: center !important; *@
-    }
+        .page-subtitle {
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
 
-    #tableData thead tr th:nth-child(5),
-    #tableData tbody tr td:nth-child(5),
-    #tableData tfoot tr th:nth-child(5) {
-        width: 150px !important;
-        max-width: 150px !important;
-        text-align: center !important;
-    }
+        .management-tabs {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
 
-    #tableData thead tr th:nth-child(6),
-    #tableData tbody tr td:nth-child(6),
-    #tableData tfoot tr th:nth-child(6) {
-        width: 150px !important;
-        max-width: 150px !important;
-        text-align: center !important;
-    }
+        .nav-tabs {
+            border-bottom: none;
+            background: var(--secondary-color);
+            padding: 0.5rem;
+        }
 
-    #tableData thead tr th:nth-child(7),
-    #tableData tbody tr td:nth-child(7),
-    #tableData tfoot tr th:nth-child(7) {
-        width: 50px !important;
-        max-width: 50px !important;
-        text-align: center !important;
-    }
+            .nav-tabs .nav-link {
+                border: none;
+                border-radius: 0.75rem;
+                margin: 0 0.25rem;
+                padding: 0.75rem 1.5rem;
+                color: var(--text-secondary);
+                font-weight: 600;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
 
-    .dishPhoto {
-        object-fit: cover;
-        border-radius: 50%;
-    }
-</style>
+                .nav-tabs .nav-link:hover {
+                    background: white;
+                    color: var(--primary-color);
+                    transform: translateY(-2px);
+                    box-shadow: var(--shadow-sm);
+                }
+
+                .nav-tabs .nav-link.active {
+                    background: var(--primary-color);
+                    color: white;
+                    box-shadow: var(--shadow-md);
+                }
+
+        .tab-content {
+            padding: 2rem;
+        }
+
+        .control-panel {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .search-section {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+
+            .search-input input {
+                padding-left: 3rem;
+                border-radius: 0.75rem;
+                border: 2px solid var(--border-color);
+                transition: all 0.3s ease;
+            }
+
+                .search-input input:focus {
+                    border-color: var(--primary-color);
+                    box-shadow: 0 0 0 3px rgb(79 70 229 / 0.1);
+                }
+
+            .search-input .search-icon {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-secondary);
+            }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-modern {
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+            .btn-modern:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+        .btn-primary-modern {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+        }
+
+        .btn-secondary-modern {
+            background: white;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-success-modern {
+            background: linear-gradient(135deg, var(--success-color) 0%, #34d399 100%);
+            color: white;
+        }
+
+        .category-filter {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .category-chips {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .category-chip {
+            background: var(--secondary-color);
+            border: 2px solid var(--border-color);
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .category-chip:hover {
+                background: var(--primary-color);
+                color: white;
+                border-color: var(--primary-color);
+                transform: translateY(-2px);
+            }
+
+            .category-chip.active {
+                background: var(--primary-color);
+                color: white;
+                border-color: var(--primary-color);
+                box-shadow: var(--shadow-md);
+            }
+
+        .data-table-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .table {
+            margin: 0;
+        }
+
+            .table thead th {
+                background: var(--secondary-color);
+                border: none;
+                padding: 1rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                white-space: nowrap;
+            }
+
+            .table tbody td {
+                padding: 1rem;
+                border-color: var(--border-color);
+                vertical-align: middle;
+            }
+
+        .dish-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 0.75rem;
+            object-fit: cover;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .dish-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dish-details h6 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .dish-code {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .price-badge {
+            background: linear-gradient(135deg, var(--success-color) 0%, #34d399 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .category-badge {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .action-buttons-table {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .btn-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 0.5rem;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+            .btn-action:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+        .btn-edit {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-delete {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-view {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .modal-content {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: 1rem 1rem 0 0;
+            padding: 1.5rem;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border-radius: 0.75rem;
+            border: 2px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgb(79 70 229 / 0.1);
+            }
+
+        .image-upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+            .image-upload-area:hover {
+                border-color: var(--primary-color);
+                background: var(--secondary-color);
+            }
+
+        .image-preview {
+            width: 200px;
+            height: 200px;
+            border-radius: 1rem;
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+            margin: 1rem auto;
+            display: block;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-lg);
+            }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @@keyframes spin {
+            0%
+
+        {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .main-container
+
+        {
+            padding: 1rem;
+        }
+
+        .page-header {
+            padding: 1.5rem;
+        }
+
+        .search-section {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .search-input {
+            min-width: auto;
+        }
+
+        .category-chips {
+            justify-content: center;
+        }
+
+        .stats-cards {
+            grid-template-columns: 1fr;
+        }
+
+        }
+    </style>
+
 <div id="kt_app_content" class="app-content  flex-column-fluid ">
     <!--begin::Content container-->
     <div id="kt_app_content_container" class="app-container  container-fluid ">
-        <!--begin::Row-->
-        <div class="table-content">
-            <!--begin::Col-->
-            <!--begin::Wrapper-->
-            <!--begin::DishCategory-infor-form-->
-            <div class="row mb-5">
-                <div class="row mx-auto bg-white">
-                    <!-- Form Body -->
-                    <div class="form-body">
-                        <div class="row mb-3">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <div class="mb-7 fv-plugins-icon-container">
-                                        <label class=" fw-semibold fs-6 mb-2 " id="basic-addon-dishCategoryCode">Mã nhóm món</label>
-                                        <input type="text" autocomplete="off" class="form-control input-dishCategoryCode" id="dishCategory-dishCategoryCode" aria-label="dishCategoryCode" aria-describedby="basic-addon-dishCategoryCode" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <div class="mb-7 fv-plugins-icon-container">
-                                        <label class="fw-semibold fs-6 mb-2 " id="basic-addon-dishCateogryName">Tên nhóm món</label>
-                                        <input type="text" autocomplete="off" class="form-control input-dishCateogryName" id="dishCategory-dishCateogryName" aria-label="dishCateogryName" aria-describedby="basic-addon-dishCateogryName" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class='form-group'>
-                                    <div class="mb-7 fv-plugins-icon-container">
-                                        <label class="fw-semibold fs-6 mb-2" id="basic-addon-createdTime">Ngày tạo</label>
-                                        <div class='form-control date datetimepicker  input-createdTime' id='dishCategory-createdTimeDiv' style='padding:0px;'>
-                                            <input type='text' autocomplete="off" id="dishCategory-createdTime" required class="form-control datepicker" aria-label="createdTime" aria-describedby="basic-addon-createdTime" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                    </div>
 
-                                </div>
-                            </div>
 
-                        </div>
-
-                    </div>
+        <!-- Statistics Cards -->
+        <div class="stats-cards fade-in">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); color: white;">
+                    <i class="fas fa-list"></i>
                 </div>
+                <h3 class="stat-number" id="totalCategories">0</h3>
+                <p class="stat-label">Tổng nhóm món</p>
             </div>
-            <div class="d-flex flex-stack mb-5">
-
-                <!--begin::Search-->
-                <div class="d-flex align-items-center position-relative my-1">
-                    <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
-                    <input type="search" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" id="search-input" placeholder="Tìm kiếm" />
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--success-color), #34d399); color: white;">
+                    <i class="fas fa-utensils"></i>
                 </div>
-
-                <!--end::Search-->
-                <!--begin::Toolbar-->
-                <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
-                    <!--begin::Filter-->
-                    <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="tooltip" title="Coming Soon">
-                        <i class="ki-duotone ki-filter fs-2"><span class="path1"></span><span class="path2"></span></i>
-                        Bộ lọc
-                    </button>
-                    <!--end::Filter-->
-                    <!--begin::Add customer-->
-                    @* <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" title="Tạo mới" onclick="editItem(0)">
-                    <i class="ki-duotone ki-plus fs-2"></i>
-                    Tạo mới
-                    </button> *@
-                    <!--end::Add customer-->
-                </div>
-                <!--end::Toolbar-->
-                <!--begin::Group actions-->
-                <div class="d-flex justify-content-end align-items-center d-none" data-kt-docs-table-toolbar="selected">
-                    <div class="fw-bold me-5">
-                        <span class="me-2" data-kt-docs-table-select="selected_count"></span> Selected
-                    </div>
-
-                    <button type="button" class="btn btn-danger" data-bs-toggle="tooltip" title="Coming Soon">
-                        Selection Action
-                    </button>
-                </div>
-
+                <h3 class="stat-number" id="totalDishes">0</h3>
+                <p class="stat-label">Tổng món ăn</p>
             </div>
-            <!--end::Group actions-->
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--accent-color), #22d3ee); color: white;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="stat-number" id="avgPrice">0</h3>
+                <p class="stat-label">Giá trung bình</p>
+            </div>
         </div>
-        <!--end::Wrapper-->
-        <!--begin::Datatable-->
-        <table id="tableData" class="table table-hover table-rounded table-row-bordered gy-3 gs-3">
-            <thead>
-                <tr class="fw-bold fs-6 text-gray-800">
-                    <th>STT</th>
-                    <th>Mã món ăn</th>
-                    <th>Tên món ăn</th>
 
-                    @* <th>Nhóm món</th> *@
-                    <th>Giá</th>
-                    <th>Ngày tạo</th>
-                    @* <th>Thao tác</th> *@
-                </tr>
-            </thead>
-            <thead>
-                <tr class="fs-6">
-                    <th></th>
-                   @*  <th><input type="text" class="form-control tableheaderFillter" /></th>
-                    <th><input type="text" class="form-control tableheaderFillter" /></th>
-                    <th><input type="text" class="form-control tableheaderFillter" /></th> *@
-                    <th><input type="text" class="form-control tableheaderFillter" /></th>
-                    <th><input type="text" class="form-control tableheaderFillter" /></th>
-                    <th><input type="text" class="form-control tableheaderFillter" /></th>
-                    <th>
-                        <div class="input-group" id="filterCreatedTime" data-td-target-input="nearest" data-td-target-toggle="nearest">
-                            <input id="filterCreatedTime_input" readonly type="text" class="form-control tableheaderFillter" data-td-target="#filterCreatedTime" />
-                            <span class="input-group-text" title="Chọn" id="open-flatpickr" data-td-target="#filterCreatedTime">
-                                <i class="ki-duotone ki-calendar fs-2"><span class="path1"></span><span class="path2"></span></i>
-                            </span>
-                            <span class="input-group-text" id="clear-flatpickr" title="Xóa" data-clear="true" data-target="filterCreatedTime">
-                                <i class="ki-duotone ki-calendar-remove fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
-                            </span>
-                        </div>
-                    </th>
+        <!-- Management Tabs -->
+        <div class="management-tabs fade-in">
+            <ul class="nav nav-tabs" id="managementTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="dishes-tab" data-bs-toggle="tab" data-bs-target="#dishes" type="button" role="tab">
+                        <i class="fas fa-utensils"></i>
+                        Quản lý món ăn
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab">
+                        <i class="fas fa-list"></i>
+                        Quản lý nhóm món
+                    </button>
+                </li>
+            </ul>
 
-                    <th class="text-center">
-                        <div class="search-control">
-                            <button class="btn btn-primary form-control mb-1" title="Tìm kiếm" id="btnTableSearch">
-                                <span class="svg-icon svg-icon svg-icon-1 svg_search_2 m-0">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M21.7 18.9L18.6 15.8C17.9 16.9 16.9 17.9 15.8 18.6L18.9 21.7C19.3 22.1 19.9 22.1 20.3 21.7L21.7 20.3C22.1 19.9 22.1 19.3 21.7 18.9Z" fill="currentColor"></path>
-                                        <path opacity="0.3" d="M11 20C6 20 2 16 2 11C2 6 6 2 11 2C16 2 20 6 20 11C20 16 16 20 11 20ZM11 4C7.1 4 4 7.1 4 11C4 14.9 7.1 18 11 18C14.9 18 18 14.9 18 11C18 7.1 14.9 4 11 4ZM8 11C8 9.3 9.3 8 11 8C11.6 8 12 7.6 12 7C12 6.4 11.6 6 11 6C8.2 6 6 8.2 6 11C6 11.6 6.4 12 7 12C7.6 12 8 11.6 8 11Z" fill="currentColor"></path>
-                                    </svg>
-                                </span>
-                            </button>
-                            <button class="btn btn-secondary form-control" title="Reset" id="btnTableResetSearch">
-                                <span class="svg-icon svg-icon svg-icon-1 svg_cancel m-0">
-                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="9.39844" y="20.7144" width="16" height="2.66667" rx="1.33333" transform="rotate(-45 9.39844 20.7144)" fill="currentColor"></rect>
-                                        <rect x="11.2852" y="9.40039" width="16" height="2.66667" rx="1.33333" transform="rotate(45 11.2852 9.40039)" fill="currentColor"></rect>
-                                    </svg>
-                                </span>
-                            </button>
-                        </div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-                <tr class="border-top fw-bold fs-6 text-gray-800">
-                </tr>
-            </tfoot>
-        </table>
-        <!--end::Datatable-->
-        <div class="modal fade" id="modal-id">
-            <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Modal title</h3>
-
-                        <!--begin::Close-->
-                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                        </div>
-                        <!--end::Close-->
-                    </div>
-                    <div class="modal-body">
-                        <form action="#">
-                            <div class="row">
-
-                                <div class="d-none col-sm-6">
-                                    <div class="form-group">
-                                        <div class="mb-7 fv-plugins-icon-container">
-                                            <label class="fw-semibold fs-6 mb-2 required" id="basic-addon-id">Mã</label>
-                                            <input readonly type="number" autocomplete="off" class="form-control input-id" id="dish-id" placeholder="id" aria-label="id" aria-describedby="basic-addon-id" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Phần chọn và hiển thị ảnh món ăn -->
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="mb-7 fv-plugins-icon-container">
-                                            <label class="fw-semibold fs-6 mb-2 required" id="basic-addon-photo">Ảnh món ăn</label>
-                                            <small class="form-text text-muted">Chọn ảnh cho món ăn.</small>
-                                            <div>
-
-
-                                                <!-- Nút chọn ảnh không hiển thị tên ảnh đã chọn -->
-                                                <input type="file" class="form-control file-input" id="dish-photo" accept="image/*" aria-label="photo" aria-describedby="basic-addon-photo" style="opacity: 0; position: absolute; z-index: -1;">
-
-                                                <!-- Nút chọn ảnh giả để hiển thị -->
-                                                <button type="button" onclick="document.getElementById('dish-photo').click()" class="btn btn-primary">Chọn ảnh</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <script>
-                                        // Hiển thị ảnh đã chọn
-                                        document.getElementById("dish-photo").addEventListener("change", function (event) {
-                                            const file = event.target.files[0];
-                                            const imageElement = document.getElementById("selected-image");
-
-                                            if (file) {
-                                                const reader = new FileReader();
-                                                reader.onload = function (e) {
-                                                    imageElement.src = e.target.result; // Cập nhật src với ảnh đã chọn
-                                                    imageElement.style.display = "block";
-                                                };
-                                                reader.readAsDataURL(file);
-                                            } else {
-                                                // Hiển thị ảnh mặc định nếu không có ảnh được chọn
-                                                imageElement.src = '/images/default/NoImage.png'; // Đường dẫn chính xác đến ảnh mặc định
-                                            }
-                                        });
-
-                                        // Đặt ảnh mặc định khi trang tải
-                                        document.addEventListener("DOMContentLoaded", function () {
-                                            const imageElement = document.getElementById("selected-image");
-                                            imageElement.src = '/images/default/NoImage.png'; // Đường dẫn chính xác đến ảnh mặc định
-                                            imageElement.style.display = "block";
-                                        });
-                                    </script>
-
-                                </div>
-
-                                <!-- Vùng hiển thị ảnh đã chọn -->
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="mb-7 fv-plugins-icon-container">
-                                            <div class="mt-3" style="width: 100px; height: 100px; overflow: hidden; border: 1px solid #ddd; padding: 2px;">
-                                                <img id="selected-image" src="" alt="Ảnh món ăn" style="width: 100%; height: 100%; display: none; object-fit: cover;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="mb-7 fv-plugins-icon-container">
-                                            <label class="fw-semibold fs-6 mb-2 required  " id="basic-addon-dishCode">Mã món</label>
-                                            <input type="text" autocomplete="off" class="form-control input-dishCode" id="dish-dishCode" aria-label="dishCode" aria-describedby="basic-addon-dishCode" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="mb-7 fv-plugins-icon-container">
-                                            <label class="fw-semibold fs-6 mb-2 required " id="basic-addon-dishName">Tên món</label>
-                                            <input type="text" autocomplete="off" class="form-control input-dishName" id="dish-dishName" aria-label="dishName" aria-describedby="basic-addon-dishName" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="mb-7 fv-plugins-icon-container">
-                                            <label class="fw-semibold fs-6 mb-2 required " id="basic-addon-price">Giá</label>
-                                            <input type="text" autocomplete="off" class="form-control input-price" id="dish-price" aria-label="price" aria-describedby="basic-addon-price" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @* <div class="col-sm-6">
-                                <div class="form-group">
-                                <div class="mb-7 fv-plugins-icon-container">
-                                <label class="fw-semibold fs-6 mb-2 required  " id="basic-addon-photo">Photo</label>
-                                <input type="text" autocomplete="off" class="form-control input-photo" id="dish-photo" placeholder="photo" aria-label="photo" aria-describedby="basic-addon-photo" />
-                                </div>
-                                </div>
-                                </div> *@
-
-
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="mb-7 fv-plugins-icon-container">
-                                            <label class="fw-semibold fs-6 mb-2 required " id="basic-addon-dishCategoryId">Nhóm món</label>
-                                            <select class="form-select rounded-3 dataSelect" id="dish-dishCategoryId" data-control="select2" data-dropdown-parent="#modal-id"></select>
-                                        </div>
-                                    </div>
-                                    <script>
-                                        var roleData = [];
-                                        async function loadDataSelectRole() {
-                                            await $.ajax({
-                                                url: systemURL + 'dishcategory/api/list',
-                                                type: 'GET',
-                                                async: 'true',
-                                                contentType: 'application/json',
-                                                success: function (responseData) {
-                                                    console.log(new Date().getSeconds() + ':' + new Date().getMilliseconds() + ' - loaded category created');
-                                                    // debugger;
-                                                    //console.log(responseData);
-                                                    var data = responseData.data;
-                                                    roleData = data;
-                                                    //console.log(roleData);
-                                                },
-                                                error: function (e) {
-                                                    //console.log(e.message);
-                                                }
-                                            });
-                                        }
-                                        //console.log(roleData);
-                                        $(document).ready(function () {
-                                            loadDataSelectRole();
-                                            $.when(loadDataSelectRole()).done(function () {
-                                                roleData.forEach(function (item) {
-                                                    $('#dish-dishCategoryId').append(new Option(item.dishCateogryName, item.id, false, false)).trigger('change');
-                                                })
-                                            });
-                                        });
-                                    </script>
-                                </div>
-
-
-                                <div class="col-sm-6">
-                                    <div class='form-group'>
-                                        <div class="mb-7 fv-plugins-icon-container">
-                                            <label class="fw-semibold fs-6 mb-2" id="basic-addon-createdTime">Ngày tạo</label>
-                                            <div class='form-control date datetimepicker  input-createdTime' id='dish-createdTimeDiv' style='padding:0px;'>
-                                                <input type='text' autocomplete="off" id="dish-createdTime" required class="form-control datepicker" aria-label="createdTime" aria-describedby="basic-addon-createdTime" />
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
+            <div class="tab-content" id="managementTabsContent">
+                <!-- Dishes Tab -->
+                <div class="tab-pane fade show active" id="dishes" role="tabpanel">
+                    <!-- Control Panel -->
+                    <div class="control-panel">
+                        <div class="search-section">
+                            <div class="search-input">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="form-control" id="dishSearchInput" placeholder="Tìm kiếm món ăn...">
                             </div>
-                        </form>
+                            <div class="action-buttons">
+                                <button class="btn btn-modern btn-secondary-modern" id="dishFilterBtn">
+                                    <i class="fas fa-filter"></i>
+                                    Bộ lọc
+                                </button>
+                                <button class="btn btn-modern btn-primary-modern" onclick="editDish(0)">
+                                    <i class="fas fa-plus"></i>
+                                    Thêm món mới
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-bs-dismiss="modal">
-                            Đóng
-                        </button>
-                        <button type="button" class="btn btn-primary" id="btnUpdateItem">
-                            <span class="indicator-label">
-                                Cập nhật
-                            </span>
-                            <span class="indicator-progress">
-                                Đang tải... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                        </button>
+
+                    <!-- Category Filter -->
+                    <div class="category-filter">
+                        <h6 class="mb-3"><i class="fas fa-tags me-2"></i>Lọc theo nhóm món</h6>
+                        <div class="category-chips" id="categoryChips">
+                            <div class="category-chip active" data-category-id="">
+                                <i class="fas fa-th-large"></i>
+                                Tất cả
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dishes Table -->
+                    <div class="data-table-container">
+                        <table id="dishesTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Món ăn</th>
+                                    <th>Nhóm món</th>
+                                    <th>Giá</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Categories Tab -->
+                <div class="tab-pane fade" id="categories" role="tabpanel">
+                    <!-- Control Panel -->
+                    <div class="control-panel">
+                        <div class="search-section">
+                            <div class="search-input">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="form-control" id="categorySearchInput" placeholder="Tìm kiếm nhóm món...">
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-modern btn-secondary-modern" id="categoryFilterBtn">
+                                    <i class="fas fa-filter"></i>
+                                    Bộ lọc
+                                </button>
+                                <button class="btn btn-modern btn-primary-modern" onclick="editCategory(0)">
+                                    <i class="fas fa-plus"></i>
+                                    Thêm nhóm mới
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categories Table -->
+                    <div class="data-table-container">
+                        <table id="categoriesTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã nhóm món</th>
+                                    <th>Tên nhóm món</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        <!--end::Col-->
     </div>
 </div>
-<!--end::Content container-->
-</div>
-<!--begin:Base load data-->
-<script>
-    // let regexFullName = /^[a-zA-Z0-9À-Ỹà-ỹ\s']+$/;
-    // let regexPrice = /^[0-9]+$/;
-    function enableBtnSubmit() {
-        submitButton.removeAttribute('data-kt-indicator');
-        submitButton.disabled = false;
-    }
-    // function validateInput(id) {
-    //     var updatingItemId = id;
-    //     var errorList = [];
-    //     if ($("#dish-dishCode").val() == '') {
-    //         errorList.push('Mã món không được để trống.');
-    //     }
+    <!-- Dish Modal -->
+    <div class="modal fade" id="dishModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-utensils"></i>
+                        <span id="dishModalTitle">Thêm món ăn mới</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="dishForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-4">
+                                    <label class="form-label">Ảnh món ăn</label>
+                                    <div class="image-upload-area" onclick="document.getElementById('dishImageInput').click()">
+                                        <img id="dishImagePreview" src="/images/default/NoImage.png" class="image-preview" alt="Preview">
+                                        <p class="mt-3 mb-0"><i class="fas fa-cloud-upload-alt me-2"></i>Nhấp để chọn ảnh</p>
+                                    </div>
+                                    <input type="file" id="dishImageInput" accept="image/*" style="display: none;">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="hidden" id="dishId">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label required">Mã món</label>
+                                        <input type="text" class="form-control" id="dishCode" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label required">Tên món</label>
+                                        <input type="text" class="form-control" id="dishName">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label required">Giá</label>
+                                        <input type="number" class="form-control" id="dishPrice" min="0">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label required">Nhóm món</label>
+                                        <select class="form-select" id="dishCategoryId">
+                                            <option value="">Chọn nhóm món</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-modern btn-secondary-modern" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                        Hủy
+                    </button>
+                    <button type="button" class="btn btn-modern btn-success-modern" id="saveDishBtn">
+                        <i class="fas fa-save"></i>
+                        Lưu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    //     if ($("#dish-dishName").val() == '') {
-    //         errorList.push('Tên món không được để trống.');
-    //     } else if (!$("#dish-dishName").val().match(regexFullName)) {
-    //         errorList.push('Tên món không được chứa kí tự đặc biệt.');
-    //     }
-    //     if ($("#dish-dishName").val().length > 255) {
-    //         errorList.push('Tên món có độ dài tối đa là 255 ký tự.');
-    //     }
-    //     if ($("#dish-price").val() == '') {
-    //         errorList.push('Giá món không được để trống.');
-    //     } else if (!$("#dish-price").val().match(regexPrice)) {
-    //         errorList.push('Giá món chỉ được chứa số.');
-    //     }
-    //     if ($("#dish-dishCategoryId").val() == '') {
-    //         errorList.push('Nhóm món không được để trống.');
-    //     }
-    //     if (errorList.length > 0) {
-    //         var contentError = '<ul>';
-    //         errorList.forEach(function (item, index) {
-    //             contentError += "<li class='text-start'>" + item + '</li>';
-    //         });
-    //         contentError += '</ul>';
-    //         var swalSubTitle =
-    //             "<p class='swal__admin__subtitle'>" +
-    //             (updatingItemId > 0 ? 'Cập nhật' : 'Thêm mới') +
-    //             ' không thành công</p>';
+    <!-- Category Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-list"></i>
+                        <span id="categoryModalTitle">Thêm nhóm món mới</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="categoryForm">
+                        <input type="hidden" id="categoryId">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label required">Mã nhóm món</label>
+                                <input type="text" class="form-control" id="categoryCode">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label required">Tên nhóm món</label>
+                                <input type="text" class="form-control" id="categoryName">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-modern btn-secondary-modern" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                        Hủy
+                    </button>
+                    <button type="button" class="btn btn-modern btn-success-modern" id="saveCategoryBtn">
+                        <i class="fas fa-save"></i>
+                        Lưu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    //         Swal.fire('Quản lý món ' + swalSubTitle, contentError, 'warning');
-    //         enableBtnSubmit();
-    //         return false;
-    //     } else {
-    //         return true;
-    //     }
-    // }
-    var showItem = ['id', 'dishCode', 'dishName', 'price', 'photo', 'dishCategoryId', 'dishCateogryName', 'createdTime'];
-    var dataSource = [];
-    var updatingItemId = 0;
-    var editObj;
-    var tableUpdating = 0;
-    var table;
-    const submitButton = document.getElementById('btnUpdateItem');
-    // Lấy URL hiện tại
-    const currentURL = window.location.href;
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner"></div>
+    </div>
 
-    // Tạo đối tượng URLSearchParams từ query string
-    const urlParams = new URLSearchParams(new URL(currentURL).search);
 
-    // Lấy giá trị của 'dishCategoryId'
-    const id = urlParams.get('id');
-    submitButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        submitButton.setAttribute('data-kt-indicator', 'on');
-        // Disable button to avoid multiple click
-        submitButton.disabled = true;
-        // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-        updateItem(updatingItemId);
-    });
-    $('#search-input').on("input", function () {
-        table.search($(this).val()).draw();
-    });
-    $(document).ready(function () {
-        // Load data
-        console.log(id);
-        if (id > 0) {
-            loadDishCategory(id);
-            loadData(id);
-        } else {
-            alert('Có lỗi xảy ra khi gửi dữ liệu!');
+    <script>
+        let dishesTable, categoriesTable;
+        let selectedCategoryId = '';
+        let dishCategories = [];
+
+        // Initialize the application
+        $(document).ready(function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            loadCategories();
+            initializeTables();
+            bindEvents();
+            loadStatistics();
+        }
+
+        function showLoading() {
+            $('#loadingOverlay').show();
+        }
+
+        function hideLoading() {
+            $('#loadingOverlay').hide();
+        }
+
+        // Load categories for filters and dropdowns
+        async function loadCategories() {
+            try {
+                const response = await $.ajax({
+                    url: systemURL + 'dishcategory/api/list',
+                    type: 'GET',
+                    contentType: 'application/json'
+                });
+
+                if (response.status == 200) {
+                    dishCategories = response.data;
+                    populateCategoryChips();
+                    populateCategoryDropdown();
+                }
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                Swal.fire('Lỗi', 'Không thể tải danh sách nhóm món', 'error');
+            }
+        }
+
+        function populateCategoryChips() {
+            const container = $('#categoryChips');
+
+            // Xoá tất cả chip trừ "Tất cả" (có data-category-id="")
+            container.find('[data-category-id]:not([data-category-id=""])').remove();
+
+            // Thêm lại các chip
+            dishCategories.forEach(category => {
+                const chip = $(`
+                    <div class="category-chip" data-category-id="${category.id}">
+                        <i class="fas fa-tag"></i>
+                        ${category.dishCateogryName}
+                    </div>
+                `);
+                container.append(chip);
+            });
         }
 
 
+        function populateCategoryDropdown() {
+            const dropdown = $('#dishCategoryId');
+            dropdown.empty().append('<option value="">Chọn nhóm món</option>');
 
-        // Datetime picker
-        document.querySelectorAll(".datepicker").forEach(function (item) {
-            new tempusDominus.TempusDominus(item, datePickerOption);
-        })
-        $(".datepicker").on('dp.change', function (e) {
-            // console.log(this.value);
-            this.value = moment(this.value).format("YYYY-MM-DD HH:mm:ss");
-            // console.log(this.value);
-        });
-        //Flat pickr format
-        $("#filterCreatedTime_input").flatpickr({
-            dateFormat: "d/m/Y",
-            mode: "range",
-        });
-        $("#open-flatpickr").click(function () {
-            $("#filterCreatedTime_input").click();
-        });
-        $("#clear-flatpickr").click(function () {
-            $("#filterCreatedTime_input").val("");
-        });
+            dishCategories.forEach(category => {
+                dropdown.append(`<option value="${category.id}">${category.dishCateogryName}</option>`);
+            });
+        }
 
-        $('.dataSelect').select2();
+        // Initialize DataTables
+        function initializeTables() {
+            // Dishes Table
+            dishesTable = $('#dishesTable').DataTable({
+                processing: true,
+                serverSide: true,
+                paging: true,
+                searching: { regex: true },
+                order: [[1, 'desc']],
+                language: {
+                    url: '/js/Vietnamese.json'
+                },
+                ajax: {
+                    url: systemURL + "dish/api/list-server-side",
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: function(d) {
+                        d.searchAll = $("#dishSearchInput").val();
+                        if (selectedCategoryId) {
+                            d.dishCategoryId = selectedCategoryId;
+                        }
+                        return JSON.stringify(d);
+                    }
+                },
+                columns: [
+                    {
+                        data: 'id',
+                        render: function(data, type, row, meta) {
+                            const info = dishesTable.page.info();
+                            return meta.row + 1 + info.page * info.length;
+                        }
+                    },
+                    {
+                        data: 'dishName',
+                        render: function(data, type, row) {
+                            const imageUrl = row.photo ? `${systemURL}${row.photo}` : '/images/default/NoImage.png';
+                            return `
+                                <div class="dish-info">
+                                    <img src="${imageUrl}" alt="${data}" class="dish-image">
+                                    <div class="dish-details">
+                                        <h6>${data}</h6>
+                                        <p class="dish-code">${row.dishCode}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'dishCateogryName',
+                        render: function(data) {
+                            return `<span class="category-badge">${data}</span>`;
+                        }
+                    },
+                    {
+                        data: 'price',
+                        render: function(data) {
+                            return `<span class="price-badge">${parseInt(data).toLocaleString('vi-VN')} ₫</span>`;
+                        }
+                    },
+                    {
+                        data: 'createdTime',
+                        render: function(data) {
+                            return moment(data).format('DD/MM/YYYY HH:mm');
+                        }
+                    },
+                    {
+                        data: 'id',
+                        render: function(data, type, row) {
+                            return `
+                                <div class="action-buttons-table">
+                                    <button class="btn-action btn-edit" onclick="editDish(${data})" title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action btn-delete" onclick="deleteDish(${data})" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
+                ],
+                columnDefs: [
+                    { orderable: false, targets: [-1, 0] }
+                ],
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
 
+            // Categories Table
+            categoriesTable = $('#categoriesTable').DataTable({
+                processing: true,
+                serverSide: true,
+                paging: true,
+                searching: { regex: true },
+                order: [[1, 'desc']],
+                language: {
+                    url: '/js/Vietnamese.json'
+                },
+                ajax: {
+                    url: systemURL + "dishCategory/api/list-server-side",
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: function(d) {
+                        d.searchAll = $("#categorySearchInput").val();
+                        return JSON.stringify(d);
+                    }
+                },
+                columns: [
+                    {
+                        data: 'id',
+                        render: function(data, type, row, meta) {
+                            const info = categoriesTable.page.info();
+                            return meta.row + 1 + info.page * info.length;
+                        }
+                    },
+                    {
+                        data: 'dishCategoryCode',
+                        render: function(data) {
+                            return `<span style="font-weight: bold; color: var(--primary-color);">${data}</span>`;
+                        }
+                    },
+                    {
+                        data: 'dishCateogryName'
+                    },
+                    {
+                        data: 'createdTime',
+                        render: function(data) {
+                            return moment(data).format('DD/MM/YYYY HH:mm');
+                        }
+                    },
+                    {
+                        data: 'id',
+                        render: function(data, type, row) {
+                            return `
+                                <div class="action-buttons-table">
+                                    <button class="btn-action btn-edit" onclick="editCategory(${data})" title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action btn-delete" onclick="deleteCategory(${data})" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="btn-action btn-view" onclick="viewCategoryDishes(${data})" title="Xem món ăn">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
+                ],
+                columnDefs: [
+                    { orderable: false, targets: [-1, 0] }
+                ],
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
 
-        $("#btnTableSearch").click(function () {
-            tableSearch();
-        });
+        // Bind events
+        function bindEvents() {
+            // Search inputs
+            $('#dishSearchInput').on('input', function() {
+                dishesTable.search($(this).val()).draw();
+            });
 
-        $("#tableData thead:nth-child(2) tr th input").keypress(function (e) {
-            let key = e.which;
-            if (key == 13) {
-                $("#btnTableSearch").click();
-            }
-        });
-        $("#btnTableResetSearch").click(function () {
-            $(".tableheaderFillter").val("").trigger("change");
-            tableSearch();
-        });
-    });
-    function loadData(id) {
-        initTable(id);
-    }
-    function initTable(id) {
-        table = $('#tableData').DataTable({
-            processing: true,
-            serverSide: true,
-            paging: true,
-            searching: { regex: true },
-            order: [1, 'desc'],
-            "oLanguage": {
-                "sUrl": "/js/Vietnamese.json"
-            },
-            ajax: {
-                url: systemURL + "dish/api/list-server-side/" + id,
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                data: function (d) {
-                    d.searchAll = $("#search-input").val();
+            $('#categorySearchInput').on('input', function() {
+                categoriesTable.search($(this).val()).draw();
+            });
 
-                    return JSON.stringify(d);
+            // Category filter chips
+            $(document).on('click', '.category-chip', function() {
+                $('.category-chip').removeClass('active');
+                $(this).addClass('active');
+                selectedCategoryId = $(this).data('category-id');
+                dishesTable.ajax.reload();
+            });
+
+            // Image upload
+            $('#dishImageInput').on('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#dishImagePreview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
                 }
-            },
-            columns: [
-                {
-                    data: 'id',
-                    render: function (data, type, row, meta) {
-                        var info = table.page.info();
-                        var stt = meta.row + 1 + info.page * info.length;
-                        return stt; // This contains the row index
-                    }
-                },
-                {
-                    data: 'dishCode',
-                    render: function (data, type, row, meta) {
-                        return ` <div style='display: flex; flex-direction: row; gap: 10px; align-content: center'>
-                                                                 <div>
-                                                                     <img class='accountPhoto' height='32' width='32' src='${row.photo != null && row.photo != '' ? row.photo : '/images/default/NoImage.png'}' alt='Dish'>
-                                                                 </div>
-                                                                 <div style= 'display: flex; flex-direction:column; gap: 4px;width: 100%;'>
-                                                                             <span style='line-height: 14.7px; font-weight: bold; color: #044688;' class='fs-14' id='row1001-column-id'>${row.dishCode}</span>
+            });
 
-                                                                 </div>
-                                                             </div>`
-                    }
-                },
-                {
-                    data: "dishName",
-                    render: function (data, type, row, meta) {
-                        return "<span id='row" + row.id + "-column-id'>" + data + '<span>';
-                    }
-                },
-                // {
-                //     data: "dishCateogryName",
-                //     render: function (data, type, row, meta) {
-                //         return "<span id='row" + row.id + "-column-id'>" + data + '<span>';
-                //     }
-                // },
-                {
-                    data: "price",
-                    render: function (data, type, row, meta) {
-                        return "<span id='row" + row.id + "-column-id'>" + data + '<span>';
-                    }
-                },
+            // Auto-generate dish code
+            $('#dishName').on('input', function() {
+                const dishName = $(this).val();
+                const dishCode = generateDishCode(dishName);
+                $('#dishCode').val(dishCode);
+            });
 
-                {
-                    data: "createdTime",
-                    render: function (data) {
-                        var tempDate = new Date(data);
-                        var displayValue = moment(data).format("DD/MM/YYYY HH:mm:ss");
-                        return displayValue;
-                    }
-                },
+            // Save buttons
+            $('#saveDishBtn').on('click', saveDish);
+            $('#saveCategoryBtn').on('click', saveCategory);
 
-                // {
-                //     data: 'id',
-                //     render: function (data, type, row, meta) {
-                //         return "<div class='d-flex justify-content-center gap-2'>"
-                //             + "<a title='Cập nhật' onclick='editItem(" + row.id + ")' class='me-2 btn_manage'><span class='svg-icon-success svg-icon  svg-icon-1 svg_teh009'><span class='svg-icon-primary svg-icon  svg-icon-1'> <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path opacity='0.3' fill-rule='evenodd' clip-rule='evenodd' d='M2 4.63158C2 3.1782 3.1782 2 4.63158 2H13.47C14.0155 2 14.278 2.66919 13.8778 3.04006L12.4556 4.35821C11.9009 4.87228 11.1726 5.15789 10.4163 5.15789H7.1579C6.05333 5.15789 5.15789 6.05333 5.15789 7.1579V16.8421C5.15789 17.9467 6.05333 18.8421 7.1579 18.8421H16.8421C17.9467 18.8421 18.8421 17.9467 18.8421 16.8421V13.7518C18.8421 12.927 19.1817 12.1387 19.7809 11.572L20.9878 10.4308C21.3703 10.0691 22 10.3403 22 10.8668V19.3684C22 20.8218 20.8218 22 19.3684 22H4.63158C3.1782 22 2 20.8218 2 19.3684V4.63158Z' fill='currentColor'></path><path d='M10.9256 11.1882C10.5351 10.7977 10.5351 10.1645 10.9256 9.77397L18.0669 2.6327C18.8479 1.85165 20.1143 1.85165 20.8953 2.6327L21.3665 3.10391C22.1476 3.88496 22.1476 5.15129 21.3665 5.93234L14.2252 13.0736C13.8347 13.4641 13.2016 13.4641 12.811 13.0736L10.9256 11.1882Z' fill='currentColor'></path><path d='M8.82343 12.0064L8.08852 14.3348C7.8655 15.0414 8.46151 15.7366 9.19388 15.6242L11.8974 15.2092C12.4642 15.1222 12.6916 14.4278 12.2861 14.0223L9.98595 11.7221C9.61452 11.3507 8.98154 11.5055 8.82343 12.0064Z' fill='currentColor'></path></svg></span></span></a>"
-                //             + "<a title='Cập nhật' onclick='deleteItem(" + row.id + ")' class='me-2 btn_manage'><span class='svg-icon-success svg-icon  svg-icon-1 svg_teh009'><span class='svg-icon-danger svg-icon  svg-icon-1'><svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z' fill='currentColor'></path><path opacity='0.5' d='M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z' fill='currentColor'></path><path opacity='0.5' d='M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z' fill='currentColor'></path></svg></span></a>"
-                //     }
-                // },
+            // Tab change event
+            $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
+                if (e.target.id == 'categories-tab') {
+                    categoriesTable.columns.adjust().draw();
+                } else {
+                    dishesTable.columns.adjust().draw();
+                }
+            });
+        }
 
-            ],
-            columnDefs: [
-                { targets: "no-sort", orderable: false },
-                { targets: "no-search", searchable: false },
-                { orderable: false, targets: [-1, 0] },
-            ],
-            aLengthMenu: [
-                [10, 25, 50, 100],
-                [10, 25, 50, 100]
-            ],
-            drawCallback: function () {
-                $('#tableData tfoot').html("");
-                $("#tableData thead:nth-child(1) tr").clone(true).appendTo("#tableData tfoot");
-                $('#tableData tfoot tr').addClass("border-top");
+        // Load statistics
+        async function loadStatistics() {
+            try {
+
+				const dishStatistics = await $.ajax({
+                    url: systemURL + 'dish/api/getDishStatistics',
+					type: 'GET'
+				});
+
+                if(dishStatistics.status == 200) {
+					var dataStatics = dishStatistics.data[0];
+                    $('#totalCategories').text(dataStatics.totalDishCate);
+                    $('#avgPrice').text(parseInt(dataStatics.avgDishPrice).toLocaleString('vi-VN') + ' ₫');
+                    $('#totalDishes').text(dataStatics.totalDish);
+                }
+
+            } catch (error) {
+                console.error('Error loading statistics:', error);
             }
-        });
-    }
-    // async function editItem(id) {
-    //     updatingItemId = id;
-    //     $("#modal-id").modal('show');
-    //     if (id > 0) {
-    //         editObj = await getItemById(id);
-    //     }
-    //     $("#dish-id").val(id > 0 ? editObj.id : "0");
-    //     $("#dish-dishCode").val(id > 0 ? editObj.dishCode : "");
-    //     $("#dish-dishName").val(id > 0 ? editObj.dishName : "");
-    //     $("#dish-price").val(id > 0 ? editObj.price : "");
-    //     $("#dish-photo").val(id > 0 ? editObj.photo : "");
-    //     // $("#dish-active").val(id > 0 ? editObj.active : "");
-    //     $("#dish-dishCategoryId").val(id > 0 ? editObj.dishCategoryId : "").trigger("change");
-    //     $("#dish-createdTime").val(id > 0 ? moment(editObj.createdTime).format("DD/MM/YYYY HH:mm:ss") : moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
+        }
 
-    //     formatNumber();
-    //     if (id == 0) {
-    //         generateNewDishCode();
-    //     }
-    // }
-    // async function updateItem(id) {
-    //     if (!validateInput($("#dish-id").val())) return;
-    //     var actionName = (id == 0 ? "Bạn muốn tạo mới" : "Cập nhật");
-    //     var obj;
-    //     if (id > 0) {
-    //         obj = await getItemById(id);
-    //     }
-    //     let objName = id > 0 ? obj.dishName : $("#dish-dishName").val();
-    //     validateInputNumber();
-    //     var updatingObj = {
-    //         "id": $("#dish-id").val(),
-    //         "dishCode": $("#dish-dishCode").val(),
-    //         "dishName": $("#dish-dishName").val(),
-    //         "price": $("#dish-price").val(),
-    //         "photo": $("#dish-photo").val(),
-    //         "active": true,
-    //         "dishCategoryId": $("#dish-dishCategoryId").val(),
-    //         "createdTime": formatDatetimeUpdate($("#dish-createdTime").val()),
+        // Dish management functions
+        async function editDish(id) {
+            $('#dishModal').modal('show');
+        console.log(id);
+            if (id > 0) {
+                $('#dishModalTitle').text('Cập nhật món ăn');
+                try {
+                    const response = await $.ajax({
+                        url: systemURL + `dish/api/detail/${id}`,
+                        type: 'GET'
+                    });
 
-    //     };
-    //     Swal.fire({
-    //         title: 'Xác nhận thay đổi?',
-    //         text: "" + actionName + " " + objName + "",
-    //         icon: 'info',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#443',
-    //         confirmButtonText: 'Xác nhận',
-    //         cancelButtonText: 'Huỷ'
-    //     }).then((result) => {
-    //         if (result.value) {
-    //             $("#modal-id").modal('hide');
-    //             //CALL AJAX TO UPDATE
-    //             if (id > 0) {
-    //                 $.ajax({
-    //                     url: systemURL + "dish/api/update",
-    //                     type: "POST",
-    //                     contentType: "application/json",
-    //                     data: JSON.stringify(updatingObj),
-    //                     success: function (responseData) {
-    //                         // debugger;
-    //                         if (responseData.status == 200 && responseData.message === "SUCCESS") {
-    //                             Swal.fire(
-    //                                 'Thành Công!',
-    //                                 'Đã cập nhật "' + objName + '" ',
-    //                                 'success'
-    //                             );
-    //                             reGenTable();
-    //                             // Remove loading indication
-    //                             submitButton.removeAttribute('data-kt-indicator');
-    //                             // Enable button
-    //                             submitButton.disabled = false;
-    //                         }
-    //                     },
-    //                     error: function (e) {
-    //                         //console.log(e.message);
-    //                         Swal.fire(
-    //                             'Lỗi!',
-    //                             'Đã xảy ra lỗi, vui lòng thử lại',
-    //                             'error'
-    //                         );
-    //                         // Remove loading indication
-    //                         submitButton.removeAttribute('data-kt-indicator');
-    //                         // Enable button
-    //                         submitButton.disabled = false;
-    //                     }
-    //                 });
-    //             };
-    //             //CALL AJAX TO CREATE
-    //             if (id == 0) {
-    //                 updatingObj.id = 1;
-    //                 delete updatingObj["id"]
-    //                 updatingObj.active = true;
-    //                 updatingObj.createdTime = new Date();
-    //                 console.log(updatingObj);
-    //                 $.ajax({
-    //                     url: systemURL + "dish/api/add",
-    //                     type: "POST",
-    //                     contentType: "application/json",
-    //                     data: JSON.stringify(updatingObj),
-    //                     success: function (responseData) {
-    //                         // debugger;
-    //                         if (responseData.status == 201 && responseData.message === "CREATED") {
-    //                             Swal.fire(
-    //                                 'Thành công!',
-    //                                 'Đã cập nhật dữ liệu',
-    //                                 'success'
-    //                             );
-    //                             updatingObj = responseData.data;
-    //                             reGenTable();
-    //                             // Remove loading indication
-    //                             submitButton.removeAttribute('data-kt-indicator');
-    //                             // Enable button
-    //                             submitButton.disabled = false;
-    //                         }
-    //                     },
-    //                     error: function (e) {
-    //                         //console.log(e.message);
-    //                         Swal.fire(
-    //                             'Lỗi!',
-    //                             'Đã xảy ra lỗi, vui lòng thử lại',
-    //                             'error'
-    //                         );
-    //                         // Remove loading indication
-    //                         submitButton.removeAttribute('data-kt-indicator');
-    //                         // Enable button
-    //                         submitButton.disabled = false;
-    //                     }
-    //                 });
-    //             }
-    //         }
-    //         else {
-    //             // Remove loading indication
-    //             submitButton.removeAttribute('data-kt-indicator');
-    //             // Enable button
-    //             submitButton.disabled = false;
-    //         }
-    //     })
-    // }
-    // async function deleteItem(id) {
-    //     updatingObj = table.ajax.json().data.find(c => c.id == id);
-    //     let objName = id > 0 ? updatingObj.dishName : $("#dish-dishName").val();
-    //     Swal.fire({
-    //         title: 'Xác nhận thay đổi?',
-    //         text: "Xóa " + objName + "",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#d33',
-    //         cancelButtonColor: '#3085d6',
-    //         confirmButtonText: 'Xoá',
-    //         cancelButtonText: 'Huỷ'
-    //     }).then((result) => {
-    //         if (result.value) {
-    //             //CALL AJAX TO DELETE
-    //             $.ajax({
-    //                 url: systemURL + "dish/api/delete",
-    //                 type: "POST",
-    //                 contentType: "application/json",
-    //                 data: JSON.stringify({ "id": id }),
-    //                 success: function (responseData) {
-    //                     // debugger;
-    //                     if (responseData.status == 200 && responseData.message === "SUCCESS") {
-    //                         Swal.fire(
-    //                             'Thành công!',
-    //                             'Đã xoá ' + updatingObj.name + '.',
-    //                             'success'
-    //                         );
-    //                         reGenTable();
-    //                     }
-    //                 },
-    //                 error: function (e) {
-    //                     //console.log(e.message);
-    //                     Swal.fire(
-    //                         'Lỗi!',
-    //                         'Đã xảy ra lỗi, vui lòng thử lại',
-    //                         'error'
-    //                     );
-    //                 }
-    //             });
+                    if (response.status == 200) {
+                        const dish = response.data[0];
+                        $('#dishId').val(dish.id);
+                        $('#dishCode').val(dish.dishCode);
+                        $('#dishName').val(dish.dishName);
+                        $('#dishPrice').val(dish.price);
+                        $('#dishCategoryId').val(dish.dishCategoryId);
 
-    //         }
-    //         else {
-    //             // Remove loading indication
-    //             submitButton.removeAttribute('data-kt-indicator');
-    //             // Enable button
-    //             submitButton.disabled = false;
-    //         }
-    //     })
-    // }
-    // async function getItemById(id) {
-    //     var data;
-    //     await $.ajax({
-    //         url: systemURL + "dish/api/detail/" + id,
-    //         method: "GET",
-    //         success: function (responseData) {
-    //             data = responseData.data[0];
-    //         },
-    //         error: function (e) {
-    //         },
-    //     });
-    //     return data;
-    // }
+                        if (dish.photo) {
+                            $('#dishImagePreview').attr('src', `${systemURL}${dish.photo}`);
+                        }
+                    }
+                } catch (error) {
+                    Swal.fire('Lỗi', 'Không thể tải thông tin món ăn', 'error');
+                }
+            } else {
+                $('#dishModalTitle').text('Thêm món ăn mới');
+                $('#dishForm')[0].reset();
+                $('#dishId').val('0');
+                $('#dishImagePreview').attr('src', '/images/default/NoImage.png');
+            }
+        }
 
-    function loadDishCategory(id) {
-        $.ajax({
+        async function saveDish() {
+            if (!validateDishForm()) return;
+
+            const formData = new FormData();
+            const dishId = $('#dishId').val();
+
+            formData.append('id', dishId);
+            formData.append('dishCode', $('#dishCode').val());
+            formData.append('dishName', $('#dishName').val());
+            formData.append('price', $('#dishPrice').val());
+            formData.append('dishCategoryId', $('#dishCategoryId').val());
+            formData.append('active', true);
+            formData.append('createdTime', new Date().toISOString());
+
+            const imageFile = $('#dishImageInput')[0].files[0];
+            if (imageFile) {
+                formData.append('Image', imageFile);
+            }
+
+            const actionText = dishId == '0' ? 'thêm mới' : 'cập nhật';
+
+            try {
+                const result = await Swal.fire({
+                    title: 'Xác nhận',
+                    text: `Bạn có muốn ${actionText} món ăn này?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                });
+
+                if (result.isConfirmed) {
+                    showLoading();
+
+                    const response = await $.ajax({
+                        url: systemURL + 'dish/api/addOrUpdate',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    });
+
+                    if (response.status == 200) {
+                    hideLoading();
+                        await Swal.fire('Thành công', `Đã ${actionText} món ăn thành công`, 'success');
+                        $('#dishModal').modal('hide');
+                        dishesTable.ajax.reload();
+                        loadStatistics();
+                    }
+                }
+            } catch (error) {
+                Swal.fire('Lỗi', 'Có lỗi xảy ra khi lưu món ăn', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function deleteDish(id) {
+            try {
+                const result = await Swal.fire({
+                    title: 'Xác nhận xóa',
+                    text: 'Bạn có chắc chắn muốn xóa món ăn này?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy',
+                    confirmButtonColor: '#ef4444'
+                });
+
+                if (result.isConfirmed) {
+                    showLoading();
+                var obj = await getDishById(id);
+                
+                    const response = await $.ajax({
+                        url: systemURL + 'dish/api/delete',
+                        type: 'POST',
+                        contentType: 'application/json',
+                    data: JSON.stringify(obj)
+                    });
+
+                    if (response.status == 200) {
+                    hideLoading();
+                        await Swal.fire('Thành công', 'Đã xóa món ăn thành công', 'success');
+                        dishesTable.ajax.reload();
+                        loadStatistics();
+                    }
+                }
+            } catch (error) {
+                Swal.fire('Lỗi', 'Có lỗi xảy ra khi xóa món ăn', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Category management functions
+        async function editCategory(id) {
+            $('#categoryModal').modal('show');
+
+            if (id > 0) {
+                $('#categoryModalTitle').text('Cập nhật nhóm món');
+                try {
+                    const response = await $.ajax({
+                        url: systemURL + `dishCategory/api/detail/${id}`,
+                        type: 'GET'
+                    });
+
+                    if (response.status == 200) {
+                    hideLoading();
+                        const category = response.data[0];
+                        $('#categoryId').val(category.id);
+                        $('#categoryCode').val(category.dishCategoryCode);
+                        $('#categoryName').val(category.dishCateogryName);
+                    }
+                } catch (error) {
+                    Swal.fire('Lỗi', 'Không thể tải thông tin nhóm món', 'error');
+                }
+            } else {
+                $('#categoryModalTitle').text('Thêm nhóm món mới');
+                $('#categoryForm')[0].reset();
+                $('#categoryId').val('0');
+                generateNewCategoryCode();
+            }
+        }
+
+        async function saveCategory() {
+            if (!validateCategoryForm()) return;
+
+            const categoryId = $('#categoryId').val();
+            const categoryData = {
+                id: categoryId,
+                dishCategoryCode: $('#categoryCode').val(),
+                dishCateogryName: $('#categoryName').val(),
+                active: true,
+                createdTime: new Date().toISOString()
+            };
+
+            const actionText = categoryId == '0' ? 'thêm mới' : 'cập nhật';
+            const apiUrl = categoryId == '0' ? 'dishCategory/api/add' : 'dishCategory/api/update';
+
+            try {
+                const result = await Swal.fire({
+                    title: 'Xác nhận',
+                    text: `Bạn có muốn ${actionText} nhóm món này?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                });
+
+                if (result.isConfirmed) {
+                    showLoading();
+
+                    if (categoryId == '0') {
+                        delete categoryData.id;
+                    }
+
+                    const response = await $.ajax({
+                        url: systemURL + apiUrl,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(categoryData)
+                    });
+
+                    if ((response.status == 200 && categoryId !== '0') || (response.status == 201 && categoryId == '0')) {
+                    hideLoading();
+                        await Swal.fire('Thành công', `Đã ${actionText} nhóm món thành công`, 'success');
+                        $('#categoryModal').modal('hide');
+                        categoriesTable.ajax.reload();
+                        loadCategories(); // Reload categories for filters
+                        loadStatistics();
+                    }
+                }
+            } catch (error) {
+                Swal.fire('Lỗi', 'Có lỗi xảy ra khi lưu nhóm món', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function deleteCategory(id) {
+            try {
+                const result = await Swal.fire({
+                    title: 'Xác nhận xóa',
+                    text: 'Bạn có chắc chắn muốn xóa nhóm món này?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy',
+                    confirmButtonColor: '#ef4444'
+                });
+
+                if (result.isConfirmed) {
+                    showLoading();
+                    var item = await getDishCateById(id);
+                    const response = await $.ajax({
+                        url: systemURL + 'dishCategory/api/delete',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(item)
+                    });
+
+                    if (response.status == 200) {
+                    hideLoading();
+                        await Swal.fire('Thành công', 'Đã xóa nhóm món thành công', 'success');
+                        categoriesTable.ajax.reload();
+                        loadCategories(); // Reload categories for filters
+                        loadStatistics();
+                    }
+                }
+            } catch (error) {
+                Swal.fire('Lỗi', 'Có lỗi xảy ra khi xóa nhóm món', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function viewCategoryDishes(categoryId) {
+            // Switch to dishes tab and filter by category
+            $('#dishes-tab').tab('show');
+            selectedCategoryId = categoryId;
+            $('.category-chip').removeClass('active');
+            $(`.category-chip[data-category-id="${categoryId}"]`).addClass('active');
+            dishesTable.ajax.reload();
+        }
+
+        // Utility functions
+        function generateDishCode(str) {
+            return str
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-zA-Z0-9]/g, "")
+                .toLowerCase();
+        }
+
+        function generateNewCategoryCode() {
+            let highestCodeNumber = 0;
+
+            // Get existing codes from the table
+            categoriesTable.data().each(function(row) {
+                const code = row.dishCategoryCode;
+                if (code.startsWith("NM")) {
+                    const codeNumber = parseInt(code.substring(2), 10);
+                    highestCodeNumber = Math.max(highestCodeNumber, codeNumber);
+                }
+            });
+
+            $('#categoryCode').val("NM" + (highestCodeNumber + 1).toString().padStart(6, "0"));
+        }
+
+        function validateDishForm() {
+            const errors = [];
+
+            if (!$('#dishCode').val().trim()) {
+                errors.push('Mã món không được để trống');
+            }
+
+            if (!$('#dishName').val().trim()) {
+                errors.push('Tên món không được để trống');
+            }
+
+            if (!$('#dishPrice').val() || $('#dishPrice').val() <= 0) {
+                errors.push('Giá món phải lớn hơn 0');
+            }
+
+            if (!$('#dishCategoryId').val()) {
+                errors.push('Vui lòng chọn nhóm món');
+            }
+
+            if (errors.length > 0) {
+                Swal.fire('Lỗi nhập liệu', errors.join('<br>'), 'warning');
+                return false;
+            }
+
+            return true;
+        }
+
+        function validateCategoryForm() {
+            const errors = [];
+
+            if (!$('#categoryCode').val().trim()) {
+                errors.push('Mã nhóm món không được để trống');
+            }
+
+            if (!$('#categoryName').val().trim()) {
+                errors.push('Tên nhóm món không được để trống');
+            }
+
+            if (errors.length > 0) {
+                Swal.fire('Lỗi nhập liệu', errors.join('<br>'), 'warning');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Format datetime for API
+        function formatDatetimeUpdate(dateString) {
+            return moment(dateString, "DD/MM/YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss");
+        }
+
+        // Format number inputs
+        function formatNumber() {
+            // Add any number formatting logic here
+        }
+
+        function validateInputNumber() {
+            // Add any number validation logic here
+        }
+
+        async function getDishById(id) {
+            var data;
+            await $.ajax({
+                url: systemURL + "dish/api/detail/" + id,
+                method: "GET",
+                success: function (responseData) {
+                    data = responseData.data[0];
+                },
+                error: function (e) {
+                },
+            });
+            return data;
+        }
+
+     async function getDishCateById(id) {
+        var data;
+        await $.ajax({
             url: systemURL + "dishCategory/api/detail/" + id,
             method: "GET",
             success: function (responseData) {
                 data = responseData.data[0];
-                // Điền thông tin vào các trường
-                $("#dishCategory-id").val(data.id);
-                $("#dishCategory-dishCategoryCode").val(data.dishCategoryCode);
-                $("#dishCategory-dishCateogryName").val(data.dishCateogryName);
-                // $("#dishCategory-active").val(id > 0 ? editObj.active : "");
-                $("#dishCategory-createdTime").val(moment(data.createdTime).format("DD/MM/YYYY HH:mm:ss")); // Format datetime-local
             },
-            error: function (xhr) {
-                console.error("Error loading DishCategoryr:", xhr.responseText);
-                alert("Không thể tải thông tin nhóm món.");
-            }
+            error: function (e) {
+            },
         });
+        return data;
     }
+    </script>
 
-    function reGenTable() {
-        tableUpdating = 0;
-        table.destroy();
-        $(".tableHeaderFilter").val(null).trigger("change");
-        $("#tableData tbody").html('');
-        loadData(id);
-    }
-    // function generateNewDishCode() {
-    //     let highestCodeNumber = 0;
-    //     $("#tableData tbody tr").each(function () {
-    //         const codeText = $(this).find("td:nth-child(2)").text().trim();
-    //         if (codeText.startsWith("M")) {
-    //             const codeNumber = parseInt(codeText.substring(1), 10);
-    //             highestCodeNumber = Math.max(highestCodeNumber, codeNumber);
-    //         }
-    //     });
-    //     $("#dish-dishCode").val("M" + (highestCodeNumber + 1).toString().padStart(6, "0"));
-    //     // $("#dish-dishCategoryId").val(dishCategoryId > 0 ? dishCategoryId : "").trigger("change");
-    // }
-</script>
-<!--end:Base load data-->
-<!--begin:setting in data table-->
-<script>
-    function tableSearch() {
-        table.column(1).search($('#tableData thead:nth-child(2) tr th:nth-child(2) input').val());
-        table.column(2).search($('#tableData thead:nth-child(2) tr th:nth-child(3) input').val());
-        table.column(3).search($('#tableData thead:nth-child(2) tr th:nth-child(4) input').val());
-        table.column(4).search($('#tableData thead:nth-child(2) tr th:nth-child(5) input').val());
-        table.draw();
-    }
-</script>
-<!--end:setting in data table-->

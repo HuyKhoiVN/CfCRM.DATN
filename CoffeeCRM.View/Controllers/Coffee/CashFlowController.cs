@@ -1,16 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CfCRM.Controllers.Core;
-using CfCRM.View.Models.ViewModels;
+
 namespace CfCRM.View.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class DishController : BaseController
+    public class CashFlowController : BaseController
     {
 
         [HttpGet]
@@ -19,11 +18,6 @@ namespace CfCRM.View.Controllers
         {
             return View();
         }
-        [HttpGet]
-        [Route("admin/dish-list")]
-        public async Task<IActionResult> DishList()
-        {
-            return View();
-        }
+
     }
 }

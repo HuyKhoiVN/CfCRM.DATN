@@ -71,6 +71,25 @@ namespace CfCRM.DATN.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/getDishStatistics")]
+        public async Task<IActionResult> GetDishStatistics()
+        {
+            try
+            {
+                var dataList = await service.GetDishStatisticsAsync();
+                if (dataList == null)
+                {
+                    return NotFound();
+                }
+                var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(dataList);
+                return Ok(coffeemanagementResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
 
         [HttpGet]
         [Route("api/ListPaging")]

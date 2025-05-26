@@ -1,16 +1,17 @@
 
         using CoffeeCRM.Data.Model;
         using CoffeeCRM.Core.Repository;
-         
-       using CoffeeCRM.Core.Util;using CoffeeCRM.Data;
+using CoffeeCRM.Core.Util;
+using CoffeeCRM.Data;
         using CoffeeCRM.Core.Util.Parameters;
         using CoffeeCRM.Data.ViewModels;
         using System;
         using System.Collections.Generic;
         using System.Threading.Tasks;
-        
-        namespace CoffeeCRM.Core.Service
-        {
+using CoffeeCRM.Data.DTO;
+
+namespace CoffeeCRM.Core.Service
+{
             public class CashFlowService : ICashFlowService
             {
                 ICashFlowRepository cashFlowRepository;
@@ -59,7 +60,7 @@
                     return await cashFlowRepository.ListPaging(pageIndex, pageSize);
                 }
         
-                public async Task<DTResult<CashFlow>> ListServerSide(CashFlowDTParameters parameters)
+                public async Task<DTResult<CashFlowBaseDto>> ListServerSide(CashFlowDTParameters parameters)
                 {
                     return await cashFlowRepository.ListServerSide(parameters);
                 }

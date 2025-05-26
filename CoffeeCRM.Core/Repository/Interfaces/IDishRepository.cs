@@ -37,5 +37,6 @@ namespace CoffeeCRM.Core.Repository
         Task<DTResult<DishViewModel>> ListServerSide(DishDTParameters parameters);
         Task<List<PopularDishModel>> GetTopPopularDishesAsync(int count, DateTime? startDate = null, DateTime? endDate = null);
         Task<DTResult<PopularDishModel>> ListPopularServerSide(DishDTParameters parameters);
+        Task<DishStaticDto> GetDishStatisticsAsync();
     }
 }
