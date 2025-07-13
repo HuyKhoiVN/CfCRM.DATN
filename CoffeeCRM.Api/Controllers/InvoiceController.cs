@@ -1,4 +1,4 @@
-
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,9 @@ using CoffeeCRM.Data.Constants;
 using CoffeeCRM.Core.Service;
 using CoffeeCRM.Core.Util.Parameters;
 using CoffeeCRM.Data.ViewModels;
+using CoffeeCRM.Core.Helper.VNPay;
+using CoffeeCRM.Data.Enums.VNPay;
+using CoffeeCRM.Data.VNPay;
 
 namespace CfCRM.DATN.Controllers
 {
@@ -21,9 +24,14 @@ namespace CfCRM.DATN.Controllers
     public class InvoiceController : ControllerBase
     {
         IInvoiceService service;
-        public InvoiceController(IInvoiceService _service)
+        IVNPayService _vnPayservice;
+        IConfiguration _configuration;
+        public InvoiceController(IInvoiceService _service, IVNPayService vnPayservice, IConfiguration configuration)
         {
             service = _service;
+            _vnPayservice = vnPayservice;
+            _configuration = configuration;
+            _vnPayservice.Initialize(_configuration["Vnpay:TmnCode"], _configuration["Vnpay:HashSecret"], _configuration["Vnpay:BaseUrl"], _configuration["Vnpay:CallbackUrl"]);
         }
 
         [HttpGet]
@@ -236,6 +244,25 @@ namespace CfCRM.DATN.Controllers
                     {
                         return BadRequest();
                     }
+                    if (model.PaymentMethod == PaymentMethodConst.CASH)
+                    {
+                        return Created("", CoffeeManagementResponse.SUCCESS(invoiceCreated));
+                    }
+                    var ipAddress = NetworkHelper.GetIpAddress(HttpContext); // Lấy địa chỉ IP của thiết bị thực hiện giao dịch
+                    var request = new PaymentRequest
+                    {
+                        PaymentId = DateTime.Now.Ticks,
+                        Money = (double)model.TotalMoney,
+                        Description = model.Id.ToString(),
+                        IpAddress = ipAddress,
+                        BankCode = BankCode.ANY, // Tùy chọn. Mặc định là tất cả phương thức giao dịch
+                        CreatedDate = DateTime.Now, // Tùy chọn. Mặc định là thời điểm hiện tại
+                        Currency = Currency.VND, // Tùy chọn. Mặc định là VND (Việt Nam đồng)
+                        Language = DisplayLanguage.Vietnamese // Tùy chọn. Mặc định là tiếng Việt
+                    };
+
+                    var paymentUrl = _vnPayservice.GetPaymentUrl(request);
+                    invoiceCreated.UriVnPay = paymentUrl;
                     var coffeemanagementResponse = CoffeeManagementResponse.SUCCESS(invoiceCreated);
                     return Created("", coffeemanagementResponse);
                 }

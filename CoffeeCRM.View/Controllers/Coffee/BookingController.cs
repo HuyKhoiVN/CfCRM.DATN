@@ -10,7 +10,11 @@ namespace CfCRM.View.Controllers.Coffee
         public BookingController ()
         {
         }
-   
+        [HttpGet("admin/success")]
+        public ActionResult Success()
+        {
+            return View();
+        }
         [HttpGet]
         [Route("admin/TableBooking")]
         public async Task<IActionResult> TableBooking()

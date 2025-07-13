@@ -12,6 +12,11 @@ using CoffeeCRM.Core.Repository.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using CoffeeCRM.Data.DTO;
 using NetTopologySuite.Noding;
+using CoffeeCRM.Core.Helper.VNPay;
+using CoffeeCRM.Data.Enums.VNPay;
+using CoffeeCRM.Data.VNPay;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace CoffeeCRM.Core.Service
 {
@@ -26,13 +31,17 @@ namespace CoffeeCRM.Core.Service
         IAccountRepository accountRepository;
         INotificationRepository notificationRepository;
         IHubContext<NotificationHub, INotificationHub> notificationHub;
+        IVNPayService _vnPayservice;
+        IConfiguration _configuration;
 
         public InvoiceService(
             IInvoiceRepository _invoiceRepository, IDishOrderRepository _dishOrderRepository, IDishOrderDetailRepository _dishOrderDetailRepository,
             IInvoiceDetailRepository _invoiceDetailRepository, ITableRepository _tableRepository, ICashFlowRepository _cashFlowRepository,
             IAccountRepository _accountRepository, INotificationRepository _notificationRepository,
-            IHubContext<NotificationHub, INotificationHub> _notificationHub)         
+            IHubContext<NotificationHub, INotificationHub> _notificationHub, IVNPayService vnPayservice, IConfiguration configuration)         
         {
+            _configuration = configuration;
+            _vnPayservice = vnPayservice;
             invoiceRepository = _invoiceRepository;
             dishOrderRepository = _dishOrderRepository;
             dishOrderDetailRepository = _dishOrderDetailRepository;
@@ -42,6 +51,7 @@ namespace CoffeeCRM.Core.Service
             accountRepository = _accountRepository;
             notificationRepository = _notificationRepository;
             notificationHub = _notificationHub;
+            _vnPayservice.Initialize(_configuration["Vnpay:TmnCode"], _configuration["Vnpay:HashSecret"], _configuration["Vnpay:BaseUrl"], _configuration["Vnpay:CallbackUrl"]);
         }
         public async Task Add(Invoice obj)
         {
@@ -405,6 +415,7 @@ namespace CoffeeCRM.Core.Service
                 }
 
                 await transaction.CommitAsync();
+                
                 model.Id = invoiceId;
                 return model;
             }
@@ -484,6 +495,7 @@ namespace CoffeeCRM.Core.Service
                         return;
                     }
 
+                    invoice.InvoiceCode = transCode != "" ? transCode : ""; // Cập nhật mã giao dịch từ VNPay
                     invoice.PaymentStatus = PaymentStatusStringConst.PAID;
                     await invoiceRepository.Update(invoice);
 

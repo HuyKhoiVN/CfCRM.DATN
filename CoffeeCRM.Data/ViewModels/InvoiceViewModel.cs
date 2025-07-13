@@ -16,7 +16,7 @@ namespace CoffeeCRM.Data.ViewModels
         public int TableId { get; set; }
         public string? TableName { get; set; }
         public string? OrdererName { get; set; }
-
+        public string? UriVnPay { get; set; }
         public List<InvoiceDetail>? InvoiceDetails { get; set; }
     }
 }
