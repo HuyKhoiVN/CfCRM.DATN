@@ -45,7 +45,7 @@ For more information on enabling MVC for empty projects, visit https://go.micros
 <script src="/assets/js/ckeditor/ckeditor.js" asp-append-version="true"></script>
 <script src="/assets/js/ckeditor/config.js" asp-append-version="true"></script>
 <!--end:: CK-Editor 5-->
-
+<script asp-append-version="true" src="~/admin/assets/js/http-service.js"></script>
 <script>
     // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking)
     if (window.top != window.self) {
@@ -64,9 +64,6 @@ For more information on enabling MVC for empty projects, visit https://go.micros
 <script src="/admin/assets/plugins/global/tempus-dominus.init.js"></script>
 <script src="/admin/assets/plugins/custom/fileupload/getsrcktimageinput.js"></script>
 <script src="/admin/assets/plugins/custom/fileupload/uploadfile.js"></script>
-<script src="~/admin/assets/js/http-service.js" asp-append-version="true"></script>
-
-
 <!--DataTable Library End-->
 <script>
     // var systemURL = window.origin + "/";
@@ -268,6 +265,56 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/cs
                 }
             );
             loadDataSelectNoti();
+        } else if ( message.name = 'Thanh toán thành công') {
+    //         let invoiceId = message.description;
+    //         let data = (await httpService.getAsync("invoice/api/InvoiceDetailVM?invoiceId=" + invoiceId)).data[0]
+    //         var detailHtml = '';
+
+    //         data.invoiceDetails.forEach((item) => {
+    //             detailHtml += `<tr>
+    //                                         <td>${item.dishName}</td>
+    //                                         <td>${item.quantity}</td>
+    //                                         <td>${item.unitPrice}</td>
+    //                                         <td>${item.quantity * item.unitPrice}</td>
+    //                                      </tr>`;
+    //         })
+
+    //         var html = `
+    // <div class="container d-flex flex-column align-items-center">
+    //     <div class="row">
+    //       <div class="col-12 text-center">
+    //         <h1>COFFEE HUYKHOI</h1>
+    //         <p>Trịnh Văn Bô, Q.Nam Từ Liêm.</p>
+    //         <p>0889987688</p>
+    //         <h3><b>HÓA ĐƠN THANH TOÁN</b></h3>
+    //         <p>Giờ thanh toán: ${moment(data.createdTime).format('HH:mm DD/MM/YYYY')}</p>
+    //         <p>Mã hóa đơn: ${data.invoiceCode}</p>
+    //         <p>Thu ngân: ${data.cashierName}</p>
+    //       </div>
+    //       <table class="table">
+    //         <thead>
+    //           <tr>
+    //             <th>Món ăn</th>
+    //             <th>SL</th>
+    //             <th>Giá</th>
+    //             <th>Tổng</th>
+    //           </tr>
+    //         </thead>
+    //         <tbody>
+    //             ${detailHtml}
+    //         </tbody>
+    //       </table>
+    //       <div class="col-12 text-center">
+    //         <p><b>Thanh toán: ${formatNumberCurrency(data.totalMoney)} VNĐ</b></p>
+    //       </div>
+    //     </div>
+    // </div>`;
+                Swal.fire({
+                  title: "Thanh toán thành công!",
+                  icon: "success",
+                });
+    //         $(".swal2-container .swal2-html-container").css("max-height", "500px");
+        
         }
     });
 
